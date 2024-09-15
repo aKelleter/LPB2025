@@ -4,8 +4,8 @@
     
     // Définition des constantes de l'application
     const APP_NAME = 'LPB 2025';
-    const APP_UPDATE = '15-09-2024 20:20';
-    const APP_VERSION = 'v0.1.0';
+    const APP_UPDATE = '15-09-2024 20:30';
+    const APP_VERSION = 'v0.1.1';
     const APP_YEAR = '2024-2025';
     
     // Définition des constantes section/répertoires

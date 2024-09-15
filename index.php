@@ -1,4 +1,4 @@
-<?php include_once('conf.php'); ?>
+<?php include_once('app/conf.php'); ?>
 <!doctype html>
 <html lang="en">
     <head>
@@ -23,8 +23,8 @@
         <link rel="shortcut icon" href="assets/img/favicon.ico">        
     </head>
     <body>
-        <?php include "svg.html"; ?>  
-        <?php include "header.php"; ?>
+        <?php include "assets/svg.html"; ?>  
+        <?php include "app/header.php"; ?>
         <div class="b-divider"></div>
 
         <main>
@@ -90,7 +90,7 @@
                 </div>
             </div>
         </main>
-        <?php include "footer.php"; ?>
+        <?php include "app/footer.php"; ?>
         
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     </body>
