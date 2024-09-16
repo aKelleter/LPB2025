@@ -1,8 +1,8 @@
 <?php 
-    require_once('../../boot.php');  
-    $_SESSION['R'] = R2; 
-    $_SESSION['PAGE'] = 'javascript'; 
+    require_once('../boot.php');  
+    $_SESSION['R'] = R1; 
     require_once($_SESSION['R'].'app'.DS.'conf.php'); 
+    $_SESSION['PAGE'] = HOME;     
 ?>
 <!doctype html>
 <html lang="fr">
@@ -17,7 +17,7 @@
                 <div class="row">
                     <div class="col-md-1"></div>
                     <div class="col-md-10">                       
-                        <h1 class="mt-5 text-center">Le Javascript</h1>
+                        <h1 class="mt-5 text-center">PAGE TEMPLATE SAMPLE</h1>
                         
                     </div> <!--col-md-10-->
                     <div class="col-md-1"></div>

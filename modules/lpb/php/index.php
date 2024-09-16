@@ -1,8 +1,8 @@
 <?php 
-    require_once('../../boot.php');  
-    $_SESSION['R'] = R2;
-    $_SESSION['PAGE'] = 'php';  
+    require_once('../../../boot.php');  
+    $_SESSION['R'] = R3;
     require_once($_SESSION['R'].'app'.DS.'conf.php'); 
+    $_SESSION['PAGE'] = PHP;      
 ?>
 <!doctype html>
 <html lang="fr">

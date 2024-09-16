@@ -20,13 +20,13 @@
                         </a>
                     </li>   
                     <li>
-                        <a href="<?= INST.MOD.DS.PHP.DS.'index.php' ?>" class="nav-link <?= ($_SESSION['PAGE'] == 'php')? 'menu-selected': 'menu-normal'; ?>">
+                        <a href="<?= INST.MOD.DS.LPB.DS.PHP.DS.'index.php' ?>" class="nav-link <?= ($_SESSION['PAGE'] == 'php')? 'menu-selected': 'menu-normal'; ?>">
                             <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#speedometer2"></use></svg>
                             Php
                         </a>
                     </li>                    
                     <li>
-                        <a href="<?= INST.MOD.DS.JS.DS.'index.php' ?>" class="nav-link <?= ($_SESSION['PAGE'] == 'javascript')? 'menu-selected': 'menu-normal'; ?>">
+                        <a href="<?= INST.MOD.DS.LPB.DS.JS.DS.'index.php' ?>" class="nav-link <?= ($_SESSION['PAGE'] == 'javascript')? 'menu-selected': 'menu-normal'; ?>">
                             <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#grid"></use></svg>
                             Javascript
                         </a>

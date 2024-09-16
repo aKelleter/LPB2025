@@ -1,8 +1,8 @@
 <?php 
     require_once('boot.php'); 
     $_SESSION['R'] = R0;
-    $_SESSION['PAGE'] = 'home';   
     require_once($_SESSION['R'].'app'.DS.'conf.php'); 
+    $_SESSION['PAGE'] = HOME; 
 ?>
 <!doctype html>
 <html lang="fr">

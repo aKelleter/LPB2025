@@ -74,7 +74,7 @@ a.link{
 }
 
 .text-footer {
-    font-size: 0.6em;
+    font-size: 0.7em;
     color: #ffffff;
     margin: 1em;
     padding: 0.5em;
@@ -87,8 +87,18 @@ a.link{
     color: #a7e516;
 }
 
-.menu-normal{
-    color: #fefffb;
+.menu-normal, .color-white{
+    color: #fefffb !important;
+}
+
+.btn-primary {
+    background-color: #18b7c0;
+    border-color: #18b7c0;
+}
+
+.btn-primary:hover {
+    background-color: #15bfc5;
+    border-color: #15bfc5;
 }
 
 
