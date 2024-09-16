@@ -8,9 +8,11 @@
 * @param string $version	Version of the site	
 * @return string	HTML code of the footer
 */
-function getHtmlFooter($year, $date, $version, $path = '')
+function getHtmlFooter($year, $date, $version, $author = '', $path = '')
 {
     $string = '';
-    $string .= "LPB $year - Updated $date - $version -".'<a href="https://github.com/aKelleter/LPB2025"><img src="'.$path.'assets/img/github-mark.svg"  alt="LPB 2025 Github Repository" class="lpb-github"></a>';
+    $string .= APP_NAME." $year - $version - Updated : $date - $author - ".
+    '<a href="https://github.com/aKelleter/LPB2025">
+    <img src="'.$path.'assets/img/github-mark.svg"  alt="LPB 2025 Github Repository" class="lpb-github"></a>';
     return $string;
 }

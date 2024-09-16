@@ -1,18 +1,20 @@
 <?php
-    // Ouverture de la session
-    session_start();
-    
+  
     // Définition des constantes de l'application
-    const APP_NAME = 'LPB 2025';
-    const APP_UPDATE = '15-09-2024 20:30';
-    const APP_VERSION = 'v0.1.1';
+    const APP_NAME = 'LPB - LDB';
+    const APP_UPDATE = '16-09-2024 16:30';
+    const APP_VERSION = 'v0.2.0';
     const APP_YEAR = '2024-2025';
+    const APP_AUTHOR = 'A. Kelleter';
+
     
     // Définition des constantes section/répertoires
-    const LANG = 'languages';
+    const MOD = 'modules';
+    const HOME = 'home';
     const JS = 'javascript';
     const PHP = 'php';
-    const EXOS = 'exos';
+    const LDB = 'ldb';
+    
     
 
     // Définition des constantes de connexion sur un serveur externe
