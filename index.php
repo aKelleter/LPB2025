@@ -37,8 +37,7 @@
                         </ol>
                         
 
-                        <h2 class="mt-5">Contenu du module</h2> 
-                        <p>
+                        <h2 class="mt-5">Contenu du module</h2>                        
                         <ol>    
                             <li>Introduction aux concepts de la programmation<li> 
                                 <ol>
@@ -75,7 +74,8 @@
                                     <li>Introduction au JS.</li>
                                     <li>Introduction à la librairie jQuery.</li>
                                 </ol>
-                            </li>                        
+                            </li>   
+                        </ol>                     
                     </div>
                     <div class="col-md-1"></div>
                 </div>
