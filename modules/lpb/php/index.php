@@ -18,6 +18,7 @@
                     <div class="col-md-1"></div>
                     <div class="col-md-10">                       
                         <h1 class="mt-5 text-center">Le langage Php</h1>
+                        <p class="text-center">PHP est un langage de programmation très populaire, il est utilisé pour la création de sites Web dynamiques.</p>
                         <h3 class="mt-5">1. Un peu d'histoire</h3>
                         <p> 
                             Le créateur, Rasmus Lerdorf, est un programmeur Groenlandais de nationalité canadienne. Il crée PHP en 1994. Au départ pour analyser 
@@ -111,8 +112,21 @@
                                 telle quelle ...</li>
                             </ul>                           
                         </p>
+                        <h3>7. Installation</h3>
+                        <p>
+                            De façon générale on va retrouver PHP sur un serveur Web, mais et surtout en tant que dévemloppeur, il 
+                            est possible de l'installer sur un serveur local. Pour cela, il est possible d'installer un serveur
+                            local à l'aide de programmes spécialisés tels que : WampServer, <span class="empha-green">Xampp</span>, EasyPHP, Mamp, LAMP, LEMP, etc. 
 
-                        <h3>Allez c'est parti !</h3>
+                            <ul>
+                                <li><strong>LAMP</strong> : <span class="empha-green">L</span>inux (OS), <span class="empha-green">A</span>pache (Serveur Web), <span class="empha-green">M</span>ySQL/MariaDB (SGBD), <span class="empha-green">P</span>HP (interprêteur et ses outils)</li>
+                                <li><strong>MAMP</strong> : <span class="empha-green">M</span>acOS (OS), le reste des acronymes ayant la même signification</li>
+                                <li><strong>WAMP</strong> : <span class="empha-green">W</span>indows (OS), le reste des acronymes ayant la même signification</li>
+                            </ul>
+
+                        </p>
+
+                        <h3>Allez, on entre dans le code proprement dit, <a href="lessons/index.php">c'est parti !</a></h3>
 
                     </div> <!--col-md-10-->
                     <div class="col-md-1"></div>

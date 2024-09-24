@@ -2,14 +2,15 @@
   
     // Définition des constantes de l'application
     const APP_NAME = 'LPB - LDB';
-    const APP_UPDATE = '23-09-2024 21:40';
-    const APP_VERSION = 'v0.3.0';
+    const APP_UPDATE = '24-09-2024 20:30';
+    const APP_VERSION = 'v0.4.0';
     const APP_YEAR = '2024-2025';
     const APP_AUTHOR = 'A. Kelleter';
     
     // Définition des constantes section/répertoires
     const MOD = 'modules';
     const HOME = 'home';
+    const LESS = 'lessons';
     const JS = 'javascript';
     const PHP = 'php';
     const LDB = 'ldb';
@@ -19,6 +20,8 @@
     const A_CSS = 'css';
     const A_IMG = 'img';
     const A_JS = 'js';
+
+ 
 
     // Constantes de connexion sur une base de données externe
     /*

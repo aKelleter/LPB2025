@@ -14,6 +14,10 @@
     <link rel="apple-touch-icon" sizes="152x152" href=<?= $_SESSION['R'].'assets'.DS.'img'.DS.'apple-touch-icon-152x152.png'?> />
     <link rel="apple-touch-icon" sizes="180x180" href=<?= $_SESSION['R'].'assets'.DS.'img'.DS.'apple-touch-icon-180x180.png'?> />
 
+    <link rel=stylesheet href="<?= $_SESSION['R']?>vendors/codemirror/lib/codemirror.css">
+    <link rel=stylesheet href="<?= $_SESSION['R']?>vendors/codemirror/addon/display/fullscreen.css">
+    <link rel=stylesheet href="<?= $_SESSION['R']?>vendors/codemirror/theme/material.css">
+
     <link href="<?= $_SESSION['R'].'assets'.DS.'css'.DS.'styles.css'?>" rel="stylesheet">
     <link href="<?= $_SESSION['R'].'assets'.DS.'css'.DS.'header.css'?>" rel="stylesheet">
     
