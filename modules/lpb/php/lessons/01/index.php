@@ -22,86 +22,35 @@
                     <div class="col-md-1"></div>
                     <div class="col-md-10">                       
                         <h1 class="mt-5 text-center">Leçon 01 : <span class="color_dark_green">Afficher la chaîne "Hello World !"</span></h1>  
+                        
+                        <?= getHtmlBlocWhatCodeDoes('Afficher à l\'écran la chaîne de caractères : "Hello World !"'); ?>
 
-                        <!-- What the source code does -->
-                        <div class="row mt-5">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-10">
-                                <h6>I. Que va-t-on faire ?</h6>
-                                <blockquote class="code-info">                                    
-                                    Afficher à l'écran la chaîne de caractères : "Hello World !" 
-                                </blockquote>                                                     
-                            </div>
-                            <div class="col-md-1"></div>
-                        </div>
+                        <?= getHtmlBlockSourceCode($code_source, $files[0]); ?>
 
-                        <!-- The source code -->
-                        <div class="row mt-5">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-10">
-                                <h6>II. Le code source :</h6>
-                                <textarea class="codemirror-textarea mb-2" name="code-src" id="code-src" cols="100%"><?= $code_source ?></textarea>                                
-                                <a class="btn btn-primary" href="<?= $files[0] ?>" target="_blank">Exécuter</a>                                
-                            </div>
-                            <div class="col-md-1"></div>
-                        </div>
+                        <?php 
+                            $renderStr = '1 - Hello World !2 - Hello World !3 - Hello World !';
+                            echo getHtmlBlockRendering($renderStr);
+                        ?>
 
-                        <!-- Rendering in the browser -->
-                        <div class="row mt-5">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-10 mt-5">  
-                                <h6>III. Le rendu dans le navigateur : </h6>  
-                                <div class="result">
-                                    1 - Hello World !2 - Hello World !3 - Hello World ! 
-                                </div>
-                            </div>
-                        </div>
+                        <?php
+                            $explanations = [
+                                "Pour commencer nous allons entourer le code avec les balises PHP : <code>&lt;?php</code> et <code>?&gt;</code>.",
+                                "<code>&lt;?php</code> indique l'ouverture d'un bloc de code écrit en PHP. <code>?&gt;</code> indique la fin du bloc de code PHP.",
+                                "Dans le cas où le ficher ne contient que du code PHP, la balise de fermeture <code>?&gt;</code> est facultative.",
+                                "Ensuite nous allons <u>appeler une construction du langage</u> (pas une fonction) qui se nomme <code>echo</code> et qui affiche la chaîne de caractères qui est située entre les guillemets (doubles ou simples).",
+                                "Les arguments reçus par <code>echo</code> sont une liste d'expressions qui suivent le mot clé echo, séparés par des virgules, et non délimités par des parenthèses.",
+                                "On termine l'instruction avec un point-virgule <code>;</code>.",
+                                "Pour terminer, il est également possible d'utiliser les guillemets doubles pour délimiter la chaîne de caractères. Nous pouvons même appeler la structure 'echo' avec ou sans les parenthèses."
+                            ];
+                            echo getHtmlBlockExplanations($explanations);
+                        ?>
 
-                        <!-- Explanations -->
-                        <div class="row mt-5">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-10">  
-                                <h6>IV. Les explications : </h6>  
-                                <div class="explanation">
-                                    <ol>
-                                        <li>
-                                            Pour commencer nous allons entourer le code avec les balises PHP : <code>&lt;?php</code> et <code>?&gt;</code>.                                            
-                                        </li> 
-                                        <li>
-                                            <code>&lt;?php</code> indique l'ouverture d'un bloc de code écrit en PHP. <code>?&gt;</code> indique la fin du bloc de code PHP.
-                                        </li>
-                                        <li>
-                                            Dans le cas où le ficher ne contient que du code PHP, la balise de fermeture <code>?&gt;</code> est facultative.
-                                        </li>
-                                        <li>
-                                            Ensuite nous allons <u>appeler une construction du langage</u> (pas une fonction) qui se nomme <code>echo</code> et qui affiche la chaîne de caractères qui est située entre les guillemets (doubles ou simples).
-                                        </li>
-                                        <li>
-                                            Les arguments reçus par <code>echo</code> sont une liste d'expressions qui suivent le mot clé echo, séparés par des virgules, et non délimités par des parenthèses.
-                                        </li>
-                                        <li>
-                                            On termine l'instruction avec un point-virgule <code>;</code>.
-                                        </li>
-                                        <li>
-                                            Pour terminer, il est également possible d'utiliser les guillemets doubles pour délimiter la chaîne de caractères. 
-                                            Nous pouvons même appeler la structure 'echo' avec ou sans les parenthèses.
-                                        </li>    
-                                    </ol>                                    
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Sources -->
-                        <div class="row mt-5">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-10">  
-                                <h6>V. Les sources : </h6>  
-                                <div class="code-sources">
-                                    <a href="//www.php.net/manual/fr/function.echo.php" target="_blank">Source : php.net : echo</a>
-                                </div>  
-                            </div>
-                        </div>                            
-                                
+                        <?php
+                            $ressources = [
+                                ['url' => 'https://www.php.net/manual/fr/function.echo.php', 'title' => 'Source : php.net : echo']
+                            ];
+                            echo getHtmlBlockRessources($ressources);
+                        ?>      
 
                     </div> <!--col-md-10-->
                     <div class="col-md-1"></div>

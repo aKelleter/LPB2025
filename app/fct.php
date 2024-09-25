@@ -54,6 +54,134 @@ function getHtmlCoursesList(array $courses, string $courseType): string {
     return $string;
 }
 
+/**
+ * getHtmlBlocWhatCodeDoes($blockquote) :
+ * 
+ * Affiche le bloc HTML "Que va-t-on faire ?"
+ * 
+ * @param string $blockquote 
+ * @return string 
+ */
+function getHtmlBlocWhatCodeDoes(string $blockquote): string {
+    $string = '';
+    $string .= '    <!-- What the source code does -->
+                    <div class="row mt-5">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-10">
+                            <h6>'.TITLE_WHAT_CODE_DOES.'</h6>
+                            <hr>
+                            <blockquote class="code-info">'.$blockquote.'</blockquote>       
+                        </div>
+                        <div class="col-md-1"></div>
+                    </div>';
+    return $string;
+}
+
+/**
+ * getHtmlBlockSourceCode($code, $pathfile) :
+ * 
+ * Affiche le bloc HTML "Le code source"
+ * 
+ * @param string $code 
+ * @param string $pathfile 
+ * @return string 
+ */
+function getHtmlBlockSourceCode(string $code, string $pathfile): string {
+    $string = '';
+    $string .= '    <!-- The source code -->
+                    <div class="row mt-5">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-10">
+                            <h6>'.TITLE_SOURCE_CODE.' :</h6>
+                            <hr>
+                            <textarea class="codemirror-textarea mb-2" name="code-src" id="code-src" cols="100%">'.$code.'</textarea>                                
+                            <a class="btn btn-primary" href="'.$pathfile.'" target="_blank">Exécuter</a>                                
+                        </div>
+                        <div class="col-md-1"></div>
+                    </div>';
+    return $string;
+}
+
+/**
+ * getHtmlBlockRendering($rendering) :
+ * 
+ * Affiche le bloc HTML "Le rendu dans le navigateur"
+ * 
+ * @param string $rendering 
+ * @return string 
+ */
+function getHtmlBlockRendering(string $rendering): string {
+    $string = '';
+    $string .= '    <!-- Rendering in the browser -->
+                    <div class="row mt-5">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-10 mt-5">  
+                            <h6 class="mt-5">'.TITLE_RENDERING.' : </h6>  
+                            <hr>
+                            <div class="result">
+                                '.$rendering.'
+                            </div>
+                        </div>
+                    </div>';
+    return $string;
+}
+
+/**
+ * getHtmlBlockExplanations($explanations) :
+ * 
+ * Affiche le bloc HTML "Les explications"
+ * 
+ * @param array $explanations 
+ * @return string 
+ */
+function getHtmlBlockExplanations(array $explanations): string {
+    $string = '';
+    $string .= '    <!-- Explanations -->
+                    <div class="row mt-5">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-10">  
+                            <h6>'.TITLE_EXPLANATIONS.' : </h6>  
+                            <hr>
+                            <div class="explanation">
+                                <ol>';
+    foreach($explanations as $explanation)
+    {
+        $string .= '<li>'.$explanation.'</li>';
+    }
+    $string .= '            </ol>                                    
+                            </div>
+                        </div>
+                    </div>';
+    return $string;
+}
+
+/**
+ * getHtmlBlockRessources($ressources) :
+ * 
+ * Affiche le bloc HTML "Les éventuelles ressources additionnelles"
+ * 
+ * @param array $ressources 
+ * @return string 
+ */
+function getHtmlBlockRessources(array $ressources): string {
+    $string = '';
+    $string .= '    <!-- Additional resources -->
+                    <div class="row mt-5">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-10">  
+                            <h6>'.TITLE_RESSOURCES.' : </h6>  
+                            <hr>
+                            <div class="code-sources">';
+    foreach($ressources as $ressource)
+    {
+        $string .= '<a href="'.$ressource['url'].'" target="_blank">'.$ressource['title'].'</a><br>';
+    }
+    $string .= '            </div>  
+                        </div>
+                    </div>';
+    return $string;
+}
+
 /** 
  * listCourses() : 
  * 

@@ -2,8 +2,8 @@
   
     // Définition des constantes de l'application
     const APP_NAME = 'LPB - LDB';
-    const APP_UPDATE = '25-09-2024 16:30';
-    const APP_VERSION = 'v0.4.2';
+    const APP_UPDATE = '25-09-2024 18:00';
+    const APP_VERSION = 'v0.4.3';
     const APP_YEAR = '2024-2025';
     const APP_AUTHOR = 'A. Kelleter';
     
@@ -20,6 +20,12 @@
     const A_CSS = 'css';
     const A_IMG = 'img';
     const A_JS = 'js';
+
+    const TITLE_WHAT_CODE_DOES = 'I. Que va-t-on faire ?';
+    const TITLE_SOURCE_CODE = 'II. Le code source';
+    const TITLE_RENDERING = 'III. Le rendu dans le navigateur';
+    const TITLE_EXPLANATIONS = 'IV. Explications';
+    const TITLE_RESSOURCES = 'V. Ressources additionnelles';
     
     // Constantes de connexion sur une base de données externe
     /*
