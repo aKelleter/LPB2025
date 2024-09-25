@@ -1,6 +1,6 @@
 <?php
-    echo 'Hello World !';
-    echo "Hello World !";
-    echo ('Hello World !');
-    echo ("Hello World !");
+    echo '1 - Hello World !';
+    echo "2 - Hello World !";    
+
+    echo '3 - Hello', ' ', 'World', ' ', '!', "\n";
 ?>

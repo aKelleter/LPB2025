@@ -5,8 +5,8 @@
     $_SESSION['PAGE'] = PHP;     
     
     // Chargement du/des fichier(s) de code source
-    $files =['1.hello-world.php'];
-    $code_source = loadSourceCode($files[0]);      
+    $files =['1.commentaires.php'];
+    $code_source = loadSourceCode($files[0]);    
 ?>
 <!doctype html>
 <html lang="fr">
@@ -21,7 +21,7 @@
                 <div class="row">
                     <div class="col-md-1"></div>
                     <div class="col-md-10">                       
-                        <h1 class="mt-5 text-center">Leçon 01 : <span class="color_dark_green">Afficher la chaîne "Hello World !"</span></h1>  
+                        <h1 class="mt-5 text-center">Leçon 02 : <span class="color_dark_green">Les commentaires</span></h1>  
 
                         <!-- What the source code does -->
                         <div class="row mt-5">
@@ -29,7 +29,7 @@
                             <div class="col-md-10">
                                 <h6>I. Que va-t-on faire ?</h6>
                                 <blockquote class="code-info">                                    
-                                    Afficher à l'écran la chaîne de caractères : "Hello World !" 
+                                    Utiliser des commentaires dans votre code source
                                 </blockquote>                                                     
                             </div>
                             <div class="col-md-1"></div>
@@ -52,7 +52,7 @@
                             <div class="col-md-10 mt-5">  
                                 <h6>III. Le rendu dans le navigateur : </h6>  
                                 <div class="result">
-                                    1 - Hello World !2 - Hello World !3 - Hello World ! 
+                                    Ce texte est affiché
                                 </div>
                             </div>
                         </div>
@@ -65,27 +65,18 @@
                                 <div class="explanation">
                                     <ol>
                                         <li>
-                                            Pour commencer nous allons entourer le code avec les balises PHP : <code>&lt;?php</code> et <code>?&gt;</code>.                                            
+                                           Les commentaires sont des éléments de texte qui ne sont pas exécutés par le programme.
+                                        </li>   
+                                        <li>
+                                            Ils sont utilisés pour expliquer le code source et rendre sa compréhension plus aisée. Ou commenter des parties de code qui ne sont 
+                                            pas encore ou plus utilisées.
                                         </li> 
                                         <li>
-                                            <code>&lt;?php</code> indique l'ouverture d'un bloc de code écrit en PHP. <code>?&gt;</code> indique la fin du bloc de code PHP.
+                                            Pour écrire un commentaire sur une seule ligne, on utilise deux slashes : <code>//</code> ou le dièse :<code>#</code> (moins courant).
                                         </li>
                                         <li>
-                                            Dans le cas où le ficher ne contient que du code PHP, la balise de fermeture <code>?&gt;</code> est facultative.
+                                            Pour écrire un commentaire sur plusieurs lignes, on utilise <code>/*</code> pour ouvrir le commentaire et <code>*/</code> pour le fermer.                                    
                                         </li>
-                                        <li>
-                                            Ensuite nous allons <u>appeler une construction du langage</u> (pas une fonction) qui se nomme <code>echo</code> et qui affiche la chaîne de caractères qui est située entre les guillemets (doubles ou simples).
-                                        </li>
-                                        <li>
-                                            Les arguments reçus par <code>echo</code> sont une liste d'expressions qui suivent le mot clé echo, séparés par des virgules, et non délimités par des parenthèses.
-                                        </li>
-                                        <li>
-                                            On termine l'instruction avec un point-virgule <code>;</code>.
-                                        </li>
-                                        <li>
-                                            Pour terminer, il est également possible d'utiliser les guillemets doubles pour délimiter la chaîne de caractères. 
-                                            Nous pouvons même appeler la structure 'echo' avec ou sans les parenthèses.
-                                        </li>    
                                     </ol>                                    
                                 </div>
                             </div>
@@ -97,7 +88,7 @@
                             <div class="col-md-10">  
                                 <h6>V. Les sources : </h6>  
                                 <div class="code-sources">
-                                    <a href="//www.php.net/manual/fr/function.echo.php" target="_blank">Source : php.net : echo</a>
+                                    <a href="https://www.php.net/manual/fr/language.basic-syntax.comments.php" target="_blank">Source : php.net : les commentaires</a>
                                 </div>  
                             </div>
                         </div>                            

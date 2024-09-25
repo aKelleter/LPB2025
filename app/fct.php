@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 // Définition des constantes 
 const PR = 'PR';        // print_r
@@ -15,8 +16,7 @@ const VD = 'VARDUMP';   // var_dump
 * @param string $version	Version of the site	
 * @return string	HTML code of the footer
 */
-function getHtmlFooter($year, $date, $version, $author = '', $path = '')
-{
+function getHtmlFooter(string $year, string $date, string $version, string $author = '', string $path = ''): string {
     $string = '';
     $string .= APP_NAME." $year - $version - Updated : $date - $author - ".
     '<a href="https://github.com/aKelleter/LPB2025">
@@ -33,8 +33,7 @@ function getHtmlFooter($year, $date, $version, $author = '', $path = '')
  * @param string $courseType	Type of course
  * @return string	HTML code of the list of courses
  */
-function getHtmlCoursesList($courses, $courseType)
-{
+function getHtmlCoursesList(array $courses, string $courseType): string {
     $string = '';
 
     if(!empty($courses))
@@ -51,8 +50,7 @@ function getHtmlCoursesList($courses, $courseType)
     }else {
         $string .= '<div class="lpb-msg">No course available... patience :)</div>';
     }
-    
-    
+        
     return $string;
 }
 
@@ -63,9 +61,9 @@ function getHtmlCoursesList($courses, $courseType)
  * 
  * @return array	The list of courses
  */
-function listCourses() {
+function listCourses(): array {
     
-    $courses = null; 
+    $courses = []; 
     $titre = null;
     $id = null;           
     $compteur = 0;
@@ -109,7 +107,7 @@ function listCourses() {
  *
  * @return void 
  */
-function magicDisp($array, $type = PR, $info = null) {
+function magicDisp(array $array, string $type = PR, string $info = null): void {
 
     if($type == PR)
     {
@@ -123,6 +121,19 @@ function magicDisp($array, $type = PR, $info = null) {
         echo (isset($info)?'<h4>' . $info . '</h4>':'');
         var_dump($array);
         echo '</pre>';
-    }
-    
+    }    
+}
+
+/**
+ * loadSourceCode($filename) :
+ * Charge le code source d'un fichier
+ * 
+ * Retourne le code source ou un message d'erreur
+ * 
+ * @param mixed $filename 
+ * @return string|false 
+ */
+function loadSourceCode(string $filename): string|false {
+    $code = (@file_exists($filename))?file_get_contents($filename):'Le fichier source est introuvable';
+    return $code;
 }

@@ -11,6 +11,7 @@
     --color-deep-black: rgb(24, 39, 45);
     --color-deep-blue: rgb(22, 48, 58);
     --color-light-white: rgb(254, 255, 251);
+    --color-medium-white: rgb(231, 235, 222);
     --color-light-red: rgb(218, 23, 23);
     --color-light-lime: rgb(167, 229, 22);
     --color-deep-greyblue: rgba(19, 64, 73, 0.677);
@@ -180,15 +181,15 @@ a.link{
 }
 
 .btn-primary:hover {
-    background-color: var(--color-lime-jade);
+    background-color: var(--color-light-lime);
     border-color: var(--color-lime-jade);
     color: var(--color-light-red);    
 }
 
 .result {
-    background-color: var(--color-medium-greyblue);
+    background-color: var(--color-medium-light);
     color: var(--color-deep-black);
-    border: var(--border-width) solid var(--color-medium-jade);
+    border: var(--border-width-1) solid var(--color-light-lime);
     border-radius: 5px;
     padding: 5px;
     margin-right: 0;  
