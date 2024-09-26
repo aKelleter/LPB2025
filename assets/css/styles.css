@@ -75,7 +75,7 @@ h6 {
 
 p {
     font-size: 1em;
-    color: #0e1f1f;
+    color: var(--color-deep-greyblue);   
     margin-left: 1em;
     padding: 0.5em;  
 }
@@ -199,8 +199,9 @@ a.link{
 }  
 
 .code-info {   
-    color: var(--color-deep-dark);   
+    color: var(--color-deep-greyblue);   
     font-size: 1.1rem;
+    line-height: 1.4em;
 }
 
 .code-sources {   

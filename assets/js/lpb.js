@@ -5,8 +5,8 @@ $(document).ready(function(){
 
     let codeEditorElement = $(".codemirror-textarea")[0];
     let editor = CodeMirror.fromTextArea(codeEditorElement, {
-       // mode: "application/x-httpd-php",
-       mode: "javascript",
+        //mode: "application/x-httpd-php",
+        mode: "javascript",
         lineNumbers: true,
         matchBrackets: true,
         theme: "material",

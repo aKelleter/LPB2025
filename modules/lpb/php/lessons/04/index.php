@@ -21,14 +21,50 @@
                 <div class="row">
                     <div class="col-md-1"></div>
                     <div class="col-md-10">                       
-                        <h1 class="mt-5 text-center">Leçon 04 : <span class="color_dark_green">Apprivoiser les variables.</span></h1>  
+                        <h1 class="mt-5 text-center">Leçon 04 : <span class="color_dark_green">Découvrir les variables.</span></h1>  
 
-                        <?= getHtmlBlocWhatCodeDoes("Utiliser des variables dans votre code"); ?>
+                        <?php
+                        $wcd = "<p>On va apprendre à utiliser des variables dans notre code.<br>Les variables sont des espaces mémoires (des conteneurs) qui permettent de stocker des données/valeurs, ces données 
+                                peuvent varier au fil du temps, pendant l'exécution du programme.</p>
+                               Voici quelques règles d'utilisation des variables en PHP : <br>
+                                    <ul>
+                                    <li> les variables sont précédées du symbole <code>$</code> suivi du nom de la variable. </li>
+                                    <li> les noms des variables sont sensibles à la casse (majuscules et minuscules)</li>
+                                    <li> les noms de variables ne peuvent pas commencer par un chiffre</li>
+                                    <li> les noms de variables ne peuvent pas contenir d'espaces</li>
+                                    <li> les noms de variables ne peuvent pas contenir de caractères spéciaux (sauf le _ caractère souligné ou underscore)</li>
+                                    <li> les noms de variables ne peuvent pas contenir de caractères accentués</li>
+                                    <li> il existe des noms réservés (mots-clés) qui ne peuvent pas être utilisés comme noms de variables</li>
+                                    <li> 
+                                        le caractère d'assignation est <code>=</code> (l'égal). C'est ce que l'on appel un opérateur d'affectation. 
+                                        Il sert à attribuer une valeur à une variable
+                                    </li>
+                                    <li>
+                                        (+) on utilise régulièrement un autre caractère, le <code>.</code> (le point). C'est l'opérateur de concaténation.
+                                        Il permet de concaténer (coller) des chaînes de caractères entre elles, les unes à la suite des autres.
+                                    </li>
+                                    </ul>
+                                    ";
+
+                        echo getHtmlBlocWhatCodeDoes($wcd); 
+                        ?>
 
                         <?= getHtmlBlockSourceCode($code_source, $files[0]); ?>
                         
                         <?php 
                             $renderStr = "
+                                            Affichage des variables nom, prenom et age avec la commande echo :<br>
+                                            JohnDoe25<br>
+                                            --------------------------------<br>
+                                            Affichage plus \"propre\" des variables nom, prenom et age avec la commande echo (et des guillemets simples) et le caractère de concaténation<br>
+                                            Prénom : John, Nom : Doe, Age : 25<br>
+                                            --------------------------------<br>
+                                            Affichage plus \"propre\" des variables nom, prenom et age avec la commande echo (et des guillemets doubles)<br>
+                                            Prénom : John, Nom : Doe, Age : 25<br>
+                                            --------------------------------<br>
+                                            Affichage de la variable prenom avant la mise à jour : John<br>
+                                            Affichage de la variable prenom après mise à jour : Jane<br>
+                                            --------------------------------<br>
                                         ";
                             echo getHtmlBlockRendering($renderStr);
                         ?>
