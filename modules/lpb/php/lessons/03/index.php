@@ -22,7 +22,7 @@
                     <div class="col-md-1"></div>
                     <div class="col-md-10">                       
                         <h1 class="mt-5 text-center">Leçon 03 : <span class="color_dark_green">Utiliser les structures "echo" et "print" pour afficher un résultat.</span></h1>  
-
+                        <?= getHtmlSubMenu('02', '04'); ?>
                         <?= getHtmlBlocWhatCodeDoes("Utiliser echo ou print dans votre code"); ?>
 
                         <?= getHtmlBlockSourceCode($code_source, $files[0]); ?>

@@ -22,7 +22,7 @@
                     <div class="col-md-1"></div>
                     <div class="col-md-10">                       
                         <h1 class="mt-5 text-center">Leçon 04 : <span class="color_dark_green">Découvrir les variables.</span></h1>  
-
+                        <?= getHtmlSubMenu('03', '05'); ?>
                         <?php
                         $wcd = "<p>On va apprendre à utiliser des variables dans notre code.<br>Les variables sont des espaces mémoires (des conteneurs) qui permettent de stocker des données/valeurs, ces données 
                                 peuvent varier au fil du temps, pendant l'exécution du programme.</p>

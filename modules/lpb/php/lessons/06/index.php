@@ -22,7 +22,7 @@
                     <div class="col-md-1"></div>
                     <div class="col-md-10">                       
                         <h1 class="mt-5 text-center">Leçon 06 : <span class="color_dark_green">Les constantes.</span></h1>  
-
+                        <?= getHtmlSubMenu('05', '07'); ?>   
                         <?php
                         $wcd = "
                                 

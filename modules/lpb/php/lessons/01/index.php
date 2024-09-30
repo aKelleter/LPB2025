@@ -22,7 +22,7 @@
                     <div class="col-md-1"></div>
                     <div class="col-md-10">                       
                         <h1 class="mt-5 text-center">Leçon 01 : <span class="color_dark_green">Afficher la chaîne "Hello World !"</span></h1>  
-                        
+                        <?= getHtmlSubMenu('00', '02'); ?>
                         <?= getHtmlBlocWhatCodeDoes('Afficher à l\'écran la chaîne de caractères : "Hello World !"'); ?>
 
                         <?= getHtmlBlockSourceCode($code_source, $files[0]); ?>

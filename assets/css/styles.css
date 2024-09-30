@@ -116,6 +116,15 @@ a.link{
     margin: 8px;
 }
 
+a {
+    color: var(--color-medium-blue);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--color-light-red);
+}
+
 .app_name {
     font-size: 1.5em;
     font-weight: bold;
@@ -216,6 +225,22 @@ a.link{
     border-radius: 5px;
     padding: 15px;
     font-size: 1rem;
+}
+
+.submenu {
+    color: var(--color-lime-jade) !important;
+}
+
+.icon-sub  {
+    color: var(--color-lime-jade) !important;
+    font-size: 1.1em;
+    font-weight: bold;
+    text-decoration: none;
+    margin: 8px;
+}
+
+.icon-sub:hover  {
+    color: var(--color-light-red) !important;       
 }
 
 

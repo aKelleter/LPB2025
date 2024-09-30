@@ -182,6 +182,35 @@ function getHtmlBlockRessources(array $ressources): string {
     return $string;
 }
 
+/**
+ * getHtmlSubMenu($prevUrl, $nextUrl) :
+ * 
+ * Affiche le sous-menu de navigation entre les leçons
+ * 
+ * @param string $prevUrl 
+ * @param string $nextUrl 
+ * @return string 
+ */
+function getHtmlSubMenu(string $prevUrl, string $nextUrl): string {
+    $string = '';
+    $string .= '    <!-- Sub menu -->
+                    <div class="row mt-1">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-10">                              
+                            <div class="submenu">';
+                                if($prevUrl != '00')
+                                    $string .= '<a href="'.$_SESSION['R'].MOD.DS.LPB.DS.PHP.DS.LESS.DS.$prevUrl.DS.'index.php'.'" class="icon-sub"><svg class="bi" width="24" height="24"><use xlink:href="#arrowLeftSquare"></use></svg></a>';
+
+                                $string .='<a href="'.$_SESSION['R'].MOD.DS.LPB.DS.PHP.DS.LESS.DS.'index.php'.'" class="icon-sub"><svg class="bi" width="24" height="24"><use xlink:href="#rocket"></use></svg></a>';
+
+                                if($nextUrl != '00')
+                                    $string .= '<a href="'.$_SESSION['R'].MOD.DS.LPB.DS.PHP.DS.LESS.DS.$nextUrl.DS.'index.php'.'" class="icon-sub"><svg class="bi" width="24" height="24"><use xlink:href="#arrowRightSquare"></use></svg></a>
+                            </div>
+                        </div>
+                    </div>';
+    return $string;
+}
+
 /** 
  * listCourses() : 
  * 

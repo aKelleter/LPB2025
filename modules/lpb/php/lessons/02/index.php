@@ -22,7 +22,7 @@
                     <div class="col-md-1"></div>
                     <div class="col-md-10">                       
                         <h1 class="mt-5 text-center">Leçon 02 : <span class="color_dark_green">Les commentaires</span></h1>  
-
+                        <?= getHtmlSubMenu('01', '03'); ?>
                         <?= getHtmlBlocWhatCodeDoes("Utiliser des commentaires dans votre code source"); ?>
 
                         <?= getHtmlBlockSourceCode($code_source, $files[0]); ?>

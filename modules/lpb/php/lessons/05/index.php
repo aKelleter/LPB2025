@@ -22,7 +22,7 @@
                     <div class="col-md-1"></div>
                     <div class="col-md-10">                       
                         <h1 class="mt-5 text-center">Leçon 05 : <span class="color_dark_green">Les types des variables.</span></h1>  
-
+                        <?= getHtmlSubMenu('04', '06'); ?>    
                         <?php
                         $wcd = "
                                 Nous allons voir les différents types de variables en PHP.<br>
@@ -75,6 +75,8 @@
                                             array(5) { [0]=> int(1) [1]=> int(2) [2]=> int(3) [3]=> int(4) [4]=> int(5) } Value : -> array<br>
                                             int(600) Value : -> integer<br>
                                             bool(true) Value : -> integer<br>
+                                            string(2) \"10\" Value : -> string<br>
+                                            int(10) Value : -> integer<br>
 
                                         ";
                             echo getHtmlBlockRendering($renderStr);

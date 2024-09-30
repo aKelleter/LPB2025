@@ -39,6 +39,12 @@
     $age = 10;   // $foo is an integer
     echo 'Value : '.var_dump($age).' -> '; echo gettype($age).'<br>';
     $flag = (bool) $age;   // $bar is a boolean
-    echo 'Value : '.var_dump($flag).' -> '; echo gettype($age).'<br>';  
+    echo 'Value : '.var_dump($flag).' -> '; echo gettype($age).'<br><hr>';  
+
+    // autre méthode
+    $a = "10";
+    echo 'Value : '.var_dump($a).' -> '; echo gettype($a).'<br>';
+    settype($a,"integer");
+    echo 'Value : '.var_dump($a).' -> '; echo gettype($a).'<br>';
 
 ?>
