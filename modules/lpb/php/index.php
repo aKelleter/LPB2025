@@ -125,6 +125,19 @@
                             </ul>
 
                         </p>
+                        <h3>8. Les bonnes pratiques</h3>
+                        <p>
+                            Il est important de respecter certaines règles de bonnes pratiques pour écrire du code propre et lisible.
+                            Pour vous aider dans cette tâche il existe des ressources disponibles sur le web, des outils, des Frameworks, des CMS, etc.
+
+                            <ul>
+                                <li><a href="https://www.php.net/manual/fr/index.php" target="_blank">La documentation officielle de PHP</a></li>
+                                <li><a href="https://phptherightway.com/" target="_blank">PHP - The Right Way</a></li>                                
+                                <li><a href="https://phpbestpractices.org/" target="_blank">PHP Best Practices</a></li>
+                                <li><a href="https://www.php-fig.org/psr/" target="_blank">PHP Standards Recommendations</a></li>
+                            </ul>
+
+                        </p>
 
                         <h3>Allez, on entre dans le code proprement dit, <a href="lessons/index.php">c'est parti !</a></h3>
 
