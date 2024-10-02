@@ -1,7 +1,7 @@
 <?php
   
     // Définition des constantes de l'application
-    const APP_NAME = 'LPB - LDB';
+    const APP_NAME = 'LPB - LDB <sup>3</sup>';
     const APP_UPDATE = '02-10-2024 21:25';
     const APP_VERSION = 'v0.7.1';
     const APP_YEAR = '2024-2025';
