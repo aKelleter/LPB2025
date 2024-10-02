@@ -156,7 +156,7 @@ function getHtmlBlockExplanations(array $explanations): string {
 }
 
 /**
- * getHtmlBlockRessources($ressources) :
+ * getHtmlBlockRessources(array $ressources): string
  * 
  * Affiche le bloc HTML "Les éventuelles ressources additionnelles"
  * 
@@ -293,4 +293,14 @@ function magicDisp(array $array, string $type = PR, string $info = null): void {
 function loadSourceCode(string $filename): string|false {
     $code = (@file_exists($filename))?file_get_contents($filename):'Le fichier source est introuvable';
     return $code;
+}
+
+/**
+ * br(): void
+ * Affiche un saut de ligne HTML
+ * 
+ * @return void 
+ */
+function br(): void {
+    echo '<br>';
 }
