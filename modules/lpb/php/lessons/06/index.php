@@ -4,9 +4,10 @@
     require_once($_SESSION['R'].'app'.DS.'conf.php'); 
     $_SESSION['PAGE'] = PHP;     
     
-    // Chargement du/des fichier(s) de code source
-    $files =['1.constantes.php'];
-    $code_source = loadSourceCode($files[0]);    
+   // Chargement du/des fichier(s)
+   $source_code = loadFile(FILENAME_SOURCE_CODE);
+   require_once(FILENAME_EXPLANATION);
+   require_once(FILENAME_RESSOURCES);  
 ?>
 <!doctype html>
 <html lang="fr">
@@ -90,7 +91,7 @@
                         echo getHtmlBlocWhatCodeDoes($wcd); 
                         ?>
 
-                        <?= getHtmlBlockSourceCode($code_source, $files[0]); ?>
+                        <?= getHtmlBlockSourceCode($source_code, FILENAME_SOURCE_CODE); ?>
                         
                         <?php 
                             $renderStr = "

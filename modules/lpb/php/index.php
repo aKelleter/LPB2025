@@ -114,14 +114,15 @@
                         </p>
                         <h3>7. Installation</h3>
                         <p>
-                            De façon générale on va retrouver PHP sur un serveur Web, mais et surtout en tant que dévemloppeur, il 
-                            est possible de l'installer sur un serveur local. Pour cela, il est possible d'installer un serveur
+                            De façon générale on va retrouver PHP sur un serveur Web, mais et surtout en tant que développeur, il 
+                            est possible de l'installer sur son ordinateur. Pour cela, il est possible d'installer un serveur
                             local à l'aide de programmes spécialisés tels que : WampServer, <span class="empha-green">Xampp</span>, EasyPHP, Mamp, LAMP, LEMP, etc. 
 
                             <ul>
                                 <li><strong>LAMP</strong> : <span class="empha-green">L</span>inux (OS), <span class="empha-green">A</span>pache (Serveur Web), <span class="empha-green">M</span>ySQL/MariaDB (SGBD), <span class="empha-green">P</span>HP (interprêteur et ses outils)</li>
                                 <li><strong>MAMP</strong> : <span class="empha-green">M</span>acOS (OS), le reste des acronymes ayant la même signification</li>
                                 <li><strong>WAMP</strong> : <span class="empha-green">W</span>indows (OS), le reste des acronymes ayant la même signification</li>
+                                <li><strong>LEMP</strong> : <span class="empha-green">L</span>inux (OS), <span class="empha-green">E</span>ngineX (NGINX) (Serveur Web), <span class="empha-green">M</span>ySQL/MariaDB (SGBD), <span class="empha-green">P</span>HP (interprêteur et ses outils)</li>
                             </ul>
 
                         </p>

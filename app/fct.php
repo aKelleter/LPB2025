@@ -16,9 +16,9 @@ const VD = 'VARDUMP';   // var_dump
 * @param string $version	Version of the site	
 * @return string	HTML code of the footer
 */
-function getHtmlFooter(string $year, string $date, string $version, string $author = '', string $path = ''): string {
+function getHtmlFooter(string $version, string $author = '', string $path = ''): string {
     $string = '';
-    $string .= APP_NAME." $year - $version - Updated : $date - $author - ".
+    $string .= APP_NAME."  - $version -  $author ".
     '<a href="https://github.com/aKelleter/LPB2025">
     <img src="'.$path.'assets/img/github-mark.svg"  alt="LPB 2025 Github Repository" class="lpb-github"></a>';
     return $string;
@@ -282,7 +282,7 @@ function magicDisp(array $array, string $type = PR, string $info = null): void {
 }
 
 /**
- * loadSourceCode($filename) :
+ * loadFile($filename) :
  * Charge le code source d'un fichier
  * 
  * Retourne le code source ou un message d'erreur
@@ -290,7 +290,7 @@ function magicDisp(array $array, string $type = PR, string $info = null): void {
  * @param mixed $filename 
  * @return string|false 
  */
-function loadSourceCode(string $filename): string|false {
+function loadFile(string $filename): string|false {
     $code = (@file_exists($filename))?file_get_contents($filename):'Le fichier source est introuvable';
     return $code;
 }

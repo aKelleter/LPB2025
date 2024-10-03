@@ -2,8 +2,8 @@
   
     // Définition des constantes de l'application
     const APP_NAME = 'LPB - LDB <sup>3</sup>';
-    const APP_UPDATE = '02-10-2024 21:25';
-    const APP_VERSION = 'v0.7.1';
+    const APP_UPDATE = '03102024 - 1610';
+    const APP_VERSION = 'v0.7.2'.'-'.APP_UPDATE;
     const APP_YEAR = '2024-2025';
     const APP_AUTHOR = 'A. Kelleter';
     
@@ -21,11 +21,19 @@
     const A_IMG = 'img';
     const A_JS = 'js';
 
-    const TITLE_WHAT_CODE_DOES = 'I. Que va-t-on faire ?';
+    // Titres
+    const TITLE_WHAT_CODE_DOES = 'I. La théorie : que fait le code ?';
     const TITLE_SOURCE_CODE = 'II. Le code source';
     const TITLE_RENDERING = 'III. Le rendu dans le navigateur';
     const TITLE_EXPLANATIONS = 'IV. Explications';
     const TITLE_RESSOURCES = 'V. Ressources additionnelles';
+
+    // Noms de fichiers
+    const FILENAME_WCD = '1.theory-wcd.html';
+    const FILENAME_SOURCE_CODE = '2.source-code.php';
+    const FILENAME_RENDERING = '3.rendering.html';
+    const FILENAME_EXPLANATION = '4.explanations.php';
+    const FILENAME_RESSOURCES = '5.ressources.php';
     
     // Constantes de connexion sur une base de données externe
     /*

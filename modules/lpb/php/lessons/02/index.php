@@ -4,9 +4,10 @@
     require_once($_SESSION['R'].'app'.DS.'conf.php'); 
     $_SESSION['PAGE'] = PHP;     
     
-    // Chargement du/des fichier(s) de code source
-    $files =['1.commentaires.php'];
-    $code_source = loadSourceCode($files[0]);    
+   // Chargement du/des fichier(s) de code source
+   $source_code = loadFile(FILENAME_SOURCE_CODE);
+   require_once(FILENAME_EXPLANATION);
+   require_once(FILENAME_RESSOURCES);    
 ?>
 <!doctype html>
 <html lang="fr">
@@ -25,7 +26,7 @@
                         <?= getHtmlSubMenu('01', '03'); ?>
                         <?= getHtmlBlocWhatCodeDoes("Utiliser des commentaires dans votre code source"); ?>
 
-                        <?= getHtmlBlockSourceCode($code_source, $files[0]); ?>
+                        <?= getHtmlBlockSourceCode($source_code, FILENAME_SOURCE_CODE); ?>
                         
                         <?php 
                             $renderStr = 'Ce texte est affiché';

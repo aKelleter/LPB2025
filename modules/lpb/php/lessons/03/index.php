@@ -2,11 +2,12 @@
     require_once('../../../../../boot.php');  
     $_SESSION['R'] = R5;
     require_once($_SESSION['R'].'app'.DS.'conf.php'); 
-    $_SESSION['PAGE'] = PHP;     
-    
-    // Chargement du/des fichier(s) de code source
-    $files =['1.echo-print.php'];
-    $code_source = loadSourceCode($files[0]);    
+    $_SESSION['PAGE'] = PHP;        
+   
+    // Chargement du/des fichier(s)
+    $source_code = loadFile(FILENAME_SOURCE_CODE);     
+    require_once(FILENAME_EXPLANATION);
+    require_once(FILENAME_RESSOURCES);
 ?>
 <!doctype html>
 <html lang="fr">
@@ -25,7 +26,7 @@
                         <?= getHtmlSubMenu('02', '04'); ?>
                         <?= getHtmlBlocWhatCodeDoes("Utiliser echo ou print dans votre code"); ?>
 
-                        <?= getHtmlBlockSourceCode($code_source, $files[0]); ?>
+                        <?= getHtmlBlockSourceCode($source_code, FILENAME_SOURCE_CODE); ?>
                         
                         <?php 
                             $renderStr = "Une première ligne <br>

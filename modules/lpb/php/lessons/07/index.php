@@ -4,9 +4,10 @@
     require_once($_SESSION['R'].'app'.DS.'conf.php'); 
     $_SESSION['PAGE'] = PHP;     
     
-    // Chargement du/des fichier(s) de code source
-    $files =['1.operateurs.php'];
-    $code_source = loadSourceCode($files[0]);    
+    // Chargement du/des fichier(s)    
+    $source_code = loadFile(FILENAME_SOURCE_CODE);     
+    require_once(FILENAME_EXPLANATION);
+    require_once(FILENAME_RESSOURCES);
 ?>
 <!doctype html>
 <html lang="fr">
@@ -15,7 +16,6 @@
     <?php require_once $_SESSION['R'].'assets'.DS.'svg.html'; ?>  
     <?php require_once $_SESSION['R'].'app'.DS.'header.php'; ?>
         <div class="b-divider"></div>
-
         <main>
             <div class="container-fluid">
                 <div class="row">
@@ -23,42 +23,12 @@
                     <div class="col-md-10">                       
                         <h1 class="mt-5 text-center">Leçon 07 : <span class="color_dark_green">Les opérateurs</span></h1>  
                         <?= getHtmlSubMenu('06', '08'); ?>   
-                        <?php
-                        $wcd = "
-                               
-                               ";
-
-                        echo getHtmlBlocWhatCodeDoes($wcd); 
-                        ?>
-
-                        <?= getHtmlBlockSourceCode($code_source, $files[0]); ?>
                         
-                        <?php 
-                            $renderStr = "
-                               
-                                        ";
-                            echo getHtmlBlockRendering($renderStr);
-                        ?>
-
-                        <?php
-                        
-                            $explanations = [
-                                "",
-                                "",
-                                "",
-                                "",                                                              
-                            ];
-                            echo getHtmlBlockExplanations($explanations);
-                        ?>
-
-                        <?php
-                            $ressources = [
-                                ['url' => '', 'title' => ''],
-                                ['url' => '', 'title' => ''],
-                                ['url' => '', 'title' => '']
-                            ];
-                            echo getHtmlBlockRessources($ressources);
-                        ?>      
+                        <?= getHtmlBlocWhatCodeDoes(file_get_contents(FILENAME_WCD)); ?>
+                        <?= getHtmlBlockSourceCode($source_code, FILENAME_SOURCE_CODE); ?>
+                        <?= getHtmlBlockRendering(file_get_contents(FILENAME_RENDERING)); ?>
+                        <?= getHtmlBlockExplanations($explanations); ?>
+                        <?= getHtmlBlockRessources($ressources); ?>
 
                     </div> <!--col-md-10-->
                     <div class="col-md-1"></div>
