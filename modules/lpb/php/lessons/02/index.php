@@ -24,32 +24,12 @@
                     <div class="col-md-10">                       
                         <h1 class="mt-5 text-center">Leçon 02 : <span class="color_dark_green">Les commentaires</span></h1>  
                         <?= getHtmlSubMenu('01', '03'); ?>
-                        <?= getHtmlBlocWhatCodeDoes("Utiliser des commentaires dans votre code source"); ?>
-
+                       
+                        <?= getHtmlBlocWhatCodeDoes(file_get_contents(FILENAME_WCD)); ?>
                         <?= getHtmlBlockSourceCode($source_code, FILENAME_SOURCE_CODE); ?>
-                        
-                        <?php 
-                            $renderStr = 'Ce texte est affiché';
-                            echo getHtmlBlockRendering($renderStr);
-                        ?>
-
-                        <?php
-                            $explanations = [
-                                "Les commentaires sont des éléments de texte qui ne sont pas exécutés par le programme.",
-                                "Ils sont utilisés pour expliquer le code source et rendre sa compréhension plus aisée. Ou commenter des parties de code qui ne sont 
-                                pas encore ou plus utilisées.",
-                                "Pour écrire un commentaire sur une seule ligne, on utilise deux slashes : <code>//</code> ou le dièse :<code>#</code> (moins courant).",
-                                "Pour écrire un commentaire sur plusieurs lignes, on utilise <code>/*</code> pour ouvrir le commentaire et <code>*/</code> pour le fermer."                               
-                            ];
-                            echo getHtmlBlockExplanations($explanations);
-                        ?>
-
-                        <?php
-                            $ressources = [
-                                ['url' => 'https://www.php.net/manual/fr/language.basic-syntax.comments.php', 'title' => 'Source : php.net : les commentaires']
-                            ];
-                            echo getHtmlBlockRessources($ressources);
-                        ?>      
+                        <?= getHtmlBlockRendering(file_get_contents(FILENAME_RENDERING)); ?>
+                        <?= getHtmlBlockExplanations($explanations); ?>
+                        <?= getHtmlBlockRessources($ressources); ?>
 
                     </div> <!--col-md-10-->
                     <div class="col-md-1"></div>

@@ -4,21 +4,288 @@
 </p>
 <p>
     Les opérateurs peuvent être regroupés en fonction du nombre de valeurs qu'ils acceptent. <br>
-    L'opérateur unaire n'opère que sur une seule valeur, par exemple ! (l'opérateur de négation) ou ++ (l'opérateur d'incrémentation). <br>
-    Le second type, les opérateurs binaires (comme les très célèbres opérateurs mathématique + ou -) contient la plupart des opérateurs supportés par PHP. <br>
-    Enfin, l'opérateur ternaire, ? :, qui accepte trois valeurs (on peut aussi l'appeler l'opérateur conditionnel). <br>
+    L'opérateur unaire n'opère que sur une seule valeur, par exemple <code>!</code> (l'opérateur de négation) ou <code>++</code> (l'opérateur d'incrémentation). <br>
+    Le second type, les opérateurs binaires (comme les très célèbres opérateurs mathématique <code>+</code> ou <code>-</code>) contient la plupart des opérateurs supportés par PHP. <br>
+    Enfin, l'opérateur ternaire, <code>? :</code>, qui accepte trois valeurs (on peut aussi l'appeler l'opérateur conditionnel). <br>
 </p>    
+
+Les opérateurs sont classés en plusieurs catégories:
+<ul>
+    <li>Les opérateurs arithmétiques</li>
+    <li>Les opérateurs de comparaison</li>
+    <li>Les opérateurs logiques</li>
+    <li>Les opérateurs d'assignation / affectation</li>
+    <li>Les opérateurs de concaténation (opérateurs de chaînes de caractères)</li>
+    <li>Les opérateurs d'incrémentation et de décrémentation</li>
+    <li>Les opérateurs de type</li>
+    <li>Les opérateurs de pointeur</li>
+    <li>Les opérateurs de taille</li>
+    <li>Les opérateurs de bits</li>
+</ul>
+<h4>Les opérateurs de concaténation </h4>
+<code>.</code> - <code>.=</code><br>
+Il y a deux opérateurs de chaînes de caractères string. Le premier est l'opérateur de concaténation <code>.</code>, 
+qui retourne la concaténation de ses deux arguments. Le second est l'opérateur d'affectation concaténant <code>.=</code>. 
+Voir opérateurs d'affectation pour plus de détails. 
+
+
+<h4>Les opérateurs d'affectation</h4>
+<code>=</code> <code>+=</code> <code>-=</code><br>
+L'opérateur d'affectation est utilisé pour assigner une valeur à une variable ou assigner une variable à la valeur d'une autre variable.<br>
+Une telle affectation de valeur est effectuée avec le signe <code>=</code>, ou caractère égal. Exemple:
+Les affectations peuvent également etre utilisées conjointement avec des opérateurs arithmétiques exemple <code>+</code> <code>-</code>.
+<p>    
+    On peut noter que <strong>l'affectation copie le contenu de la variable originale dans la nouvelle variable</strong> (affectation par valeur), ce qui fait que 
+    les changements de valeur d'une variable ne modifieront pas la valeur de l'autre. Cela peut se révéler important lors de la copie d'un grand 
+    tableau durant une boucle. 
+</p>
+<p>    
+    L'affectation par référence est aussi supportée, au moyen de la syntaxe: <pre>$var = &$othervar;</pre> 
+    L'affectation par référence signifie que les deux variables pointent vers le même conteneur de donnée, rien n'est copié nulle part. 
+    le <code>&</code> fait référence à l'adresse mémoire 
+    de la variable.
+</p>
+<h4>Les opérateurs arithmétiques</h4>
+<code>+</code> <code>-</code> <code>*</code> <code>/</code> <code>%</code> <code>**</code><br>
+<table class="table">
+    <tbody>
+        <tr>
+            <td><strong>Opérateur</strong></td>
+            <td>
+                <div>
+                    <strong>Signification</strong>
+                </div>
+            </td>
+            <td><strong>Exemple</strong></td>
+        </tr>
+        <tr>
+            <td><code>+</code></td>
+            <td>Addition</td>
+            <td>5 + 5</td>
+        </tr>
+        <tr>
+            <td><code>-</code></td>
+            <td>Soustraction</td>
+            <td>8 - 3</td>
+        </tr>
+        <tr>
+            <td><code>*</code></td>
+            <td>Multiplication</td>
+            <td>5 * 2</td>
+        </tr>
+        <tr>
+            <td><code>/</code></td>
+            <td>Division</td>
+            <td>20 / 4</td>
+        </tr>
+        <tr>
+            <td><code>%</code></td>
+            <td>Modulo</td>
+            <td>10 % 3</td>
+        </tr>
+        <tr>
+            <td><code>**</code></td>
+            <td>Exposant</td>
+            <td>2 ** 3</td>
+        </tr>
+    </tbody>
+</table>
+
+<h4>Les opérateurs de comparaison </h4>
+<code>==</code> <code>===</code> <code>!=</code> <code>!==</code> <code><</code> <code>></code> <code><=</code> <code>>=</code><br>
+Les comparaisons sont utilisées pour vérifier la relation entre des variables et/ou des valeurs. 
+Si vous voulez un exemple simple d'opérateur comparatif en action, il faudra aller consulter la leçon sur les tests conditionnels (If else).
+Les opérateurs de comparaison sont utilisés à l'intérieur de déclarations conditionnelles et évaluent si cela est vrai ou faux. 
+Voici les opérateurs decomparaisons les plus importants en PHP :<br><br>
+<strong>Considérons les variables suivantes : $x = 5 et $y = 8</strong>
+<table class="table">
+    <tbody>
+        <tr>
+            <td><strong>Opérateur</strong></td>
+            <td>
+                <div><strong>Signification</strong></div>
+            </td>
+            <td><strong>Exemple</strong></td>
+            <td><strong>Résultat</strong></td>
+        </tr>
+        <tr>
+            <td><code>==</code></td>
+            <td>Egal à (valeur uniquement)</td>
+            <td>$x == $y</td>
+            <td>Faux</td>
+        </tr>
+        <tr>
+            <td><code>===</code></td>
+            <td>Strictement Egal à (valeur et type)</td>
+            <td>$x === $y</td>
+            <td>Faux</td>
+        </tr>
+        <tr>
+            <td><code>!=</code></td>
+            <td>Différent</td>
+            <td>$x != $y</td>
+            <td>Vrai</td>
+        </tr>
+        <tr>
+            <td><code>&lt;</code></td>
+            <td>Inférieur</td>
+            <td>$x &lt; $y </td>
+            <td>Vrai</td>
+        </tr>
+        <tr>
+            <td><code>&gt;</code></td>
+            <td>Supérieur</td>
+            <td>$x &gt; $y </td>
+            <td>Faux</td>
+        </tr>
+        <tr>
+            <td><code>&lt;=</code></td>
+            <td>Inférieur ou égal</td>
+            <td>$x &lt;= $y </td>
+            <td>Vrai</td>
+        </tr>
+        <tr>
+            <td><code>&gt;=</code></td>
+            <td>Supérieur ou Egal</td>
+            <td>$x &gt;= $y </td>
+            <td>Faux</td>
+        </tr>
+    </tbody>
+</table>
+<h4>Les opérateurs combinés arithmétique et affectation</h4>
+<code>+=</code> <code>-=</code> <code>*=</code> <code>/=</code> <code>%=</code><br>
 <p>
-    Les opérateurs sont classés en plusieurs catégories:
-    <ul>
-        <li>Les opérateurs arithmétiques</li>
-        <li>Les opérateurs de comparaison</li>
-        <li>Les opérateurs logiques</li>
-        <li>Les opérateurs d'assignation</li>
-        <li>Les opérateurs de concaténation</li>
-        <li>Les opérateurs d'incrémentation et de décrémentation</li>
-        <li>Les opérateurs de type</li>
-        <li>Les opérateurs de pointeur</li>
-        <li>Les opérateurs de taille</li>
-        <li>Les opérateurs de bits</li>
-    </ul>
+En programmation il est courant d'avoir à incrémenter une variable avec une certaine valeur.
+L'exemple le plus courant est la réalisation d'un compteur. Imaginons que vous Souhaitez incrémenter un compteur de 1 unité, vous devriez faire :<br>
+<pre>$compteur = $ compteur + 1;</pre>
+Cependant, il y a une abréviation pour cela:
+<pre>$compteur += 1;</pre>
+Cet opérateur combiné affectation/arithmétique accomplit la même tache. 
+De façon générale, <code>+=</code> et <code>-=</code> sont les opérateurs combinés le plus largement utilisés.
+Prochainement, nous verrons que pour cette opération il existe également un autre opérateur le <code>++</code> qui est l'opérateur d'incrémentation.
+</p>
+<table class="table">
+    <tbody>
+        <tr>
+            <td><strong>Opérateur</strong></td>
+            <td>
+                <div><strong>Signification</strong></div>
+            </td>
+            <td>
+                <div><strong>Exemple</strong></div>
+            </td>
+            <td>
+                <div><strong>Opération Equivalente</strong></div>
+            </td>
+        </tr>
+        <tr>
+            <td>+=</td>
+            <td>Plus égal</td>
+            <td>$x += 2;</td>
+            <td>$x = $x + 2;</td>
+        </tr>
+        <tr>
+            <td>-=</td>
+            <td>Moins égal </td>
+            <td>$x -= 4;</td>
+            <td>$x = $x - 4;</td>
+        </tr>
+        <tr>
+            <td>*=</td>
+            <td>Multiplie égal</td>
+            <td>$x *= 3;</td>
+            <td>$x = $x * 3;</td>
+        </tr>
+        <tr>
+            <td>/=</td>
+            <td>Divise égal</td>
+            <td>$x /= 2;</td>
+            <td>$x = $x / 2;</td>
+        </tr>
+        <tr>
+            <td>%=</td>
+            <td>Modulo égal</td>
+            <td>$x %= 5;</td>
+            <td>$x = $x % 5;</td>
+        </tr>
+        <tr>
+            <td>.=</td>
+            <td>Concatène égal</td>
+            <td>$chaine .= "salut";</td>
+            <td>$chaine = $chaine . "salut"; </td>
+        </tr>
+    </tbody>
+</table>
+<h4>Les opérateurs de pré / post incrémentation et décrémentation</h4>
+<p>
+   Il existe une écriture encore plus courte pour la tache courante d'ajouter 1 ou de soustraire 1 d'une variable. <br>
+   Pour ajouter 1 à une variable ou "incrémenter" utilisez l'opérateur <code>++</code>:
+   <pre>$x++; Qui équivaut à $x += 1; ou $x = $x + 1;</pre>
+   Pour soustraire 1 d'une variable, ou "décrémenter" utilisez l'opérateur <code>--</code>:
+   <pre>$x--; Qui équivaut à $x -= 1; ou $x = $x - 1;</pre>   
+   Avec cette écriture, vous pouvez spécifier si vous voulez que l'incrémentation ait lieu avant que la ligne de code soit exécutée 
+   ou après que la ligne ait été exécutée. Le code PHP ci-dessous va montrer la différence.
+   <pre>    	   
+        $x = 4;
+        $x++; // post-increment 
+        valeur de x est 4 
+        
+        $x = 4;
+        ++$x; // pre-increment
+        valeur de x est 5
+   </pre>
+</p>
+<h4>Les opérateurs logiques</h4>
+<code>&&</code> <code>||</code> <code>!</code> <code>XOR</code> <code>OR</code> <code>AND</code><br>
+Les opérateurs logiques sont utilisés pour combiner des expressions conditionnelles.<br>
+
+<caption><strong>Les opérateurs logiques</strong></caption>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Exemple</th>
+            <th>Nom</th>
+            <th>Résultat</th>
+        </tr>
+    </thead>
+    <tbody class="tbody">
+        <tr>
+            <td>$a and $b</td>
+            <td>And (Et)</td>
+            <td><strong><code>true</code></strong> si <var class="varname">$a</var> <strong>ET</strong> <var class="varname">$b</var> valent <strong><code>true</code></strong>.</td>
+        </tr>
+
+        <tr>
+            <td>$a or $b</td>
+            <td>Or (Ou)</td>
+            <td><strong><code>true</code></strong> si <var class="varname">$a</var> <strong>OU</strong> <var class="varname">$b</var> valent <strong><code>true</code></strong>.</td>
+        </tr>
+
+        <tr>
+            <td>$a xor $b</td>
+            <td>XOR</td>
+            <td>
+            <strong><code>true</code></strong> si <var class="varname">$a</var> <strong>OU</strong> <var class="varname">$b</var> est <strong><code>true</code></strong>,
+            mais pas les deux en même temps.
+            </td>
+        </tr>
+        <tr>
+            <td>! $a</td>
+            <td>Not (Non)</td>
+            <td><strong><code>true</code></strong> si <var class="varname">$a</var> <strong>n'est pas</strong> <strong><code>true</code></strong>.</td>
+        </tr>
+
+        <tr>
+            <td>$a &amp;&amp; $b</td>
+            <td>And (Et)</td>
+            <td><strong><code>true</code></strong> si <var class="varname">$a</var> <strong>ET</strong> <var class="varname">$b</var> sont <strong><code>true</code></strong>.</td>
+        </tr>
+
+        <tr>
+            <td>$a || $b</td>
+            <td>Or (Ou)</td>
+            <td><strong><code>true</code></strong> si <var class="varname">$a</var> <strong>OU</strong> <var class="varname">$b</var> est <strong><code>true</code></strong>.</td>
+        </tr>
+    </tbody>
+</table>  
+

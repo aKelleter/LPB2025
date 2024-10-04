@@ -4,10 +4,10 @@
     require_once($_SESSION['R'].'app'.DS.'conf.php'); 
     $_SESSION['PAGE'] = PHP;     
     
-   // Chargement du/des fichier(s)
-   $source_code = loadFile(FILENAME_SOURCE_CODE);
-   require_once(FILENAME_EXPLANATION);
-   require_once(FILENAME_RESSOURCES);     
+    // Chargement du/des fichier(s)    
+    $source_code = loadFile(FILENAME_SOURCE_CODE);     
+    require_once(FILENAME_EXPLANATION);
+    require_once(FILENAME_RESSOURCES);
 ?>
 <!doctype html>
 <html lang="fr">
@@ -16,15 +16,14 @@
     <?php require_once $_SESSION['R'].'assets'.DS.'svg.html'; ?>  
     <?php require_once $_SESSION['R'].'app'.DS.'header.php'; ?>
         <div class="b-divider"></div>
-
         <main>
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-1"></div>
                     <div class="col-md-10">                       
-                        <h1 class="mt-5 text-center">Leçon 04 : <span class="color_dark_green">Découvrir les variables.</span></h1>  
-                        <?= getHtmlSubMenu('03', '05'); ?>
-                       
+                        <h1 class="mt-5 text-center">Leçon 07 : <span class="color_dark_green">Les opérateurs</span></h1>  
+                        <?= getHtmlSubMenu('06', '08'); ?>   
+                        
                         <?= getHtmlBlocWhatCodeDoes(file_get_contents(FILENAME_WCD)); ?>
                         <?= getHtmlBlockSourceCode($source_code, FILENAME_SOURCE_CODE); ?>
                         <?= getHtmlBlockRendering(file_get_contents(FILENAME_RENDERING)); ?>

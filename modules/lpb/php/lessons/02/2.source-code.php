@@ -5,7 +5,7 @@
     echo 'Ce texte est affiché'; // Ceci ne l'est pas
        
     /*
-        (/)(*) et (*)(/) Permettent d'effectuer un commentaire sur plusieurs lignes :
+        Slash(/)étoile(*) et étoile(*)slash(/) permettent d'effectuer un commentaire sur plusieurs lignes :
 
         Ce bloc affiche un
         commentaire sur

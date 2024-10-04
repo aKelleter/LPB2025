@@ -233,7 +233,7 @@ function listCourses(): array {
     foreach($dossiers as $repertoire) 
     {
         // Vérifier si c'est un dossier que l'on traite et non un fichier
-        if(is_dir($repertoire)) 
+        if(is_dir($repertoire) && $repertoire != '00') 
         {
             $id = $repertoire;
             

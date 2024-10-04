@@ -1,6 +1,4 @@
 <?php
     $ressources = [
-        ['url' => '', 'title' => ''],
-        ['url' => '', 'title' => ''],
-        ['url' => '', 'title' => '']
+        ['url' => 'https://www.php.net/manual/fr/language.variables.basics.php', 'title' => 'Php.net : Les variables - essentiel']
     ];
