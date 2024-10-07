@@ -1,4 +1,5 @@
-<?php 
+<?php
+echo 'PHP VERSION : '.PHP_VERSION.'<br><hr>'; 
 
     // Utiliser un double slash permet d'effectuer un commentaire sur une seule ligne
 

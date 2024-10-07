@@ -1,0 +1,43 @@
+<p>
+    Dans cette leçon, nous allons étudier et comprendre l’intérêt des structures de contrôle conditionnelles en PHP. 
+    Une structure de contrôle conditionnelle est un ensemble d’instructions qui permet de contrôler l’exécution d'une partie du code.
+</p>
+<p>
+    Les structures de contrôle conditionnelles (ou plus simplement conditions) vont nous permettre d’exécuter différents blocs de code 
+    selon qu’une condition spécifique soit vérifiée ou pas. On va pouvoir utiliser les conditions pour, par exemple, afficher 
+    certains éléments (ou parties) sur notre site selon que l’utilisateur soit identifié ou un simple visiteur.
+</p>
+<p>
+    Nous allons très souvent utiliser les conditions avec des variables. En fonction de la valeur stockée dans une variable, nous allons 
+    vouloir exécuter un bloc de code plutôt qu’un autre. Les conditions être obligatoires pour rentre un site dynamique en fonction du contexte.
+</p>
+<p>
+    En PHP, nous allons pouvoir utiliser les conditions suivantes :<br>
+    <ul>
+        <li>La condition <code>if</code> <b>(si)</b> ;</li>
+        <li>La condition <code>if… else</code> <b>(si… sinon)</b> ;</li>
+        <li>La condition <code>if… elseif… else</code> <b>(si… sinon si… sinon)</b>.</li>
+    </ul>
+    Etudions chacune de ces conditions :)
+    Petit rappel, pour pouvoir travailler avec des conditions nous allons très souvent utiliser les opérateurs de compararaisons.
+    Veuillez relire la leçon sur les opérateurs et plus particulièrement la section sur  <a href="../07/index.php" target="_blank"><svg class="bi link" width="24" height="24"><use xlink:href="#link"></use></svg> les opérateurs de comparaisons</a>.
+</p>
+<p>
+    <h3>Rappel</h3>
+    Lorsqu’on utilise un opérateur de comparaison, le PHP va comparer la valeur à gauche de l’opérateur à celle à droite (les opérandes). On dit également 
+    qu’il évalue la comparaison. <br> <br>
+    Si la comparaison est vérifiée ou validée, alors le PHP renvoie la valeur booléenne <code>true</code>. Si le test de comparaison échoue, 
+    alors PHP renvoie la valeur booléenne <code>false</code>. La compréhension de cette notion est très importante, car nos conditions vont 
+    nous permettre d'exécuter ou non le bloc de code qui les suivent.
+</p>
+<p>
+    <h4>L'instruction <b class="red">If</b></h4>
+    L'instruction <code>if</code> est une des plus importantes instructions de tous les langages, PHP inclus. Elle permet l'exécution conditionnelle 
+    d'une partie de code. Les fonctionnalités de l'instruction if sont les mêmes en PHP qu'en C : 
+    <pre>
+        if (expression)
+            commandes
+    </pre>
+    La condition <code>if</code> est également la plus simple, puisqu’elle va nous permettre d’exécuter un bloc de code si et seulement si 
+    le résultat d’un test vaut <code>true</code>.
+</p>

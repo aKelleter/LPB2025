@@ -1,4 +1,5 @@
-<?php 
+<?php
+echo 'PHP VERSION : '.PHP_VERSION.'<br><hr>'; 
     // Les types de variables
 
     // Déclaration et initialisation de variables de différents types

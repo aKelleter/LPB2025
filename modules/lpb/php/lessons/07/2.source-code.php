@@ -1,5 +1,5 @@
 <?php
-
+echo 'PHP VERSION : '.PHP_VERSION.'<br><hr>';
     // Les opérateurs de concaténation :  .  et  .=    
 
     // L'opérateur de concaténation :  .

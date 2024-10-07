@@ -1,4 +1,5 @@
-<?php 
+<?php
+echo 'PHP VERSION : '.PHP_VERSION.'<br><hr>'; 
    // Déclaration  et intialisation de nos premières variables
    // Le signe = est l'opérateur d'affectation !!
 

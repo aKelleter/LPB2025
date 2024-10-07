@@ -1,4 +1,5 @@
 <?php
+echo 'PHP VERSION : '.PHP_VERSION.'<br><hr>';
     // Exemples de constantes
     // Déclaration et initialisation
     const NOM_JEU = "Super Mario Odyssey";

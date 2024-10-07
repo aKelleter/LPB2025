@@ -20,7 +20,9 @@ function getHtmlFooter(string $version, string $author = '', string $path = ''):
     $string = '';
     $string .= APP_NAME."  - $version -  $author ".
     '<a href="https://github.com/aKelleter/LPB2025">
-    <img src="'.$path.'assets/img/github-mark.svg"  alt="LPB 2025 Github Repository" class="lpb-github"></a>';
+    <img src="'.$path.'assets/img/github-mark.svg"  alt="LPB 2025 Github Repository" title="Github Repository LPB 2025" class="lpb-github"></a>
+     <a href="https://creativecommons.org/licenses/by/4.0/"> <img src="'.$path.'assets/img/by.svg"  alt="LPB 2025 Github Repository" fill="#ffffff" class="lpb-cc" title="Creative Commons By 4.0" alt="Creative Commons By 4.0"></a>
+    ';
     return $string;
 }
 

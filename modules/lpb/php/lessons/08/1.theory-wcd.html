@@ -1,0 +1,280 @@
+<p>
+    <strong>La priorité des opérateurs spécifie l'ordre dans lequel les valeurs doivent être analysées</strong>. 
+</p>
+<p>    
+    Par exemple, dans l'expression <code>1 + 5 * 3</code>, le résultat est <b class="red">16</b> et non <b>18</b>, car la multiplication <code>*</code> a une priorité 
+    supérieure par rapport à l'addition <code>+</code>. Des parenthèses peuvent être utilisées pour forcer la priorité, si nécessaire.<br> 
+    Par exemple : <code>(1 + 5) * 3</code> donnera <b class="red">18</b>.
+</p>
+
+<p>
+    <strong>Lorsque les opérateurs ont une priorité égale, leur association décide la façon dont les opérateurs sont groupés.</strong> 
+    Par exemple, <code>-</code> est une association par la gauche, ainsi <code>1 - 2 - 3</code> est groupé comme ceci <code>(1 - 2) - 3</code> 
+    et sera évalué à <b class="red">-4</b>. D'un autre côté, <code>=</code> est une association par la droite, ainsi, <code>$a = $b = $c</code> est groupé comme ceci 
+    <code>$a = ($b = $c)</code>.
+</p>
+<p>
+    <strong>Les opérateurs, dont la priorité est égale, qui ne sont pas associatifs, ne peuvent pas être utilisés entre eux</strong>.<br>
+    Par exemple, <code>1 < 2 > 1</code> est interdit en PHP. L'expression <code>1 <= 1 == 1</code> par contre, est autorisée, 
+    car l'opérateur <code>==</code> a une précédence inférieure que l'opérateur <code><=</code>.
+</p>
+<p>
+    <strong>L'associativité à uniquement du sens pour les opérateurs binaire (et ternaire).</strong> <br> 
+    Les opérateurs unitaires sont soit préfixé, soit suffixé ainsi cette notion n'est pas applicable. 
+    Par exemple <code>!!$a</code> peut uniquement être groupé de la manière suivante <code>!(!$a)</code>.
+</p>
+<p>
+    <strong>L'utilisation des parenthèses, y compris lorsqu'elles ne sont pas nécessaires, permet de mieux lire le code</strong> en effectuant des groupements 
+    explicites plutôt qu'imaginer la priorité des opérateurs et leurs associations.
+</p>
+<p>
+    Le tableau qui suit liste les opérateurs par ordre de priorité, avec la priorité la plus élevée en haut. Les opérateurs sur la même ligne ont une priorité équivalente (donc l'associativité décide du groupement). 
+</p>
+
+<div class="table-responsive">
+    <table class="table responsive">   
+        <thead>
+            <tr>
+                <th>Associativité</th>
+                <th>Opérateurs</th>
+                <th>Information additionnelle</th>
+            </tr>
+        </thead>
+
+        <tbody class="tbody">
+            <tr>
+                <td>(n/a)</td>
+                <td>
+                    <code class="literal">clone</code>
+                    <code class="literal">new</code>
+                </td>
+                <td>clone et new</td>
+            </tr>
+            <tr>
+                <td>droite</td>
+                <td><code class="literal">**</code></td>
+                <td>arithmétique</td>
+            </tr>
+            <tr>
+                <td>(n/a)</td>
+                <td>
+                    <code class="literal">+</code>
+                    <code class="literal">-</code>
+                    <code class="literal">++</code>
+                    <code class="literal">--</code>
+                    <code class="literal">~</code>
+                    <code class="literal">(int)</code>
+                    <code class="literal">(float)</code>
+                    <code class="literal">(string)</code>
+                    <code class="literal">(array)</code>
+                    <code class="literal">(object)</code>
+                    <code class="literal">(bool)</code>
+                    <code class="literal">@</code>
+                </td>
+                <td>
+                arithmétique (unitaire <code class="literal">+</code> et <code class="literal">-</code>),
+                incrément/décrément, bit à bit, casting de type et contrôle d'erreur
+                </td>
+            </tr>
+            <tr>
+                <td>gauche</td>
+                <td><code class="literal">instanceof</code></td>
+                <td>
+                    type
+                </td>
+            </tr>
+            <tr>
+                <td>(n/a)</td>
+                <td><code class="literal">!</code></td>
+                <td>
+                    logique
+                </td>
+            </tr>
+            <tr>
+                <td>gauche</td>
+                <td>
+                    <code class="literal">*</code>
+                    <code class="literal">/</code>
+                    <code class="literal">%</code>
+                </td>
+                <td>
+                    arithmétique
+                </td>
+            </tr>
+            <tr>
+                <td>gauche</td>
+                <td>
+                    <code class="literal">+</code>
+                    <code class="literal">-</code>
+                    <code class="literal">.</code>
+                </td>
+                <td>
+                    arithmétique (binaire <code class="literal">+</code> et <code class="literal">-</code>),
+                    tableau et chaîne de caractères (<code class="literal">.</code> antérieur à PHP 8.0.0)
+                </td>
+            </tr>
+            <tr>
+                <td>gauche</td>
+                <td>
+                    <code class="literal">&lt;&lt;</code>
+                    <code class="literal">&gt;&gt;</code>
+                </td>
+                <td>
+                bitwise
+                </td>
+            </tr>
+            <tr>
+                <td>gauche</td>
+                <td><code class="literal">.</code></td>
+                <td>
+                string (à partir de PHP 8.0.0)
+                </td>
+            </tr>
+            <tr>
+                <td>non-associatif</td>
+                <td>
+                    <code class="literal">&lt;</code>
+                    <code class="literal">&lt;=</code>
+                    <code class="literal">&gt;</code>
+                    <code class="literal">&gt;=</code>
+                </td>
+                <td>
+                    comparaison
+                </td>
+            </tr>
+            <tr>
+                <td>non-associatif</td>
+                <td>
+                    <code class="literal">==</code>
+                    <code class="literal">!=</code>
+                    <code class="literal">===</code>
+                    <code class="literal">!==</code>
+                    <code class="literal">&lt;&gt;</code>
+                    <code class="literal">&lt;=&gt;</code>
+                </td>
+                <td>
+                    comparaison
+                </td>
+            </tr>
+            <tr>
+                <td>gauche</td>
+                <td><code class="literal">&amp;</code></td>
+                <td>
+                    bitwise et références            
+                </td>
+            </tr>
+            <tr>
+                <td>gauche</td>
+                <td><code class="literal">^</code></td>
+                <td>
+                    bitwise
+                </td>
+            </tr>
+            <tr>
+                <td>gauche</td>
+                <td><code class="literal">|</code></td>
+                <td>
+                    bitwise
+                </td>
+            </tr>
+            <tr>
+                <td>gauche</td>
+                <td><code class="literal">&amp;&amp;</code></td>
+                <td>
+                    logique
+                </td>
+            </tr>
+            <tr>
+                <td>gauche</td>
+                <td><code class="literal">||</code></td>
+                <td>
+                    logique
+                </td>
+            </tr>
+            <tr>
+                <td>droite</td>
+                <td><code class="literal">??</code></td>
+                <td>
+                    coalescence nul
+                </td>
+            </tr>
+            <tr>
+                <td>non-associatif</td>
+                <td><code class="literal">? :</code></td>
+                <td>
+                    ternaire (gauche--associatif antérieur à PHP 8.0.0)
+                </td>
+            </tr>
+            <tr>
+                <td>droite</td>
+                <td>
+                    <code class="literal">=</code>
+                    <code class="literal">+=</code>
+                    <code class="literal">-=</code>
+                    <code class="literal">*=</code>
+                    <code class="literal">**=</code>
+                    <code class="literal">/=</code>
+                    <code class="literal">.=</code>
+                    <code class="literal">%=</code>
+                    <code class="literal">&amp;=</code>
+                    <code class="literal">|=</code>
+                    <code class="literal">^=</code>
+                    <code class="literal">&lt;&lt;=</code>
+                    <code class="literal">&gt;&gt;=</code>
+                    <code class="literal">??=</code>
+                </td>
+                <td>
+                    affectation
+                </td>
+            </tr>
+            <tr>
+                <td>(n/a)</td>
+                <td><code class="literal">yield from</code></td>
+                <td>
+                    yield from
+                </td>
+            </tr>
+            <tr>
+                <td>(n/a)</td>
+                <td><code class="literal">yield</code></td>
+                <td>
+                    yield
+                </td>
+            </tr>
+            <tr>
+                <td>(n/a)</td>
+                <td><code class="literal">print</code></td>
+                <td><span class="function">print</span></td>
+            </tr>
+            <tr>
+                <td>gauche</td>
+                <td><code class="literal">and</code></td>
+                <td>
+                    logique
+                </td>
+            </tr>
+            <tr>
+                <td>gauche</td>
+                <td><code class="literal">xor</code></td>
+                <td>
+                    logique
+                </td>
+            </tr>
+            <tr>
+                <td>gauche</td>
+                <td><code class="literal">or</code></td>
+                <td>
+                    logique
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<caption>(n/a) : non applicable</caption>
+<p>
+    <strong>ATTENTION</strong> : <br>
+    La priorité et l'association de l'opérateur ne déterminent que la façon dont les expressions sont groupées ; 
+    ils ne spécifient pas l'ordre de l'évaluation. <strong>PHP ne spécifie pas (de manière générale) l'ordre dans lequel 
+    une expression est évaluée</strong> et le code qui suppose un ordre spécifique d'évaluation ne devrait pas exister, 
+    car le comportement peut changer entre les différentes versions de PHP ou suivant le code environnant. 
+</p>

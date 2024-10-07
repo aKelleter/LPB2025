@@ -1,4 +1,5 @@
 <?php 
+echo 'PHP VERSION : '.PHP_VERSION.'<br><hr>';
    // Dans ces exemples, nous ajoutons un saut de ligne à la fin de chaque instruction avec la balise Html : <br> 
    echo 'Une première ligne<br>';
    echo "Une seconde ligne juste en-dessous<br>";
