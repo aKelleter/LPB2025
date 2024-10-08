@@ -22,22 +22,150 @@
     Petit rappel, pour pouvoir travailler avec des conditions nous allons très souvent utiliser les opérateurs de compararaisons.
     Veuillez relire la leçon sur les opérateurs et plus particulièrement la section sur  <a href="../07/index.php" target="_blank"><svg class="bi link" width="24" height="24"><use xlink:href="#link"></use></svg> les opérateurs de comparaisons</a>.
 </p>
+<h3>Rappel</h3>
 <p>
-    <h3>Rappel</h3>
     Lorsqu’on utilise un opérateur de comparaison, le PHP va comparer la valeur à gauche de l’opérateur à celle à droite (les opérandes). On dit également 
     qu’il évalue la comparaison. <br> <br>
     Si la comparaison est vérifiée ou validée, alors le PHP renvoie la valeur booléenne <code>true</code>. Si le test de comparaison échoue, 
     alors PHP renvoie la valeur booléenne <code>false</code>. La compréhension de cette notion est très importante, car nos conditions vont 
     nous permettre d'exécuter ou non le bloc de code qui les suivent.
 </p>
-<p>
-    <h4>L'instruction <b class="red">If</b></h4>
+<h4>I. L'instruction <b class="red">If</b></h4>
+<p>    
     L'instruction <code>if</code> est une des plus importantes instructions de tous les langages, PHP inclus. Elle permet l'exécution conditionnelle 
     d'une partie de code. Les fonctionnalités de l'instruction if sont les mêmes en PHP qu'en C : 
+</p>
     <pre>
         if (expression)
             commandes
     </pre>
+<p>
     La condition <code>if</code> est également la plus simple, puisqu’elle va nous permettre d’exécuter un bloc de code si et seulement si 
-    le résultat d’un test vaut <code>true</code>.
+    le résultat d’un test vaut <code>true</code><br>
+    
+    Comme nous l'avons vu dans la leçon consacrée aux expressions, l'expression est convertie en sa valeur booléenne. Si l'expression vaut 
+    <code>true</code>, PHP exécutera l'instruction et si elle vaut <code>false</code>, l'instruction sera ignorée. 
 </p>
+<p>    
+    Souvent, vous voulez que plusieurs instructions soient exécutées après un branchement conditionnel. Bien évidemment, il n'est pas 
+    obligatoire de répéter l'instruction conditionnelle <code>if</code> autant de fois que vous avez d'instructions à exécuter. À la place, vous 
+    pouvez rassembler toutes les instructions dans un bloc <code>{...}</code>.    
+</p>
+<p>
+    Pour terminer, vous pouvez imbriquer indéfiniment des instructions <code>if</code> dans d'autres instructions <code>if</code>, ce qui permet 
+    une grande flexibilité dans l'exécution d'une partie de code suivant un grand nombre de conditions. 
+</p>
+<p>
+    <b>Voir les exemples : Ex 1 / Ex 2 / Ex 3, dans le code source.</b>
+</p>
+<h4>II. L'instruction <b class="red">If else</b></h4>
+<p>
+    Souvent, vous voulez exécuter une instruction si une condition est remplie et une autre instruction si cette condition n'est pas remplie. 
+    C'est à cela que sert <code>else</code>. <code>else</code> fonctionne après un <code>if</code> et exécute les instructions correspondantes 
+    au cas où l'expression du <code>if</code> est évaluée à <code>false</code>.     
+</p>
+<p>
+    Traduite en français l'instruction <code>if else</code> signifie : <i>Si la condition est vraie, alors exécute le bloc de code A, 
+    sinon exécute le bloc de code B.</i>
+</p>
+<p>
+    <b class="red">IMPORTANT</b> : Attention, l'instruction <code>else</code> doit être aussi comprise comme : "<b>dans tous les autres cas</b>". 
+    Cela signifie que si la condition du <code>if</code> est évaluée à <code>false</code>, alors le bloc de code du <code>else</code> 
+    sera exécuté.
+</p>
+<p>
+    <b>Voir l'exemple : Ex 4 , dans le code source.</b>
+</p>
+<h4>III. L'instruction <b class="red">If elseif else</b></h4>
+<p>
+    La condition <code>if elseif else</code> (« si sinon si sinon ») est une structure conditionnelle encore plus complète que la condition 
+    <code>if else</code>. De fait, elle nous permet de générer autant de cas que ce que l’on souhaite.
+
+    En effet, nous allons pouvoir écrire autant de <code>elseif</code> que l’on veut dans notre condition <code>if elseif else</code>, chacun avec 
+    un test différent.    
+</p>
+<p>
+    Comme on peut le constater, les <code>elseif</code> occupent un rôle similaire au <code>if</code> de départ dans le sens où chacun d’entre eux va 
+    posséder son propre test, qui bien évidemment est obligatoire.
+</p>
+<p>
+    Notez que dans le cas où plusieurs <code>elseif</code> possèdent un test qui va être évalué à <code>true</code>, seul le code du premier 
+    <code>elseif</code> rencontré sera exécuté.<br>
+    En effet, <b>dès qu’un test va être validé, le PHP va ignorer les tests suivants</b>.<br>
+    Notez également qu’on devra toujours obligatoirement terminer notre condition if…elseif…else avec un else qui servira à gérer toutes les 
+    issues (ou les cas) non pris en charge par le if ou par les elseif.
+</p>
+<p>
+    <b>Voir l'exemple : Ex 5 , dans le code source.</b>
+</p>
+<h4>IV. Des conditions avec plusieurs comparaisons</h4>
+<p>
+    Nous avons vu dans une leçon précédente les opérateur logiques <code>AND, &&, OR, ||, XOR</code>. Ces derniers vont nous permettre de créer des 
+    conditions avec plusieurs comparaisons. On va ainsi pouvoir choisir d’exécuter un code uniquement si toutes les comparaisons valent <code>true</code>, 
+    ou si au moins l’une d’entre elles vaut <code>true</code>, ou encore si seulement l’une d’entre elles vaut <code>true</code>.
+</p>
+<p>
+    <b>Voir l'exemple : Ex 6 , dans le code source.</b>
+</p>
+<h3>Rappel</h3>
+<p>
+    Avec l'opérateur <code>&& / AND</code>. Chacune des deux comparaisons va devoir être évaluée à <code>true</code> pour que le code de la 
+    condition soit exécuté. <br>
+    Avec l’opérateur <code>|| / OR</code>. Dans ce cas, il suffit qu’une seule comparaison soit évaluée à <code>true</code> pour que le code 
+    de la condition soit exécuté. Mais toutes les évalulations peuvent être évaluée à <code>true</code> <br>
+    Avec l’opérateur <code>XOR</code>. Dans ce cas, ne doit y avoir qu’une seule comparaison évaluée à <code>true</code> pour que le code 
+    de la condition soit exécuté (OU exclusif). <br>
+</p>
+<p>
+    On peut utiliser plusieurs opérateurs logiques dans une même condition pour ajouter des règles et des comparaisons à celle-ci. 
+    Il faudra ici faire attention à la priorité des différents opérateurs pour obtenir le résultat voulu ou utiliser des parenthèses 
+    pour forcer la priorité de certains opérateurs par rapport à d’autres. De toute façon, il est toujours préférable de mettre des
+    parenthèses pour plus de clarté. (ex : <code>AND</code> possède une priorité plus importante que <code>XOR</code>)
+</p>
+<pre>
+    if (condition1 && condition2 || condition3) {
+        // code à exécuter
+    }
+
+    if (condition1 && (condition2 || condition3)) {
+        // code à exécuter
+    }
+</pre>
+<h4>V. Inverser la valeur logique d’une variable, d’une condition ou d’un test</h4>
+<p>
+    Il est possible d’inverser la valeur logique d’une variable, d’une condition ou d’un test en utilisant l’opérateur <code>!</code> (négation). 
+    Cet opérateur va permettre de passer d’une valeur <code>true</code> à <code>false</code> et inversement.
+</p>
+<p>
+    <b>Voir l'exemple : Ex 7 , dans le code source.</b>
+</p>
+<h3>Rappel</h3>
+<p>
+    Lors d’une conversion en booléen, seules les valeurs suivantes sont évaluées à <code>false</code> :
+    <ul>
+        <li>Le booléen <code>false</code> lui-même ;</li>
+        <li>Le chiffre <code>0</code> ;</li>
+        <li>La chaine de caractères vide et la chaine de caractères « 0 » (zéro) ;</li>
+        <li>Le type <code>NULL</code> ;</li>
+        <li>Un tableau vide.</li>
+    </ul>
+<b>Toute autre valeur est évaluée à true.</b>
+</p>
+<p>Un exemple concret:</p>
+<pre>
+    $var1 = 4; 
+    $var2 = -12;
+    
+    if(!$var1 >= 0 AND !$var2 >= 0){
+        echo 'Ce texte est toujours affiché !<br>';
+    }
+</pre>
+<p>
+    Explication rapide :<br>
+    $var1 = 4, pour appliquer <code>!</code> le PHP <a href="https://fr.wikipedia.org/wiki/Conversion_de_type"><svg class="bi link" width="24" height="24"><use xlink:href="#link"></use></svg> transtype</a> en booléen, 4 == true, l'inverse de true devient false, false redevient (transtypage) 0, 0 >= 0 est vrai.<br>
+    $var1 = -12, pour appliquer <code>!</code> le PHP <a href="https://fr.wikipedia.org/wiki/Conversion_de_type"><svg class="bi link" width="24" height="24"><use xlink:href="#link"></use></svg> transtype</a> en booléen, -12 == true, l'inverse de true devient false, false redevient 0 (transtypage), 0 >= 0 est vrai.<br>
+    Evaluation de (true AND true) =  true, le code est exécuté.
+</p>
+
+
+
