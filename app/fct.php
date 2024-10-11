@@ -306,3 +306,30 @@ function loadFile(string $filename): string|false {
 function br(): void {
     echo '<br>';
 }
+
+/**
+ * hr(): void
+ * Affiche une ligne horizontale HTML
+ * 
+ * @return void 
+ */
+function hr(): void {
+    echo '<hr>';
+}
+
+/**
+ * echol($string, $line = 0): void
+ * Affiche une chaîne de caractères avec un numéro de ligne
+ * et un saut de ligne HTML
+ * 
+ * @param string $string  - String to display - mandatory
+ * @param int $line - Display line number - no mandatory
+ * @return void 
+ */
+function echol (string $string, int $line = 0): void {
+
+    if($line == 0)
+        echo '<u>' . $string . '</u><br>';
+    else
+        echo 'LINE '.$line . ' : <strong>' . $string . '</strong><br>';
+}

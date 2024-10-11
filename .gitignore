@@ -1,0 +1,18 @@
+# APP ###
+app/conn.php
+
+# MACOS ###
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# WINDOWS ###
+desktop.ini
+*.tmp
+
+# GIT ### 
+.git/
+
+# VSCODE ###
+.vscode/
+

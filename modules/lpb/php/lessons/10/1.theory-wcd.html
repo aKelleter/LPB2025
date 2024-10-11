@@ -1,0 +1,76 @@
+<h4>I. L'opérateur ternaire : <b class="red">?:</b></h4>
+<p>
+    Pour présenter l'opérateur ternaire nous allons commencer par un exemple simple de condition :    
+</p>
+<pre>
+    if ($a) {
+        $b = $a;
+    } else {
+        $b = 1;
+    }
+</pre>
+<p>
+    Ce qui signifie : si la variable $a est vraie, alors la variable $b prendra la valeur de $a, sinon elle prendra la valeur 1.
+</p>    
+<p>
+    Et maintenant si je vous disais que le code ci-dessous est équivalent à celui du dessus :
+</p>
+<pre>
+    $b = $a ? $a : 1;
+    $b = ($a) ? $a : 1; // Pour plus de clarté    
+</pre>
+<p>
+    L'opérateur ternaire permet de réduire notre condition en une seule ligne.
+    Les structures ternaires vont se présenter sous la forme suivante :<br> <code>test ? code à exécuter si true : code à exécuter si false</code><br>
+    <code>$var = [IF] ? [THEN] : [ELSE];</code>
+<p> 
+<h5>Encore plus court ? Oui, c'est possible !</h5>   
+<p>    
+    Ce raccourci permet d’omettre la partie centrale de l’opérateur ternaire. Il est toutefois à manier avec précaution car il utilise quelques 
+    subtilités du langage PHP. <br>
+    <code>$var = [IF] ?: [ELSE];</code><br>
+    En utilisant cette écriture, c’est la partie située avant l’opérateur qui sera renvoyée si le test est évalué à true et la partie après 
+    l’opérateur sinon.<br>
+    <b>Voir Ex3 du code source</b>.
+</p>
+<p>
+    Ici, il faut bien comprendre que PHP ne va pas renvoyer le contenu de <code>$var</code> mais le résultat de la comparaison 
+    <code>$var >= 0</code>, c’est-à-dire true, convertie sous forme d’entier (c’est-à-dire <b class="red">1</b>).
+</p>    
+<h4>II. L'opérateur de fusion null ou de coalescence null : <b class="red">??</b></h4>
+<p>
+    L’opérateur fusion null <code>??</code> ressemble dans sa syntaxe et dans son fonctionnement à l’opérateur ternaire.<br>
+    Cet opérateur utilise la syntaxe suivante : <code>test ?? code à renvoyer si le résultat du test est NULL</code>.
+</p>
+<p>
+    Si l’expression à gauche de l’opérateur vaut <code>NULL</code>, alors l’expression à droite de l’opérateur sera renvoyée. 
+    Dans tous les autres cas, c’est l’expression à gauche de l’opérateur qui sera renvoyée.
+    L’opérateur fusion null est un opérateur de comparaison qui permet de simplifier l’écriture de conditions. Il est apparu avec 
+    PHP 7.0.0. Il est très utile pour simplifier le code et éviter les erreurs de type Undefined variable.
+</p>
+<p class="red">
+    IMPORTANT, cet opérateur n'émet pas de notice ou avertissement si la partie gauche n'existe pas, exactement comme isset(). 
+    Ceci est particulièrement utile pour les clés des tableaux. <br>
+    L'opérateur de fusion null à une précédence faible. Ceci signifie que pour le mélanger avec d'autres opérateurs, 
+    des parenthèses seront requises (tel que la concaténation de chaînes ou les opérateurs arithmétiques). 
+</p>
+<p>
+    On va généralement utiliser cet opérateur pour tester si une variable contient quelque chose ou pas et, dans le cas où la variable est vide, 
+    lui faire stocker une valeur.
+</p>
+<b>Voir Ex4 du code source</b>
+<p>
+    Dans le second exemple, on teste nos variables $x, $y et $z en utilisant l’opérateur fusion null. <br>
+    <b>Voir le second exemple de l'Ex4 du code source</b>. <br>
+    <pre>
+        $x = 5; 
+        $y = NULL;
+        $z;
+        
+        $resultx = $x ?? 'NULL';
+        $resulty = $y ?? 'NULL';
+        $resultz = $z ?? 'NULL';
+    </pre>
+    Si la variable est vide ou contient <code>NULL</code>, la valeur <code>NULL</code> sera renvoyée et stockée dans 
+    $resultx, $resulty ou $resultz. Dans le cas contraire, c’est le contenu de la variable qui sera stocké.
+</p>

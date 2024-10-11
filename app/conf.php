@@ -2,8 +2,8 @@
   
     // Définition des constantes de l'application
     const APP_NAME = 'LPB - LDB <sup>3</sup>';
-    const APP_UPDATE = '08102024 - 1625';
-    const APP_VERSION = 'v0.9.0'.'-'.APP_UPDATE;
+    const APP_UPDATE = '11102024 - 1615';
+    const APP_VERSION = 'v0.10.0'.'-'.APP_UPDATE;
     const APP_YEAR = '2024-2025';
     const APP_AUTHOR = 'A. Kelleter';
     
@@ -34,15 +34,7 @@
     const FILENAME_RENDERING = '3.rendering.html';
     const FILENAME_EXPLANATION = '4.explanations.php';
     const FILENAME_RESSOURCES = '5.ressources.php';
-    
-    // Constantes de connexion sur une base de données externe
-    /*
-    const SERVER_NAME = '94.176.233.50';
-    const USER_NAME = 'ifapme';
-    const USER_PWD = 'ifapme+*;';
-    const DB_NAME = 'blog';
-    */
-    
+       
     // Constantes de connexion sur une base de données locale
     const SERVER_NAME = 'localhost';
     const USER_NAME = 'root';
@@ -53,4 +45,4 @@
     $_SESSION['APP'] = APP_NAME;
     
     // Inclusion des fonctions
-    include_once('fct.php');
+    require_once('fct.php');
