@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Propriétés et méthodes de l’objet global String</title>
+    <link rel="stylesheet" href="../styles.css">
+    <script> let path = "chapter";</script> 
+</head>
+<body id="top">
+    <div class="container">
+    <div class="screen">
+    <nav></nav>     
+    <h1>Propriétés et méthodes de l’objet global String</h1>
+    <hr>  
+    <p> 
+        L’objet String gère les chaînes de caractères. <br> <br>
+        Le constructeur String() possède deux propriétés et une trentaine de méthodes. <br> <br>
+        Comme nous l’avons vu précédemment, nous n’utiliserons pas la fonction constructeur de cet objet pour créer de nouveaux 
+        objets de type string : on préfèrera en effet utiliser des valeurs primitives qui sont plus performantes et avec 
+        lesquelles on va également pouvoir utiliser les propriétés et méthodes définies dans le constructeur.
+    </p>
+    <h2>Les propriétés de l’objet String</h2>
+    <p>
+        Le constructeur String() ne possède que deux propriétés : <br>
+        - une propriété <b>length</b> et, bien évidemment, <br>
+        - une propriété <b>prototype</b> comme tout objet. <br> <br>
+        
+        La propriété length va nous permettre d’obtenir la longueur d’une chaine de caractères. 
+        Cette longueur est exprimée en points de code (appelées « codets ») sur la base du format UTF-16. 
+        La plupart des caractères comptent pour une unité ou un codet mais certains caractères spéciaux vont être 
+        représentés par deux codets. <br>
+        <b>Attention donc : la propriété length ne renverra pas toujours une valeur égale au nombre de caractères présents 
+        dans la chaine.</b> <br> <br>
+    </p>
+    <div class="div-code">
+        <pre>
+        // Propriété length
+        let ch = "Bonjour";
+        document.write("Nbr car de Bonjour : " + ch.length);
+        </pre>
+    </div>
+    <script>
+        document.write('<div class="result">');
+        document.write("Nbr car de Bonjour : " + "Bonjour".length);
+        document.write('</div>');
+    </script>
+
+    <h2>Les méthodes de l’objet String</h2>
+    <p>
+        Le constructeur String() dispose d’une trentaine de méthodes. Nous allons étudier celles qui me semblent les plus utiles ici. 
+    </p>
+    
+    <ol>
+        <li>
+            La méthode <b>include()</b> : permet de déterminer si une chaine de caractères est incluse dans une autre - Retourne true ou false 
+        </li>
+        <li>
+            Les méthodes <b>startsWith()</b> et <b>endsWith()</b> : permettent de déterminer si une chaine de caractères commence ou se termine par une autre chaine - Retourne true ou false
+        </li>    
+        <li>
+            La méthode <b>substring()</b> : permet de retourner une sous-chaîne de la chaîne courante à partir d’un indice de départ et d'un indice de fin facultatif.
+        </li>
+        <li>
+            Les méthodes <b>indexOf()</b> et <b>lastIndexOf()</b> : permettent de retourner l'indice de la première ou de la dernière occurrence de la valeur spécifiée dans une chaîne.
+        </li>
+        <li>
+            La méthode <b>slice()</b> : permet de retourner une copie d'une partie d'un tableau dans un nouveau tableau.
+        </li>
+        <li>
+            La méthode <b>replace()</b> : permet de retourner une nouvelle chaîne de caractères dans laquelle certaines occurrences d'une chaîne de caractères spécifiée sont 
+            remplacées par une autre chaîne de caractères.
+        </li>
+        <li>
+            Les méthodes <b>toUpperCase()</b> et <b>toLowerCase()</b> : permettent de convertir une chaine de caractères en majuscules ou en minuscules.
+        </li>
+        <li>
+            La méthode <b>trim()</b> : permet de supprimer les espaces en début et en fin de chaîne. Elle retourne une nouvelle chaîne.
+        </li>
+
+
+
+    </ol>
+
+    <div class="div-code">
+        <pre>            
+        let ch = "Hello World !";
+
+        // Méthode includes() 
+        document.write("includes() : " + ch.includes("World"));
+
+        // Méthode startsWith()
+        document.write("startsWith() : " + ch.startsWith("Hello"));
+
+        // Méthode endsWith()
+        document.write("endsWith() : " + ch.endsWith("World"));
+
+        //La méthode substring()
+        document.write("substring() : " + ch.substring(0, 5));
+
+        // La méthode indexOf() 
+        document.write("indexOf() : " + ch.indexOf("W"));        
+        document.write("indexOf() : " + ch.indexOf("World"));
+
+        // La méthode lastIndexOf()
+        document.write("lastIndexOf() : " + ch.lastIndexOf("l"));
+
+        // La méthode slice() 
+        document.write("slice() : " + ch.slice(0, 5));
+
+        // La méthode replace()        
+        document.write("replace() : " + ch.replace("World", "Mars"));
+
+        // Les méthodes toUpperCase() et toLowerCase() 
+        document.write("toUpperCase() : " + ch.toUpperCase());
+        document.write("toLowerCase() : " + ch.toLowerCase());
+
+        // La méthode trim()
+        document.write("trim() : " + ch.trim());
+        </pre>
+    </div>
+
+    <script>
+        
+        let ch = "Hello World !";
+        let ch2 = "      Bonjour le monde !              ";
+
+        document.write('<div class="result">');
+
+        document.write("includes() : " + ch.includes("World") + "<br>");        
+        document.write("startsWith() : " + ch.startsWith("Hello") + "<br>");
+        document.write("endsWith() : " + ch.endsWith("World") + "<br>");
+        document.write("substring() : " + ch.substring(0, 5) + "<br>");
+        document.write("indexOf() : " + ch.indexOf("W")+ "<br>");
+        document.write("indexOf() : " + ch.indexOf("World")+ "<br>");
+        document.write("lastIndexOf() : " + ch.lastIndexOf("l")+ "<br>");
+        document.write("slice() : " + ch.slice(0, 5)+ "<br>");
+        document.write("replace() : " + ch.replace("World", "Mars")+ "<br>");
+        document.write("toUpperCase() : " + ch.toUpperCase()+ "<br>");
+        document.write("toLowerCase() : " + ch.toLowerCase()+ "<br>");
+        document.write("trim() : >" + ch2.trim()+ "< <br>");
+
+
+        document.write('</div>');
+    </script>
+    <p>
+        Il existe d’autres méthodes,telles que les méthodes <b>match</b>, <b>matchAll()</b> et <b>search()</b> qui vont trouver tout leur intérêt 
+        lorsqu’elles vont être utilisées avec des expressions régulières ou encore la méthode <b>split()</b> qui nécessite de connaitre 
+        les tableaux pour être utilisée correctement.
+    </p>
+
+    <p>
+        <a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/String" target="_blank">Plus d'infos sur MDN Web docs</a>
+    </p>
+   
+    </div>
+    </div>
+    <footer></footer>  
+    <script src="../javascript.js"></script>
+</body>
+</html>

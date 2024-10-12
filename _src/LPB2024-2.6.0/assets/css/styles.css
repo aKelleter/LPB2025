@@ -1,0 +1,229 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css");
+
+:root{
+    --body-backg-color: rgb(246, 254, 255);
+    --header-backg-color: rgb(217, 244, 253);
+    --menu-item-color: rgb(15, 125, 235);
+    --menu-backg-color: rgb(227, 233, 240);
+    --menu-item-color-hover: rgb(12, 72, 132);
+    --danger-color: rgb(217, 12, 12);
+    --backg-msg-danger-color: rgb(255, 208, 208);
+    --success-color: rgb(39, 156, 18);
+    --backg-msg-success-color: rgb(222, 254, 180);
+    --danger-color-hover: rgb(147, 13, 13);
+    --link-color: rgb(1, 125, 248);
+    --link-hover-color: rgb(160, 15, 15);
+    --published-color: rgb(74, 192, 41);
+    --code-color: rgb(160, 15, 15);
+    --code-backg-color: rgb(239, 238, 236);
+    --code-border-color: rgb(155, 154, 152);
+    --result-backg-color: rgb(26, 47, 4);
+    --color-black: rgb(0, 0, 0);
+    --color-limegreen: rgb(50, 205, 50);
+
+    --border-width: 1px;
+}
+
+body{ 
+    background-color: rgb(245, 245, 245);
+    font-family: "Montserrat", sans-serif;
+    font-size: 17px;
+    margin: 5px;
+}
+
+a.link{
+    color: rgb(7, 159, 147); 
+    background-color: rgb(209, 236, 235);   
+    font-size: 1.1em;
+    font-weight: bold;
+    text-decoration: none;
+    margin: 8px;
+}
+
+a.a-sommaire{
+    color: rgb(7, 106, 159);       
+    font-size: 1.1em;   
+    text-decoration: none;
+    margin: 8px;
+}
+
+a.a-sommaire:hover{
+    color: rgb(252, 21, 117);
+    text-decoration: underline;
+}
+
+a.link:hover{
+    background-color: rgb(7, 159, 147);  
+    color: rgb(209, 236, 235) !important;        
+}
+
+a.link-second:hover{
+    background-color: rgb(7, 96, 159);   
+    color: rgb(209, 225, 236) !important;   
+    border: 1px solid rgb(36, 112, 194);   
+}
+
+a.link-script{
+    color: rgb(7, 159, 147); 
+    font-size: 1.1em;
+    text-decoration: none;
+}
+
+a.link-script:hover{
+    color: rgb(252, 21, 117);
+}
+
+a.menu{
+    color: rgb(252, 21, 117);  
+    font-weight: bold;
+    font-size: 15;
+    text-decoration: none;
+    border: 1px solid rgb(252, 21, 117);
+    border-radius: 5px;
+    padding: 3px;
+    margin: 3px;
+}
+
+nav.menu , ul.menu, span.menu{
+    color: rgb(7, 159, 147);  
+    font-weight: bold;
+    font-size: 15;
+    text-decoration: none;
+    border: 1px solid rgb(7, 159, 147);
+    border-radius: 5px;
+    padding: 3px;
+    margin: 3px;
+}
+
+a.menu:hover{    
+    background-color: rgb(235, 215, 223);  ;    
+}
+
+.header-site{
+    max-width: 600px;
+    margin: auto;
+}
+
+.pathfiles{
+    background-color: rgb(245, 245, 245);
+    color: rgb(225, 29, 29);
+    padding: 4px;
+    border-radius: 6px;  
+}
+
+.title-h1{
+    color: rgb(35, 215, 206);
+    background-color: rgb(233, 250, 249);;
+    font-size: 36px;
+    font-weight: bold;
+    text-align: center;    
+    border: 1px solid rgb(35, 215, 206);
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.text-footer{
+    text-align: center;
+    font-size: 12px;
+    color: rgb(19, 118, 140);  
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.lpb-info{
+    text-align: center;
+    font-weight: bold;
+    color: rgb(12, 78, 113);
+    border: 1px solid rgb(20, 148, 239);
+    background-color: rgb(209, 226, 236);
+    border-radius: 10px;
+    padding: 5px;   
+    margin-top: 10px; 
+}
+
+.lpb-hr{
+    border: 1px solid rgb(10, 97, 93);
+    background-color: rgb(209, 236, 235);
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.lpb-pathfile{
+    color: rgb(209, 226, 236);
+    border: 1px 1px 0 1px solid rgb(10, 97, 93);
+    background-color: rgb(114, 143, 142);
+    border-radius: 10px 10px 0 0;
+    text-align: center;
+    padding: 5px;
+}
+
+.lpb-logo{
+    width: 32px;   
+    margin-bottom: 10px;
+    border: 1px solid rgb(20, 239, 228);
+    background-color: rgb(209, 236, 235);
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.lpb-brand{
+    width: 64px;   
+    margin-bottom: 10px;
+    border: 1px solid rgb(20, 239, 228);
+    background-color: rgb(209, 236, 235);
+    border-radius: 10px;
+    padding: 5px;
+    margin: 10px 0; 
+}
+
+.lpb-h1-script{
+    text-align: center;    
+    color: rgb(12, 113, 110);
+    border: 1px solid rgb(20, 239, 228);
+    background-color: rgb(209, 236, 235);
+    border-radius: 10px;
+    padding: 5px;
+    margin: 20px;
+}
+
+.lpb-marker{
+    color: rgb(244, 21, 132);  
+    font-weight: 500; 
+}
+
+.lpb-msg{
+    width: auto;
+    font-size: 1.4em;
+    text-align: center;  
+    color: rgb(246, 17, 17);
+    border: 1px solid rgb(165, 21, 21);
+    background-color: rgb(248, 234, 234);
+    border-radius: 8px;
+    padding: 5px;   
+    margin: 40px auto; 
+}
+
+.lpb-github{
+    width: 15px !important;
+    vertical-align: top !important;   
+    margin-left: 3px;
+}
+
+.lpb-courses{
+    margin: 0 20px 30px 20px;
+    color: rgb(244, 21, 132);     
+}
+
+.lpb-acronym, .lpb-inter{
+    color: rgb(247, 99, 173);     
+}
+
+/* Overload CSS Rules of Bootstrap */
+a.dropdown-item.active{
+    background-color: rgb(7, 159, 147);  
+    color: rgb(209, 236, 235) !important;        
+}
+a.nav-link:hover, a.dropdown-item:hover, a.navbar-brand:hover{
+    color: rgb(244, 21, 132);
+}
