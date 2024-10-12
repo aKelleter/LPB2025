@@ -61,8 +61,3 @@ echol('Ex4 : L\'opérateur de coalescence null ou fusion null');
     echol('$y contient ' .$resulty,__LINE__);
     echol('$z contient ' .$resultz, __LINE__ );
     hr();
-
-
-
-
-?>

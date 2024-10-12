@@ -21,8 +21,8 @@
                 <div class="row">
                     <div class="col-md-1"></div>
                     <div class="col-md-10">                       
-                        <h1 class="mt-5 text-center">Leçon 11 : <span class="color_dark_green">L'embranchement conditionnel Switch Case</span></h1>  
-                        <?= getHtmlSubMenu('10', '12'); ?>   
+                        <h1 class="mt-5 text-center">Leçon 12 : <span class="color_dark_green">Boucles : présentation et boucle while</span></h1>  
+                        <?= getHtmlSubMenu('11', '13'); ?>   
                         
                         <?= getHtmlBlocWhatCodeDoes(file_get_contents(FILENAME_WCD)); ?>
                         <?= getHtmlBlockSourceCode($source_code, FILENAME_SOURCE_CODE); ?>

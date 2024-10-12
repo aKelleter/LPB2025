@@ -1,0 +1,36 @@
+<p>
+    En de nombreuses occasions, vous aurez besoin de comparer la même variable (ou expression) 
+    avec un grand nombre de valeurs différentes, et d'exécuter différentes parties de code 
+    suivant la valeur à laquelle elle est égale. C'est exactement à cela que sert l'instruction 
+    <code>switch</code>. 
+</p>
+<p>
+    L’instruction switch va nous permettre d’exécuter un code en fonction de la valeur d’une variable. On va pouvoir 
+    gérer autant de situations ou de « cas » que l’on souhaite. <br>
+    En cela, l’instruction switch représente une alternative à l’utilisation d’un <code>if…elseif…else</code> mais qui est plus 
+    limitante puisque le switch ne va gérer que l’égalité comme type de comparaison. <br>
+    <b> Voir Ex1 du code source</b>
+</p>
+<p>
+    Il est important de comprendre que l'instruction <code>switch</code> exécute chacune des clauses dans l'ordre. L'instruction 
+    <code>switch</code> est exécutée ligne par ligne. Au début, aucun code n'est exécuté. Uniquement lorsqu'une instruction case 
+    est trouvée dont l'expression est évaluée à une valeur qui correspond à la valeur de l'expression switch, PHP exécute alors 
+    les instructions correspondantes. PHP continue d'exécuter les instructions jusqu'à la fin du bloc d'instructions du switch, 
+    ou bien dès qu'il trouve l'instruction break. Si vous ne pouvez pas utiliser l'instruction break à la fin de l'instruction case, 
+    PHP continuera à exécuter toutes les instructions qui suivent.<br> 
+    <b> Voir Ex2 et Ex3 du code source</b>
+</p>
+<p>
+    Enfin, à la fin de chaque <code>switch</code>, il convient d’indiquer une instruction <code>default</code>. Le <code>default</code>
+    est l’équivalent du <code>else</code> des conditions vues précédemment : il sert à gérer tous les autres cas et son code ne sera 
+    exécuté que si aucun case ne correspond à la valeur de la variable.
+</p>
+<p>
+    Pas la peine d’utiliser une instruction break dans le bloc <code>default</code> puisque <code>default</code> sera "toujours" placé en 
+    fin de <code>switch</code>. Si le PHP arrive jusqu’au <code>default</code>, alors il sortira ensuite naturellement du 
+    <code>switch</code> puisque celui-ci ne contient plus aucun code après <code>default</code>.
+</p>
+<p>
+    <u>Note</u> : Techniquement, <code>default</code> peut être placé à n'importe quelle position. Il ne sera utilisé que si aucun autre cas 
+    ne correspond. Cependant, par convention, il est préférable de le placer à la fin. 
+</p>

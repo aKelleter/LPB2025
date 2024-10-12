@@ -1,6 +1,4 @@
 <?php
     $ressources = [
-        ['url' => '', 'title' => ''],
-        ['url' => '', 'title' => ''],
-        ['url' => '', 'title' => '']
+        ['url' => 'https://www.php.net/manual/fr/control-structures.switch.php', 'title' => 'Php.net : Switch case'],
     ];
