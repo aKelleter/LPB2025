@@ -1,0 +1,112 @@
+<h3>I. Présentation</h3>
+<p>
+    Les boucles, tout comme les conditions, représentent l’une des fondations de la programmation, il est donc essentiel de comprendre 
+    comment elles fonctionnent et de savoir les utiliser :)
+</p>
+<p>
+   Les boucles vont nous permettre d’exécuter plusieurs fois un bloc de code.
+   Autrement dit exécuter un code « en boucle » tant qu’une condition donnée est vérifiée.
+   Utiliser une boucle nous permet d’écrire une seule fois le code qu’on doit exécuter plusieurs fois.
+   Nous allons utiliser une boucle pour par exemple récupérer la liste des produits achetés dans une commande, 
+   afficher la liste des utilisateurs de notre site, afficher le contenu d'une variable de type tableau (array), etc.
+</p>
+Nous disposons de quatre boucles différentes en PHP :
+<ul>
+    <li>La boucle while (« tant que »)</li>
+    <li>La boucle do… while (« faire… tant que »)</li>
+    <li>La boucle for (« pour »)</li>
+    <li>La boucle foreach (« pour chaque »)</li>    
+</ul>
+<p>
+    Le fonctionnement général des boucles sera toujours le même : <br>
+     - on pose une condition qui sera généralement liée à la valeur d’une variable<br> 
+     - on exécute le code de la boucle autant de fois que nécessaire, c-à-d. tant que la condition est vérifiée.
+</p>
+<p>
+    Pour éviter de rester bloqué à l’infini dans une boucle et donc sortir de la boucle, il faudra que la condition donnée devienne 
+    fausse à un moment donné.
+</p>
+<h3>II. La boucle while</h3>
+<p>
+    La boucle while (« tant que » en français) est la boucle en PHP la plus simple à appréhender.
+    La boucle while va nous permettre d’exécuter un certain bloc de code « tant qu’une » condition donnée est vérifiée.
+</p>
+<p>
+    Pour illustrer le fonctionnement de la boucle while, nous allons prendre un exemple simple : 
+    afficher les nombres de 1 à 10. 
+ 
+    La boucle while est une boucle qui va exécuter un bloc de code tant qu’une condition donnée est vraie.
+    La syntaxe de la boucle while est la suivante :
+</p>
+<pre>
+    while (condition) {
+        // code à exécuter
+    }
+</pre>
+<p>
+    La condition est une expression qui doit être évaluée à true ou false. 
+    Si la condition est évaluée à true, le code à l’intérieur des accollades sera exécuté.
+</p>
+<b>Voir Ex1 du code source</b>
+<p class="red">
+    IMPORTANT : Notez qu’il faut toujours bien penser à initialiser la variable utilisée dans la boucle en dehors de la boucle. 
+    En effet, si nous avions initialisé $compteur dans le corpsq de la boucle while, sa valeur aurait été réinitialisée à chaque 
+    nouveau passage de boucle et nous aurions eu une boucle infinie ! <br>
+    Pensez bien également une nouvelle fois qu’il faudra toujours s’arranger pour qu’à un moment ou un autre la condition de la 
+    boucle ne soit plus vérifiée (devienne fausse) pour sortir de la boucle.
+</p>
+
+<h3>III. Utilisation des opérateurs d'incrémentation et décrémentation</h3>
+<p>
+    Incrémenter une valeur signifie lui ajouter 1, tandis que décrémenter signifie enlever 1.
+    Les opérations d’incrémentation et de décrémentation vont principalement être utilisées avec les boucles en programmation.
+    Elles vont pouvoir être réalisées grâce aux opérateurs d’incrémentation <code>++</code> et de décrémentation <code>--</code>.
+</p>
+<p>
+    Il y a deux façons d’incrémenter ou de décrémenter une variable :<br> 
+    - soit incrémenter / décrémenter la valeur de la variable et ensuite retourner la valeur de la variable 
+    (pré-incrémentation ou pré-décrémentation), <br>
+    - soit retourner la valeur de la variable avant incrémentation ou décrémentation, ensuite on incrémente ou décrémente 
+    (post-incrémentation ou post-décrémentation).
+</p>
+<p>
+    Cette différence d’ordre de traitement des opérations va influer sur le résultat du code. Tenez-en donc bien compte à chaque fois 
+    que vous utilisez les opérateurs d’incrémentation ou de décrémentation. De manière générale, on utilise généralement 
+    la pré-incrémentation. 
+</p>
+<p>
+    Le tableau ci-dessous présente les différences entre les opérateurs d’incrémentation et de décrémentation et leur résultat:
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Exemple</th>
+            <th>Résultat</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>++$x</code></td>
+            <td>Pré-incrémentation : incrémente la valeur contenue dans la variable $x, puis retourne la valeur incrémentée</td>
+        </tr>
+        <tr>
+            <td><code>$x++</code></td>
+            <td>Post-incrémentation : retourne la valeur contenue dans $x avant incrémentation, puis incrémente la valeur de $x</td>
+        </tr>
+        <tr>
+            <td><code>--$x</code></td>
+            <td>Pré-décrémentation : décrémente la valeur contenue dans la variable $x, puis retourne la valeur décrémentée</td>
+        </tr>
+        <tr>
+            <td><code>$x--</code></td>
+            <td>Post-décrémentation : retourne la valeur contenue dans $x avant décrémentation, puis décrémente la valeur de $x</td>
+        </tr>
+    </tbody>
+</table>
+<p>
+    L'Ex2 de notre code source met en pratique les priorités de traitement du PHP selon que l’on place les signes 
+    <code>++</code> et <code>--</code> avant ou après le nom de notre variable.
+</p>
+<b>Voir Ex2 du code source</b>
+    
+
