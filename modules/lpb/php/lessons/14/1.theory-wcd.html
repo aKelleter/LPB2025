@@ -1,0 +1,53 @@
+<h3>I. La boucle for</h3>
+<p>
+    La boucle for (« pour » en français) en PHP est plus complète, voir légèrement plus complexe à appréhender à priori que 
+    les boucles précédentes. Cependant, cette boucle est très puissante et sera majoritairement utilisée, avec la boucle foreach, 
+    dans nos scripts PHP. Vous devez donc la maîtriser :)
+</p>
+<p>
+    Le fonctionnement d’une boucle for se déroule selon trois phases :
+    <ul>
+        <li>Une phase d’initialisation ;</li>
+        <li>Une phase de test ;</li>
+        <li>Une phase d’incrémentation (ou décrémentation).</li>    
+    </ul>
+    <ul>
+        <li>Dans la phase d’initialisation, on initialise la variable que nous allons utiliser dans la boucle. 
+            Elle est est exécutée, quoi qu'il arrive au début de la boucle.</li>
+        <li>Au début de chaque itération, la condition est évaluée. Si l'évaluation vaut true, la boucle continue et 
+            les commandes sont exécutées. Si l'évaluation vaut false, l'exécution de la boucle s'arrête </li>
+        <li>À la fin de chaque itération, la section "incrémentation" (ou décrémentation)est exécutée. </li>
+    </ul>    
+</p>
+<p>
+    La syntaxe de la boucle <code>for</code> est la suivante : <br>
+</p>
+<pre>
+    for (initialisation ; condition ; incrémentation) {
+        // Instructions
+    }
+</pre>
+<p>
+    <b>A SAVOIR </b>: <br>
+    Les différentes sections entre les points virgules, peuvent éventuellement être laissées vides ou peuvent contenir plusieurs 
+    expressions séparées par des virgules. On peut intialiser 1 ou plusieurs variables dans la section initialisation et 
+    incrémenter 1 ou plusieurs variables dans la section incrémentation. Dans la section "condition" toutes les expressions séparées 
+    par une virgule sont évaluées mais le résultat est obtenu depuis la dernière partie. 
+</p>
+<h3>II. Un petit mot sur la boucle foreach</h3>
+<p>
+    La boucle PHP <b>foreach</b> est un peu particulière puisqu’elle a été créée pour fonctionner avec des variables de type tableaux (array),
+    qui sont des variables spéciales que nous n’avons pas encore étudiées. Nous étudierons donc le fonctionnement de cette boucle en 
+    même temps que le type array (tableau).
+</p>
+<h3>III. Quel type de boucle utiliser?</h3>
+<p>
+    Arrivé à ce stade, vous vous demandez peut-être quel type de boucle utiliser dans vos scripts PHP. Voici quelques conseils : <br>
+
+    <ul>
+        <li>Si vous savez combien de fois vous devez répéter une action, utilisez une boucle <code>for</code> ;</li>
+        <li>Si vous avez une liste de valeurs à parcourir, utilisez une boucle <code>foreach</code> ;</li>
+        <li>Si vous ne savez pas combien de fois vous devez répéter une action, utilisez une boucle <code>while</code> ;</li>
+        <li>Si vous devez exécuter une action au moins une fois, utilisez une boucle <code>do...while</code>.</li>
+    </ul>
+</p>

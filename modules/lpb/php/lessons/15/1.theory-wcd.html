@@ -1,0 +1,41 @@
+<h3>Présentation</h3>
+<p>
+    Dans cette nouvelle leçon, nous allons aborder 4 nouvelles structures de contrôle qui vont se révéler très utiles et 
+    pratiques lorsqu’on voudra créer un site : <code>include</code>, <code>require</code>, <code>include_once</code> et 
+    <code>require_once</code>.
+</p>
+<p>
+    Ces structures permettent d’inclure un fichier dans un autre. Cela peut être très utile pour réutiliser du code, 
+    séparer le code en plusieurs fichiers, etc.
+    Les structures <code>include</code> et <code>require</code> vont nous permettre toutes deux d’inclure des fichiers de code (ou plus exactement 
+    le contenu de ces fichiers) à l’intérieur d’autres fichiers de code. La différence entre les deux est que si le fichier
+    inclus n’est pas trouvé, <code>include</code> va simplement afficher un warning et continuer l’exécution du script,
+    alors que <code>require</code> va afficher une erreur fatale et arrêter l’exécution du script.
+</p>
+<h3>Exemples d'utilisation</h3>
+<p>
+    Sur un site web ou une application, il y a de fortes chances que l’en-tête, le menu et le pied de page soient identiques pour toutes 
+    les pages. <br>
+    Plutôt que de réécrire tout le code relatif à ces différentes parties sur chacune de nos pages, pourquoi ne pas plutôt enregistrer 
+    le code dans des fichiers.
+</p>
+<p> 
+    On peut donc imaginer avoir un fichier <code>header.php</code> qui contient le code HTML de l'entête de la page,
+    un fichier <code>footer.php</code> qui contient le code HTML du pied de page, et un fichier <code>menu.php</code> qui contient
+    le code HTML du menu. <br>    
+    On peut alors inclure ces fichiers dans les pages du site en utilisant <code>include</code> ou <code>require</code>.
+</p>
+<p>
+    Voici un exemple simplifié d’utilisation de <code>include</code> :
+</p>
+<pre>   
+    &lt;?php
+        include 'header.php';
+        include 'menu.php';
+    ?&gt;
+    &lt;h1&gt;Page d'accueil&lt;/h1&gt;
+    &lt;p&gt;Bienvenue sur notre site !&lt;/p&gt;
+    &lt;?php
+        include 'footer.php';
+    ?&gt;
+</pre>
