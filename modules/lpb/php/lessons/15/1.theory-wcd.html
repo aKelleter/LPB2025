@@ -8,7 +8,10 @@
     Ces structures permettent d’inclure un fichier dans un autre. Cela peut être très utile pour réutiliser du code, 
     séparer le code en plusieurs fichiers, etc.
     Les structures <code>include</code> et <code>require</code> vont nous permettre toutes deux d’inclure des fichiers de code (ou plus exactement 
-    le contenu de ces fichiers) à l’intérieur d’autres fichiers de code. La différence entre les deux est que si le fichier
+    le contenu de ces fichiers) à l’intérieur d’autres fichiers de code. 
+</p>
+<p class="red">    
+    La différence entre les deux est que si le fichier
     inclus n’est pas trouvé, <code>include</code> va simplement afficher un warning et continuer l’exécution du script,
     alors que <code>require</code> va afficher une erreur fatale et arrêter l’exécution du script.
 </p>
@@ -39,3 +42,15 @@
         include 'footer.php';
     ?&gt;
 </pre>
+<h3>require_once et include_once</h3>
+
+<p>
+    Il faut savoir qu'avec les structures <code>include</code> et <code>require</code>, il est possible d’inclure plusieurs fois 
+    le même fichier. Cela peut poser des problèmes si le fichier contient des déclarations de fonctions, de constantes ou de classes
+    , par exemple.
+</p>
+<p>
+    A contrario, les structures <code>include_once</code> et <code>require_once</code> permettent d’inclure un fichier une seule fois.
+</p>
+
+

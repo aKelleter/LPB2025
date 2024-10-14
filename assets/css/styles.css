@@ -283,6 +283,18 @@ a.link{
     vertical-align: bottom !important;   
 }
 
+.inline {
+    display: inline !important;
+}
+
+.pad0 {
+    padding: 0 !important;
+}
+
+.marge0 {
+    margin: 0 !important;
+}
+
 
 /*
     IDs    
