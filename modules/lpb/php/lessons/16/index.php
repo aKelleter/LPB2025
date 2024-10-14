@@ -21,7 +21,7 @@
                 <div class="row">
                     <div class="col-md-1"></div>
                     <div class="col-md-10">                       
-                        <h1 class="mt-5 text-center">Leçon 16 : <span class="color_dark_green">Introdution aux fonctions</span></h1>  
+                        <h1 class="mt-5 text-center">Leçon 16 : <span class="color_dark_green">Introduction aux fonctions</span></h1>  
                         <?= getHtmlSubMenu('15', '17'); ?>   
                         
                         <?= getHtmlBlocWhatCodeDoes(file_get_contents(FILENAME_WCD)); ?>
