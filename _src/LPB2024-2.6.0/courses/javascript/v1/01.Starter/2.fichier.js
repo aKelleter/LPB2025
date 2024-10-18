@@ -1,1 +1,0 @@
-console.log("Je suis le fichier : 2.fichier.js");

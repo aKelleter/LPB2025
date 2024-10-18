@@ -1,2 +1,0 @@
-# ocr-php-poo
- 

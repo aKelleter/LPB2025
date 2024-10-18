@@ -1,6 +1,103 @@
-<h3>Définition des fonctions et découverte des fonctions internes au langage</h3>
+<h3>I. Définition des fonctions et découverte des fonctions internes au langage</h3>
 <p>
     Une fonction correspond à un bloc d'intructions qui ont été créées pour effectuer une tâche précise. <br>
     Pour reconnaître et identifier ce bloc d'intructions, nous lui donnons un nom. Et pour exécuter le code contenu dans une fonction, il faut 
     l'appeler par son nom. 
+</p>
+<p>
+    Dans ce cours nous avons déjà utilisé des fonctions, sans vraiment en être conscient, avec notamment la fonction <code>gettype()</code> dont le rôle est de renvoyer le type d’une variable.
+    La fonction gettype() est ce que l'on appel une fonction « interne », et plus exactement une fonction interne au PHP, sa définition fait partie du langage PHP.
+</p>
+<p>
+    Pour utiliser gettype(), il faut l'appeler en précisant son nom suivi d'une paire de parenthèse. Dans les parenthèses on placera le nom de la 
+    variable dont on souhaite connaitre le type. Cet appel se fait de la manière suivante : <code>gettype($variable)</code>. Il exécutera le code 
+    (les instructions) contenu dans la fonction gettype() et renverra le type de la variable passée en paramètre.
+</p>
+<p>
+    Les fonctions internes des langages de programmation (comme le PHP) sont extrêmement importantes et vont répondre à toute une série de besoins
+    que va rencontrer le développeur. Il en existe plus de 1000 et nous allons aborder une bonne partie d'entre elle dans la suite du cours.
+</p>
+<h3>II. Les fonctions définies par l'utilisateur</h3>
+<p>
+    En plus de ses fonctions internes, le PHP nous offre la possibilité de définir nos propres fonctions. Cela va s’avérer très utile 
+    dans les cas où nous avons besoin : 
+</p>
+<ol>
+    <li>De répéter les mêmes opérations à plusieurs endroits de notre code</li>
+    <li>De structurer notre code</li>
+    <li>De rendre notre code plus lisible et plus facile à maintenir</li>
+</ol>
+<p>
+    Pour utiliser nos propres fonctions, nous allons déjà devoir les définir. Pour ce faire, il faut déclarer et nommer le bloc d’instructions 
+    que nous souhaitons exécuter lors de l'appel de la fonction.
+</p>
+<p>
+    <b>I.</b> Pour déclarer une fonction, il faut commencer par le mot clef <code>function</code> qui indique au PHP que l’on va définir une fonction.    
+</p>
+<p>
+    <b>II.</b> Ensuite, il faut nommer la nouvelle fonction (sauf dans le cas des fonctions anonymes que nous étudierons plus tard). 
+    Le nom des fonctions doit suivre les mêmes conventions que le nommage des variables, à savoir qu’il doit commencer par une lettre 
+    ou un underscore et qu'il ne doit pas être un nom déjà utilisé par le langage PHP (comme le nom d’une fonction déjà existante par exemple).
+    Notez qu’à la différence des variables le nom des fonctions est insensible à la casse (non sensible aux minuscules et majuscules).
+</p>
+<p>
+    <b>III.</b> Après le nom de la fonction, il faut <b>obligatoirement</b> mentionner un couple de parenthèses <b>()</b> et ensuite placer 
+    les instructions que la fonction devra exécuter lors de son appel entre des accolades <b>{}</b>. Les accolades servent à délimiter le 
+    bloc d'instructions.
+</p>
+<p>La syntaxe est la suivante</p>
+<pre>
+    function nomDeLaFonction() {
+        // Instructions à exécuter
+    }
+</pre>
+<h3>III. Un premier exemple pratique</h3>
+<p>
+    Découvrons un exemple de fonction qui affiche un message à l'écran : <b>Ex1 du code source</b>
+</p>
+<p>
+    Dans ce premier exemple, nous créons une fonction qu’on appelle hello() dont le rôle est de renvoyer le message «Hello World !» suivi d'un 
+    retour à la ligne en HTML. Cette fonction est didactique, elle ne fait rien de très utile, mais elle nous permet de comprendre. <br>
+    Déclarer une fonction, c'est bien, mais pour que le code soit exécuté, il faut appeler la fonction.
+    Pour appeler la fonction <b>hello()</b>, il suffit de taper son nom suivi d'une paire de parenthèses : <code>hello();</code>
+    Notez qu’on va pouvoir appeler une fonction autant de fois que nécessaire dans nos scripts et c’est ce qui fait le plus grand intérêt 
+    des fonctions. <br>
+    
+    <b>Ex2 du code source</b>
+</p>
+<h3>IV. Les paramètres et arguments des fonctions</h3>
+<p>
+    Parfois, les fonctions vont avoir besoin d’informations externes, c’est-à-dire des informations qui ne sont pas déclarées dans le bloc de 
+    code de la fonction. <br>
+    Par exemple, notre fonction <b>gettype()</b> va avoir besoin qu’on lui fournisse ou plutôt qu’on lui « passe » une variable pour pouvoir 
+    déterminer son type.    
+</p>
+<ol>
+    <li>Les informations que l’on va passer à une fonction sont appelées des arguments</li>
+    <li>On passe toujours les arguments dans les parenthèses de la fonction</li>
+    <li>Certaines fonctions ne vont pas avoir besoin d’argument pour fonctionner</li>
+    <li>D’autres vont avoir besoin d’un argument, d’autres encore de deux, voir plus.</li>
+    <li>Certains arguments sont parfois facultatifs tandis que d’autres sont obligatoires</li>
+</ol>
+<h4>Les différences entre un paramètre et un argument</h4>
+<ol>
+    <li>Un paramètre indique qu’une fonction a besoin d’un argument pour fonctionner mais ne correspond pas à une valeur effective</li>
+    <li>On parle de paramètre dans la déclaration de fonction</li>
+    <li>Un argument correspond à la valeur effective passée à une fonction</li>
+    <li>On parle d’argument lors de l’appel de la fonction</li>
+</ol>
+<h4>Exemples de fonctions avec paramètres</h4>
+<p>
+    <b>Exo3 du code source </b> <br>
+    Dans cet exemple, nous avons créé une fonction <b>bonjour($nom)</b> qui prend un paramètre <b>$nom</b>.
+    Ce paramètre va permettre à la fonction de personnaliser le message de bienvenue. 
+    Pour appeler la fonction <b>bonjour('John')</b>, il faut lui passer un argument, c’est-à-dire une valeur pour le paramètre <b>$nom</b>, 
+    en l'occurence 'John'.
+</p>
+<p>
+    <b>Exo4 du code source </b> <br>
+    Dans cet exemple, nous avons créé une fonction <b>addition($a, $b)</b> qui prend deux paramètres <b>$a</b> et <b>$b</b>.
+    Ces paramètres vont permettre à la fonction de réaliser une addition.
+    Pour appeler la fonction <b>addition(5, 3)</b>, il faut lui passer deux arguments, c’est-à-dire des valeurs pour les paramètres 
+    <b>$a</b> et <b>$b</b>, en l'occurence 5 et 3.
 </p>

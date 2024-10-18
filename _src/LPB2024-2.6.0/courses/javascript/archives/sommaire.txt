@@ -1,7 +1,0 @@
-01.Bases
-02.Dom
-03.async
-04.js-es6
-05.forms
-06.paradigme
-07.OO-MDN
