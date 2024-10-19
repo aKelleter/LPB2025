@@ -1,4 +1,152 @@
-<h3></h3>
+<h3>I. Passer des arguments par référence</h3>
 <p>
-    
+    Dans cette leçon nous allons apprendre à définir une valeur par défaut pour nos arguments, à passer nos arguments par référence et à faire des déclarations de type.
+</p>
+<p>
+    Jusqu'à présent, nous avons vu comment passer des arguments à une fonction. 
+    Et jusqu'à présent également, nous avons passé les arguments par valeur, 
+    autrement dit, la fonction reçoit une copie de la valeur de l'argument.
+</p>
+<p>
+    Nous avons vu que les arguments sont passés par valeur, c'est-à-dire que la 
+    fonction reçoit une copie de la valeur de l'argument. 
+    Cela signifie que si la fonction modifie la valeur de l'argument, 
+    cela n'affectera pas la valeur de l'argument à l'extérieur de la fonction.
+    Mais avant de voir comment passer des arguments par référence, voyons le passage par valeur.
+</p>
+<h5><u>Rappel du passage par valeur</u></h5>
+<p>
+    Pour expliquer de façon détaillée le passage d'argument par valeur, nous allons prendre un exemple.
+    Avec une fonction qui prend un argument et qui incrémente sa valeur de 1.
+</p>
+<p>
+    <b>Voir Exo1 du code source</b> <br>
+    <u>Explication</u> :
+    <ul>
+        <li>La fonction <b>add1()</b> prend un argument <b>$a</b> et incrémente sa valeur de 1.</li>
+        <li>La fonction <b>add1()</b> est appelée avec l'argument <b>$x</b> qui vaut 5.</li>
+        <li>Après l'appel de la fonction <b>add1()</b>, la valeur de <b>$x</b> est toujours égale à 5.</li>  
+        <li>Il y a bien eu passage par valeur du paramètre <b>$x</b> vers l'argument $a de la fonction <b>add1()</b>.</li>
+        <li>Avec copie de la valeur de $x vers $a</li>
+    </ul>
+</p>
+<h5><u>Passage par référence</u></h5>
+<p>
+    Cependant, on souhaitera que nos fonctions puissent modifier la valeur des 
+    variables qu’on leur passe en argument. Pour cela, il va falloir passer ces 
+    arguments par référence.
+</p>
+<p>
+    Pour indiquer qu’on souhaite passer un argument par référence à une fonction, 
+    il suffit d’ajouter le signe <code>&</code> devant le paramètre en question dans la définition 
+    de la liste des paramètres de la fonction.
+</p>
+<p>
+    <b>Voir Exo2 du code source</b> <br> <br>
+    <u>Explication</u> : <br>
+    Comme vous pouvez le constater, en passant notre argument par référence, la fonction 
+    modifie la valeur de celui-ci et cette valeur sera conservée dans le reste 
+    du script. <br> <br>
+    En réalité le caractère <code>&</code> fait référence à l'adresse mémoire de la variable <code>$x</code>.
+    On dit que <code>$a</code> va "pointer" vers l'adresse mémoire que <code>$x</code>. <code>$a</code>
+    va contenir l'adresse mémoire de <code>$x</code> et donc si l'on modifie <code>$a</code>, 
+    on modifie <code>$x</code>.    
+</p>
+<h3>II. Définir des valeurs par défaut pour les paramètres de nos fonctions</h3>
+<p>
+    Le PHP va également nous permettre de définir une valeur par défaut pour le 
+    paramètre d’une fonction. Cette valeur sera utilisée si aucun argument n’est fourni 
+    lors de l’appel de la fonction. <br>
+</p>
+<p>
+    <b class="red">NOTE I</b> : La valeur par défaut doit obligatoirement être une constante 
+    et ne peut pas être une variable.
+</p>
+<p>
+    <b class="red">NOTE II</b> : Si l'on définit une fonction avec plusieurs paramètres
+     et que l’on choisit de donner des valeurs par défaut à seulement certains d’entre 
+     eux, alors il faudra placer les paramètres qui ont une valeur par défaut après 
+     ceux qui n’en possèdent pas dans la définition de la fonction.
+</p>
+<p>
+    <b>Voir Exo3 du code source</b> <br>
+    <u>Explication</u> : <br>
+    On déclare une fonction "vehicule" qui prend 1 paramètre <code>$type</code> et nous 
+    lui attribuons une valeur par défaut "voiture". <br>
+    On appelle la fonction sans argument, la valeur par défaut est utilisée (voiture). <br>
+    On appelle la fonction avec un argument (moto), la valeur par défaut est remplacée par la 
+    valeur passée en paramètre.    
+</p>
+<p>
+    <b>Voir Exo4 du code source</b> <br>
+    <u>Explication</u> : <br>
+     - On déclare une fonction "vehicule2" qui prend 2 paramètres <code>$marque</code> et <code>$type</code> 
+    et nous lui attribuons une valeur par défaut "voiture" pour le paramètre <code>$type</code>. <br>
+    - On appelle la fonction avec un seul argument, la valeur par défaut est utilisée (voiture) pour le paramètre $type. <br>
+    - On appelle la fonction avec les deux arguments, la valeur par défaut est remplacée par la 
+    valeur passée en paramètre. <br>
+    - On est toujours obligé de passer un argument pour le paramètre <code>$marque</code> car il n'a pas de valeur par défaut.        
+</p>
+<h3>III. Des fonctions avec un nombre de paramètres variables</h3>
+<p>
+    Il est possible de définir des fonctions qui acceptent un nombre variable de paramètres. 
+    Pour cela, on utilise la syntaxe <code>...</code> devant le dernier paramètre de la fonction.
+</p>
+<p>
+    <b>Voir Exo5 du code source</b> <br>
+    <u>Explication</u> : <br>
+    - On déclare une fonction personnage qui prend 2 paramètres <code>$nom</code> et <code>$caracteristiques</code> <br>
+    - le paramètre <code>$caracteristiques</code> est défini avec la syntaxe <code>...</code> devant le nom du paramètre qui indique
+    que l'on peut passer plusieurs paramètres (en réalité va générer un tableau - nous aborderons cette notion bientôt :) ) <br>
+    - le tableau généré par le paramètre <code>$caracteristiques</code> est parcouru avec une boucle <code>foreach</code> 
+    pour accéder aux valeurs du tableau. <br>
+
+</p>
+<h3>IV. Le language PHP et son typage faible</h3>
+<p>
+    Le PHP est un langage de programmation à typage faible. Cela signifie que le type 
+    des variables n’est pas nécessairement défini lors de leur déclaration. 
+    Le type des variables est déterminé par le contexte dans lequel elles sont utilisées.    
+    Nous avons déjà abordé les types de variables en PHP dans une leçon précédente.
+</p>
+<p>
+    Une conséquence de cela est qu’il va être possible de passer des arguments qui 
+    n’ont aucun sens à une fonction sans déclencher d’erreur.
+    On va par exemple pouvoir parfaitement passer deux chaines de caractères à notre 
+    fonction addition($nb1, $nb2) sans déclencher d’erreur.    
+</p>
+<p>
+    <b>Voir Exo6 du code source</b> <br>
+    <u>Explication</u> : <br>
+    Avec les dernière versions de PHP, l'interprêteur est devenu plus strict et
+    fait remonter plus d'erreurs que par le passé. <br>
+    Cependant, il est toujours possible de passer des arguments qui n'ont aucun sens
+    à une fonction sans déclencher d'erreur (un warning). <br>
+    La seconde fonction utilise le typage : on demande que les arguments fournis soient
+    de type float (nombres décimaux). Ici, si le PHP n’arrive pas à convertir les 
+    arguments passés vers le type attendu, une erreur sera retournée.    
+</p>
+<h3>V. Le typage strict</h3>
+<p>
+    Nous allons pouvoir aller entre plus loin et activer un typage strict pour nos 
+    fonctions. En utilisant le mode strict, les fonctions ne vont plus accepter que 
+    des arguments dont le type correspond exactement au type demandé dans leur 
+    définition.
+</p>
+<p>
+    Depuis PHP 7, il est possible de déclarer le typage des paramètres et des valeurs 
+    de retour des fonctions. Pour cela, il suffit d’ajouter le mot-clé <code>declare(strict_types=1);</code> 
+    au début de votre script PHP.
+</p>
+<p>
+    <b class="red">Important</b> : Le typage strict ne va s’appliquer que s’il est activé dans le fichier depuis 
+    lequel la fonction est appelée. Ainsi, si vous définissez une fonction dans un 
+    premier fichier qui possède le typage strict activé puis que vous appelez cette 
+    fonction dans un autre fichier qui ne possède pas le typage strict activé, 
+    le typage strict ne s’appliquera pas.
+</p>
+<p>
+    Notez également que le typage strict ne s’applique que pour les déclarations de 
+    type scalaire (les types atomiques, de base), c’est-à-dire pour les types <b>string</b>, 
+    <b>int</b>, <b>float</b> et <b>bool</b>.
 </p>
