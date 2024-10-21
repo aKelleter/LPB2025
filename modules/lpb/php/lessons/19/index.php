@@ -21,8 +21,8 @@
                 <div class="row">
                     <div class="col-md-1"></div>
                     <div class="col-md-10">                       
-                        <h1 class="mt-5 text-center">Leçon 18 : <span class="color_dark_green">Les valeurs de retour d’une fonction</span></h1>  
-                        <?= getHtmlSubMenu('17', '19'); ?>   
+                        <h1 class="mt-5 text-center">Leçon 19 : <span class="color_dark_green">La portée des variables</span></h1>  
+                        <?= getHtmlSubMenu('18', '20'); ?>   
                         
                         <?= getHtmlBlocWhatCodeDoes(file_get_contents(FILENAME_WCD)); ?>
                         <?= getHtmlBlockSourceCode($source_code, FILENAME_SOURCE_CODE); ?>
