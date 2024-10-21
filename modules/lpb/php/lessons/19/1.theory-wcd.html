@@ -1,4 +1,37 @@
-<h3></h3>
+<h3>I. La portée des variables en PHP</h3>
+<p>
+    Nous allons aborder dans cette leçon un concept important en programmation, la portée des variables. 
+    La portée d'une variable est l'endroit où elle est accessible. 
+    En PHP, il existe trois types de portée de variables : les variables locales, les variables globales et les variables statiques.   
+</p>
+<p>
+    En PHP, nous pouvons déclarer des variables n’importe où dans notre script : au début du script, à l’intérieur de boucles, au sein de 
+    nos fonctions, etc. Je n'ai pas dit que c'était une bonne idée, mais c'est possible.
+</p>
+<p>
+    La "règle" de base est que l’endroit où l'on déclare une variable va déterminer l’endroit où la variable va être accessible.
+    L'accessibilité d'une variable est appelée la <b>portée de la variable</b>. 
+    Toute <b>variable définie en dehors d’une fonction a une portée globale</b>. 
+    Par définition, une variable qui a une portée globale est accessible dans tout le script sauf dans les espaces locaux d’un script.
+</p>
+<p>
+    Les <b>variables déclarées à l'intérieur d'une fonction ont une portée locale</b>. 
+    Cela signifie que ces variables ne sont accessibles que dans la fonction où elles ont été déclarées. 
+    Une variable locale est détruite dès que la fonction dans laquelle elle a été déclarée se termine.
+</p>
+<p>
+    Explications de la portée des variables en PHP  avec l'<b>Exo1 du code source</b>
+</p>
+<p> 
+    Pour débuter, nous déclarons une variable <code>$var</code> en dehors de toute fonction. Notre <b>variable possède donc une portée globale</b>.
+    Dans notre première fonction <b>fnport1()</b>, on tente d’afficher le contenu de notre variable <code>$var</code> déclarée globalement. 
+    Cela ne va pas fonctionner, en effet, une variable globale n’est par défaut pas accessible dans un espace local.
+</p>
 <p>
     
+    Notre deuxième fonction portee2() définit sa propre variable $x et a pour but d’afficher son contenu. Ici, vous devez bien comprendre que les deux variables $x globale et $x locale sont différentes pour le PHP. On le voit bien lorsqu’on affiche ensuite le contenu de notre variable $x globale qui n’a pas été modifié par son homologue locale.
+    
+    Notre troisième fonction portee3() définit elle une variable $y = 0 et son but est d’incrémenter la valeur de notre variable puis de la renvoyer. Si on appelle plusieurs fois portee3(), on se rend compte que le résultat est toujours 1. Cela s’explique par le fait que la variable est détruite à la fin de l’exécution de chaque fonction et est donc réinitialisée sur sa valeur $y = 0 à chaque fois qu’on appelle la fonction.
+    
+    Finalement, notre quatrième fonction portee4() définit une variable $z. Lorsqu’on essaie d’afficher le contenu de $z depuis l’espace global, aucune valeur n’est renvoyée puisqu’une variable définie localement n’est accessible que dans l’espace dans laquelle elle a été définie par défaut.
 </p>

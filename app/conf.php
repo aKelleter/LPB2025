@@ -3,7 +3,7 @@
     // Définition des constantes de l'application
     const APP_NAME = 'LPB - LDB <sup>3</sup>';
     const APP_UPDATE = '21102024 - 1615';
-    const APP_VERSION = 'v0.18.0'.'-'.APP_UPDATE;
+    const APP_VERSION = 'v0.19.0'.'-'.APP_UPDATE;
     const APP_YEAR = '2024-2025';
     const APP_AUTHOR = 'A. Kelleter';
     
@@ -22,7 +22,7 @@
     const A_JS = 'js';
 
     // Titres
-    const TITLE_WHAT_CODE_DOES = 'I. La théorie : que fait le code ?';
+    const TITLE_WHAT_CODE_DOES = 'I. La théorie';
     const TITLE_SOURCE_CODE = 'II. Le code source';
     const TITLE_RENDERING = 'III. Le rendu dans le navigateur';
     const TITLE_EXPLANATIONS = 'IV. Résumé - Explications';
