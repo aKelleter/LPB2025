@@ -322,14 +322,14 @@ function hr(): void {
  * Affiche une chaîne de caractères avec un numéro de ligne
  * et un saut de ligne HTML
  * 
- * @param string $string  - String to display - mandatory
+ * @param mixed $item  - item to display - mandatory (string, array, object, ...)
  * @param int $line - Display line number - no mandatory
  * @return void 
  */
-function echol (string $string, int $line = 0): void {
+function echol (mixed $item, int $line = 0): void {
 
     if($line == 0)
-        echo '<u>' . $string . '</u><br>';
+        echo '<u>' . $item . '</u><br>';
     else
-        echo 'LINE '.$line . ' : <strong>' . $string . '</strong><br>';
+        echo 'LINE '.$line . ' : <strong>' . $item . '</strong><br>';
 }

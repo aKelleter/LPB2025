@@ -1,8 +1,8 @@
 <h3>I. La portée des variables en PHP</h3>
 <p>
     Nous allons aborder dans cette leçon un concept important en programmation, la portée des variables. 
-    La portée d'une variable est l'endroit où elle est accessible. 
-    En PHP, il existe trois types de portée de variables : les variables locales, les variables globales et les variables statiques.   
+    La portée d'une variable, c'est l'endroit où celle-ci est accessible. 
+    En PHP, il existe trois types de portée de variables : les <b>variables locales</b>, les <b>variables globales</b> et les <b>variables statiques</b>.   
 </p>
 <p>
     En PHP, nous pouvons déclarer des variables n’importe où dans notre script : au début du script, à l’intérieur de boucles, au sein de 
@@ -23,15 +23,59 @@
     Explications de la portée des variables en PHP  avec l'<b>Exo1 du code source</b>
 </p>
 <p> 
-    Pour débuter, nous déclarons une variable <code>$var</code> en dehors de toute fonction. Notre <b>variable possède donc une portée globale</b>.
+    Au début du script, nous déclarons une variable <code>$var</code> en dehors de toute fonction. Notre <b>variable possède donc une portée globale</b>.
     Dans notre première fonction <b>fnport1()</b>, on tente d’afficher le contenu de notre variable <code>$var</code> déclarée globalement. 
     Cela ne va pas fonctionner, en effet, une variable globale n’est par défaut pas accessible dans un espace local.
 </p>
+<p>    
+    Dans notre seconde fonction <b>fnport2()</b>, nous définissons une variable <b>$var</b>. C'est donc une <b>variable locale</b> à la fonction.
+    Ici on déclare et initialise <b>$var</b> pour ensuite l'afficher avec un "echo". Il est important de comprendre que les deux variables <b>$var</b>, 
+    c'est-à-dire , la variable globale déclarée et intialisée en début de script et la variable $var locale de la fonction <b>fnport2()</b> sont 
+    deux variables différentes (elles possèdent des adresses mémoires différentes). C'est ce que l'on constate lorsque l’on affiche ensuite 
+    le contenu de notre variable $var globale (=100) qui n’a pas été influencée par son homologue local (=5).
+</p>
+<p>    
+    Notre troisième fonction <b>fnport3()</b> définit quand à elle une variable $compteur = 0, qui est ensuite incrémentée et retournée.
+    Si on appelle plusieurs fois <b>fnport3()</b>, on se rend compte que le résultat est toujours <b>1</b>. Cela s’explique 
+    par le fait que la variable est détruite à la fin de l’exécution de chaque fonction et est donc réinitialisée sur sa valeur $compteur = 0 
+    à chaque fois qu’on appelle la fonction.
+</p>
+<p> 
+    Finalement, notre quatrième fonction <b>fnport4()</b> définit une variable $nb. Lorsqu’on essaie d’afficher le contenu de $nb depuis 
+    l’espace global, aucune valeur n’est retournée puisqu’une variable définie localement n’est accessible que dans l’espace dans laquelle 
+    elle a été définie par défaut.
+</p>
+<h3>II. Accéder à une variable de portée globale depuis un espace local</h3>
 <p>
-    
-    Notre deuxième fonction portee2() définit sa propre variable $x et a pour but d’afficher son contenu. Ici, vous devez bien comprendre que les deux variables $x globale et $x locale sont différentes pour le PHP. On le voit bien lorsqu’on affiche ensuite le contenu de notre variable $x globale qui n’a pas été modifié par son homologue locale.
-    
-    Notre troisième fonction portee3() définit elle une variable $y = 0 et son but est d’incrémenter la valeur de notre variable puis de la renvoyer. Si on appelle plusieurs fois portee3(), on se rend compte que le résultat est toujours 1. Cela s’explique par le fait que la variable est détruite à la fin de l’exécution de chaque fonction et est donc réinitialisée sur sa valeur $y = 0 à chaque fois qu’on appelle la fonction.
-    
-    Finalement, notre quatrième fonction portee4() définit une variable $z. Lorsqu’on essaie d’afficher le contenu de $z depuis l’espace global, aucune valeur n’est renvoyée puisqu’une variable définie localement n’est accessible que dans l’espace dans laquelle elle a été définie par défaut.
+    <b class="red">Ce n'est pas conseillé</b>, mail il arrive parfois que l'on souhaite accéder à des variables possédant une portée globale 
+    (c’est-à-dire définies en dehors d’une fonction) dans le code à l’intérieur d’une fonction. <br>
+    Pour cela, on va pouvoir utiliser le mot clef <code>global</code> avant la déclaration des variables qu’on souhaite utiliser dans notre fonction. 
+    Cela va nous permettre d’indiquer que les variables déclarées dans la fonction sont en fait des références aux variables globales. <br>
+    <b class="red">Attention</b> : si on modifie la valeur de ces variables dans notre fonction, la valeur des variables globales sera également 
+    modifiée. <br>
+    Exemple : <b>Exo2 du code source</b>.
+</p>
+<p>
+    Nous pourrions également utiliser la variable super globale <code>$GLOBALS</code> pour accéder localement à des variables de portée globale. 
+    Mais nous verrons cela dans la leçon sur les variables super globales.
+</p>
+<h3>III. Accéder à une variable définie localement depuis l’espace global</h3>
+<p>
+    <b class="red">C'était une blague, cela n'est pas réalisable :)</b> <br>
+    Si vous avez besoin d'accéder à une variable définie localement depuis l’espace global, vous devrez utiliser le mot clef <code>return</code> pour retourner 
+    la valeur de la variable locale. Une variable locale n’aura toujours qu’une portée locale, sa portée ne pourra pas être étendue dans l’espace global.<br> 
+    Exemple : <b>Exo3 du code source</b>.
+</p>
+<h3>IV. Le mot clef static</h3>
+<p>
+    Comme nous l'avons vu précédemment, une variable définie localement va être supprimée ou détruite dès la fin de l’exécution de la fonction dans laquelle elle 
+    a été définie. <br>
+    En PHP, il est possible de déclarer des <b>variables statiques</b>. Une variable statique est une variable qui conserve sa valeur entre les appels 
+    successifs d’une fonction. <br>
+    Pour déclarer une variable statique, on utilise le mot clef <code>static</code> avant la déclaration de la variable.
+</p>
+<p>
+    <b class="red">Note</b> : lorsque nous initialisons une variable en utilisant <code>static</code>, la variable ne sera initialisée que lors du premier appel de la fonction 
+    (dans le cas contraire, le mot clef static n’aurait pas grand intérêt). <br>
+    Exemple : <b>Exo4 du code source</b>.
 </p>

@@ -1,0 +1,50 @@
+<h3>I. Introduction</h3>
+<p>
+    Nous allons enfin aborder notre dernier type de variable, autrement dit les variables de type tableau ou array en anglais.
+    Les tableaux vont être utile pour stocker plusieurs valeurs en même temps et vont donc se révéler très utiles pour 
+    stocker les données tabulaires (matrices).
+</p>
+<h3>II. Présentation des tableaux en PHP</h3>
+<p>
+    En PHP, un tableau est une variable qui peut contenir plusieurs valeurs. Chaque valeur est associée à une clé, qui peut être un 
+    entier ou une chaîne de caractères. Les tableaux peuvent être de deux types : 
+    <ul>
+        <li>
+            Les tableaux indexés : chaque valeur est associée à un indice numérique.
+        </li>
+        <li>
+            Les tableaux associatifs : chaque valeur est associée à une clé.
+        </li>
+    </ul>    
+    En plus de cela les tableaux peuvent être multidimensionnels. Autrement dit, ils peuvent contenir d'autres tableaux.
+</p>
+<h3>III. Déclaration d'un tableau</h3>
+<p>
+    Pour créer un tableau, on va soit utiliser : 
+    <ul>
+        <li>la structure de langage <b class="red">array()</b></li>
+        <li>un  syntaxe plus courte <b class="red">[]</b></li>
+    </ul>
+</p>
+<p>
+    Lors de la déclaration on peut passer ou non un nombre variable d’arguments avec <b>array()</b> ou dans <b>[]</b>. <br>
+    <b>Les arguments</b> vont pouvoir être soit :
+    <ul>
+        <li>des <b>valeurs simples</b> (auquel cas les clefs seront des entiers générés automatiquement)</li>
+        <li>des <b>paires clef => valeur</b></li>
+    </ul>
+</p>
+<pre>    
+        $tableau = array(); // Tableau vide
+        $tableau = []; // Tableau vide
+        $tableau = array(1, 2, 3, 4, 5); // Tableau indexé
+        $tableau = [1, 2, 3, 4, 5]; // Tableau indexé
+        $tableau = array('cle1' => 1, 'cle2' => 2, 'cle3' => 3); // Tableau associatif
+        $tableau = ['cle1' => 1, 'cle2' => 2, 'cle3' => 3]; // Tableau associatif
+
+        $personnage = array('nom' => 'Link', 'type' => 'Epéiste', 'age' => 17); // Exemple avec un personnage
+</pre>
+<h3>IV. Déclaration d’un tableau indexé</h3>
+<p>
+
+</p>
