@@ -21,8 +21,8 @@
                 <div class="row">
                     <div class="col-md-1"></div>
                     <div class="col-md-10">                       
-                        <h1 class="mt-5 text-center">Leçon 20 : <span class="color_dark_green">Introduction aux tableaux et les tableaux indexés</span></h1>  
-                        <?= getHtmlSubMenu('19', '21'); ?>   
+                        <h1 class="mt-5 text-center">Leçon 21 : <span class="color_dark_green">Les tableaux associatifs</span></h1>  
+                        <?= getHtmlSubMenu('20', '22'); ?>   
                         
                         <?= getHtmlBlocWhatCodeDoes(file_get_contents(FILENAME_WCD)); ?>
                         <?= getHtmlBlockSourceCode($source_code, FILENAME_SOURCE_CODE); ?>

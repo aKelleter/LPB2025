@@ -256,7 +256,7 @@ function listCourses(): array {
 }
 
 /**
- * magicDisp($array, $info = null, $type = PR) : 
+ * DBGPrint($array, $info = null, $type = PR) : 
  * 
  * Display an array variable in a more readable way
  * 
@@ -266,7 +266,7 @@ function listCourses(): array {
  *
  * @return void 
  */
-function magicDisp(array $array, string $type = PR, string $info = null): void {
+function DBGPrint(array $array, string $type = PR, string $info = null): void {
 
     if($type == PR)
     {

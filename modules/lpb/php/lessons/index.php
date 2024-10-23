@@ -21,7 +21,7 @@
                         
                         <div class="mt-5">
                             <?php 
-                                //DEBUG// magicDisp(listCourses(), PR, 'Liste des cours');
+                                //DEBUG// DBGPrint(listCourses(), PR, 'Liste des cours');
                                 echo getHtmlCoursesList(listCourses(), PHP);                             
                             ?>
                         </div>
