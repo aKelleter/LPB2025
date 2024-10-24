@@ -1,4 +1,67 @@
-<h3></h3>
+<h3>I. Présentation des tableaux associatifs</h3>
 <p>
-    
+    Un tableau associatif, c'est un tableau utilise des clés au format chaîne de caractères associées à une valeur. Ex : <code>["age" => 25]</code>.
+</p>
+<p>
+    Les tableaux associatifs vont s’avérer intéressant lorsque l’on souhaite donner du sens aux clés.
+    Autrement dit, en créant une association forte entre les clés et les valeurs d’un tableau. <br>
+    Exemple : <br>
+    <pre>
+        $personne = [
+            "nom" => "Doe",
+            "prenom" => "John",
+            "age" => 30
+        ];
+    </pre>   
+</p>
+<h3>II. Comment créer un tableau associatif</h3>
+<p>
+    Les tableaux associatifs vont être différents des tableaux indexés, dans le sens où nous allons devoir définir chacune des clés, 
+    l'interprêteur PHP ne pouvant pas les nommer automatiquement.
+    Comme pour les tableaux indexés, on peut créer un tableau en une fois en utilisant la structure de langage <code>array()</code> ou avec
+    la syntaxe <code>[]</code> ou encore le construisant clé par clé et valeur par valeur. <br>
+    <b>Voir Exo1 du code source</b>
+</p>
+<h3>III. Comment accéder à une valeur d'un tableau associatif</h3>
+<p>
+    Pour accéder à une valeur d'un tableau associatif, on utilise la clé associée à cette valeur. <br>
+    Exemple : <br>
+    <pre>
+        $personne = [
+            "nom" => "Doe",
+            "prenom" => "John",
+            "age" => 30
+        ];
+        echo $personne["nom"]; // Affiche : Doe
+    </pre>
+    <b>Voir Exo2 du code source</b>
+</p>
+<h3>IV. Parcourir les valeurs d'un tableau associatif</h3>
+<p>
+    Pour parcourir les valeurs d'un tableau associatif, on peut utiliser une boucle <code>foreach</code> qui va parcourir chaque clé et valeur du tableau. <br>
+    Exemple : <br>
+    <pre>
+        $personne = [
+            "nom" => "Doe",
+            "prenom" => "John",
+            "age" => 30
+        ];
+        foreach($personne as $cle => $valeur) {
+            echo $cle . " : " . $valeur . "<br>";
+        }
+    </pre>
+    <b>Voir Exo3 du code source</b> 
+</p>
+<h3>V. Ajouter une valeur à un tableau associatif</h3>
+<p>
+    Pour ajouter une valeur à un tableau associatif, on utilise la syntaxe suivante : <br>
+    <pre>
+        $personne = [
+            "nom" => "Doe",
+            "prenom" => "John",
+            "age" => 30
+        ];
+        $personne["ville"] = "New York";
+    </pre>
+    <b>Voir Exo4 du code source</b>
 </p>
