@@ -1,0 +1,181 @@
+<pre>
+Exo1 : Créer un tableau multidimensionnel
+
+$tab :
+Array
+(
+    [A] => Array
+        (
+            [0] => a1
+            [1] => a2
+            [2] => a3
+        )
+
+    [B] => Array
+        (
+            [0] => b1
+            [1] => b2
+            [2] => b3
+        )
+
+    [C] => Array
+        (
+            [0] => c1
+            [1] => c2
+            [2] => c3
+        )
+
+)
+
+$tab2 :
+Array
+(
+    [0] => Array
+        (
+            [0] => A
+            [1] => B
+            [2] => C
+        )
+
+    [1] => Array
+        (
+            [0] => D
+            [1] => E
+            [2] => F
+        )
+
+    [2] => Array
+        (
+            [0] => G
+            [1] => H
+            [2] => I
+        )
+
+)
+
+$tab3 :
+Array
+(
+    [Link] => Array
+        (
+            [Age] => 17
+            [Type] => Epéiste
+            [Vie] => 3
+        )
+
+    [Zelda] => Array
+        (
+            [Age] => 17
+            [Type] => Magie
+            [Vie] => 4
+        )
+
+    [Ganon] => Array
+        (
+            [Age] => 25
+            [Type] => Tyran
+            [Vie] => 5
+        )
+
+)
+
+Exo2 : Afficher les valeurs du tableau avec 2 boucles foreach imbriquées
+Clé : A
+- Value : a1
+- Value : a2
+- Value : a3
+Clé : B
+- Value : b1
+- Value : b2
+- Value : b3
+Clé : C
+- Value : c1
+- Value : c2
+- Value : c3
+-------------------------------
+Clé : 0
+- Value : A
+- Value : B
+- Value : C
+Clé : 1
+- Value : D
+- Value : E
+- Value : F
+Clé : 2
+- Value : G
+- Value : H
+- Value : I
+-------------------------------
+Personnage : Link
+- Age : 17
+- Type : Epéiste
+- Vie : 3
+Personnage : Zelda
+- Age : 17
+- Type : Magie
+- Vie : 4
+Personnage : Ganon
+- Age : 25
+- Type : Tyran
+- Vie : 5
+Exo3 : Afficher les valeurs d'un tableau avec print_r et var_dump
+Avec print_r() :
+
+Array
+(
+    [A] => Array
+        (
+            [0] => a1
+            [1] => a2
+            [2] => a3
+        )
+
+    [B] => Array
+        (
+            [0] => b1
+            [1] => b2
+            [2] => b3
+        )
+
+    [C] => Array
+        (
+            [0] => c1
+            [1] => c2
+            [2] => c3
+        )
+
+)
+
+
+Avec var_dump :
+
+array(3) {
+  ["A"]=>
+  array(3) {
+    [0]=>
+    string(2) "a1"
+    [1]=>
+    string(2) "a2"
+    [2]=>
+    string(2) "a3"
+  }
+  ["B"]=>
+  array(3) {
+    [0]=>
+    string(2) "b1"
+    [1]=>
+    string(2) "b2"
+    [2]=>
+    string(2) "b3"
+  }
+  ["C"]=>
+  array(3) {
+    [0]=>
+    string(2) "c1"
+    [1]=>
+    string(2) "c2"
+    [2]=>
+    string(2) "c3"
+  }
+}
+</pre>

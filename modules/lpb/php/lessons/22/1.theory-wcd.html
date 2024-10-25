@@ -1,4 +1,122 @@
-<h3></h3>
+<h3>I. Présentation des tableaux multidimensionnels</h3>
 <p>
-    
+    Un tableau multidimensionnel est un tableau qui va lui-même contenir d’autres tableaux en valeurs. <br>
+    Exemple : <br>
 </p>
+<pre>
+    $tableau = [
+        [1, 2, 3],
+        [4, 5, 6],
+        [7, 8, 9]        
+    ];
+</pre>
+<p>
+    L'exemple ci-dessus est un tableau à deux dimensions. Tel qu'une feuille de calcul (ex. : excel), qui possède des lignes et des 
+    colonnes. <br>
+    Les « sous » tableaux peuvent être des tableaux indexés ou des tableaux associatifs ou un mélange des deux.
+</p>
+<pre>
+    $tableau = [
+        [1, 2, 3],
+        ['a' => 4, 'b' => 5, 'c' => 6],
+        [7, 8, 9]        
+    ];
+</pre>
+<p>
+    Nous ne sommes pas limités dans le nombre de dimensions d’un tableau : on peut tout à fait déclarer des tableaux 
+    à 2, 3, 4, 5, n dimensions. Cependant, il est généralement déconseillé de créer trop de dimensions pour une  
+    question de lisibilté et de compréhension pour l'esprit humain.
+</p>
+<p>
+    <b>NOTE</b> : le nombre de dimensions d’un tableau indique le nombre d’indices nécessaires pour accéder à une valeur du tableau.
+</p>
+<p>
+    Exemple : <br>
+    Pour accéder à la valeur 5 du tableau ci-dessus, on doit utiliser les indices 1 et 'b' : <br>   
+</p>
+<pre>
+    echo $tableau[1]['b']; // affiche 5
+</pre>    
+<h3>II. Créer un tableau multidimensionnel</h3>
+<p>
+    Pour créer un tableau multidimensionnel, on peut utiliser la syntaxe suivante : <br>
+</p>
+<pre>
+    $tableau = [
+        [valeur1, valeur2, valeur3],
+        [valeur4, valeur5, valeur6]      
+    ];
+
+    // ou
+
+    $tableau = array(
+        array("clé1"=>valeur1, "clé2"=>valeur2, "clé3"=>valeur3),
+        array("clé4"=>valeur4, "clé5"=>valeur5, "clé6"=>valeur6)
+    );
+</pre>
+<p>
+   <b>Voir Exo1 du code source</b>
+</p>
+<h3>III. Parcourir un tableau multidimensionnel</h3>
+<p>
+    Pour parcourir un tableau multidimensionnel, on peut utiliser 2 boucle <b>foreach</b> imbriquées. <br>
+    Exemple : <br>
+</p>
+<pre>
+    $tableau = [
+        [1, 2, 3],
+        [4, 5, 6],
+        [7, 8, 9]        
+    ];
+
+    foreach($tableau as $ligne) {
+        foreach($ligne as $valeur) {
+            echo $valeur . ' ';
+        }
+        echo '&lt;br&gt;'; // pour passer à la ligne suivante
+    }
+</pre>
+<p>
+    <b>Voir Exo2 du code source</b>
+</p>
+<h3>IV. Afficher <span class="red">rapidement</span> le contenu de tableaux multidimensionnel ou non</h3>
+<p>
+    Pour afficher rapidement le contenu d’un tableau, on peut utiliser la fonction <b>print_r()</b> ou <b>var_dump()</b>. <br>
+    Ces fonctions sont souvent utilisées pour le debugging. <br>
+    Exemple : <br>
+</p>
+<pre>
+    $tableau = [
+        [1, 2, 3],
+        [4, 5, 6],
+        [7, 8, 9]        
+    ];
+
+    print_r($tableau);
+    echo '&lt;br&gt;';
+    var_dump($tableau);
+</pre>
+<p>
+    <b>Voir Exo3 du code source</b> 
+</p>
+<p>
+    Personnellement, je crée souvent une fonction qui me pemet de choisir entre l'une ou l'autre comme ma fonction DBGPrint() : 
+</p>
+<pre>
+function DBGPrint(array $array, string $type = PR, string $info = null): void {
+
+    if($type == PR)
+    {
+        echo '&lt;pre&gt;';
+        echo (isset($info)?'&lt;h4&gt;' . $info . '&lt;/h4&gt;':'');
+        print_r($array);
+        echo '&lt;/pre&gt;';
+    }elseif($type == VD)
+    {
+        echo '&lt;pre&gt;';
+        echo (isset($info)?'&lt;h4&gt;' . $info . '&lt;/h4&gt;':'');
+        var_dump($array);
+        echo '&lt;/pre&gt;';
+    }    
+}
+</pre>
