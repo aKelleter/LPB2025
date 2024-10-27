@@ -1,4 +1,125 @@
-<h3></h3>
+<h3>I. Présentation des cookies</h3>
 <p>
-    
+    Les cookies sont un mécanisme d'enregistrement d'informations sur le client, et de lecture de ces informations. PHP supporte les cookies HTTP de manière transparente. 
+    C'est en réalité un petit fichier texte qui ne peut contenir qu’une quantité limitée de données.
+    Ce système permet d'identifier et de suivre les visiteurs. Vous pouvez envoyer un cookie avec la fonction <code>setcookie()</code> ou <code>setrawcookie()</code>. 
+</p>
+<p>
+    Les cookies vont être stockés sur les ordinateurs de vos visiteurs. Ainsi, à tout moment, un utilisateur peut lui même supprimer les cookies de son ordinateur.
+    Les cookies vont toujours avoir une durée de vie limitée. On peut définir la date d’expiration d’un cookie.
+</p>
+<p>
+    Initialement, le cookie est construit par le serveur et envoyé au client via l'entête HTTP. Ensuite, le navigateur le renvoie inchangé à chaque fois qu'il accède 
+    à une ressource du même domaine que le cookie.
+</p>
+<p>
+    Les cookies font partie des en-têtes HTTP, ce qui impose que <code>setcookie()</code> soit appelée avant tout affichage de texte. Ce sont les mêmes limitations 
+    que pour <code>header()</code>. Vous pouvez utiliser les <a href="https://www.php.net/manual/fr/ref.outcontrol.php" target="_blank">fonctions de bufferisation de sortie</a> pour retarder l'affichage de votre script tant que vous n'avez pas 
+    décidé d'envoyer un cookie ou des en-têtes.
+</p>
+<p>
+    Tous les cookies envoyés au serveur par le client seront automatiquement inclus dans un tableau auto-global $_COOKIE.
+    Si vous souhaitez affecter plusieurs valeurs à un seul cookie, ajoutez [] au nom du cookie. 
+</p>
+<p>
+    Inconvénients :
+    <ul>
+        <li>Le nombre et la taille des cookies acceptés par poste et par domaine est limité</li>
+        <li>Les cookies peuvent être désactivés sur les navigateurs</li>
+        <li>Les cookies peuvent être effacés par l'utilisateur</li>
+        <li>Les cookies peuvent être modifiés ou échangés voire "volés" et envoyés à un site tiers (javascript).</li>
+        <li>Vie privée: les cookies peuvent être utilisés pour "tracer votre navigation"</li>
+    </ul>
+</p>
+<p>
+    Les cookies ne sont pas dangereux en soi, et ce, malgré leur mauvaise réputation et/ou leur mauvaise utilisation. Cependant, on évitera toujours de stocker des informations 
+    sensibles dans les cookies comme des mots de passe par exemple car les cookies sont stockés sur l’ordinateur des visiteurs et nous n’avons donc aucune maitrise 
+    ni aucun moyen de les sécuriser après le stockage.
+</p>
+<h3>II. Créer un cookie</h3>
+<p>
+    Pour créer un cookie, vous devez utiliser la fonction <code>setcookie()</code> ou <code>setrawcookie()</code>. Cette fonction prend plusieurs paramètres :
+
+    <ul>
+        <li>Le nom du cookie : <code>name</code></li>
+        <li>La valeur du cookie : <code>value</code></li>
+        <li>La date d'expiration du cookie : <code>expires</code></li>
+        <li>Le chemin sur le serveur où le cookie sera disponible : <code>path</code></li>
+        <li>Le domaine où le cookie sera disponible : <code>domain</code></li>
+        <li>Si le cookie doit être transmis via une connexion sécurisée HTTPS : <code>secure</code></li>
+        <li>
+            Si le cookie doit être accessible via des scripts JavaScript, Pour que le cookie ne soit accessible que par le protocole http,
+            on indiquera la valeur <b class="red">true</b>. : <code>httponly</code>
+        </li>
+    </ul>
+</p>
+<p>
+    Voici un exemple de création d'un cookie :
+</p>
+<pre>
+        &lt;?php
+            // Création d'un cookie
+            setcookie("nom", "valeur", time() + 3600, "/");
+        ?&gt;    
+</pre>
+<pre>
+    setcookie('userId', '45685');
+    setcookie('userPref', 'dark_theme', time()+3600*24, '/', '', true, true);
+</pre>
+<p>
+    <b>Voir Exo1 du code source</b>
+</p>
+<p>
+    <h5><u>Quelques explications sur le code de l'Exo1</u></h5>
+    Comme précisé précédemment, il faut appeler la fonction setcookie() avant d’écrire un quelconque code HTML. Nous appelons donc setcookie() 
+    avant même de faire un <b>echo</b> en php ou d’écrire du code html. <br> <br>
+
+    Dans le second cookie, nous utilisons la fonction <code>time()</code> sans lui passer d’argument pour récupérer la valeur du 
+    <a href="https://www.unixtimestamp.com/" target="_blank">timestamp</a> actuel. 
+    Nous ajoutons ensuite 3600 secondes à ce timestamp pour obtenir une date d’expiration d’une heure, que l'on multiplie par 24
+    pour obtenir une validation d'un jour (24h). <br> <br>
+
+    Toujours pour le second cookie, on utilise la valeur par défaut pour le chemin du serveur sur lequel le serveur est accessible, c’est à dire la valeur '/' qui 
+    signifie que le cookie sera accessible sur l’ensemble d’un domaine ou d’un sous-domaine (c’est-à-dire dans tous ses répertoires). <br> <br>
+
+    On ne précise pas de domaine de validité ici car nous travaillons en local et cela ne présente pas un grand intérêt.
+    Si nous souhaitions rendre le cookie disponible pour tout un site, nous autions pu préciser un domaine tel que 'cdev.be'. <br> <br>
+
+    Pour terminer, nous précisons les valeurs 'true' pour les arguments « secure » (passage par une connexion sécurisée pour transmettre le cookie) et « httponly » 
+    (obligation d’utiliser le protocole HTTP pour accéder au cookie).
+</p>
+<h3>III. Récupérer la valeur d'un cookie</h3>
+<p>
+    Pour récupérer la valeur d'un cookie, vous devez utiliser la superglobale <code>$_COOKIE</code>. Cette superglobale est un tableau associatif qui contient 
+    tous les cookies envoyés par le client.
+</p>
+<pre>
+    if(isset($_COOKIE['user_id'])){
+        echo 'Votre ID de session est le ' .$_COOKIE['user_id'];
+    }
+</pre>
+<p>
+    <b>Voir Exo2 du code source</b>
+</p>
+<h3>IV. Modifier la valeur d’un cookie ou supprimer un cookie</h3>
+<p>
+    Pour modifier la valeur d'un cookie, il faut faire appel à <code>setcookie()</code> en conservant le même nom de cookie et en modifiant simplement sa valeur.
+    Pour supprimer un cookie, vous pouvez utiliser la fonction <code>setcookie()</code> en lui passant une date d'expiration passée. On peut également déclarer le cookie sans mettre de valeur. 
+</p>
+<pre>
+    // Modifier la valeur d'un cookie
+    setcookie('userId', '123789');
+
+    // Supprimer un cookie
+    setcookie('user_id', '', time() - 3600);
+    setcookie('user_id'); // omettre la valeur revient à supprimer le cookie
+    unset($_COOKIE['userId']); // Supprimer la clé dans le tableau $_COOKIE
+</pre>
+<p>
+    <b>Voir Exo3 du code source</b>
+</p>
+<p>
+    Comme on peut le constater, pour initier la suppression un cookie, il suffit de passer une date d’expiration passée à la fonction setcookie().
+    Le plus efficace est de faire un setcookie() sur le nom, en omettant la valeur.
+    En plus de cela pour un retrait immédiat il est conseillé d'utiliser la fonction <code>unset()</code> pour supprimer la clé dans le tableau $_COOKIE.    
 </p>

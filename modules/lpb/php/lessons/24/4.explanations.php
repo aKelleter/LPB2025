@@ -1,7 +1,8 @@
 <?php
     $explanations = [
-        "",
-        "",
-        "",
-        "",                                                              
+        "Les cookies sont des fichiers textes qui sont stockés sur l'ordinateur de l'utilisateur. Ils sont en général utilisés pour stocker des informations sur l'utilisateur et ses préférences.",
+        "Pour créer un cookie, on utilise la fonction setcookie(). Cette fonction prend plusieurs paramètres : le nom du cookie, sa valeur, sa durée de vie, le chemin sur le serveur où le cookie est disponible, le domaine où le cookie est disponible, si le cookie doit être envoyé uniquement via une connexion sécurisée (https), et si le cookie doit être accessible uniquement via des scripts PHP.",
+        "Pour récupérer la valeur d'un cookie, on utilise le tableau associatif \$_COOKIE. Ce tableau contient tous les cookies qui ont été envoyés par le serveur au client.",
+        "La modification d'un cookie se fait en appelant la fonction setcookie() avec les nouveaux paramètres du cookie. Pour supprimer un cookie, on peut appeler la fonction setcookie() avec une durée de vie négative, ou utiliser la fonction unset() pour supprimer le cookie du tableau \$_COOKIE.",                                                              
+        "La suppression d'un cookie est nécessaire car le cookie reste stocké sur l'ordinateur de l'utilisateur même après sa suppression côté serveur. Il est donc important de supprimer le cookie côté client pour éviter tout problème de sécurité.",
     ];
