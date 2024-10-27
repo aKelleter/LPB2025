@@ -1,4 +1,111 @@
-<h3></h3>
+<h3>I. Présentation</h3>
 <p>
-    
+    Les Superglobales sont les variables internes du langage PHP, elles sont toujours disponibles, quel que soit le contexte. 
+    Ces variables vont être accessibles n’importe où dans le script et quel que soit le contexte, qu’il soit local ou global. 
 </p>
+<p>
+    Il existe 9 superglobales. Ces variables sont toutes des tableaux. 
+    La plupart des scripts PHP vont utiliser les variables superglobales car ces dernières vont s’avérer très souvent très utiles . Il est donc indispensable 
+    de bien les connaitre et de savoir les manipuler.
+</p>
+<p>
+    Les variables superglobales PHP sont les suivantes :
+    <ul>
+        <li><b class="red">$GLOBALS</b></li>
+        <li><b class="red">$_SERVER</b></li>
+        <li><b class="red">$_REQUEST</b></li>
+        <li><b class="red">$_GET</b></li>
+        <li><b class="red">$_POST</b></li>
+        <li><b class="red">$_FILES</b></li>
+        <li><b class="red">$_ENV</b></li>
+        <li><b class="red">$_COOKIE</b></li>
+        <li><b class="red">$_SESSION</b></li>
+    </ul>
+</p>
+<p>
+    On écrira toujours les superglobales en majuscules. C'est une convention qui permet de les différencier des variables dites « classiques » que nous créons nous-mêmes.
+      Par ailleurs, vous pouvez remarquer que toutes les superglobales à l’exception de <b>$GLOBALS</b> commencent par un underscore <code>_</code>.
+</p>
+<h3>II. La superglobale $GLOBALS</h3>
+<p>
+    La superglobale <b>$GLOBALS</b> est un tableau associatif qui contient toutes les variables globales du script PHP. La variable superglobale $GLOBALS est un peu différente 
+    des autres superglobales puisque c’est la première superglobale qui a été créée en PHP. Cette superglobale va nous permettre d’accéder à des variables définies dans 
+    l’espace global depuis n’importe où dans le script et notamment depuis un espace local (dans une fonction). <br>
+    Ce tableau est un tableau associatif qui contient les noms des variables créées dans l’espace global en index et leurs valeurs en valeurs du tableau.  
+</p>
+<p>
+    <b>Voir Exo 1 du code source.</b>
+</p>
+<p>
+    La variable superglobale <code>$GLOBALS</code> est intéressante lorsqu’on souhaite parcourir rapidement l’ensemble des variables globales définies dans un script.
+    Comme cette variable est un tableau associatif, on peut utiliser une boucle <code>foreach</code> pour afficher toutes ses valeurs ou tout simplement la fonction 
+    <code>print_r()</code> pour afficher rapidement sa structure.
+</p>
+<h3>III. La superglobale $_SERVER</h3>
+<p>
+    La superglobale <b>$_SERVER</b> est un tableau associatif qui contient des informations sur le serveur et l’environnement d’exécution du script PHP. 
+    Cette superglobale va nous permettre de récupérer des informations sur le serveur, sur le client, sur le script en cours d’exécution, sur les fichiers, etc. 
+    Cette superglobale est très souvent utilisée pour récupérer des informations sur le serveur ou sur le client.
+</p>
+<p>
+    <b>Voir Exo 2 du code source.</b>
+</p>
+<h3>IV. La variable superglobale $_REQUEST</h3>    
+<p>
+    La superglobale <b>$_REQUEST</b> est un tableau associatif qui contient les données envoyées par le client au serveur. 
+    Cette superglobale va nous permettre de récupérer les données envoyées par le client au serveur via un formulaire HTML. 
+    Cette superglobale va contenir les données envoyées par le client au serveur via la méthode GET ou POST. 
+    Cette superglobale est très souvent utilisée pour récupérer les données envoyées par le client au serveur.
+</p>
+<p>
+    <b>Voir Exo 3 du code source.</b>
+</p>
+<h3>V. La variable superglobale $_ENV</h3>
+<p>
+    La superglobale <b>$_ENV</b> est un tableau associatif qui contient les variables d’environnement du serveur. 
+    Cette superglobale va nous permettre de récupérer les variables d’environnement du serveur. 
+    Les variables d’environnement sont des variables qui sont définies par le serveur et qui sont accessibles par le script PHP. 
+    Cette superglobale est très souvent utilisée pour récupérer les variables d’environnement du serveur.
+</p>
+<p>
+    <b>Voir Exo 4 du code source.</b>
+</p>
+<h3>VI. La variable superglobale $_FILES</h3>
+<p>
+    La superglobale <b>$_FILES</b> est un tableau associatif qui contient les fichiers envoyés par le client au serveur. 
+    Cette superglobale va nous permettre de récupérer les fichiers envoyés par le client au serveur via un formulaire HTML. 
+    Cette superglobale va contenir les fichiers envoyés par le client au serveur via la méthode POST. 
+    Cette superglobale est très souvent utilisée pour récupérer les fichiers envoyés par le client au serveur.
+</p>
+<h3>VII. Les variables superglobales $_GET et $_POST</h3> 
+<p>
+    Les superglobales <b>$_GET</b> et <b>$_POST</b> sont des tableaux associatifs qui contiennent les données envoyées par le client au serveur. 
+    Ces superglobales vont nous permettre de récupérer les données envoyées par le client au serveur via un formulaire HTML. 
+    Ces superglobales vont contenir les données envoyées par le client au serveur via la méthode GET ou POST. 
+    Ces superglobales sont très souvent utilisées pour récupérer les données envoyées par le client au serveur.
+</p>
+<p>
+    <b>Voir Exo 5 du code source.</b>
+</p>
+<h3>VIII. La variable superglobale $_COOKIE</h3>
+<p>
+    La superglobale <b>$_COOKIE</b> est un tableau associatif qui contient les cookies envoyés par le client au serveur. 
+    Cette superglobale va nous permettre de récupérer les cookies envoyés par le client au serveur. 
+    Les cookies sont des fichiers textes qui sont stockés sur le poste client et qui sont envoyés au serveur à chaque requête HTTP. 
+    Cette superglobale est très souvent utilisée pour récupérer les cookies envoyés par le client au serveur.
+</p>
+<p>
+    Nous étudierons cette superglobale plus en détail dans la suite de ce cours.
+</p>
+<h3>IX. La variable superglobale $_SESSION</h3>
+<p>
+    La superglobale <b>$_SESSION</b> est un tableau associatif qui contient les variables de session du client. 
+    Cette superglobale va nous permettre de stocker des variables de session du client. 
+    Les variables de session sont des variables qui sont stockées sur le serveur et qui sont accessibles par le client. 
+    Cette superglobale est très souvent utilisée pour stocker des variables de session du client.
+</p>
+<p>
+    Nous étudierons cette superglobale plus en détail dans la suite de ce cours.
+</p>
+
+

@@ -1,7 +1,9 @@
 <?php
     $explanations = [
-        "",
-        "",
-        "",
-        "",                                                              
+        "Les variables superglobales sont des tableaux associatifs qui contiennent des informations sur les variables, les chemins d'accès, les en-têtes et les cookies. Elles sont accessibles de n'importe où dans le script PHP. Les variables superglobales sont construites par PHP et sont prêtes à être utilisées.",
+        "La superglobale \$GLOBALS est un tableau associatif qui contient des références à toutes les variables globales du script PHP. Les variables globales sont accessibles de n'importe où dans le script PHP, mais elles ne sont pas accessibles à l'intérieur des fonctions sans utiliser le mot-clé global.",
+        "La superglobale \$_SERVER est un tableau associatif qui contient des informations sur les en-têtes, les chemins d'accès et les emplacements de script. Les éléments de ce tableau sont créés par le serveur web et sont accessibles de n'importe où dans le script PHP.",
+        "La superglobale \$_REQUEST est un tableau associatif qui contient les données de la requête HTTP. Il combine les tableaux \$_GET, \$_POST et \$_COOKIE en un seul tableau. Les données de la requête HTTP sont accessibles de n'importe où dans le script PHP.",
+        "La superglobale \$_ENV est un tableau associatif qui contient les variables d'environnement du serveur. Les variables d'environnement sont des variables globales qui sont accessibles de n'importe où dans le script PHP. Elles sont créées par le serveur web et sont prêtes à être utilisées.",
+        "Les superglobales \$_GET et \$_POST sont des tableaux associatifs qui contiennent les données de la requête HTTP. Le tableau \$_GET contient les données envoyées par la méthode GET, tandis que le tableau \$_POST contient les données envoyées par la méthode POST. Les données de la requête HTTP sont accessibles de n'importe où dans le script PHP."
     ];

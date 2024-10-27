@@ -329,7 +329,7 @@ function hr(): void {
 function echol (mixed $item, int $line = 0): void {
 
     if($line == 0)
-        echo '<u>' . $item . '</u><br>';
+        echo '<p><u>' . $item . '</u></p>';
     else
         echo 'LINE '.$line . ' : <strong>' . $item . '</strong><br>';
 }
