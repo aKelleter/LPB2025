@@ -1,0 +1,65 @@
+<h3>I. Introduction</h3>
+<p>
+    Nous n'allons pas d’apprendre à créer des formulaires en HTML ni de découvrir les différents éléments de formulaire puisque je pars 
+    du principe que vous connaissez déjà le HTML et savez donc créer un formulaire en HTML :) .
+</p>
+<p>
+    Pour la bonne compréhension de cette leçon, nous allons, cependant dans cette première leçon effectuer quelques rappels sur l’utilité 
+    des formulaires et la création de formulaires en HTML.
+</p>
+<h3>II. Présentation</h3>
+<p>
+    Les formulaires sont des éléments essentiels du web. Ils permettent aux utilisateurs de saisir des données qui seront ensuite envoyées 
+    au serveur pour traitement. Les formulaires sont utilisés pour collecter des informations de l’utilisateur, pour permettre à l’utilisateur 
+    de faire des choix, pour envoyer des données au serveur, etc.
+</p>
+<p>
+    La structure d’un formulaire de saisie se compose d’un élément FORM contenant essentiellement une suite de contrôles (éléments input, 
+    textarea, select, button, etc.) mais aussi des éléments de structuration de document afin d’aligner correctement les champs d’entrée. 
+</p>
+<pre>
+    &lt;form method="(1)" action="(2)"&gt;
+        du texte, des boutons, des zones de saisie ...
+        &lt;input type="submit" value="(3)" /&gt;
+    &lt;/form&gt;    
+</pre>
+<p>
+    (1) désigne la méthode qui sera utilisée pour envoyer les informations du formulaire ; c’est "GET" (par défaut ; les données du formulaire 
+    sont envoyées dans l’URL) ou "POST" (les données sont envoyées dans le corps du message, elles ne sont donc pas visibles dans l’URL). <br>
+
+    (2) désigne l’URL du programme (PHP dans notre cas) qui va traiter les données. <br>
+
+    (3) désigne le texte qui va apparaître dans le bouton d’envoi. <br>
+</p>
+<p>
+    Concrètement, les valeurs <b class="red">get</b> et <b class="red">post</b> vont déterminer la méthode de transit des données du 
+    formulaire. En choisissant <b>get</b>, on indique que les données doivent transiter via l’URL (sous forme de paramètres) tandis qu’en 
+    choisissant la valeur <b>post</b> on indique qu’on veut envoyer les données du formulaire via transaction post HTTP.
+</p>
+<p>
+    Si l’on choisit l améthode <b class="red">get</b>, nous sommes limités dans la quantité de données pouvant être envoyées et 
+    surtout les données vont être envoyées en clair. Evitez donc absolument d’utiliser cette méthode si vous demandez des mots de 
+    passe ou toute information sensible dans votre formulaire. 
+</p>
+<p>
+    En choisissant l’envoi de données via la méthode <b class="red">post</b>, nous ne sommes plus limités dans la quantité de 
+    données pouvant être envoyées, de plus les données ne sont visibles. C’est donc généralement la méthode utilisée
+    pour l’envoi de données que l’on souhaite stocker (création d’un compte client, etc.).
+</p>
+<h3>III. Exemple de formulaire</h3>
+<p>
+    Voici un exemple de formulaire simple en HTML :
+</p>
+<pre>
+    &lt;form method="post" action="traitement.php"&gt;
+        &lt;label for="nom"&gt;Nom :&lt;/label&gt;
+        &lt;input type="text" name="nom" id="nom" /&gt;&lt;br /&gt;
+        &lt;label for="prenom"&gt;Prénom :&lt;/label&gt;
+        &lt;input type="text" name="prenom" id="prenom" /&gt;&lt;br /&gt;
+        &lt;input type="submit" value="Envoyer" /&gt;
+    &lt;/form&gt;
+</pre>
+<p>
+    Accèder au fichier : <a href="form.php">form.php</a> <br>
+    Identique au code source.
+</p>
