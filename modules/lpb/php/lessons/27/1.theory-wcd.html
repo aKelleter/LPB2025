@@ -1,4 +1,187 @@
-<h3></h3>
+<h3>I. Présentation des erreurs en PHP</h3>
 <p>
+    Il arrive parfois que le code rencontre une situation anormale qui va l’empêcher de s’exécuter correctement.
+</p>
+<p>
+    Ces « situations anormales » peuvent provenir du code lui-même, autrement dit des erreurs faites par les développeurs.
+    Parfois, également, un code ne va pas pouvoir s’exécuter correctement à cause d’un problème externe tel que par exemple : 
+    la dépendance d’un service externe, une erreur de configuration, une extension PHP manquante, etc.
+</p>
+<p>
+    Dans ces cas-là, le PHP va signaler les problèmes rencontrés lors de l’exécution du code en renvoyant ce qu’on appelle une erreur. 
+    Lorqu'une erreur est génèrée, cette erreur est représentée sous la forme d’une constante. Selon le problème rencontré, 
+    le niveau ou « type » d’erreur renvoyé sera différent et selon le type d’erreur le script pourra continuer à s’exécuter normalement 
+    ou au contraire sera stoppé brutalement. <br>
+    Quelques exemples d’erreurs courantes en PHP : 
+</p>
+<pre>
+    //La variable $x n'a pas été définie
+    echo $x;
+        
+    //Le fichier fichierfantome.php n'existe pas
+    include 'fichierfantome.php';
     
+    echol("Ce message s'affiche car un simple 'Warning' est renvoyé");
+    
+    //Le fichier fichierfantome.php n'existe pas
+    require 'fichierfantome.php';
+    
+    echol("Ce message ne s'affichera pas car une 'Erreur fatale' est renvoyée");
+</pre>
+<p>
+    Les erreurs en PHP sont classées en plusieurs catégories, selon leur gravité. <br>
+    Les erreurs les plus graves sont appelées des erreurs fatales, elles empêchent le script de continuer à s’exécuter. <br>
+    Les erreurs moins graves sont appelées des avertissements (warnings) ou des notices, elles n’empêchent pas le script de 
+    continuer à s’exécuter. <br>
+</p>
+<p>
+    1. Dans l’exemple ci-dessus, on essaye d'afficher une variable $x non définis. Comme PHP n’arrive pas à trouver la variable, 
+    il renvoie une erreur de type <b class="red">E_NOTICE</b>. <br>
+    2. Ensuite, on essaie d'inclure un fichier qui n’existe pas avec <b>include</b>. PHP renvoie deux erreurs mais de type <b class="red">
+    E_WARNING</b> indiquant que la ressource n’a pas été trouvée et qu’elle n’a pas pu être ouverte. <br>
+    3. Pour terminer, on essaye à nouveau d’inclure un fichier qui n’existe pas mais en utilisant cette fois-ci <b class="red">require</b> 
+    qui est plus stricte que <b>include</b>. Cette fois-ci, le PHP va renvoyer une erreur de type <b class="red">E_WARNING</b> pour indiquer
+    que le fichier n’a pas été trouvé et une deuxième de type <b class="red">E_ERROR</b> (erreur fatale) qui va stopper l’exécution du script.
+</p>
+<h3>II. Les types d'erreurs</h3>
+<p>
+    Il existe plusieurs types d'erreurs en PHP, les plus courantes sont : <br> <br>
+    <b class="red">E_ERROR</b> | Valeur(<b class="red">1</b>) : Erreur fatale, le script est stoppé. <br>
+    <b class="red">E_WARNING</b> | Valeur(<b class="red">2</b>) : Avertissement, le script continue à s’exécuter. <br>
+    <b class="red">E_PARSE</b> | Valeur(<b class="red">4</b>) : Erreur de syntaxe, le script est stoppé. <br>
+    <b class="red">E_NOTICE</b> | Valeur(<b class="red">8</b>) : Avertissement, le script continue à s’exécuter. <br>       
+    <b class="red">E_CORE_ERROR</b> | Valeur(<b class="red">16</b>) : Erreur fatale, le script est stoppé. <br>
+    <b class="red">E_CORE_WARNING</b> | Valeur(<b class="red">32</b>) : Avertissement, le script continue à s’exécuter. <br>
+    <b class="red">E_COMPILE_ERROR</b> | Valeur(<b class="red">64</b>) : Erreur fatale, le script est stoppé. <br>
+    <b class="red">E_COMPILE_WARNING</b> | Valeur(<b class="red">128</b>) : Avertissement, le script continue à s’exécuter. <br>
+    <b class="red">E_USER_ERROR</b> | Valeur(<b class="red">256</b>) : Erreur fatale, le script est stoppé. <br>
+    <b class="red">E_USER_WARNING</b> | Valeur(<b class="red">512</b>) : Avertissement, le script continue à s’exécuter. <br>
+    <b class="red">E_USER_NOTICE</b> | Valeur(<b class="red">1024</b>) : Avertissement, le script continue à s’exécuter. <br>
+    <b class="red">E_STRICT</b> | Valeur(<b class="red">2048</b>) : Avertissement, le script continue à s’exécuter. <br>
+    <b class="red">E_RECOVERABLE_ERROR</b> | Valeur(<b class="red">4096</b>) : Erreur fatale, le script est stoppé. <br>
+    <b class="red">E_DEPRECATED</b> | Valeur(<b class="red">8192</b>) : Avertissement, le script continue à s’exécuter. <br>
+    <b class="red">E_USER_DEPRECATED</b> | Valeur(<b class="red">16384</b>) : Avertissement, le script continue à s’exécuter. <br>
+    <b class="red">E_ALL</b> | Valeur(<b class="red">32767</b>) : Toutes les erreurs et avertissements, sauf E_STRICT. <br>
+</p>
+<p>
+    Si aucun gestionnaire d’erreur n’est défini, PHP gèrera les erreurs qui se produisent en fonction de sa configuration. 
+    La directive <b class="red">error_reporting</b> du fichier php.ini (le fichier de configuration principal de PHP) va définir 
+    quelles erreurs vont être rapportées et quelles erreurs vont être ignorées.
+</p>
+<p>
+    On peut définir quelles erreurs doivent être rapportées et quelles erreurs doivent être ignorées en modifiant manuellement cette 
+    directive. Dans la plupart des cas (mais surtout <b class="red">en développement</b>), il sera préférable de tout rapporter par 
+    défaut en utilisant la valeur <b class="red">E_ALL</b>.
+</p>
+<p>
+    Et pour finir, l’affichage ou non des erreurs rapportées va être défini par une autre directive du fichier <b>php.ini</b>
+    qui est la directive <b class="red">display_errors</b>. Si vous ne voyez pas les erreurs comme moi, il vous faudra probablement modifier 
+    la valeur de cette directive.
+</p>
+<h3>III. Créer des gestionnaires d’erreurs personnalisés</h3>
+<p>
+    Très souvent, la prise en charge d’une erreur par défaut par le PHP ne va nous convenir. Dans ce cas-là, on va créer un gestionnaire 
+    personnalisé d’erreurs. <br>
+    Pour réaliser cela, on va pouvoir utiliser la fonction <b class="red">set_error_handler()</b> à laquelle on va passer une fonction 
+    de rappel qui sera notre gestionnaire d’erreurs. <br>
+    On va également pouvoir passer en second argument à notre fonction <b class="red">set_error_handler()</b> une constante d’erreur qui 
+    va définir le type d’erreurs pour lequel notre fonction gestionnaire d’erreurs doit être appelée. Si on ne précise rien, le gestionnaire 
+    sera appelé pour toutes les erreurs.
+</p>
+<p>
+    <b class="red">ATTENTION</b> : <br> 
+    Les types d’erreur suivantes: 
+    <ul>
+        <li>E_ERROR</li>
+        <li>E_PARSE</li>
+        <li>E_CORE_ERROR</li>
+        <li>E_CORE_WARNING</li>
+        <li>E_COMPILE_ERROR</li>
+        <li>E_COMPILE_WARNING</li>
+        <li>ainsi que la plupart des E_STRICT</li>
+    </ul>
+    Ne pourront pas être géré par la fonction set_error_handler().
+</p>
+<p>
+    Voici un exemple de gestionnaire d’erreurs personnalisé avec la fonction <b class="red">set_error_handler()</b> et
+    une fonction de rappel maison <b class="red">customError()</b> :
+</p>
+<pre>
+    // Gestion des erreurs personnalisée
+    function customError($errno, $errstr) {
+        echo "<b>Erreur:</b> [$errno] $errstr&lt;br&gt;";
+        echo "Fin du script";
+        die();
+    }
+
+    // Configuration de l'erreur
+    set_error_handler("customError");
+
+    // Test de l'erreur
+    $test = 2;
+    if ($test > 1) {
+        trigger_error("La valeur doit être égale ou inférieure à 1", E_USER_WARNING);
+    }
+</pre>
+<p>
+    <b>Voir Exo1 du fichier source <a href="error-1.php" target="_blank">error-1.php</a></b>
+</p>
+<p>
+    <b>Explications</b> : <br>
+    Ce code permet de gérer les erreurs en PHP. La fonction customError() est définie pour afficher un message d'erreur 
+    personnalisé lorsqu'une erreur est déclenchée. La fonction set_error_handler() est utilisée pour définir la fonction customError() 
+    comme gestionnaire d'erreurs par défaut. Ensuite, un test est effectué pour déclencher une erreur si la valeur de la variable $test 
+    est supérieure à 1. Si l'erreur est déclenchée, un message d'erreur personnalisé est affiché.
+</p>
+<p>
+    <b>Remarque</b> : <br>
+    Il est important de noter que la fonction customError() doit accepter deux arguments : $errno et $errstr. $errno contient le code 
+    d'erreur et $errstr contient le message d'erreur. Ces arguments sont automatiquement passés à la fonction par PHP lorsqu'une erreur 
+    est déclenchée.
+</p>
+<p>
+    <b>Améliorons notre fonction customError()</b>
+</p>
+<pre>
+    // Gestion des erreurs personnalisée
+    function customError($errno, $errstr) {
+        switch ($errno) {
+            case E_USER_ERROR:
+                echo "&lt;b&gt;Erreur fatale :&lt;/b&gt; [$errno] $errstr&lt;br&gt;";
+                echo "Arrêt du script";
+                die();
+                break;
+            case E_USER_WARNING:
+                echo "&lt;b&gt;Attention :&lt;/b&gt; [$errno] $errstr&lt;br&gt;";
+                break;
+            case E_USER_NOTICE:
+                echo "&lt;b&gt;Information :&lt;/b&gt; [$errno] $errstr&lt;br&gt;";
+                break;
+            default:
+                echo "&lt;b&gt;Erreur inconnue :&lt;/b&gt; [$errno] $errstr&lt;br&gt;";
+                break;
+        }
+    }
+
+    // Configuration de l'erreur
+    set_error_handler("customError");
+
+    // Test de l'erreur
+    $test = 2;
+    if ($test > 1) {
+        trigger_error("La valeur doit être inférieure ou égale à 1", E_USER_WARNING);
+    }
+</pre>
+<p>
+    <b>Voir Exo2 du fichier source <a href="error-2.php" target="_blank">error-2.php</a></b>
+</p>
+<p>
+    Ce code permet de personnaliser le message d'erreur en fonction du type d'erreur rencontré. La fonction customError() est définie 
+    pour afficher un message d'erreur personnalisé en fonction du type d'erreur (erreur fatale, avertissement, information, etc.). 
+    Ensuite, la fonction set_error_handler() est utilisée pour définir la fonction customError() comme gestionnaire d'erreurs par défaut. 
+    Un test est effectué pour déclencher une erreur de type E_USER_WARNING si la valeur de la variable $test est supérieure à 1. 
+    En fonction du type d'erreur rencontré, un message d'erreur personnalisé est affiché.
+</p>
+<p>
+    Nous allons aborder dans la <a href="../28/index.php">leçon suivante</a> une autre façon de gérer les erreurs en PHP avec les blocs <b>try</b>, <b>throw</b> et <b>catch</b>.
 </p>

@@ -21,8 +21,8 @@
                 <div class="row">
                     <div class="col-md-1"></div>
                     <div class="col-md-10">                       
-                        <h1 class="mt-5 text-center">Leçon 27 : <span class="color_dark_green">La gestion des erreurs en PHP</span></h1>  
-                        <?= getHtmlSubMenu('26', '28'); ?>   
+                        <h1 class="mt-5 text-center">Leçon 28 : <span class="color_dark_green">Gestion des erreurs avec: try, throw, catch</span></h1>  
+                        <?= getHtmlSubMenu('27', '29'); ?>   
                         
                         <?= getHtmlBlocWhatCodeDoes(file_get_contents(FILENAME_WCD)); ?>
                         <?= getHtmlBlockSourceCode($source_code, FILENAME_SOURCE_CODE); ?>

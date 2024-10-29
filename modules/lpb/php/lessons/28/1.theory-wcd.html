@@ -1,0 +1,33 @@
+<h3>I. Autre possibilité de gérer les erreurs en PHP</h3>
+<p>
+    Cette leçon va présenter une nouvelle façon de gérer les erreurs qui va s’avérer souvent meilleure que de simplement créer et passer 
+    un gestionnaire d’erreur à la fonction <b>set_error_handler()</b>.
+</p>
+<p>
+    Nous allons aborder la gestion des erreurs en manipulant des objets qu’on appelle des exceptions et qui vont être crées et 
+    « lancés » dès qu’une erreur définie va survenir.
+</p>
+<h3>II. PHP5 et les exceptions</h3>
+<p>
+    La version 5 de PHP a introduit une nouvelle façon de gérer la plupart des erreurs en utilisant de qu’on appelle des exceptions. 
+    Cette nouvelle façon de procéder se base sur le PHP orienté objet et sur la classe <b>Exception</b>.
+</p>
+<p>
+    L’idée ici va être de créer ou de « lancer » (throw) un nouvel objet Exception lorsqu’une erreur spécifique est détectée. Dès qu’une exception 
+    est lancée, le script va suspendre son exécution et le PHP va chercher un endroit dans le script où l’exception va être « attrapée » (catch).
+</p>
+<h3>III. Lancer et attraper une exception</h3>
+La gestion d’une erreur via une exception va se faire en trois temps : <br> <br>
+
+<ol>
+    <li>On va définir quand une exception doit être lancée avec une instruction <b>throw</b></li>
+    <li>On va créer un bloc <b>catch</b> dont le but va être d’attraper l’exception si celle-ci a été lancée et de définir la façon dont doit être gérée l’erreur</li>
+    <li>On va utiliser un bloc <b>try</b> dans lequel le code qui peut potentiellement retourner une erreur va être exécuté</li>
+</ol>
+<p>
+    Exemple de gestion avec les blocs <b>try</b> et <b>catch</b> : <a href="division.php">division.php</a>
+</p>
+<p>
+    Il serait un peu long et fastidieux de détailler ici le code du fichier division.php. Cependant, c'est ce que nous allons 
+    faire maintenant ensemble :)
+</p>
