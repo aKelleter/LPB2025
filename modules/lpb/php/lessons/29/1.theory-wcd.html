@@ -1,4 +1,52 @@
-<h3></h3>
+<h3>I. Le Timestamp Unix</h3>
 <p>
-    
+    <b>INFO</b> : Avant de travailler avec les dates veuillez vous assurer que le fuseau horaire est correctement configuré dans le fichier php.ini
+    de votre installation PHP. Pour cela, il suffit de décommenter la ligne suivante (supprimer le ";") et de la modifier en fonction de votre fuseau horaire.
+    Exemple : "Europe/Brussels" pour la Belgique.    
+</p>
+<pre>
+    date.timezone = "Europe/Brussels" (ligne 987 du php.ini (évolutif))
+</pre>
+<p>
+    Le timestamp Unix est un entier représentant le nombre de secondes écoulées depuis le 1er janvier 1970 à minuit UTC. 
+    Il est souvent utilisé pour stocker des dates et des heures dans les bases de données et les fichiers.    
+    Le Timestamp Unix est également appelé "Epoch Time" ou "POSIX Time". 
+    A l'heure où j'écris ces lignes, le <a href="https://www.unixtimestamp.com/" target="_blank">timestamp</a> Unix est 
+    de <b>1730273244</b> secondes.
+</p>
+<p>
+    Ce format de date est difficile à manier pour un humain mais comme le Timestamp UNIX est un nombre on va très facilement 
+    pouvoir le manipuler en PHP et l’utiliser pour par exemple comparer deux dates.
+</p>
+<p>
+    Pour obtenir le timestamp actuel, on utilise la fonction <code>time()</code> qui retourne le timestamp actuel.
+</p>
+<pre>    
+    $timestamp = time();
+    echo $timestamp;    
+</pre>
+<p>
+    Il peut être intéressant d'obtenir le Timestamp d'une date précise. Pour cela, on peut utiliser la fonction <code>strtotime()</code>
+    qui retourne le timestamp d'une date donnée. Mais on peut également obtenir le timestamp d'une date précise en utilisant la fonction
+    <code>mktime()</code> qui retourne le timestamp d'une date donnée ou la fonction <code>gmmktime()</code> qui retourne le timestamp
+    d'une date donnée en UTC.
+</p>
+<pre>    
+    $timestamp = strtotime("2023-12-31 23:59:59");
+    echo $timestamp;    
+</pre>
+<p>
+    Les arguments de la fonction <code>mktime()</code> sont les suivants : <code>mktime($hour, $minute, $second, $month, $day, $year)</code>.
+    Les arguments de la fonction <code>gmmktime()</code> sont les mêmes que ceux de la fonction <code>mktime()</code> mais dans un ordre 
+    différent (inversion du jour et du mois). Les arguments sont facultatifs et si certains sont omis ce sera la valeur courante ou actuelle 
+    de la date qui sera utilisée et donc le Timestamp actuel qui sera renvoyé, mais depuis la version 8.0 de PHP l'heure est obligatoire
+    pour mktime() et gmmktime().
+</p>
+<p>
+    <b>Voir Exo1 et Exo2 du code source</b> pour des exemples d'utilisation de ces fonctions.
+</p>
+<p>
+    Quelques explications : <br>
+    ci, la fonction mktime() calcule le Timestamp d’une date donnée en fonction du fuseau horaire du serveur. Pour mon serveur local 
+    (voir note de début de cours), en Belgique (Europe/Brussels) et en hiver, je suis à GMT+1. Quand il est 8h30 chez moi, il est donc 7h30 sur un fuseau GMT. La fonction va donc transformer mon heure en heure GMT et se baser sur 7h30 pour calculer le Timestamp.
 </p>
