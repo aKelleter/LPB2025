@@ -19,7 +19,7 @@
                     <div class="col-md-10">                       
                         <h1 class="mt-5 text-center">Les autres aspects du cours</h1>
                         <p class="text-center small">
-                            <b class="red">Techologies, outils et autres</b>
+                            <b class="red">Technologies, outils et autres</b>
                         </p>
                         <p class="text-center">
                             En tant que développeur Web nous sommes régulièrement confronté à devoir connaître et manipuler des technologies et des outils
