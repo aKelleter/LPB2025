@@ -47,6 +47,8 @@ function getHtmlCoursesList(array $courses, string $courseType): string {
                 $string .= '<li><a href="'.$course['id'].'/index.php" class="link-script">'.$course['title'].'</a></li>';
             elseif($courseType == JS)
                 $string .= '<li><a href="'.$course['id'].'/index.html" class="link-script">'.$course['title'].'</a></li>';
+            elseif($courseType == OTHERS)
+                $string .= '<li><a href="'.$course['id'].'/index.php" class="link-script">'.$course['title'].'</a></li>';
         } 
         $string .= '</ol>';   
     }else {
@@ -193,7 +195,7 @@ function getHtmlBlockRessources(array $ressources): string {
  * @param string $nextUrl 
  * @return string 
  */
-function getHtmlSubMenu(string $prevUrl, string $nextUrl): string {
+function getHtmlSubMenu(string $prevUrl, string $nextUrl, string $mod = PHP): string {
     $string = '';
     $string .= '    <!-- Sub menu -->
                     <div class="row mt-1">
@@ -201,12 +203,12 @@ function getHtmlSubMenu(string $prevUrl, string $nextUrl): string {
                         <div class="col-md-10">                              
                             <div class="submenu">';
                                 if($prevUrl != '00')
-                                    $string .= '<a href="'.$_SESSION['R'].MOD.DS.LPB.DS.PHP.DS.LESS.DS.$prevUrl.DS.'index.php'.'" class="icon-sub"><svg class="bi" width="24" height="24"><use xlink:href="#arrowLeftSquare"></use></svg></a>';
+                                    $string .= '<a href="'.$_SESSION['R'].MOD.DS.LPB.DS.$mod.DS.LESS.DS.$prevUrl.DS.'index.php'.'" class="icon-sub"><svg class="bi" width="24" height="24"><use xlink:href="#arrowLeftSquare"></use></svg></a>';
 
-                                $string .='<a href="'.$_SESSION['R'].MOD.DS.LPB.DS.PHP.DS.LESS.DS.'index.php'.'" class="icon-sub"><svg class="bi" width="24" height="24"><use xlink:href="#rocket"></use></svg></a>';
+                                $string .='<a href="'.$_SESSION['R'].MOD.DS.LPB.DS.$mod.DS.LESS.DS.'index.php'.'" class="icon-sub"><svg class="bi" width="24" height="24"><use xlink:href="#rocket"></use></svg></a>';
 
                                 if($nextUrl != '00')
-                                    $string .= '<a href="'.$_SESSION['R'].MOD.DS.LPB.DS.PHP.DS.LESS.DS.$nextUrl.DS.'index.php'.'" class="icon-sub"><svg class="bi" width="24" height="24"><use xlink:href="#arrowRightSquare"></use></svg></a>
+                                    $string .= '<a href="'.$_SESSION['R'].MOD.DS.LPB.DS.$mod.DS.LESS.DS.$nextUrl.DS.'index.php'.'" class="icon-sub"><svg class="bi" width="24" height="24"><use xlink:href="#arrowRightSquare"></use></svg></a>
                             </div>
                         </div>
                     </div>';

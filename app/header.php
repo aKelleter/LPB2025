@@ -42,7 +42,17 @@
                             <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#table"></use></svg>
                             Ldb
                         </a>
-                    </li>                   
+                    </li> 
+                    <li class="nav-item dropdown">
+                        <a class="nav-link <?= ($_SESSION['PAGE'] == 'others')? 'menu-selected': 'menu-normal'; ?> dropdown-toggle" href="<?= $_SESSION['R'].MOD.DS.LPB.DS.OTHERS.DS.'index.php' ?>" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#motherboard"></use></svg>
+                            Devs
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="<?= $_SESSION['R'].MOD.DS.LPB.DS.OTHERS.DS.'index.php' ?>">Accueil</a></li>
+                            <li><a class="dropdown-item" href="<?= $_SESSION['R'].MOD.DS.LPB.DS.OTHERS.DS.LESS.DS.'index.php' ?>">Les leçons</a></li>                                                                                    
+                        </ul>
+                    </li>                           
                 </ul>
             </div>
         </div>

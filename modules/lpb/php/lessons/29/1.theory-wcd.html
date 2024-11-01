@@ -46,7 +46,12 @@
     <b>Voir Exo1 et Exo2 du code source</b> pour des exemples d'utilisation de ces fonctions.
 </p>
 <p>
-    Quelques explications : <br>
-    ci, la fonction mktime() calcule le Timestamp d’une date donnée en fonction du fuseau horaire du serveur. Pour mon serveur local 
-    (voir note de début de cours), en Belgique (Europe/Brussels) et en hiver, je suis à GMT+1. Quand il est 8h30 chez moi, il est donc 7h30 sur un fuseau GMT. La fonction va donc transformer mon heure en heure GMT et se baser sur 7h30 pour calculer le Timestamp.
+    <u>Quelques explications</u> : <br>
+    Ici, la fonction <code>mktime()</code> calcule le Timestamp d’une date donnée en fonction du fuseau horaire du serveur. Pour mon serveur local 
+    (voir note de début de cours), en Belgique (Europe/Brussels) et en hiver, je suis à GMT+1. Quand il est 8h30 chez moi, il est donc 7h30 sur un fuseau GMT. 
+    La fonction va donc transformer mon heure en heure GMT et se baser sur 7h30 pour calculer le Timestamp. <br> <br>
+
+    La fonction <code>gmmktime()</code>, en revanche, considère que l’heure passée est une heure GMT. Cette fonction va donc calculer le Timestamp de l’heure exacte 
+    donnée. C’est la raison pour laquelle nopus obtenons un écart de 3600 secondes entre les deux Timestamps renvoyées par mktime() et gmmktime() : 
+    car ces deux Timestamps ne représentent pas la même date.
 </p>

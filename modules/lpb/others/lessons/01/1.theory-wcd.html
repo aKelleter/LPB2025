@@ -1,0 +1,72 @@
+<h3>Voici un guide étape par étape :</h3>
+
+<h4>1. Introduction à XAMPP</h4>
+
+    <p> XAMPP est un ensemble de logiciels qui facilite la création d'un serveur local. Il permet de simuler un serveur web sur un ordinateur pour tester des 
+        sites web sans les mettre en ligne. Il n'est pas le seul logiciel de ce type, mais il est (pour moi) l'un des plus populaires et des plus simples à utiliser.
+        Vous avez peut-être entendu parler de WAMP (Windows, Apache, MySQL, PHP) ou MAMP (Mac, Apache, MySQL, PHP). XAMPP est similaire, mais il est multi-plateforme.
+    </p>
+    <p>
+        XAMPP est un acronyme :
+    </p>   
+    <ul>
+        <li>X : Cross-platform (multi-plateforme, fonctionne sur Windows, Mac et Linux)</li>
+        <li>A : Apache (serveur web)</li>
+        <li>M : MySQL ou MariaDB (base de données)</li>
+        <li>P : PHP (langage de programmation pour le web, côté serveur)</li>
+        <li>P : Perl (autre langage de programmation)</li>
+    </ul>     
+    <p>
+        Utilité de XAMPP : C'est une solution tout-en-un pour démarrer avec la programmation web, idéale pour les débutants.
+    </p>
+
+
+<h4>2. Téléchargement de XAMPP</h4>
+<p>
+    Aller sur le site officiel de XAMPP : <a href="https://www.apachefriends.org">https://www.apachefriends.org</a> <br>
+    Cliquer sur “Download” et choisir la version compatible avec le système d’exploitation de l’ordinateur (Windows, Mac ou Linux). <br>
+    Le fichier que vous téléchargé est un installeur pour installer tous les composants nécessaires. <br>
+</p>
+    
+
+<h4>3. Installation de XAMPP</h4>
+<p>
+    Lancer l’installeur : Double-cliquer sur le fichier téléchargé pour démarrer l’installation. <br>
+    Sélectionner les composants : Lors de l'installation, l'installeur demandera quels composants installer. Je vous conseille de conserver la sélection par défaut 
+    (Apache, MySQL, PHP). <br>
+    Choix du dossier d’installation : Laisser le dossier par défaut ou choisir un emplacement spécifique. Je vous conseille d’installer XAMPP dans un dossier 
+    facilement accessible, comme "C:\xampp" ou sur Macos "Applications/XAMPP". <br>
+    Lancer l’installation : Cliquer sur “Next” pour démarrer le processus. <br>
+</p>
+    
+
+<h4>4. Démarrage de XAMPP</h4>
+<p>
+    Ouvrir le panneau de contrôle de XAMPP : Après l’installation, lancer XAMPP pour voir le "Panneau de Contrôle". <br>
+    Démarrer les services : Cliquer sur les boutons "Start" d'Apache et de MySQL pour démarrer le serveur web et la base de données. <br>
+    Vérifier le fonctionnement : Ouvrir un navigateur et taper http://localhost dans la barre d'adresse. Si XAMPP est bien installé, une page d’accueil de XAMPP 
+    devrait s’afficher. <br> <br>
+
+    Sur Macos, il est possible voir même probable que des autorisations soient demandées pour démarrer les services. Il faudra alors entrer votre mot de passe utilisateur.
+
+</p>
+
+    
+<h4>5. Conseils supplémentaires</h4>
+<p>
+    Que signifie le terme “localhost” : Localhost représente l’ordinateur en tant que serveur local. C’est l’adresse où l’on peut voir les sites web et les projets créés avec XAMPP. <br>
+    Utiliser le dossier htdocs : Ce dossier (généralement C:\xampp\htdocs sous Windows) est l’endroit où placer les fichiers de site web pour qu’ils soient accessibles 
+    sur http://localhost. <br>    
+</p>
+
+
+<h4>6. Exercice pratique</h4>
+<p>
+    Créer un fichier simple (par exemple index.php) dans le dossier htdocs pour tester PHP. <br>
+    Ecrire du code simple, comme <br>
+    <pre>
+        &lt;?php echo "Bonjour, XAMPP est bien installé !"; ?&gt;
+    </pre> 
+    Accéder à http://localhost/index.php pour vérifier que le serveur interprète le fichier PHP. <br>
+</p>
+    
