@@ -1,8 +1,8 @@
 <?php 
     require_once('../../boot.php');  
-    $_SESSION['R'] = R2;  
-    $_SESSION['PAGE'] = LPB;
+    $_SESSION['R'] = R2;      
     require_once($_SESSION['R'].'app'.DS.'conf.php'); 
+    $_SESSION['PAGE'] = LPB;
 ?>
 <!doctype html>
 <html lang="fr">
