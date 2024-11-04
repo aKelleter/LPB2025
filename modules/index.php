@@ -104,7 +104,7 @@
                         </ol>
 
                         <h2 class="mt-5">Evaluation</h2> 
-                        <p>L’évaluation se fera au moyen d’exercices pratiques journaliers et d’un examen de fin de module.</p>
+                        <p>L’évaluation se fera au moyen d’exercices pratiques réguliers et d’un examen de fin de module.</p>
                         <hr>
 
                         <h1 class="mt-5 text-center"><span class="red">MODULE LDB</span> : Langages de base de données - Les bases (48h)</h1>
@@ -139,7 +139,7 @@
                         </ol>
 
                         <h2 class="mt-5">Evaluation</h2> 
-                        <p>L’évaluation se fera au moyen d’exercices pratiques journaliers et d’un examen de fin de module.</p>
+                        <p>L’évaluation se fera au moyen d’exercices pratiques réguliers et d’un examen de fin de module.</p>
                     </div> <!--col-md-10-->
                     <div class="col-md-1"></div>
                 </div>

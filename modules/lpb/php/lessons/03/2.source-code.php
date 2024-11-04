@@ -54,4 +54,11 @@ echo 'PHP VERSION : '.PHP_VERSION.'<br><hr>';
     DELIMITEUR;
 
     echo $string;
+
+    /*
+        Mise en application de la syntaxe courte
+     */         
 ?>
+
+<?= "La chaîne à afficher" ?>
+<?= $string ?>

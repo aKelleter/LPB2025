@@ -1,1 +1,105 @@
 Dans cette première leçon, nous allons afficher à l'écran la chaîne de caractères : "Hello World !
+<h3>Ou écrire du code PHP</h3>
+<p>
+    De façon générale nous pouvons écrire du code PHP soit: 
+    <ul>
+        <li>dans des fichiers dédiés, c’est-à-dire des fichiers qui ne vont contenir que du PHP et qui porteront l'extension <b>'.php'</b>.</li>
+        <li>nous intégrerons du code PHP au sein des fichiers HTML, mais qui porteront également l'extension <b>'.php'</b>.</li>
+    </ul>   
+</p>
+<h3>La balise PHP</h3>
+<p>
+    Le serveur mais plus particulièrement l'interprêteur PHP, pour être en mesure d’exécuter le code PHP, doit le reconnaitre. 
+    Pour lui indiquer qu'un bloc de code est écrit en PHP, nous allons entourer ce code avec une balise PHP qui a la forme suivante :     
+</p>
+<pre>
+    &lt;?php ?&gt;
+</pre>
+<p>
+    Lorsqu’on intègre du PHP dans du code HTML, on peut intégrer du code PHP à n’importe quel endroit dans la structure HTML. 
+    On peut donc, placer un bloc de code PHP en dehors de l'élément html. Pour terminer, on va pouvoir déclarer plusieurs 
+    balises PHP à différents endroits.
+</p>
+<p>Exemple : </p>
+<pre>
+&lt;?php 
+    require_once('../../../../../boot.php');  
+    $_SESSION['R'] = R5;
+    require_once($_SESSION['R'].'app'.DS.'conf.php'); 
+    $_SESSION['PAGE'] = PHP;     
+    
+    // Chargement du/des fichier(s)
+    $source_code = loadFile(FILENAME_SOURCE_CODE);  
+    require_once(FILENAME_EXPLANATION);
+    require_once(FILENAME_RESSOURCES);       
+?>
+&lt;!doctype html&gt;
+&lt;html lang="fr"&gt;
+    &lt;?php require_once $_SESSION['R'].'app'.DS.'head.php'; ?&gt;
+    &lt;body&gt;
+    &lt;?php require_once $_SESSION['R'].'assets'.DS.'svg.html'; ?&gt;  
+    &lt;?php require_once $_SESSION['R'].'app'.DS.'header.php'; ?&gt;
+        &lt;div class="b-divider"&gt;&lt;/div&gt;
+
+        &lt;main&gt;
+            &lt;div class="container-fluid"&gt;
+                &lt;div class="row"&gt;
+                    &lt;div class="col-md-1"&gt;&lt;/div&gt;
+                    &lt;div class="col-md-10"&gt;                       
+                        &lt;h1 class="mt-5 text-center"&gt;Leçon 01 : &lt;span class="color_dark_green"&gt;Afficher la chaîne "Hello World !"&lt;/span&gt;&lt;/h1&gt;  
+                        &lt;?= getHtmlSubMenu('00', '02'); ?&gt;
+                       
+                        &lt;?= getHtmlBlocWhatCodeDoes(file_get_contents(FILENAME_WCD)); ?&gt;
+                        &lt;?= getHtmlBlockSourceCode($source_code, FILENAME_SOURCE_CODE); ?&gt;
+                        &lt;?= getHtmlBlockRendering(file_get_contents(FILENAME_RENDERING)); ?&gt;
+                        &lt;?= getHtmlBlockExplanations($explanations); ?&gt;
+                        &lt;?= getHtmlBlockRessources($ressources); ?&gt;
+
+                    &lt;/div&gt; &lt;!--col-md-10--&gt;
+                    &lt;div class="col-md-1"&gt;&lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/main&gt;
+        &lt;?php require_once $_SESSION['R'].'app'.DS.'footer.php'; ?&gt;
+        &lt;?php require_once $_SESSION['R'].'app'.DS.'loadscripts.php'; ?&gt;
+        &lt;script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"&gt;&lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</pre>
+<h3>La syntaxe de base</h3>
+<p>
+    <ol>
+        <li>Pour commencer on écrit la balise d'ouverture de PHP : <b class="red">&lt;?php</b></li>
+        <li>On écrit nos instructions, en l'occurence ici :  <b class="red">echo 'Hello World !';</b> </li>
+        <li>
+            Une instruction en PHP doit toujours se terminer par un point-virgule <b class="red">';'</b>. 
+            Si vous l’oubliez, votre script ne fonctionnera pas correctement.
+        </li>
+    </ol>
+</p>
+<h3>Enregistrer et exécuter un fichier PHP</h3>
+<p>
+    A partir du moment où l'on ouvre une balise PHP dans un fichier HTML, nous allons devoir enregistrer le fichier avec l’extension <b>.php</b>. 
+    C’est essentiel pour que le serveur comprenne que la page contient du code PHP qu’il devra exécuter.
+</p>
+<p> 
+    <u>Où enregistrer nos fichiers PHP sur notre ordinateur ?</u> <br>
+    Cela va dépendre de votre environnement de développement. Dans les faits vous aller devoir ou avez déjà installé un serveur web local
+    (souvent Apache), un interprêteur PHP et un moteur de base de données (ou pas :)). Avec les environnements <b>Xampp</b> ou <b>Mampp</b> 
+    ce sera par défaut dans le répertoires <b class="red">htdocs</b>, avec <b>Xampp</b>, c'est le répertoire <b class="red">www</b> par défaut.
+    <b>C'est la configuration du serveur web qui va déterminer l'emplacement où nous allons enregistrer nos fichiers</b>.
+</p>
+<p>
+   Bref, dans le cours j'utilise personnellement <b>Xampp</b>. Xampp est Cross Plateform (installable sur Windows, Linux, Macos). A l'inverse,
+   Wamp est uniquement disponible sur Windows et Mamp sur Macos. Sur les machines des labo de l'Ifapme c'est Wamp qui est installé.
+</p>
+<p>
+    Pour accéder et exécuter vos fichiers PHP et autres. Vous utiliserez dans votre navigateur préféré (Firefox :)) une URL 
+    qui pourrait être structurée comme celle-ci : <b class="red">http://localhost/monsite/monfichier.php</b>
+</p>
+<p>
+    <b class="red">NOTE</b> : Lorsque vous essayez d'accéder à une ressource disponible sur un serveur web et plus particulièrement un répertoire sans
+    indiquer de fichier (ex.: <b>http://localhost/monprojet/</b>), le comportement par défaut du serveur web va être de rechercher un fichier
+    <b>index.html</b> ou <b>index.php</b> (ou .asp si IIS - serveur web de Microsoft). Si le fichier est trouvé il est retourné/interprêté vers le client
+    (votre navigateur par ex) dans le cas contraire il adoptera un comportement en fonction de sa configuration.
+</p>
