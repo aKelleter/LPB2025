@@ -49,8 +49,9 @@
                             Devs
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="<?= $_SESSION['R'].MOD.DS.LPB.DS.OTHERS.DS.'index.php' ?>">Accueil</a></li>
-                            <li><a class="dropdown-item" href="<?= $_SESSION['R'].MOD.DS.LPB.DS.OTHERS.DS.LESS.DS.'index.php' ?>">Les leçons</a></li>                                                                                    
+                            <li><a class="dropdown-item" href="<?= $_SESSION['R'].MOD.DS.LPB.DS.OTHERS.DS.'index.php' ?>">Accueil</a></li>                            
+                            <li><a class="dropdown-item" href="<?= $_SESSION['R'].MOD.DS.LPB.DS.OTHERS.DS.LESS.DS.'index.php' ?>">Les leçons</a></li>
+                            <li><a class="dropdown-item" href="<?= $_SESSION['R'].MOD.DS.LPB.DS.OTHERS.DS.'liens.php' ?>">Liens</a></li>
                         </ul>
                     </li>                           
                 </ul>

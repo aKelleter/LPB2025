@@ -1,0 +1,255 @@
+<h3>La fonction PHP date() et les formats de date</h3>
+<p>
+  Petit rappel, si vous vous souvenez un peu du cours précédent :), nous y avions abordé la fonction <code>date()</code> qui permet de 
+  formater une date en PHP. Cette fonction prend en paramètre un format de date et renvoie la date actuelle formatée selon ce format.
+</p>
+<p>
+    Cette fonction peut prendre deux arguments. Le premier argument correspond au format de date souhaité, il est obligatoire. 
+    Le second argument quant à lui est facultatif et sera un <b>Timestamp</b> relatif à la date qu’on souhaite retourner.
+    Si le second argument n’est pas renseigné, la fonction retournera la date actuelle en fontion de la configuration du serveur.
+</p>
+<p>
+    Pour indiquer le format de date qu’on souhaite voir renvoyer à la fonction date(), nous allons lui passer une série de lettres 
+    qui vont avoir une signification spéciale. Pour rappel également, voici le lien vers la documentation officielle de PHP qui
+    liste tous les formats de date possibles : <a href="https://www.php.net/manual/fr/datetime.formats.php" target="_blank">Les formats</a>
+</p>
+<p>
+    Voici quelques exemples de formats de date que vous pourrez utiliser avec la fonction <code>date()</code> :
+</p>
+<table class="table">
+<thead>
+    <tr>
+        <th scope="col">Caractère</th>
+        <th scope="col">Signification</th>
+    </tr>
+</thead>
+<tbody>
+    <tr>
+        <td>d</td>
+        <td>Représente le jour du mois en deux chiffres (entre 01 et 31)</td>
+    </tr>
+    <tr>
+        <td>j</td>
+        <td>Représente le jour du mois en chiffres sans le zéro initial (de 1 à 31)</td>
+    </tr>
+    <tr>
+        <td>D</td>
+        <td>Représente le jour de la semaine en 3 lettres (en anglais)</td>
+    </tr>
+    <tr>
+        <td>l (L minuscule)</td>
+        <td>Représente le jour de la semaine en toutes lettres (en anglais)</td>
+    </tr>
+    <tr>
+        <td>N</td>
+        <td>Représente le jour de la semaine en chiffre au format ISO-8601 (lundi = 1, dimanche = 7)</td>
+    </tr>
+    <tr>
+    <td>w</td>
+        <td>Représente le jour de la semaine en chiffre (dimanche = 0, samedi = 6)</td>
+    </tr>
+    <tr>
+        <td>z</td>
+        <td>Représente le jour de l’année de 0 (1er janvier) à 365</td>
+    </tr>
+    <tr>
+        <td>W</td>
+        <td>Représente le numéro de la semaine au format ISO-8601 (les semaines commencent le lundi)</td>
+    </tr>
+    <tr>
+        <td>m</td>
+        <td>Représente le mois de l’année en chiffres avec le zéro initial (de 01 à 12)</td>
+    </tr>
+    <tr>
+        <td>n</td>
+        <td>Représente le mois de l’année de chiffres sans le zéro initial (de 1 à 12)</td>
+    </tr>
+    <tr>
+        <td>M</td>
+        <td>Représente le mois en trois lettres en anglais (Jan, Feb…)</td>
+    </tr>
+    <tr>
+        <td>F</td>
+        <td>Représente le mois en toutes lettres en anglais</td>
+    </tr>
+    <tr>
+        <td>t</td>
+        <td>Représente le nombre de jours contenus dans le mois (de 28 à 31)</td>
+    </tr>
+    <tr>
+        <td>Y</td>
+        <td>Représente l’année sur 4 chiffres (ex : 2019)</td>
+    </tr>
+    <tr>
+        <td>y</td>
+        <td>Représente l’année sur 2 chiffres (ex : 19 pour 2019)</td>
+    </tr>
+    <tr>
+        <td>L</td>
+        <td>Renvoie 1 si l’année est bissextile, 0 sinon</td>
+    </tr>
+    <tr>
+        <td>a et A</td>
+        <td>Ajoute « am » ou « pm » (pour a) ou « AM » ou « PM » (pour A) à la date</td>
+    </tr>
+    <tr>
+        <td>h</td>
+        <td>Représente l’heure au format 12h avec le zéro initial</td>
+    </tr>
+    <tr>
+        <td>g</td>
+        <td>Représente l’heure au format 12h sans zéro initial</td>
+    </tr>
+    <tr>
+        <td>H</td>
+        <td>Représente l’heure au format 24h avec le zéro initial</td>
+    </tr>
+    <tr>
+        <td>G</td>
+        <td>Représente l’heure au format 24h sans le zéro initial</td>
+    </tr>
+    <tr>
+        <td>i</td>
+        <td>Représente les minutes avec le zéro initial</td>
+    </tr>
+    <tr>
+        <td>s</td>
+        <td>Représente les seconds avec le zéro initial</td>
+    </tr>
+    <tr>
+        <td>v</td>
+        <td>Représente les millisecondes avec le zéro initial</td>
+    </tr>
+    <tr>
+        <td>O et P</td>
+        <td>Indique la différence d’heures avec l’heure GMT sans deux points (pour O, ex : +0100) ou avec deux points (pour P, ex : +01:00)</td>
+    </tr>
+    <tr>
+        <td>I (i majuscule)</td>
+        <td>Renvoie 1 si l’heure d’été est activée, 0 sinon</td>
+    </tr>
+    <tr>
+        <td>c</td>
+        <td>Représente la date complète au format ISO 8601 (ex : 2019-01-25T12:00:00+01:00)</td>
+    </tr>
+    <tr>
+        <td>r</td>
+        <td>Représente la date complète au format RFC 2822 (ex : Fri, 25 Jan 2019 12 :00 :00 +0100)</td>
+    </tr>
+    <tr>
+        <td>Z</td>
+        <td>Représente le décalage horaire en secondes par rapport à l’heure GMT</td>
+    </tr>
+</tbody>    
+</table>
+<p>
+    Cela fait beaucoup de signes différents et il va de soi, que personne ne vous demande de tous les retenir. La doc, ce n'est pas fait
+    pour les "chiens" et la pratique fera en sorte que vous allez retenir les plus couramment employés.
+</p>
+<p>
+    <b>A PORTER A VOTRE ATTENTION</b> <br>
+    - Il est possible de séparer nos différents caractères de dates avec des tirets, des points, des slashs ou des espaces pour rendre une 
+    date plus lisible. <br>
+    - Il faut faire bien attention à la casse lorsqu’on définit un format d’heure. De fait, la plupart des caractères ont deux significations 
+    totalement différentes selon qu'ils soient écrit en minuscule ou en majuscule. <br>
+    - La fonction date() formate une date localement (avec le décalage horaire), pour retourner une date GMT, alors on utilisera plutôt la 
+    fonction <code>gmdate()</code>.
+</p>
+<h4>Gérer le décalage horaire</h4>
+<p>
+    Il est possible que la date renvoyée ne corresponde pas à celle de l’endroit où vous vous trouvez, si le serveur qui héberge votre 
+    site se situe sur un autre fuseau horaire ou s’il a été paramétré sur un fuseau horaire différent du vôtre.
+</p>
+<p>
+    Le fuseau horaire qui va particulièrement nous intéresser va être (Europe/Brussels ou Europe/Paris). Pour le liste complète des fuseaux 
+    horaires valides, je vous invite à lire la documentation officielle : <a href="http://php.net/manual/fr/timezones.php" target="_blank">La gestion des fuseaux horaires</a> .
+</p>
+<p>
+    Pour gérer le décalage horaire, on peut utiliser la fonction <code>date_default_timezone_set()</code> qui permet de définir le fuseau 
+    horaire par défaut pour toutes les fonctions de date et d’heure de PHP. Cette fonction prend en paramètre le nom du fuseau horaire 
+    souhaité. Voici un exemple d’utilisation de cette fonction :
+</p>
+<pre>   
+    date_default_timezone_set('Europe/Paris');
+</pre>
+<pre>
+    echo 'Timezone : ' . date_default_timezone_get();
+    echo date('d m Y H:i:s'). '(LOCAL);
+    echo gmdate('d-m-Y H:i:s'). '(GMT);
+    //---
+    date_default_timezone_set('Asia/Seoul');   //Seoul = 8:00 heures plus tard à Séoul
+    echo 'Timezone : ' . date_default_timezone_get();
+    echo date('d m Y H:i:s'). '(SEOUL LOCAL);
+</pre>
+<p>
+    Il est possible de récupérer le fuseau horaire actuel en utilisant la fonction <code>date_default_timezone_get()</code> qui ne prend 
+    aucun paramètre et renvoie le fuseau horaire actuel.
+</p>
+<p>
+    Pour récupérer le décalage horaire actuel, on peut utiliser la fonction <code>date_offset_get()</code> qui prend en paramètre un 
+    objet DateTime et renvoie le décalage horaire en secondes par rapport à l’heure GMT.
+</p>
+<h4>Afficher les dates en français</h4>
+<p>
+    Par défaut, les dates vont être renvoyées en anglais par la plupart des serveurs. Pour transformer une date en anglais vers du français, 
+    nous avons plusieurs solutions mais, celle qui est recommandée est l’utilisation de l'objet : IntlDateFormatter()
+    (précédemment, on utilisait les fonctions setlocale() et strftime() (deprcated)).
+</p>
+<p>
+    <b>ATTENTION</b> <br>
+    Il faut activer au préalable l'extension <b class="red">intl</b> dans <b>php.ini</b> <br>
+    Voici un exemple d’utilisation de la classe IntlDateFormatter() pour afficher une date en français :    
+</p>
+<pre>
+    // Version procédurale 
+    $fmt = datefmt_create('fr_FR', IntlDateFormatter::FULL, IntlDateFormatter::FULL, 'Europe/Paris', IntlDateFormatter::GREGORIAN);
+    echo $fmt->format(new DateTime('1970-02-24 02:40:00'));
+
+    // Version orientée objet
+    $date = new DateTime('1970-02-24 02:40:00');
+    $fmt = new IntlDateFormatter('fr_FR', IntlDateFormatter::FULL, IntlDateFormatter::FULL, 'Europe/Paris', IntlDateFormatter::GREGORIAN);
+    echo $fmt->format($date);
+</pre>
+
+<h5 class="mt-5">Les paramètres passés lors de l'instanciation de la classe (création de l'objet) sont les suivants : </h5>
+<p>
+
+    <b class="red">locale</b> : <br>
+    La locale à utiliser pour formater et analyser ou NULL pour utiliser la valeur spécifiée dans la configuration ini intl.default_locale. <br>
+    <br>
+
+    <b class="red">datetype</b>: <br>
+    Le type de date à utiliser (none, short, medium, long, full). C'est l'une des constantes IntlDateFormatter. Il peut aussi valoir NULL, 
+    auquel cas, le type de date par défaut d'ICU sera utilisé. <br>
+    <br>
+
+    <b class="red">timetype</b> : <br>
+    Le type d'heure à utiliser (none, short, medium, long, full). C'est l'une des constantes IntlDateFormatter. Il peut aussi valoir NULL, 
+    auquel cas, le type d'heure par défaut d'ICU sera utilisé. <br>
+    <br>
+
+    <b class="red">timezone</b> : <br>
+    L'identifiant du fuseau horaire. Par défaut, (ce sera également la valeur par défaut qui sera utilisée si NULL est fourni) ce sera celui 
+    retourné par la fonction date_default_timezone_get() ou, si applicable, celui de l'objet IntlCalendar passé au paramètre calendar. 
+    Cet identifiant doit être un identifiant valide dans la base de données ICU, ou un identifiant représentant une possible explicite, 
+    comme GMT-05:30. <br>
+    Ce paramètre peut aussi être un objet IntlTimeZone ou un objet DateTimeZone. <br>
+    <br>
+
+    <b class="red">calendar</b> : <br>
+    Calendrier à utiliser pour le formatage ou l'analyse. La valeur par défaut est NULL, ce qui correspond à la constante 
+    IntlDateFormatter::GREGORIAN. Peut être une des constantes de calendrier IntlDateFormatter ou un IntlCalendar. 
+    Tout objet IntlCalendar passé sera clôné ; il ne sera pas modifié par IntlDateFormatter. 
+    Il déterminera le type de calendrier utilisé (grégorien, islamique, persien, etc.) et si NULL est fourni dans le paramètre 
+    timezone, le fuseau horaire sera également utilisé. <br>
+    <br>
+
+    <b class="red">pattern</b> : <br>
+    Le modèle à utiliser pour le formatage ou l'analyse. Les modèles disponibles sont documentés sur » 
+    <a href="http://userguide.icu-project.org/formatparse/datetime">http://userguide.icu-project.org/formatparse/datetime</a><br>
+
+</p>
+<p>
+    Nous sommes content d'avoir fini cette partie, non ? :) <br>
+</p>
+

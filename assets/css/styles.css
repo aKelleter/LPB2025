@@ -25,6 +25,7 @@
     --color-medium-violet: rgb(91, 66, 170);
     --color-light-violet: rgb(208, 196, 250);
     --color-light-grey: rgb(241, 239, 239);
+    --color-light-green: rgb(15, 219, 107);
    
    
     --border-width-1: 1px;
@@ -277,6 +278,10 @@ a.link{
 
 .red {
     color: var(--color-light-red);
+}
+
+.green {
+    color: var(--color-light-green);
 }
 
 .link {

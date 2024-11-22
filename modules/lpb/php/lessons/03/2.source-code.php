@@ -46,7 +46,7 @@ echo 'PHP VERSION : '.PHP_VERSION.'<br><hr>';
     echo'<div id="myID" class="article">My first article</div>';
 
     /*
-        C'est un peu tôt dans le cours pour aborder cette notion (nous n'avons pas encore abordé les varaiables), mais sachez que
+        C'est un peu tôt dans le cours pour aborder cette notion (nous n'avons pas encore abordé les variables), mais sachez que
         l'on peut également utiliser la syntaxe heredoc pour afficher du code HTML, XML, etc.
      */
     $string = <<<DELIMITEUR

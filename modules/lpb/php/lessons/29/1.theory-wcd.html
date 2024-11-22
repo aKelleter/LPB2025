@@ -55,3 +55,49 @@
     donnée. C’est la raison pour laquelle nopus obtenons un écart de 3600 secondes entre les deux Timestamps renvoyées par mktime() et gmmktime() : 
     car ces deux Timestamps ne représentent pas la même date.
 </p>
+<h4>Obtenir un Timestamp à partir d’une chaine de caractères</h4>
+<p>
+    On peut également obtenir un <b>Timestamp</b> à partir d’une chaine de caractères en utilisant la fonction <b class="red">strtotime()</b> 
+    qui transforme une chaine de caractères de format date ou temps en Timestamp.
+</p>
+<p>
+    Le formatage de la date et du temps en PHP sont décrits dans la documentation officielle de PHP : 
+    <a href="https://www.php.net/manual/fr/datetime.formats.php" target="_blank">Formats supportés de temps et de dates</a> <br>
+    Voici quelques exemples de formats de date et de temps : <br>
+</p>
+<pre>    
+    $timestmp1 = strtotime('2024/02/24 02:40:00');
+    $timestmp2 = strtotime('2024/02/24');
+    $timestmp3 = strtotime('next friday');
+    $timestmp4 = strtotime('2 days ago');
+    $timestmp5 = strtotime('+1 day');    
+</pre>
+<p>
+    <b>Voir Exo4 du code source.</b>
+</p>
+<h4>Dans l'autre sens, comment convertir un Timestamp en date lisible</h4>
+<p>
+    Pour convertir un <b>Timestamp</b> en date lisible, on peut utiliser la fonction <b class="red">date()</b> qui formate un timestamp en date lisible.
+</p>
+<pre>    
+    $timestamp = time();
+    $date = date('d/m/Y H:i:s', $timestamp);
+    echo $date;
+</pre>
+<p>
+    La fonction <b class="red">date()</b> prend deux arguments : le premier est le format de la date et le deuxième est le timestamp 
+    à formater. <br>
+    <b>Voir Exo5 du code source.</b>
+</p> 
+<p>
+    On peut également utiliser la fonction getdate() qui retourne un tableau associatif contenant les informations de date et d'heure.
+    et obtenir ainsi des informations plus complètes sur la date et l'heure. 
+</p>
+<pre>    
+    $timestamp = time();
+    $date = getdate($timestamp);
+    echo $date['mday'] . '/' . $date['mon'] . '/' . $date['year'] . ' ' . $date['hours'] . ':' . $date['minutes'] . ':' . $date['seconds']; 
+</pre>
+<p>
+    <b>Voir Exo6 du code source.</b>
+</p>
