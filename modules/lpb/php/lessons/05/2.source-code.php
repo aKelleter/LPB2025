@@ -7,7 +7,7 @@ echo 'PHP VERSION : '.PHP_VERSION.'<br><hr>';
     echo 'Value : '.$entier.' -> '; echo gettype($entier).'<br><hr>'; // Affiche : integer
     
     $decimal = 10.5; // nombre à virgule flottante
-    echo 'Value : '.$decimal.' -> '; echo gettype($entier).'<br><hr>'; // Affiche : integer
+    echo 'Value : '.$decimal.' -> '; echo gettype($decimal).'<br><hr>'; // Affiche : integer
 
     $chaine = "Hello, World!"; // chaîne de caractères
     echo 'Value : '.$chaine.' -> '; echo gettype($chaine).'<br><hr>'; // Affiche : string
@@ -37,15 +37,15 @@ echo 'PHP VERSION : '.PHP_VERSION.'<br><hr>';
     echo 'Value : '.var_dump($iterable).' -> '; echo gettype($iterable).'<br><hr>'; // Affiche : array
 
     // Le type casting
-    $age = 10;   // $foo is an integer
-    echo 'Value : '.var_dump($age).' -> '; echo gettype($age).'<br>';
-    $flag = (bool) $age;   // $bar is a boolean
-    echo 'Value : '.var_dump($flag).' -> '; echo gettype($age).'<br><hr>';  
+    $age = 10;   // $age est un entier
+    echo var_dump($age) . ' -> Value $age : '.$age.' -> '; echo gettype($age).'<br>';
+    $age = (bool) $age;   // $flag est un booléen
+    echo var_dump($age) . ' -> Value $age : '.$age.' -> '; echo gettype($age).'<br><hr>';  
 
     // autre méthode
-    $a = "10";
-    echo 'Value : '.var_dump($a).' -> '; echo gettype($a).'<br>';
-    settype($a,"integer");
-    echo 'Value : '.var_dump($a).' -> '; echo gettype($a).'<br>';
+    $a = "10";  // $a est une chaîne de caractères
+    echo var_dump($a) . ' -> Value $a : '.$a.' -> '; echo gettype($a).'<br>';
+    settype($a,"integer"); // $a est maintenant un entier
+    echo var_dump($a) . ' -> Value $a : '.$a.' -> '; echo gettype($a).'<br>';
 
 ?>
