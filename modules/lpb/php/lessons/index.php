@@ -7,8 +7,7 @@
 <!doctype html>
 <html lang="fr">
     <?php require_once $_SESSION['R'].'app'.DS.'head.php'; ?>
-    <body>
-    <?php require_once $_SESSION['R'].'assets'.DS.'svg.html'; ?>  
+    <body>   
     <?php require_once $_SESSION['R'].'app'.DS.'header.php'; ?>
         <div class="b-divider"></div>
 

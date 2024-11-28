@@ -21,7 +21,7 @@ function getHtmlFooter(string $version, string $author = '', string $path = ''):
     $string .= APP_NAME."  - $version -  $author ".
     '<a href="https://github.com/aKelleter/LPB2025">
     <img src="'.$path.'assets/img/github-mark.svg"  alt="LPB 2025 Github Repository" title="Github Repository LPB 2025" class="lpb-github"></a>
-     <a href="https://creativecommons.org/licenses/by/4.0/"> <img src="'.$path.'assets/img/by.svg"  alt="LPB 2025 Github Repository" fill="#ffffff" class="lpb-cc" title="Creative Commons By 4.0" alt="Creative Commons By 4.0"></a>
+     <a href="https://creativecommons.org/licenses/by/4.0/"> <img src="'.$path.'assets/img/by.svg"  alt="LPB 2025 Github Repository - Creative Commons By 4.0" fill="#ffffff" class="lpb-cc" title="Creative Commons By 4.0"></a>
     ';
     return $string;
 }
@@ -203,12 +203,12 @@ function getHtmlSubMenu(string $prevUrl, string $nextUrl, string $mod = PHP): st
                         <div class="col-md-10">                              
                             <div class="submenu">';
                                 if($prevUrl != '00')
-                                    $string .= '<a href="'.$_SESSION['R'].MOD.DS.LPB.DS.$mod.DS.LESS.DS.$prevUrl.DS.'index.php'.'" class="icon-sub"><svg class="bi" width="24" height="24"><use xlink:href="#arrowLeftSquare"></use></svg></a>';
+                                    $string .= '<a href="'.$_SESSION['R'].MOD.DS.LPB.DS.$mod.DS.LESS.DS.$prevUrl.DS.'index.php'.'" class="icon-sub"><svg class="bi" width="24" height="24"><use xlink:href="'.$_SESSION['R'].ASSETS.DS.A_IMG.DS.'sprites.svg#arrowLeftSquare"></use></svg></a>';
 
-                                $string .='<a href="'.$_SESSION['R'].MOD.DS.LPB.DS.$mod.DS.LESS.DS.'index.php'.'" class="icon-sub"><svg class="bi" width="24" height="24"><use xlink:href="#rocket"></use></svg></a>';
+                                $string .='<a href="'.$_SESSION['R'].MOD.DS.LPB.DS.$mod.DS.LESS.DS.'index.php'.'" class="icon-sub"><svg class="bi" width="24" height="24"><use xlink:href="'.$_SESSION['R'].ASSETS.DS.A_IMG.DS.'sprites.svg#rocket"></use></svg></a>';
 
                                 if($nextUrl != '00')
-                                    $string .= '<a href="'.$_SESSION['R'].MOD.DS.LPB.DS.$mod.DS.LESS.DS.$nextUrl.DS.'index.php'.'" class="icon-sub"><svg class="bi" width="24" height="24"><use xlink:href="#arrowRightSquare"></use></svg></a>
+                                    $string .= '<a href="'.$_SESSION['R'].MOD.DS.LPB.DS.$mod.DS.LESS.DS.$nextUrl.DS.'index.php'.'" class="icon-sub"><svg class="bi" width="24" height="24"><use xlink:href="'.$_SESSION['R'].ASSETS.DS.A_IMG.DS.'sprites.svg#arrowRightSquare"></use></svg></a>
                             </div>
                         </div>
                     </div>';
