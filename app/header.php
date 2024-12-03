@@ -31,11 +31,15 @@
                             <li><a class="dropdown-item" href="<?= $_SESSION['R'].MOD.DS.LPB.DS.PHP.DS.LESS.DS.'index.php' ?>">Les leçons</a></li>                                                                                    
                         </ul>
                     </li>         
-                    <li>
-                        <a href="<?= $_SESSION['R'].MOD.DS.LPB.DS.JS.DS.'index.php' ?>" class="nav-link <?= ($_SESSION['PAGE'] == 'javascript')? 'menu-selected': 'menu-normal'; ?>">
+                    <li class="nav-item dropdown">
+                        <a href="<?= $_SESSION['R'].MOD.DS.LPB.DS.JS.DS.'index.php' ?>" class="nav-link <?= ($_SESSION['PAGE'] == 'javascript')? 'menu-selected': 'menu-normal'; ?> dropdown-toggle" href="<?= $_SESSION['R'].MOD.DS.LPB.DS.JS.DS.'index.php' ?>" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="<?= $_SESSION['R'].ASSETS.DS.A_IMG.DS.'sprites.svg'?>#grid"></use></svg>
                             Javascript
                         </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="<?= $_SESSION['R'].MOD.DS.LPB.DS.JS.DS.'index.php' ?>">Présentation</a></li>
+                            <li><a class="dropdown-item" href="<?= $_SESSION['R'].MOD.DS.LPB.DS.JS.DS.LESS.DS.'index.php' ?>">Les leçons</a></li>                                                                                    
+                        </ul>
                     </li>
                     <li>
                         <a href="<?= $_SESSION['R'].MOD.DS.LDB.DS.'index.php' ?>" class="nav-link <?= ($_SESSION['PAGE'] == 'ldb')? 'menu-selected': 'menu-normal'; ?>">

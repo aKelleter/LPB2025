@@ -1,0 +1,84 @@
+
+    Javascript, un langage dynamique <br> <br>
+    Le JavaScript est considéré comme un langage dynamique pour plusieurs raisons liées à la manière dont il gère les types, les structures, 
+    et les interactions au moment de l'exécution. Voici les aspects principaux qui en font un langage dynamique:
+
+<h4>1. Le typage dynamique</h4>
+<p>
+    En JavaScript, les variables n'ont pas de type fixe. Le type d'une variable est déterminé au moment de l'exécution en fonction de la 
+    valeur qui lui est attribuée. Cela signifie que vous pouvez assigner différents types de valeurs à la même variable au cours de 
+    l'exécution du programme :
+</p>
+<textarea class="code-php">
+    var x = 10;     // x est de type Number
+    x = "Hello";    // x est de type String
+    x = true;       // x est de type Boolean
+</textarea>
+Ce comportement est caractéristique des langages dynamiques, car les types ne sont pas vérifiés lors de la compilation mais pendant l'exécution.
+
+<h4>2.Les objets modifiables à la volée</h4>
+<p>
+    En JavaScript, les objets (-> Un objet en JavaScript est une collection flexible de propriétés et de méthodes. Il permet de modéliser des entités 
+    du monde réel ou abstraites) peuvent être modifiés dynamiquement. Vous pouvez ajouter, supprimer ou modifier des propriétés à un 
+    objet existant sans avoir besoin de le redéfinir ou de déclarer une structure formelle :
+</p>
+<textarea class="code-php">
+    let obj = { name: "Alice" };
+    obj.age = 25;         // Ajout d'une nouvelle propriété
+    delete obj.name;      // Suppression d'une propriété
+    obj.sayHello = () => console.log("Bonjour !"); // Ajout d'une méthode    
+</textarea>
+
+<h4>3. Les fonctions comme objets de première classe</h4>
+<p>
+    Les fonctions en JavaScript sont traitées comme des objets. Elles peuvent être attribuées à des variables, passées en argument, 
+    ou retournées par d'autres fonctions, ce qui permet des comportements très dynamiques.
+</p>
+<textarea class="code-php">
+    function greet(name) {
+        return `Bonjour, ${name}`;
+    }
+    
+    let sayHello = greet;       // La fonction est assignée à une variable
+    console.log(sayHello("Jean")); // Appelle la fonction via la variable  
+</textarea>
+
+<h4>4. Évaluation dynamique (eval)</h4>
+<p>
+    Le JavaScript permet d'exécuter du code arbitraire au moment de l'exécution avec la fonction eval, bien que son utilisation 
+    soit généralement déconseillée pour des raisons de sécurité et de performance.
+</p>
+<textarea class="code-php">
+    let code = "let x = 10; x * 2;";
+    console.log(eval(code)); // eval() évalue la chaîne comme une expression
+</textarea>
+<h4>5. Pas de vérification statique stricte</h4>
+<p>
+    Contrairement à des langages statiques comme Java ou C#, JavaScript ne vérifie pas les types ni les signatures des 
+    fonctions avant l'exécution. Cela permet une grande flexibilité mais peut aussi introduire des erreurs difficiles à détecter.
+</p>
+<h4>6. Portée et hoisting</h4>
+<p>
+    JavaScript gère également de manière dynamique la portée des variables et des fonctions, ainsi que le hoisting 
+    (remontée de déclaration), qui modifie la manière dont le code est interprété. Attention, il ne remonte que la déclaration, 
+    et non l'initialisation, la valeur de la variable sera alors mise à "undefined".
+</p>
+<textarea class="code-php">
+    console.log(x); // Affiche undefined
+    var x = 10;
+</textarea>
+<cite class="red">
+    À noter que même si Javascript permet d'utiliser des variables avant de les déclarer, je vous déconseille de le faire consciemment, ce n'est pas une très bonne pratique.
+</cite>
+
+<h4>7. Conclusion</h4>
+<p>
+    Ces caractéristiques rendent JavaScript très flexible et puissant pour des applications dynamiques, mais elles peuvent aussi 
+    introduire des comportements inattendus si le développeur ne maîtrise pas bien les subtilités du langage.
+</p>
+
+<h4>Petit exemple pour illustrer le comportement dynamique de JavaScript</h4>
+<p>
+    Voir exécution du code ci-dessous:
+</p>
+

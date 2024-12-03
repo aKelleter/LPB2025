@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <pre>
+        console.log('EVALUATION DYNAMIQUE');                
+        let code = "let x = 10; x * 2;";
+        console.log(eval(code)); // eval() évalue la chaîne comme une expression
+    </pre>
+    <script>
+        console.log('EVALUATION DYNAMIQUE');        
+        let code = "let x = 10; x * 2;";
+        console.log(eval(code)); // eval() évalue la chaîne comme une expression
+    </script>
+    
+    <hr>
+    <pre>
+        console.log('PORTÉE ET HOISTING avec var');        
+        console.log(x); // Affiche undefined
+        var x = 10;
+
+        console.log('PORTÉE ET HOISTING avec let');
+        console.log(y); // Affiche une erreur
+        let y = 10;
+    </pre>
+    <script>
+        console.log('PORTÉE ET HOISTING avec var');        
+        console.log(x); // Affiche undefined
+        var x = 10;
+
+        console.log('PORTÉE ET HOISTING avec let');
+        console.log(y); // Affiche une erreur
+        let y = 10;
+
+    </script>
+    <hr>
+
+</body>
+</html>

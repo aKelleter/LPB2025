@@ -1,3 +1,8 @@
 https://www.php.net/manual/fr
 https://cours.davidannebicque.fr/m1202/seance-1-concepts
 http://forum.wampserver.com/read.php?1,137154
+
+JAVASCRIPT
+----------
+hoisting
+https://code-garage.fr/blog/qu-est-ce-que-le-hoisting-en-javascript/

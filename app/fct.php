@@ -46,7 +46,7 @@ function getHtmlCoursesList(array $courses, string $courseType): string {
             if($courseType == PHP)
                 $string .= '<li><a href="'.$course['id'].'/index.php" class="link-script">'.$course['title'].'</a></li>';
             elseif($courseType == JS)
-                $string .= '<li><a href="'.$course['id'].'/index.html" class="link-script">'.$course['title'].'</a></li>';
+                $string .= '<li><a href="'.$course['id'].'/index.php" class="link-script">'.$course['title'].'</a></li>';
             elseif($courseType == OTHERS)
                 $string .= '<li><a href="'.$course['id'].'/index.php" class="link-script">'.$course['title'].'</a></li>';
         } 
@@ -92,17 +92,18 @@ function getHtmlBlocWhatCodeDoes(string $blockquote): string {
  */
 function getHtmlBlockSourceCode(string $code, string $pathfile): string {
     $string = '';
-    $string .= '    <!-- The source code -->
-                    <div class="row mt-5">
-                        <div class="col-md-1"></div>
-                        <div class="col-md-10">
-                            <h6>'.TITLE_SOURCE_CODE.' :</h6>
-                            <hr>
-                            <textarea class="codemirror-textarea mb-2" name="code-src" id="code-src" cols="100%">'.$code.'</textarea>                                
-                            <a class="btn btn-primary" href="'.$pathfile.'" target="_blank">Exécuter</a>                                
-                        </div>
-                        <div class="col-md-1"></div>
-                    </div>';
+    $string .= '    <!-- The source code -->                    
+                        <div class="row mt-5">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-10">
+                                <h6>'.TITLE_SOURCE_CODE.' :</h6>
+                                <hr>
+                                <textarea class="codemirror-textarea code-php mb-2" name="code-src" id="code-src" cols="100%">'.$code.'</textarea>                                
+                                <a class="btn btn-primary" href="'.$pathfile.'" target="_blank">Exécuter</a>                                
+                            </div>
+                            <div class="col-md-1"></div>
+                        </div>                                        
+                    ';
     return $string;
 }
 
@@ -127,6 +128,18 @@ function getHtmlBlockRendering(string $rendering): string {
                             </div>
                         </div>
                     </div>';
+    return $string;
+}
+
+/**
+ * getHtmlEmptySpace() :
+ * Affiche une structure HTML vide
+ * 
+ * @return string 
+ */
+function getHtmlEmptySpace(): string {
+    $string = '';
+    $string .= '<p class="mt-5"></p>';
     return $string;
 }
 
