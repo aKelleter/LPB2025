@@ -1,0 +1,183 @@
+<h3>La théorie sur les variables</h3>
+<p>
+    En JavaScript, comme dans d'autres langages, une variable est un conteneur qui permet de stocker des données que vous pouvez réutiliser et manipuler dans 
+    votre code. Les variables permettent de donner un nom à ces données pour faciliter leur utilisation.
+</p>
+<p>
+    Pour déclarer une variable en JavaScript, nous allons devoir utiliser le mot clé <cite>let</cite> ou <cite>const</cite> (<cite>var</cite> 
+    n'est plus conseillé, mais nous allons expliquer la différence entre les deux dans la suite de cette leçon), suivi du nom qu’on souhaite 
+    donner à notre variable.
+</p>
+<p>
+
+    Règles à respecter : <br>
+    • Le nom d’une variable doit obligatoirement commencer par une lettre ou un underscore (_) et ne doit pas commencer par un chiffre ; <br>
+    • Le nom d’une variable ne doit contenir que des lettres, des chiffres et des underscores mais pas de caractères spéciaux ; <br>
+    • Le nom d’une variable ne doit pas contenir d’espace. <br>
+</p>
+<p>
+    De plus, notez que le nom des variables est sensible à la casse en JavaScript ! <br>    
+    Enfin, sachez qu’il existe des noms « réservés » en JavaScript. Vous ne pouvez pas utiliser ces noms. <br>
+</p>
+<p>    
+    Vous pouvez également noter qu’on utilise généralement la convention <cite>lower camel case</cite> pour définir les noms de variable en 
+    Javascript. Cette convention stipule simplement que lorsqu’un nom de variable est composé de plusieurs mots, on colle les mots 
+    ensemble en utilisant une majuscule pour chaque mot sauf le premier. Par exemple, si je décide de nommer 
+    une variable « monage » j’écrirai en Javascript <cite>let</cite> <cite>monAge</cite>. 
+</p>
+<h3>Déclaration d’une variable</h3>
+<p>Pour déclarer une variable en JavaScript, vous utilisez les mots-clés :</p>
+<ul>
+    <li><cite>var</cite> (ancienne méthode, à éviter dans les nouveaux projets)</li>
+    <li><cite>let</cite> (pour une portée limitée au bloc)</li>
+    <li><cite>const</cite> (pour les valeurs constantes ou immuables)</li>
+</ul>
+<h4>1. Syntaxe de base</h4>
+<textarea class="code-php">
+    let age = 25; // Déclare une variable "age" avec une valeur initiale de 25
+    const nom = "Alice"; // Déclare une constante "nom" avec une valeur initiale "Alice"
+    var ville = "Paris"; // Déclare une variable "ville" (ancienne méthode)
+</textarea>
+<h4 class="mt-5">2. Différences entre var, let et const</h4>
+<table class="table">
+    <thead><tr><th><strong>Mot-clé</strong></th><th><strong>Portée</strong></th><th><strong>Re-déclarable ?</strong></th><th><strong>Valeur modifiable ?</strong></th><th><strong>Utilisation conseillée</strong></th></tr></thead><tbody><tr><td><code>var</code></td><td>Fonction</td><td>Oui</td><td>Oui</td><td>À éviter, car peut causer des bugs liés à sa portée globale.</td></tr><tr><td><code>let</code></td><td>Bloc</td><td>Non</td><td>Oui</td><td>À utiliser pour les variables qui changent.</td></tr><tr><td><code>const</code></td><td>Bloc</td><td>Non</td><td>Non</td><td>À utiliser pour les constantes ou les objets non réassignables.</td></tr></tbody>
+</table>
+<u>Portée des variables :</u>
+<ul>
+    <li><cite>var</cite> : La portée est limitée à la fonction englobante ou au niveau global si déclaré en dehors de toute fonction. 
+        Elle ignore les blocs {}.</li>
+    <li><cite>let</cite> et <cite>const</cite> : La portée est limitée au bloc dans lequel elles sont déclarées, y compris les blocs conditionnels ou les boucles.</li>
+</ul>
+Exemple :
+<textarea class="code-php">
+    if (true) {
+        var x = 10; // Accessible en dehors du bloc
+        let y = 20; // Non accessible en dehors du bloc
+        const z = 30; // Non accessible en dehors du bloc
+    }
+    
+    console.log(x); // 10
+    // console.log(y); // Erreur : y n'est pas défini
+    // console.log(z); // Erreur : z n'est pas défini    
+</textarea>
+<br>
+<u>Réassignabilité et redéclaration :</u>
+<ul>
+    <li><cite>var</cite> : Vous pouvez réassigner et redéclarer une variable sans erreur, ce qui peut causer des bugs.</li>
+    <li><cite>let</cite> : Vous pouvez réassigner, mais pas redéclarer dans la même portée.</li>
+    <li><cite>const</cite> : Ni réassignable ni redéclarable.</li>
+</ul>
+Exemple :
+<textarea class="code-php">
+    var a = 10;
+    var a = 20; // Pas d'erreur
+    console.log(a); // 20
+    
+    let b = 30;
+    // let b = 40; // Erreur : b a déjà été déclaré
+    b = 40; // Pas d'erreur
+    console.log(b); // 40
+    
+    const c = 50;
+    // const c = 60; // Erreur : c a déjà été déclaré
+    // c = 60; // Erreur : c est une constante
+    console.log(c); // 50    
+</textarea>
+<br>
+<u>Initialisation obligatoire pour const :</u>
+<ul>
+    <li><cite>var</cite> et <cite>let</cite> : Vous pouvez déclarer une variable sans l'initialiser.</li>
+    <li><cite>const</cite> : Vous devez initialiser la variable au moment de sa déclaration.</li>
+</ul>
+Exemple :
+<textarea class="code-php">
+    var x;
+    let y;
+    // const z; // Erreur : une constante doit être initialisée
+    
+    x = 10;
+    y = 20;
+    const z = 30; // Initialisation obligatoire    
+</textarea>
+<br>
+<u>Hoisting (Remontée de la déclaration) :</u>
+<ul>
+    <li><cite>var</cite> : La déclaration est "remontée" en haut de la portée (hoisting), mais elle est initialisée à <b>undefined</b>.</li>
+    <li><cite>let</cite> et <cite>const</cite> : La déclaration est également "remontée", mais elles restent inaccessibles jusqu'à leur 
+        déclaration (<b>zone temporaire morte</b> = Autrement dit, la déclaration est bien remontée mais la variable ne peut pas être utilisée tant que l'affectation (qui n'est pas remontée) n'a pas été effectuée.).</li>
+</ul>
+Exemple :
+<textarea class="code-php">  
+    console.log(a); // undefined (hoisting avec var)
+    var a = 10;
+    
+    // console.log(b); // Erreur : Cannot access 'b' before initialization
+    let b = 20;
+    
+    // console.log(c); // Erreur : Cannot access 'c' before initialization
+    const c = 30;    
+</textarea>
+<br>
+<h4>3. Types de données pouvant être stockées</h4>
+Une variable en JavaScript peut contenir différents types de données :
+<ul>
+    <li>
+        Primitifs :
+        <ul>
+            <li><b>String</b> : Chaînes de caractères, ex. "Bonjour"</li>
+            <li><b>Number</b> : Nombres, ex. 42, 3.14</li>
+            <li><b>Boolean</b> : Valeurs booléennes, ex. true, false</li>
+            <li><b>Null</b> : Une valeur spéciale représentant "rien"</li>
+            <li><b>Undefined</b> : Une variable déclarée mais non initialisée</li>
+            <li><b>Symbol</b> : Une valeur unique et immuable (rarement utilisé)</li>
+        </ul>
+    </li>
+    <li>
+        Objets :
+        <ul>
+            <li><b>Objets simples</b> : { clé: valeur }</li>
+            <li><b>Tableaux</b> : [1, 2, 3]</li>
+            <li><b>Fonctions</b> : Une fonction est également un objet en JavaScript.</li>
+        </ul>
+    </li>    
+</ul>
+<h4>4. Exemples pratiques</h4>
+Exemple avec let :
+<textarea class="code-php">
+    let score = 10; 
+    score = 20; // Le contenu de "score" est modifié.
+    console.log(score); // Affiche 20
+</textarea>
+<br>
+Exemple avec const :
+<textarea class="code-php">
+    const pi = 3.14; 
+    // pi = 3.14159; // Erreur ! Vous ne pouvez pas modifier une constante.
+</textarea>
+<br>
+Exemple avec des objets :
+<textarea class="code-php">
+    const voiture = { marque: "Toyota", modele: "Corolla" };
+    voiture.modele = "Yaris"; // Vous pouvez modifier les propriétés d'un objet.
+    console.log(voiture); // { marque: "Toyota", modele: "Yaris" }
+</textarea>
+<h4>5. Portée des variables</h4>
+<ul>
+    <li><b>Globale</b> : Une variable définie en dehors de toute fonction ou bloc est accessible partout.</li>
+    <li><b>Locale</b> : Une variable définie avec <cite>let</cite> ou <cite>const</cite> dans un bloc <cite>{}</cite> est accessible uniquement dans ce bloc.</li>
+</ul>
+Exemple de portée :
+<textarea class="code-php">
+    if (true) {
+        let x = 10;
+        console.log(x); // Affiche 10
+    }
+    // console.log(x); // Erreur : x n'est pas défini    
+</textarea>
+<br>
+<h4>6. En résumé</h4>
+<ul>
+    <li>Utilisez <cite>let</cite> pour des variables modifiables.</li>
+    <li>Utilisez <cite>const</cite> pour des constantes ou des références immuables.</li>
+    <li>Évitez <cite>var</cite> dans les projets modernes.</li>
+</ul>

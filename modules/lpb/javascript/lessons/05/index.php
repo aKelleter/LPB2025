@@ -20,10 +20,10 @@
                 <div class="row">
                     <div class="col-md-1"></div>
                     <div class="col-md-10">                       
-                        <h1 class="mt-5 text-center">Leçon 02 : <span class="color_dark_green">Où et comment écrire du Javascript</span></h1>  
-                        <?= getHtmlSubMenu('01', '03', JS); ?> 
+                        <h1 class="mt-5 text-center">Leçon 05 : <span class="color_dark_green">Les variables</span></h1>  
+                        <?= getHtmlSubMenu('04', '06', JS); ?> 
                         
-                        <?= getHtmlBlocWhatCodeDoes(file_get_contents(FILENAME_WCD)); ?>                                                                      
+                        <?= getHtmlBlocWhatCodeDoes(file_get_contents(FILENAME_WCD)); ?>                       
                         <?= getHtmlBlockRessources($ressources); ?>
 
                     </div> <!--col-md-10-->

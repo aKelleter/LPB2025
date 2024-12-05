@@ -1,4 +1,106 @@
-<h3></h3>
+<h3>Où et comment écrire du Javascript?</h3>
 <p>
-    
+    Écrire du code JavaScript est assez flexible : vous pouvez l’écrire dans différents environnements, en fonction de vos besoins et 
+    du type de projet que vous développez. Voici comment et où vous pouvez écrire du code JavaScript :
 </p>
+<h3>1. Directement dans un navigateur (Console)</h3>
+<p>
+    Les navigateurs modernes comme Chrome, Firefox, Edge et Safari ont une <b>console de développement</b> où vous pouvez écrire et tester 
+    rapidement du code JavaScript.  
+</p>
+<ul>
+    <li>
+        <b>Accès à la console</b> :
+        <ul>
+            <li><b>Chrome/Edge</b> : <cite>Ctrl + Shift + J</cite> (Windows/Linux) ou <cite>Cmd + Option + J</cite> (Mac).</li>
+            <li><b>Firefox</b> : <cite>Ctrl + Shift + K</cite> (Windows/Linux) ou <cite>Cmd + Option + K</cite> (Mac).</li>
+        </ul>
+    </li>   
+</ul>
+<p>
+    Vous pouvez y écrire du code directement, mais cela ne convient qu'aux tests rapides ou au débogage.
+</p>
+<h3>2. Dans une page HTML</h3>
+<p>
+    Vous pouvez inclure du JavaScript dans une page HTML pour ajouter de l'interactivité.
+</p>
+<h5>a) Dans un script intégré :</h5>
+<textarea class="code-php">
+<html>
+    <head>
+        <title>Exemple JS</title>
+    </head>
+    <body>
+        <h1>Bonjour !</h1>
+        <script>
+            console.log('Hello, JavaScript!');
+        </script>
+    </body>
+</html>
+</textarea>
+<h5 class="mt-5">b) Dans un fichier externe :</h5>
+<ul>
+    <li>Créez un fichier <cite>script.js</cite> avec votre code JavaScript.</li>
+    <li>Incluez-le dans la page HTML :</li>
+</ul>
+<textarea class="code-php">
+<html>
+    <head>
+        <title>Exemple JS</title>
+    </head>
+    <body>
+        <h1>Bonjour !</h1>
+        <script src="script.js"></script>
+    </body>
+</html>
+</textarea>
+<h3>3. Avec un éditeur de texte ou un IDE</h3>
+<p>
+    Pour des projets plus grands, utilisez un éditeur de code adapté.
+</p>
+<ul>
+    <li>
+        Éditeurs populaires :
+        <ul>
+            <li> <b>VS Code</b> : très populaire, riche en extensions.</li>
+            <li> <b>Text</b> : rapide et léger.</li>
+            <li> <b>Atom</b> : personnalisable, basé sur Electron.</li>
+            <li> <b>Intellij IDEA</b> : développé par JetBrains. Il est connu pour sa complétion intelligente du code et son refactoring avancé.</li>
+            <li>...</li>
+        </ul>
+    </li>
+</ul>
+<p>
+    Créez un fichier <cite>.js</cite> pour y écrire votre code.
+</p>
+<h3>4. Avec Node.js</h3>
+<p>
+    Si vous développez des applications côté serveur ou des outils, utilisez Node.js pour exécuter du JavaScript.
+</p>
+<ul>
+    <li>Installation : <a href="https://nodejs.org/" target="_blank">Node.js</a></li>
+    <li>
+        Exécution du code :
+        <ul>
+            <li>Écrivez du code dans un fichier <cite>script.js.</cite></li>
+            <li>Lancez-le avec la commande :
+                <pre>node script.js</pre>
+            </li>
+        </ul>
+    </li>
+</ul>
+<h3>5. Environnements en ligne</h3>
+<p>
+    Si vous souhaitez effectuer des tests ou n'avez pas accès à vos logiciels, essayez des éditeurs en ligne :
+</p>
+<ul>
+    <li><a href="https://codepen.io/" target="_blank">CodePen</a> : idéal pour des projets front-end rapides.</li>
+    <li><a href="https://jsfiddle.net/" target="_blank">JSFiddle</a> : pour des tests rapides.</li>
+    <li><a href="https://replit.com/" target="_blank">Replit</a> : pour des projets plus complexes.</li>    
+</ul>
+<h3>Conseils pour bien débuter</h3>
+<ul>
+    <li><b>Organisez vos fichiers</b> : Gardez votre HTML, CSS, et JS bien séparés dans des fichiers dédiés.</li>
+    <li><b>Débogage</b> : Utilisez la console du navigateur pour repérer les erreurs.</li>
+    <li><b>Documentation</b> : Consultez <a href="https://developer.mozilla.org/fr/" target="_blank">MDN Web Docs</a> pour apprendre et trouver des exemples.</li>
+</ul>

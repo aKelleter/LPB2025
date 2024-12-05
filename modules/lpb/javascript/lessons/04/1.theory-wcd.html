@@ -1,0 +1,72 @@
+<p>
+    En JavaScript, les commentaires sont utilisés pour inclure des notes ou des explications dans le code, sans que ces notes 
+    n'affectent l'exécution du programme. Les commentaires peuvent être d'une seule ligne ou sur plusieurs lignes. Voici les 
+    deux types principaux de commentaires en Javascript :
+</p>
+<h3>1. Commentaires sur une seule ligne</h3>
+<p>
+    Pour écrire un commentaire d'une seule ligne, vous utilisez <cite>//</cite> au début de la ligne. Tout ce qui suit <cite>//</cite> sur 
+    la même ligne sera ignoré par le moteur JavaScript.
+</p>
+Exemple :
+<textarea class="code-php">
+    // Ceci est un commentaire sur une seule ligne
+    let x = 5; // Ce commentaire explique que x vaut 5
+</textarea>
+<h3>2. Commentaires sur plusieurs lignes</h3>
+<p>
+    Pour écrire un commentaire qui s'étend sur plusieurs lignes, vous utilisez <cite>/*</cite> pour commencer le commentaire 
+    et <cite>*/</cite> pour le terminer.
+</p>
+Exemple :
+<textarea class="code-php">
+    /*
+        Ceci est un commentaire
+        sur plusieurs lignes.
+        Vous pouvez l'utiliser pour des explications détaillées.
+    */
+    let y = 10;
+</textarea>
+<h3>3. Utilisations des commentaires</h3>
+<ol>
+    <li>
+        <b>Documenter le code</b> : Expliquez ce que fait un morceau de code, en particulier s'il est complexe.
+        <textarea class="code-php">
+            // Calculer la somme des deux nombres
+            let somme = a + b;
+        </textarea>
+    </li>
+    <li>
+        <b>Désactiver temporairement du code</b> : Pendant le débogage, vous pouvez commenter certaines lignes pour empêcher leur exécution.
+        <textarea class="code-php">
+            // console.log("Cette ligne est temporairement désactivée");
+        </textarea>
+    </li>
+    <li>
+        <b>Rappels ou notes</b> : Ajoutez des rappels pour les futurs développeurs (ou vous-même) concernant les parties à améliorer ou vérifier.
+        <textarea class="code-php">
+            // TODO: Optimiser cette fonction pour des grandes valeurs d'entrée
+        </textarea>
+    </li>
+</ol>
+<h3>4. Les bonnes pratiques</h3>
+<ol>
+    <li>
+        <b>Évitez les commentaires inutiles</b>. Si le code est clair, il n’a pas besoin d’explications.
+        <textarea class="code-php">
+            // Mauvais commentaire
+            let z = 20; // Déclare une variable z et lui attribue 20
+        </textarea>
+    </li>
+    <li>
+        <b>Soyez concis et précis</b>. Allez droit au but en expliquant l'intention du code.
+        <textarea class="code-php">
+            // Bonne pratique
+            let z = 20; // Valeur par défaut pour commencer le calcul            
+        </textarea>
+    </li>        
+</ol>
+<p>
+    Les commentaires sont un outil puissant pour rendre votre code plus compréhensible et maintenable ! 😊
+</p>
+

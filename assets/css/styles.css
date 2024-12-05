@@ -26,6 +26,7 @@
     --color-light-violet: rgb(208, 196, 250);
     --color-light-grey: rgb(241, 239, 239);
     --color-light-green: rgb(15, 219, 107);
+    --color-elem-cite: rgb(101, 25, 193);
    
    
     --border-width-1: 1px;
@@ -74,6 +75,10 @@ h3 {
 h4 {
     margin-top: 1.1em;
     text-decoration: underline;
+}
+
+h5 {
+    font-size: 1.0em;
 }
 
 h6 {
@@ -135,6 +140,13 @@ pre {
     border-radius: 5px;
     padding: 0.5em;
     margin: 0.5em;
+}
+cite {
+    font-style: italic;
+    color: var(--color-elem-cite);
+    background-color: var(--color-light-grey);   
+    border-radius: 5px;
+    padding: 0.2em;
 }
 
 
@@ -299,6 +311,8 @@ a.link{
 .marge0 {
     margin: 0 !important;
 }
+
+
 
 
 /*
