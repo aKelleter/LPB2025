@@ -11,6 +11,7 @@
     --color-deep-black: rgb(24, 39, 45);
     --color-deep-blue: rgb(22, 48, 58);
     --color-deep-turquoise: rgb(12, 89, 104);
+    --color-light-turquoise: rgb(30, 185, 190);
     --color-light-white: rgb(254, 255, 251);
     --color-medium-white: rgb(231, 235, 222);
     --color-light-red: rgb(218, 23, 23);
@@ -65,10 +66,10 @@ h2 {
 h3 {
     font-size: 1.3em;
     font-weight: bold;
-    color: var(--color-lime-jade);
+    color: var(--color-light-turquoise);
     margin: 0.8em;
     padding: 0.3em;
-    border-bottom: 1px solid var(--color-lime-jade);
+    border-bottom: 1px solid var(--color-light-turquoise);
     border-radius: .2em;    
 }
 

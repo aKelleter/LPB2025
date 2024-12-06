@@ -1,0 +1,167 @@
+<p>
+    Le type <cite>Symbol</cite> en Javascript est un type de données primitif introduit avec ES6 (ES2015). 
+    Il est utilisé pour créer des identifiants uniques. Voici une explication détaillée sur comment 
+    l'utiliser et ce que vous pouvez faire avec. 
+</p>
+<h3>Caractéristiques principales de <cite>Symbol</cite></h3>
+<p>
+    <b>1. Identifiants uniques</b> : <br>
+    Chaque Symbol est unique, même si deux symboles sont créés avec la même description.
+    <textarea class="code-php">
+        let sym1 = Symbol("id");
+        let sym2 = Symbol("id");
+        console.log(sym1 === sym2); // false
+    </textarea>
+</p>
+<p>
+    <b>2. Pas de conversion implicite en chaînes</b> : <br>
+    Les <cite>Symbol</cite> ne peuvent pas être convertis automatiquement en une chaîne. 
+    Cela évite des conflits accidentels.
+    <textarea class="code-php">
+        let sym = Symbol("example");
+        console.log("Symbole : " + sym); // TypeError
+        console.log(String(sym));       // Symbole : Symbol(example)
+    </textarea>
+</p>
+<h3>Cas d'utilisation de <cite>Symbol</cite></h3>
+<p>
+    <b>1. Créer des clés d'objet uniques</b> : <br>
+    Les <cite>Symbol</cite> sont souvent utilisés comme clés d'objet pour garantir que les propriétés ne sont pas en conflit avec 
+    d'autres propriétés.
+    <textarea class="code-php">
+        let id = Symbol("id");
+        let user = {
+            name: "John",
+            [id]: 12345 // Clé unique (Les crochets [ ] permettent d'utiliser une expression (comme un symbole) comme clé.)
+        };
+        console.log(user[id]); // 12345
+    </textarea>
+    Avantage : même si quelqu'un ajoute une autre propriété id à l'objet, elle ne perturbera pas la propriété symbolique.
+</p>
+<p>
+    <b>2. Ajouter des propriétés non-énumérables</b> : <br>
+        Les propriétés symboliques ne sont pas accessibles par les boucles comme <cite>for...in</cite> ou <cite>Object.keys</cite>. 
+        Elles restent "cachées" par défaut.
+    <textarea class="code-php">
+        let hidden = Symbol("hidden");
+        let obj = {
+            visible: "This is visible",
+            [hidden]: "This is hidden"
+        };
+        
+        console.log(Object.keys(obj)); // ["visible"]
+        console.log(obj[hidden]);      // "This is hidden"        
+    </textarea>    
+</p>
+<p>
+    <b>3. Utiliser des <cite>Symbol globaux</cite></b> : <br>
+        Vous pouvez utiliser <cite>Symbol.for(key)</cite> pour créer ou récupérer un <cite>Symbol</cite> global. Cela permet de partager 
+        un <cite>Symbol</cite> entre différents fichiers ou modules.
+    <textarea class="code-php">
+        let sym1 = Symbol.for("shared");
+        let sym2 = Symbol.for("shared");
+        console.log(sym1 === sym2); // true
+    </textarea>
+    <br> Avec Symbol.keyFor(), vous pouvez récupérer la clé d'un Symbol global :
+    <textarea class="code-php">
+        console.log(Symbol.keyFor(sym1)); // "shared"
+    </textarea>    
+</p>
+<p>
+    <b>4. Définir des comportements personnalisés dans des objets</b> : <br>
+        Certains <cite>Symbol</cite> sont prédéfinis en JavaScript pour personnaliser le comportement des objets. Exemples courants :
+    <textarea class="code-php">
+        let iterableObj = {
+            items: [1, 2, 3],
+            [Symbol.iterator]() {
+                let i = 0;
+                return {
+                    next: () => ({
+                        value: this.items[i++],
+                        done: i > this.items.length
+                    })
+                };
+            }
+        };
+        
+        for (let item of iterableObj) {
+            console.log(item); // 1, 2, 3
+        }        
+    </textarea>
+    <p>
+        <b><u>Explications du code ci-dessus</u></b> : <br>       
+    
+        Le code permet de rendre un objet itérable en définissant une méthode spéciale avec le symbole prédéfini <cite>Symbol.iterator</cite>.
+        Examinons-le en détail : <br>
+        <b>Le rôle de Symbol.iterator</b> <br>
+        <cite>Symbol.iterator</cite> est un symbole prédéfini en Javascript utilisé pour rendre un objet itérable.
+        Quand un objet implémente une méthode associée à <cite>Symbol.iterator</cite>, cet objet peut être parcouru avec des structures 
+        comme <cite>for...of</cite>, <cite>spread (...)</cite>, ou des méthodes comme <cite>Array.from</cite>.
+    </p>
+    <p>
+        <b>Décomposition ligne par ligne</b> : <br>
+    </p>
+    <ol>
+        <li>
+            <p><strong>Propriété <code>items</code></strong> :<br>C'est un tableau <code>[1, 2, 3]</code> stocké comme une propriété de l'objet <code>iterableObj</code>.</p>
+        </li>
+        <li>
+            <p><strong>Définition de <code>Symbol.iterator</code></strong> :</p>
+            <ul>
+                <li>La méthode associée à <code>Symbol.iterator</code> transforme l'objet <code>iterableObj</code> en un <strong>itérateur</strong>.</li>
+                <li>Elle renvoie un objet avec une méthode <code>next</code> qui suit le protocole des itérateurs.</li>
+            </ul>
+        </li>
+        <li>
+            <p><strong>La méthode <code>next</code></strong> :</p>
+            <ul>
+                <li>À chaque appel, <code>next</code> :
+                    <ul>
+                        <li>Fournit la propriété <code>value</code>, qui est l'élément suivant du tableau <code>items</code>.</li>
+                        <li>Fournit la propriété <code>done</code>, qui indique si l'itération est terminée (<code>true</code>).</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <p><strong>Comportement de l'itérateur</strong> :</p>
+            <ul>
+                <li>À chaque itération, <code>i</code> est incrémenté.</li>
+                <li>Lorsque <code>i</code> dépasse la longueur du tableau, <code>done</code> passe à <code>true</code>, signalant la fin de l'itération.</li>
+            </ul>
+        </li>
+    </ol>  
+    <p>
+        <b>Utilisation</b> : <br>
+    </p> 
+    <textarea class="code-php">
+        // Avec une boucle for...of
+        for (let value of iterableObj) {
+            console.log(value); // 1, 2, 3
+        } 
+        
+        // Avec l'opérateur de décomposition (...) spread
+        let array = [...iterableObj];
+        console.log(array); // [1, 2, 3]
+
+        // Avec Array.from
+        let array = Array.from(iterableObj);
+        console.log(array); // [1, 2, 3]
+    </textarea>
+    <p>
+        <b>Explication du protocole des itérateurs</b> <br>
+        Un itérateur en JavaScript doit avoir : <br>
+            1. Une méthode <cite>next</cite> qui renvoie un objet. <br>
+            2. Cet objet doit avoir deux propriétés : <br>
+                - <cite>value</cite> : La valeur courante de l'itération. <br>
+                - <cite>done</cite> : Un booléen indiquant si l'itération est terminée (true) ou non (false). <br>
+    </p>
+</p>
+<h3>Quand utiliser <cite>Symbol</cite> ?</h3>
+<ul>
+    <li>Lorsque vous devez garantir l'unicité des clés dans un objet.</li>
+    <li>Pour ajouter des propriétés "privées" ou cachées à des objets.</li>
+    <li>Pour utiliser ou personnaliser des fonctionnalités avancées via des <cite>Symbol</cite> prédéfinis.</li>
+    <li>Lorsque vous travaillez avec des modules ou des bibliothèques pour éviter des conflits avec des clés d'objet existantes.</li>
+</ul>
+Les <cite>Symbol</cite> sont donc puissants pour des cas avancés ou pour écrire du code plus robuste et modulable. 😊

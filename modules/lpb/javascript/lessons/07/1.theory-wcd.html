@@ -1,0 +1,115 @@
+<p>
+    En JavaScript, le type <cite>string</cite> est utilisé pour représenter des chaînes de caractères. 
+    Une chaîne est une séquence de caractères entourée de guillemets simples (<cite>'</cite>), 
+    de guillemets doubles (<cite>"</cite>) ou de backticks (<cite>`</cite>).
+</p>
+<h3>Création d'une chaîne</h3>
+<p>
+    Voici trois façons principales de définir une chaîne :
+</p>
+<textarea class="code-php">
+    let str1 = 'Bonjour';       // Avec des guillemets simples
+    let str2 = "Bonjour";       // Avec des guillemets doubles
+    let str3 = `Bonjour`;       // Avec des backticks (template literals)
+</textarea>
+<h3>Caractéristiques principales</h3>
+<ol>
+    <li class="mt-3">
+        <b>Immuabilité</b> : Une fois créée, une chaîne ne peut pas être modifiée. 
+        Par exemple, vous ne pouvez pas changer un caractère directement dans une chaîne.
+        <textarea class="code-php">
+            let str = "Bonjour";
+            str[0] = "b"; // Cela ne fonctionne pas, la chaîne reste inchangée.            
+        </textarea>
+    </li>
+    <li class="mt-3">
+        <b>Accès par index</b> : Les caractères individuels d'une chaîne peuvent être accédés via des indices (zéro-indexé).
+        <textarea class="code-php">
+            let str = "JavaScript";
+            console.log(str[0]); // J
+            console.log(str[4]); // S
+        </textarea>
+    </li>
+    <li class="mt-3">
+        <b>Longueur</b> : La propriété <cite>.length</cite> permet de connaître la longueur d'une chaîne.
+        <textarea class="code-php">
+            let str = "Bonjour";
+            console.log(str.length); // 7            
+        </textarea>
+    </li>
+    <li class="mt-3">
+        <b>Concaténation</b> : Vous pouvez concaténer des chaînes avec l'opérateur <cite>+</cite> ou <cite>+=</cite>.
+        <textarea class="code-php">
+            let str1 = "Hello";
+            let str2 = "World";
+            console.log(str1 + " " + str2); // Hello World
+        </textarea>
+    </li>
+    <li class="mt-3">
+        <b>Template Literals</b> : Avec les backticks (<cite>`</cite>), vous pouvez insérer des variables ou expressions directement dans une chaîne grâce à <cite>${}</cite>.
+        <textarea class="code-php">
+            let name = "Alice";
+            console.log(`Bonjour, ${name}!`); // Bonjour, Alice!
+        </textarea>
+    </li>    
+</ol>
+
+<h3>Méthodes utiles pour manipuler les chaînes</h3>
+<p>
+    JavaScript propose plusieurs méthodes intégrées pour manipuler des chaînes :
+</p>
+<ul>    
+    <li class="mt-3">
+        <b>Conversion de casse</b> :
+        <textarea class="code-php">
+            let str = "JavaScript";
+            console.log(str.toLowerCase()); // javascript
+            console.log(str.toUpperCase()); // JAVASCRIPT
+        </textarea>
+    </li>
+    <li class="mt-3">
+        <b>Recherche dans une chaîne</b> :
+        <textarea class="code-php">
+            let str = "Bonjour tout le monde";
+            console.log(str.indexOf("tout")); // 8
+            console.log(str.includes("monde")); // true
+        </textarea>
+    </li>
+    <li class="mt-3">
+        <b>Extraction de sous-chaînes</b> :
+        <textarea class="code-php">
+            let str = "Bonjour tout le monde";
+            console.log(str.slice(8, 12)); // tout
+            console.log(str.substring(8, 12)); // tout
+        </textarea>
+    </li>
+    <li class="mt-3">
+        <b>Remplacement </b> :
+        <textarea class="code-php">
+            let str = "Bonjour tout le monde";
+            console.log(str.replace("tout", "à")); // Bonjour à le monde
+        </textarea>
+    </li>
+    <li class="mt-3">
+        <b>Suppression des espace</b> :
+        <textarea class="code-php">
+            let str = "   Bonjour   ";
+            console.log(str.trim()); // Bonjour
+        </textarea>
+    </li>   
+</ul>
+
+<h3>Exemple concret</h3>
+<textarea class="code-php">
+    let nom = "John";
+    let age = 30;
+    let message = `Salut, je m'appelle ${nom} et j'ai ${age} ans.`;
+    console.log(message); 
+    // Sortie : Salut, je m'appelle John et j'ai 30 ans.    
+</textarea>
+
+<h3>Conclusion</h3>
+<p>
+    Le type <cite>string</cite> est fondamental en JavaScript pour manipuler et afficher des données textuelles. 
+    Avec ses nombreuses méthodes, il est facile de travailler avec des chaînes de caractères pour répondre à divers besoins.
+</p>

@@ -1,4 +1,104 @@
-<h3></h3>
 <p>
-    
+    En Javascript, les variables peuvent être classées selon leur déclaration et leur type de données. Lors de la leçon 
+    <a href="../05">précédente</a>, nous avons abordé leur déclacration, dans cette leçon, nous allons nous pencher sur les types 
+    de données que l'on peut leur attribuer.
+</p>
+<h3>1. Les types de données</h3>
+<p>
+    En Javascript, il existe deux grandes catégories de types : les <b>types primitifs</b> et les <b>types complexes</b>.
+</p>
+<ul>
+    <li>
+        <b class="red">Les types primitifs</b> : <br>
+        Ces types représentent des valeurs immuables.
+        <ol>
+            <li class="mt-3">
+                <b>String</b> : Chaîne de caractères.
+                <textarea class="code-php">
+                    let str = "Bonjour";
+                </textarea>
+            </li>
+            <li class="mt-3">
+                <b>Number</b> : Nombres (entiers et flottants).
+                <textarea class="code-php">
+                    let num = 42;
+                </textarea>
+            </li>
+            <li class="mt-3">
+                <b>BigInt</b> : Les très grands nombres.
+                <textarea class="code-php">
+                    let bigNum = 123456789012345678901234567890n;
+                </textarea>
+            </li>
+            <li class="mt-3">
+                <b>Boolean</b> : Les booléens représentent les valeurs logiques <cite>true</cite> et <cite>false</cite>.
+                <textarea class="code-php">
+                    let isReady = true;
+                </textarea>
+            </li>
+            <li class="mt-3">
+                <b>Undefined</b> : Une variable déclarée mais non initialisée.
+                <textarea class="code-php">
+                    let foo;
+                    console.log(foo); // undefined
+                </textarea>
+            </li>
+            <li class="mt-3">
+                <b>Null</b> : Représentant l'absence délibérée de valeur.
+                <textarea class="code-php">
+                    let bar = null;
+                </textarea>
+            </li>
+            <li class="mt-3">
+                <b>Symbol </b> : Représentant un identifiant unique.
+                <textarea class="code-php">
+                    let sym = Symbol('id');
+                </textarea>
+            </li>
+        </ol>
+    </li>
+    <li class="mt-5">
+        <b class="red">Les types complexes</b> : <br>
+        Ces types représentent des objets ou des collections mutables.
+        <ol>
+            <li class="mt-3">
+                <b>Object </b> : Structure de données clé-valeur.
+                <textarea class="code-php">
+                    let obj = { 
+                        name: "Alice", 
+                        age: 25 
+                    };
+                </textarea>
+            </li>
+            <li class="mt-3">
+                <b>Array </b> : Tableau de valeurs.
+                <textarea class="code-php">
+                    let arr = [1, 2, 3];
+                </textarea>
+            </li>
+            <li class="mt-3">
+                <b>Function  </b> :  Bloque de code réutilisable.
+                <textarea class="code-php">
+                    function greet() {
+                        console.log("Hello");
+                    }                    
+                </textarea>
+            </li>
+            <li class="mt-3">
+                <b>Date, Map, Set, ...  </b> : Objets spécialisés.
+                <textarea class="code-php">
+                    let date = new Date();
+                    
+                    let map1 = new Map(); // Un objet Map contient des paires de clé-valeur et mémorise l'ordre dans lequel les clés ont été insérées.                
+                    map1.set('a', 1);
+                    console.log(map1.get('a'));
+                    // Sortie attendue: 1
+                </textarea>
+            </li>
+        </ol>
+    </li>
+</ul>
+<p>
+    En résumé, JavaScript offre une grande flexibilité grâce à ses types dynamiques et ses diverses méthodes de déclaration, 
+    adaptées à différents besoins de programmation. 
 </p>

@@ -1,0 +1,88 @@
+<p>
+    En Javascript, les types de valeurs <cite>null</cite> et <cite>undefined</cite>  sont deux valeurs primitives. Elles sont 
+    un peu particuliers car ils ne contiennent qu’une valeur chacun : les valeurs <cite>null</cite> et <cite>undefined</cite>.
+    
+</p>
+<h3>La valeur null</h3>
+<p>
+    La valeur <cite>null</cite> correspond à l’absence de valeur ou du moins à l’absence de valeur connue. 
+    Pour qu’une variable contienne <cite>null</cite>, il va falloir stocker cette valeur qui représente donc l’absence 
+    de valeur de manière explicite. <br>
+    La valeur null va être utile dans certains cas où on souhaite explicitement indiquer une absence de valeur connue. <br>
+    Contrairement à <cite>undefined</cite>, <cite>null</cite> est intentionnel et signifie explicitement "aucune valeur". 
+</p>
+<p>Exemples:</p>
+<textarea class="code-php">
+    let y = null; // Variable initialisée avec une valeur vide
+    console.log(y); // null
+
+    let obj = { name: null }; // Indique qu'il n'y a pas de nom
+    console.log(obj.name); // null
+</textarea>
+<h3>undefined</h3>
+<p>
+    Une variable est considérée comme <cite>undefined</cite> lorsqu'elle est déclarée mais n’a pas encore reçu de valeur.
+</p>
+<b>Caractéristiques</b> :
+<ul>
+    <li>C'est le type par défaut d'une variable non initialisée.</li>
+    <li>Si une fonction n’a pas de retour explicite, elle retourne <cite>undefined</cite>.</li>
+    <li>Une propriété d’un objet qui n'existe pas ou une valeur d'un tableau hors limites retourne également <cite>undefined</cite>.</li>
+</ul>
+<p>Exemples:</p>
+<textarea class="code-php">
+    let x; // Déclarée mais pas initialisée
+    console.log(x); // undefined
+
+    function test() {}
+    console.log(test()); // undefined
+
+    let obj = {};
+    console.log(obj.prop); // undefined
+</textarea>
+
+<h3>Différences principales</h3>
+<table class="table">
+    <thead><tr><th><strong>Caractéristique</strong></th><th><strong>undefined</strong></th><th><strong>null</strong></th></tr></thead>
+    <tbody><tr><td><strong>Définition</strong></td><td>Absence de valeur par défaut</td><td>Absence de valeur intentionnelle</td></tr><tr><td><strong>Attribution</strong></td><td>Assigné automatiquement</td><td>Doit être assigné explicitement</td></tr><tr><td><strong>Type</strong></td><td><code>undefined</code> (c'est aussi sa valeur)</td><td><code>object</code> (anomalie historique)</td></tr><tr><td><strong>Usage</strong></td><td>Variables non initialisées</td><td>Représente une valeur vide</td></tr></tbody>
+</table>
+<p>Exemple illustrant la différence :</p>
+<textarea class="code-php">
+    let a;          // a est undefined car non initialisée
+    let b = null;   // b est initialisée avec null
+    
+    console.log(a); // undefined
+    console.log(b); // null  
+    
+    console.log(typeof a); // undefined
+    console.log(typeof b); // object    
+</textarea>
+<p>
+    Le type renvoyé par typeof pour null est ici <cite>object</cite>. Les objets sont des types complexes de valeurs que nous étudierons plus tard dans ce cours.
+    Pour le moment, vous pouvez simplement retenir que <cite>null</cite> ne devrait pas être de type Object mais bien de type <cite>null</cite> et que 
+    cela est considéré comme une "erreur" du langage Javascript par la majorité des développeurs. Cependant, historiquement, ça a toujours été le cas. 
+</p>
+<h3>Comparaisons importantes</h3>
+<p>
+    1. <b>undefined vs null (égalité lâche)</b> : <br>
+    <textarea class="code-php">
+        console.log(undefined == null); // true
+    </textarea>
+    Avec <cite>==</cite>, Javascript considère que les deux valeurs sont équivalentes.
+</p>
+<p>
+    2. <b>undefined vs null (égalité stricte)</b> : <br>
+    <textarea class="code-php">
+        console.log(undefined === null); // false
+    </textarea>
+    Avec <cite>===</cite>, les types étant différents (<cite>undefined</cite> et <cite>object</cite>), ils ne sont pas strictement égaux.
+</p>
+<h3>Quand utiliser quoi ?</h3>
+<ul>
+    <li><cite>undefined</cite> : Laissez Javascript l'utiliser par défaut pour signaler une absence involontaire.</li>
+    <li><cite>null</cite> : Utilisez-le intentionnellement pour indiquer qu’une variable est vide ou sans valeur.</li>
+</ul>
+<p>
+    En résumé, <cite>undefined</cite> est implicite et lié au comportement par défaut de Javascript, tandis que <cite>null</cite> est explicite 
+    et signifie l'absence voulue d'une valeur.
+</p>
