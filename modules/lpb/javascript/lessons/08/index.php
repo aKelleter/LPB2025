@@ -2,7 +2,7 @@
     require_once('../../../../../boot.php');  
     $_SESSION['R'] = R5;
     require_once($_SESSION['R'].'app'.DS.'conf.php'); 
-    $_SESSION['PAGE'] = PHP;     
+    $_SESSION['PAGE'] = JS;     
     
     // Chargement du/des fichier(s)    
     $source_code = loadFile(FILENAME_SOURCE_CODE);     
