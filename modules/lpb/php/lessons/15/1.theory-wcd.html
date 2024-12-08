@@ -1,56 +1,102 @@
-<h3>Présentation</h3>
+<h3>Introduction aux structures d'inclusion en PHP</h3>
 <p>
-    Dans cette nouvelle leçon, nous allons aborder 4 nouvelles structures de contrôle qui vont se révéler très utiles et 
-    pratiques lorsqu’on voudra créer un site : <code>include</code>, <code>require</code>, <code>include_once</code> et 
-    <code>require_once</code>.
+    PHP offre plusieurs moyens d’inclure des fichiers dans votre script afin de <b>réutiliser le code</b> ou de <b>structurer 
+    votre projet</b>. Ces instructions permettent de charger un fichier externe dans le fichier principal. 
+    Voici une explication des différences entre <cite>require</cite>, <cite>require_once</cite>, <cite>include</cite>, 
+    et <cite>include_once</cite>.
 </p>
+<h3>1. <span class="red">require</span></h3>
 <p>
-    Ces structures permettent d’inclure un fichier dans un autre. Cela peut être très utile pour réutiliser du code, 
-    séparer le code en plusieurs fichiers, etc.
-    Les structures <code>include</code> et <code>require</code> vont nous permettre toutes deux d’inclure des fichiers de code (ou plus exactement 
-    le contenu de ces fichiers) à l’intérieur d’autres fichiers de code. 
+    L'instruction require inclut un fichier PHP. Si le fichier ne peut pas être inclus (par exemple, si le 
+    chemin est incorrect), elle provoque une erreur fatale, et l'exécution du script s'arrête.
 </p>
-<p class="red">    
-    La différence entre les deux est que si le fichier
-    inclus n’est pas trouvé, <code>include</code> va simplement afficher un warning et continuer l’exécution du script,
-    alors que <code>require</code> va afficher une erreur fatale et arrêter l’exécution du script.
-</p>
-<h3>Exemples d'utilisation</h3>
+<p><b>Usage :</b></p>
+<pre> require 'chemin/vers/fichier.php'; </pre>
 <p>
-    Sur un site web ou une application, il y a de fortes chances que l’en-tête, le menu et le pied de page soient identiques pour toutes 
-    les pages. <br>
-    Plutôt que de réécrire tout le code relatif à ces différentes parties sur chacune de nos pages, pourquoi ne pas plutôt enregistrer 
-    le code dans des fichiers.
+    <b>Quand l'utiliser</b> : Lorsque <b>le fichier inclus est indispensable</b> pour le fonctionnement de votre 
+    application (par exemple, un fichier de configuration).
 </p>
-<p> 
-    On peut donc imaginer avoir un fichier <code>header.php</code> qui contient le code HTML de l'entête de la page,
-    un fichier <code>footer.php</code> qui contient le code HTML du pied de page, et un fichier <code>menu.php</code> qui contient
-    le code HTML du menu. <br>    
-    On peut alors inclure ces fichiers dans les pages du site en utilisant <code>include</code> ou <code>require</code>.
-</p>
+
+<h3>2. <span class="red">require_once</span></h3>
 <p>
-    Voici un exemple simplifié d’utilisation de <code>include</code> :
+    <cite>require_once</cite> fonctionne comme <cite>require</cite>, mais il vérifie d'abord si le fichier a déjà 
+    été inclus. Si oui, il ne l'inclut pas une deuxième fois.
 </p>
-<pre>   
-    &lt;?php
-        include 'header.php';
-        include 'menu.php';
-    ?&gt;
-    &lt;h1&gt;Page d'accueil&lt;/h1&gt;
-    &lt;p&gt;Bienvenue sur notre site !&lt;/p&gt;
-    &lt;?php
-        include 'footer.php';
-    ?&gt;
+<p><b>Usage :</b></p>
+<pre> require_once 'chemin/vers/fichier.php'; </pre>
+<p>
+    <b>Quand l'utiliser</b> : Lorsqu'il est <b>critique d'éviter une inclusion multiple d'un même fichier</b>, 
+    ce qui pourrait provoquer des erreurs (par exemple, la redéclaration de fonctions ou de classes).
+</p>
+
+<h3>3. <span class="red">include</span></h3>
+<p>
+    L'instruction <cite>include</cite> fonctionne de manière similaire à require, mais elle gère les erreurs 
+    de manière différente : si le fichier ne peut pas être inclus, une simple alerte (warning) est levée, 
+    et le script continue son exécution.
+</p>
+<p><b>Usage :</b></p>
+<pre> include 'chemin/vers/fichier.php'; </pre>
+<p>
+    <b>Quand l'utiliser</b> : Lorsque le fichier inclus est optionnel ou que le script peut fonctionner même en cas d'erreur 
+    d'inclusion.
+</p>
+
+<h3>4. <span class="red">include_once</span></h3>
+<p>
+    <cite>include_once</cite> combine le comportement de include avec une vérification pour empêcher des inclusions 
+    multiples.
+</p>
+<p><b>Usage :</b></p>
+<pre> include_once 'chemin/vers/fichier.php'; </pre>
+<p>
+    <b>Quand l'utiliser</b> : Pour inclure un fichier optionnel tout en s'assurant qu'il n'est pas inclus 
+    plusieurs fois.
+</p>
+
+<h3>5. Résumé des différences principales entre ces instructions</h3>
+<table class="table">
+    <tbody><tr><th><span>Instruction</span></th><th><span>Interrompt le script en cas d'échec ?</span></th><th><span>Empêche les inclusions multiples ?</span></th></tr><tr><td><code><span>require</span></code></td><td><span>Oui</span></td><td><span>Non</span></td></tr><tr><td><code><span>require_once</span></code></td><td><span>Oui</span></td><td><span>Oui</span></td></tr><tr><td><code><span>include</span></code></td><td><span>Non</span></td><td><span>Non</span></td></tr><tr><td><code><span>include_once</span></code></td><td><span>Non</span></td><td><span>Oui</span></td></tr></tbody>
+</table>
+
+<h3>6. Les bonnes pratiques : Structure de répertoires pour un projet PHP</h3>
+<p>
+    Une structure claire et logique pour un projet PHP facilite la maintenance, la lisibilité et l'évolutivité de votre 
+    application. Voici un exemple, une proposition de structure typique pour débuter un projet 
+    (cette structure est adaptable en fonction du projet)  :
+</p>
+<pre>
+    projet/
+    |— index.php           # Point d'entrée principal
+    |— assets/             # Fichiers CSS, JS, images
+    |   |— css/
+    |   |— js/
+    |   |— images/
+    |— includes/          # Fichiers PHP réutilisables (header, footer, etc.)
+    |— config/            # Fichiers de configuration
+    |— classes/           # Classes PHP (POO)
+    |— views/             # Fichiers de présentation (HTML avec PHP)
+    |— logs/              # Journaux (logs) d'erreurs ou d'activité
+    |— vendor/            # Bibliothèques tierces (via Composer)
+    |— tests/             # Fichiers de tests unitaires
 </pre>
-<h3>require_once et include_once</h3>
-
-<p>
-    Il faut savoir qu'avec les structures <code>include</code> et <code>require</code>, il est possible d’inclure plusieurs fois 
-    le même fichier. Cela peut poser des problèmes si le fichier contient des déclarations de fonctions, de constantes ou de classes
-    , par exemple.
-</p>
-<p>
-    A contrario, les structures <code>include_once</code> et <code>require_once</code> permettent d’inclure un fichier une seule fois.
-</p>
-
-
+<h5 class="mt-5"><b>Description des dossiers</b> : </h5>
+<ol>
+    <li> <b>index.php</b> : Point d'entrée principal de votre application. </li>
+    <li> <b>assets/</b> : Contient les ressources front-end comme les fichiers CSS, JavaScript et les images. </li>
+    <li> <b>includes/</b> : Regroupe les fichiers PHP réutilisables (comme header.php, footer.php, ou des fonctions communes). </li>
+    <li> <b>config/</b> : Stocke les fichiers de configuration, comme les paramètres de connexion à la base de données. </li>
+    <li> <b>classes/</b> : Contient les définitions de classes pour une application orientée objet. </li>
+    <li> <b>views/</b> : Inclut les fichiers de présentation pour séparer la logique du code et le rendu visuel. </li>
+    <li> <b>logs/</b> : Permet de consigner les journaux pour le débogage et le suivi des erreurs. </li>
+    <li> <b>vendor/</b> : Contient les dépendances gérées par Composer (ou manuellement). </li>
+    <li> <b>tests/</b> : Fichiers pour effectuer des tests unitaires ou d'intégration. </li>    
+</ol>
+<h3>7. Conseils supplémentaires</h3>
+<ul>
+    <li>Utilisez require_once pour les fichiers critiques comme la configuration ou les classes importantes.</li>
+    <li>Privilégiez l’organisation et la lisibilité en évitant de mélanger les fichiers dans un même répertoire.</li>
+    <li>Composer : Si votre projet devient complexe, envisagez d'utiliser Composer pour la gestion des dépendances et le chargement automatique (« autoloading »).</li>
+    <li>Centralisez les inclusions : Un fichier principal comme bootstrap.php peut centraliser toutes les inclusions et initialisations nécessaires.</li>
+</ul>
+<p>En respectant ces bonnes pratiques, vous garantirez une base solide et évolutive pour votre projet PHP.</p>

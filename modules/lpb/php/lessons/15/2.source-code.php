@@ -6,6 +6,7 @@ echo 'PHP VERSION : '.PHP_VERSION.'<br><hr>';
 //----------------------------------------------------------------------------------------------------
 require '_header.php';
 require '_menu.php';
+// include 'menu.php';
 require_once('_content.html');
 require_once('_content.html');
 require '_footer.php';    
