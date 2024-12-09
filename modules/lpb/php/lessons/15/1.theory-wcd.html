@@ -92,6 +92,7 @@
     <li> <b>vendor/</b> : Contient les dépendances gérées par Composer (ou manuellement). </li>
     <li> <b>tests/</b> : Fichiers pour effectuer des tests unitaires ou d'intégration. </li>    
 </ol>
+
 <h3>7. Conseils supplémentaires</h3>
 <ul>
     <li>Utilisez require_once pour les fichiers critiques comme la configuration ou les classes importantes.</li>
@@ -100,3 +101,104 @@
     <li>Centralisez les inclusions : Un fichier principal comme bootstrap.php peut centraliser toutes les inclusions et initialisations nécessaires.</li>
 </ul>
 <p>En respectant ces bonnes pratiques, vous garantirez une base solide et évolutive pour votre projet PHP.</p>
+
+<h3>8. La gestion des chemins (path) dans les projets PHP</h3>
+<p>
+    Gérer les chemins des ressources dans un projet PHP peut rapidement devenir complexe, surtout lorsque le projet grandit ou est 
+    déployé dans différents environnements (développement, staging, production). Voici quelques bonnes pratiques pour 
+    gérer efficacement les chemins des ressources :
+</p>
+
+<h4>1. Utiliser des constantes pour les chemins de base</h4>
+<p>
+    Définir une constante qui représente le chemin de base du projet, ce qui facilite la gestion des ressources. 
+    Par exemple :
+</p>
+<textarea class="code-php">
+    // fichier config.php
+    define('BASE_URL', '/mon-projet/'); // ou '/' si le projet est à la racine
+    define('ASSETS_URL', BASE_URL . 'assets/');
+</textarea>
+<p>
+    Ensuite, vous pouvez inclure des ressources comme suit :
+</p>
+<textarea class="code-php">
+    &lt;link rel="stylesheet" href="&lt;?= ASSETS_URL ?&gt;css/style.css"&gt;
+    &lt;img src="&lt;?= ASSETS_URL ?&gt;images/logo.png" alt="Logo"&gt;    
+</textarea>
+
+<h4>2. Utiliser <cite>$_SERVER</cite> pour détecter la racine</h4>
+<p>
+    Si votre projet est déployé à différents niveaux (par exemple, sous-dossiers ou domaines), utilisez <cite>$_SERVER['DOCUMENT_ROOT']</cite> 
+    ou <cite>dirname(__FILE__)</cite> pour définir dynamiquement les chemins :
+</p>
+<textarea class="code-php">
+    define('BASE_PATH', dirname(__DIR__));
+    define('BASE_URL', $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . '/mon-projet/');
+</textarea>
+
+<h4>3. Créer une fonction helper</h4>
+<p>
+    Encapsuler la génération de chemins dans une fonction pour une meilleure maintenabilité :
+</p>
+<textarea class="code-php">
+    function asset($path) {
+        return ASSETS_URL . $path;
+    }    
+</textarea>
+<p>Vous pouvez l'utiliser ainsi :</p>
+<textarea class="code-php">
+    &lt;link rel="stylesheet" href="&lt;?= asset('css/style.css') ?&gt;"&gt;
+    &lt;img src="&lt;?= asset('images/logo.png') ?&gt;" alt="Logo"&gt;  
+</textarea>
+
+<h4>5. Gérer les liens du menu de navigation</h4>
+<p>
+    Pour les liens dynamiques, vous pouvez utiliser une base pour construire les URL afin d'éviter les chemins relatifs cassés :
+</p>
+<textarea class="code-php">
+    &lt;a href="&lt;?= BASE_URL ?&gt;home.php"&gt;Accueil&lt;/a&gt;
+    &lt;a href="&lt;?= BASE_URL ?&gt;contact.php"&gt;Contact&lt;/a&gt;    
+</textarea>
+
+
+<h4>6. Configurations spécifiques à l’environnement</h4>
+<p>
+    Si votre projet est déployé sur plusieurs environnements (local, staging, production), configurez des variables 
+    d’environnement via un fichier <cite>.env</cite> (à l’aide de <cite><a href="https://github.com/vlucas/phpdotenv" target="_blank">vlucas/phpdotenv</a></cite>, par exemple) :
+</p>
+<p>Exemple d'un fichier <cite>.env</cite> :</p>
+<textarea class="code-php">
+    BASE_URL="http://localhost/mon-projet/"
+    ASSETS_URL="http://localhost/mon-projet/assets/"
+</textarea>
+<p>
+    Ajoutez la configuration de votre application dans un fichier .env à la racine de votre projet. 
+    Assurez-vous que le fichier <cite>.env</cite> est ajouté à votre <cite>.gitignore</cite> afin qu'il ne soit pas 
+    versionné dans le code.
+</p>
+<p>
+    De manière générale, créez un fichier nommé <cite>.env.example</cite> et insérez-le dans votre projet. 
+    Ce fichier doit contenir les variables ENV dont vous avez besoin, mais les valeurs doivent être soit vides, soit remplies avec des 
+    données fictives. L'idée est de faire savoir aux gens quelles sont les variables nécessaires, mais de ne pas leur donner les 
+    valeurs de production sensibles.
+</p>
+<p>Vous pouvez ensuite charger .env dans votre application avec :</p>
+<textarea class="code-php">
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+    $dotenv->load();      
+</textarea>
+<p>Suite à cela, toutes les variables définies sont désormais disponibles dans les tableaux super-globaux <cite>$_ENV</cite> et <cite>$_SERVER</cite>.</p>
+<textarea class="code-php">
+    $s3_bucket = $_ENV['S3_BUCKET'];
+    $s3_bucket = $_SERVER['S3_BUCKET'];
+</textarea>
+
+<h4>7. Utiliser un framework</h4>
+<p>
+    Si votre projet PHP devient complexe, envisagez d’utiliser un framework comme Laravel ou Symfony, qui gèrent les chemins des 
+    ressources et les routes automatiquement.
+</p>
+<p class="mt-5">
+    En bref, ces stratégies combinées permettent de rendre votre projet plus organisé, maintenable, et adaptable à différents environnements.
+</p>
