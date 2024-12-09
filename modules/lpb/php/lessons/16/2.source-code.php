@@ -8,6 +8,7 @@ echol("Ex1 : Déclaration d'une fonction simple");
 function hello() {
     echo 'Hello World !<br>';    
 }
+hello();
 hr();
 //----------------------------------------------------------------------------------------------------
 echol("Ex2 : Appels de la fonction hello()");
