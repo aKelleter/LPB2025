@@ -270,6 +270,48 @@ function listCourses(): array {
     return $courses;    
 }
 
+/** 
+ * listEvals() : 
+ * 
+ * Returns the LIST (array) of evaluations
+ * 
+ * @return array	The list of evaluations
+ */
+function listEvals(): array {
+    
+    $evals = []; 
+    $titre = null;
+    $id = null;           
+    $compteur = 0;
+    $dossiers = glob('*');
+
+    // Classement des dossiers afin qu'ils soient affichés par ordre alphabétique / croissant
+    asort($dossiers);     
+    
+    // Lister les dossiers
+    foreach($dossiers as $repertoire) 
+    {
+        // Vérifier si c'est un dossier que l'on traite et non un fichier
+        if(is_dir($repertoire)) 
+        {
+            $id = $repertoire;
+            
+            // Lecture du titre
+            if(file_exists($repertoire.'/'.'title.html'))
+                $titre = file_get_contents($repertoire.'/'.'title.html');
+            else
+                $titre = 'No title file here...';
+
+            $evals[$compteur]['id'] = $id;
+            $evals[$compteur]['title'] = $titre; 
+
+            $compteur++; 
+        }
+    }
+    
+    return $evals;    
+}
+
 /**
  * DBGPrint($array, $info = null, $type = PR) : 
  * 

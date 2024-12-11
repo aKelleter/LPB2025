@@ -1,10 +1,10 @@
-<script src="<?= $_SESSION['R']?>vendors/jquery/jquery.min.js"></script>
-<script src="<?= $_SESSION['R']?>vendors/codemirror/lib/codemirror.js"></script>
-<script src="<?= $_SESSION['R']?>vendors/codemirror/mode/htmlmixed/htmlmixed.js"></script>
-<script src="<?= $_SESSION['R']?>vendors/codemirror/mode/javascript/javascript.js"></script>
-<script src="<?= $_SESSION['R']?>vendors/codemirror/mode/css/css.js"></script>
-<script src="<?= $_SESSION['R']?>vendors/codemirror/mode/php/php.js"></script>
-<script src="<?= $_SESSION['R']?>vendors/codemirror/mode/sql/sql.js"></script>   
-<script src="<?= $_SESSION['R']?>vendors/codemirror/addon/edit/matchbrackets.js"></script>
-<script src="<?= $_SESSION['R']?>vendors/codemirror/addon/display/fullscreen.js"></script>
-<script src="<?= $_SESSION['R']?>assets/js/lpb.js"></script>
+<script src="<?= $_SESSION['R'].VENDORS.DS ?>jquery/jquery.min.js"></script>
+<script src="<?= $_SESSION['R'].VENDORS.DS ?>codemirror/lib/codemirror.js"></script>
+<script src="<?= $_SESSION['R'].VENDORS.DS ?>codemirror/mode/htmlmixed/htmlmixed.js"></script>
+<script src="<?= $_SESSION['R'].VENDORS.DS ?>codemirror/mode/javascript/javascript.js"></script>
+<script src="<?= $_SESSION['R'].VENDORS.DS ?>codemirror/mode/css/css.js"></script>
+<script src="<?= $_SESSION['R'].VENDORS.DS ?>codemirror/mode/php/php.js"></script>
+<script src="<?= $_SESSION['R'].VENDORS.DS ?>codemirror/mode/sql/sql.js"></script>   
+<script src="<?= $_SESSION['R'].VENDORS.DS ?>codemirror/addon/edit/matchbrackets.js"></script>
+<script src="<?= $_SESSION['R'].VENDORS.DS ?>codemirror/addon/display/fullscreen.js"></script>
+<script src="<?= $_SESSION['R'].ASSETS.DS ?>js/lpb.js"></script>
