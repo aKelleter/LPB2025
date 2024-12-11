@@ -29,6 +29,7 @@
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="<?= $_SESSION['R'].MOD.DS.LPB.DS.PHP.DS.'index.php' ?>">Présentation</a></li>
                             <li><a class="dropdown-item" href="<?= $_SESSION['R'].MOD.DS.LPB.DS.PHP.DS.LESS.DS.'index.php' ?>">Les leçons</a></li>                                                                                    
+                            <li><a class="dropdown-item" href="<?= $_SESSION['R'].MOD.DS.LPB.DS.PHP.DS.EVALS.DS.'index.php' ?>">Les évaluations</a></li>                                                                                    
                         </ul>
                     </li>         
                     <li class="nav-item dropdown">
