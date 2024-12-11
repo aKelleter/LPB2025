@@ -14,3 +14,5 @@ const IMG_URL = ASSETS_URL . 'img/';
 const VENDOR_URL = BASE_URL . 'vendor/';
 const BOOTSTRAP_URL = VENDOR_URL . 'bootstrap-5.3.3/';
 
+require_once './includes/app-fcts.php';
+require_once './includes/tools-fcts.php';

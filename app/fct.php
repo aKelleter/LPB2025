@@ -281,7 +281,7 @@ function listCourses(): array {
  *
  * @return void 
  */
-function DBGPrint(array $array, string $type = PR, string $info = null): void {
+function DBGPrint(array $array, string $type = PR, string $info = ''): void {
 
     if($type == PR)
     {

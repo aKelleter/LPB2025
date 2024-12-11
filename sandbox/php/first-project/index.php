@@ -1,7 +1,5 @@
 <?php 
-    require_once './config/conf.php';
-    require_once './includes/app-fcts.php';
-    require_once './includes/tools-fcts.php';
+    require_once './config/conf.php';   
 ?>
 <!DOCTYPE html>
 <html lang="fr">
