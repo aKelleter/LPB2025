@@ -19,9 +19,14 @@
 
                         <h3>Présentation</h3>
                         <p>
-                            L'évaluation du mois de janvier consiste à résoudre et proposer une solution pour une série de neuf petits projets.
+                            L'évaluation du mois de janvier consiste à résoudre et proposer une solution pour une série de 
+                            neuf petits projets :
                         </p>
-                        <h4 class="red">1. Premier projet : Un générateur de citation aléatoire</h4>
+                        <ol>
+                            <li><a href="#citation">Un générateur de citation aléatoire</a></li>
+                            <li><a href="#convertisseur">Convertisseur d'unités</a></li>
+                        </ol>
+                        <h4 class="red" id="citation">1. Projet : Un générateur de citation aléatoire</h4>
                         <p>
                             <b>Objectif</b> : Créer une page qui affiche une citation aléatoire à chaque rechargement. <br>
                             <b>Concepts pratiqués</b> :
@@ -51,9 +56,68 @@
                             - Séparez au maximum la logique de votre code de l'affichage (structure HTML avec du code PHP pour afficher ex.: <cite>&lt;?= $texte ?&gt;</cite>). <br>
                             - Vous pouvez utiliser la fonction <cite>array_rand()</cite> ou la fonction <cite>rand()</cite> pour générer un index aléatoire. <br>
                             - Vous pouvez ajouter un bouton pour recharger une nouvelle citation. <br>
+                        </p>
+                        <p>
+                            <b>Exemple</b> : <br>
+                            <div class="d-flex justify-content-center">
+                                <img class="screensav" src="<?= $_SESSION['R'].ASSETS.DS.A_IMG.DS.'citations.png'?>" alt="citations">                 
+                            </div>
                         </p>                                          
                         <p>
-                            Happy coding ! :)
+                           <b>Happy coding ! :)</b>
+                        </p>
+                        <hr>
+
+                        <h4 class="red" id="convertisseur">2. Projet : Convertisseur d'unités </h4>
+                        <p>
+                            <b>Objectif</b> : Créer un formulaire où l'utilisateur entre une valeur (par ex. en kilomètres) et obtient la conversion 
+                            dans une autre unité (par ex. miles). <br>
+                            <b>Concepts pratiqués</b> :
+                            <ul>
+                                <li>Les Opérateurs</li>
+                                <li>Les Switch case pour gérer les différentes opérations</li>
+                                <li>Les Formulaires HTML et gestion des entrées utilisateur </li>
+                                <li>Les Fonctions (pour convertir les valeurs)</li>
+                                <li>Les Conditions - tests des valeurs</li>
+                            </ul>
+                            <b>Types de conversions gérés</b> dans les 2 sens :
+                            <ul>
+                                <li>Kilomètres ↔ Miles</li>
+                                <li>Celsius ↔ Fahrenheit</li>
+                                <li>Kilogrammes ↔ Livres</li>
+                            </ul> 
+                            Les formules de conversion sont les suivantes : <br>
+                            <ul>
+                                <li>Kilomètres → Miles : valeur * 0.621371 </li>
+                                <li>Miles → Kilomètres : valeur / 0.621371</li>
+                                <li>Celsius → Fahrenheit : (valeur * 9 / 5) + 32</li>
+                                <li>Fahrenheit → Celsius : (valeur - 32) * 5 / 9</li>
+                                <li>Kilogrammes → Livres : valeur * 2.20462</li>
+                                <li>Livres → Kilogrammes : valeur / 2.20462</li>
+                            </ul>
+                            <b>Structure</b> :
+                            <ul>
+                                <li>Un formulaire permet d’entrer une valeur et de sélectionner un type de conversion.</li>
+                                <li>Une fonction convertir réalise la conversion en fonction du type choisi.</li>
+                                <li>Les résultats sont affichés dans une interface simple.</li>
+                            </ul> 
+                            <b>Validation</b> :
+                            <ul>
+                                <li>Vérification que la valeur saisie est un nombre et que la conversion sélectionnée est valide.</li>
+                            </ul> 
+                            Astuces :
+                            <ul>                       
+                                <li>Utilisez la fonction <cite>number_format()</cite> pour afficher le résultat de la conversion</li>
+                                <li>Exploitez les attributs des élements <cite>input</cite></li>
+                            </ul> 
+                            <b>Exemple</b> : <br>
+                            <div class="d-flex justify-content-center">
+                                <img  class="screensav" src="<?= $_SESSION['R'].ASSETS.DS.A_IMG.DS.'convertisseur.png'?>" alt="convertisseur">                 
+                            </div>
+
+                        </p>
+                        <p>
+                            <b>Happy coding ! :)</b>
                         </p>
                         <hr>
 

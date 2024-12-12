@@ -314,6 +314,14 @@ a.link{
     margin: 0 !important;
 }
 
+.screensav {
+    background-color: var(--color-light-lime);
+    color: var(--color-light-white);
+    border: var(--border-width-1) solid var(--color-light-lime);
+    border-radius: 5px;
+    padding: 5px;
+    margin: 5px;    
+}
 
 
 
