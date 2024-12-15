@@ -20,11 +20,14 @@
                         <h3>Présentation</h3>
                         <p>
                             L'évaluation du mois de janvier consiste à résoudre et proposer une solution pour une série de 
-                            neuf petits projets :
+                            <b class="red">5</b> petits projets :
                         </p>
                         <ol>
                             <li><a href="#citation">Un générateur de citation aléatoire</a></li>
                             <li><a href="#convertisseur">Convertisseur d'unités</a></li>
+                            <li><a href="#contact">Un formulaire de contact</a></li>
+                            <li><a href="#blog">Un petit blog statique</a></li>
+                            <li><a href="#amazaune">Magasin Amazaune</a></li>
                         </ol>
                         <h4 class="red" id="citation">1. Projet : Un générateur de citation aléatoire</h4>
                         <p>
@@ -36,6 +39,7 @@
                            <li>Les Tableaux (stockage des citations)</li>
                            <li>Les Boucles (pour parcourir le tableau de citations)</li>
                            <li>Les Fonctions internes au PHP (pour générer un nombre aléatoire)</li>
+                           <li>Utilisation de la fonction <cite>htmlspecialchars()</cite> pour neutraliser certains caractères et sécuriser les données ou les affichages</li>
                         </ul>
                         <p>
                             <b>Informations</b> : <br>
@@ -79,6 +83,8 @@
                                 <li>Les Formulaires HTML et gestion des entrées utilisateur </li>
                                 <li>Les Fonctions (pour convertir les valeurs)</li>
                                 <li>Les Conditions - tests des valeurs</li>
+                                <li>Utilisation de la fonction <cite>htmlspecialchars()</cite> pour neutraliser certains caractères et sécuriser les données ou les affichages</li>
+
                             </ul>
                             <b>Types de conversions gérés</b> dans les 2 sens :
                             <ul>
@@ -98,8 +104,9 @@
                             <b>Structure</b> :
                             <ul>
                                 <li>Un formulaire permet d’entrer une valeur et de sélectionner un type de conversion.</li>
-                                <li>Une fonction convertir réalise la conversion en fonction du type choisi.</li>
-                                <li>Les résultats sont affichés dans une interface simple.</li>
+                                <li>Un test qui vérifie que la valeur n'est pas vide et que l'on a un type de conversion.</li>
+                                <li>Une fonction <b>convertir</b> qui réalise la conversion en fonction du type choisi.</li>
+                                <li>Les résultats sont affichés avec un message simple et efficace.</li>
                             </ul> 
                             <b>Validation</b> :
                             <ul>
@@ -118,6 +125,89 @@
                         </p>
                         <p>
                             <b>Happy coding ! :)</b>
+                        </p>
+                        <hr>
+                        <h4 class="red" id="contact">3. Un formulaire de contact</h4>
+                        <b>Objectif</b> : 
+                        <br> Créer une page de contact où les utilisateurs peuvent envoyer un message. 
+                        <br> L'envoi sera fictif. Vous afficherez un message avec le nom qui aura été encodé dans le formulaire, qui signalera que le message a bien été envoyé.<br>
+                        <b>Concepts pratiqués</b> :
+                        <ul>
+                            <li>Gestion des formulaires ($_POST)</li>
+                            <li>Validation des données</li>
+                            <li>Utilisation de la fonction <cite>filter_var()</cite> pour valider l'email</li>
+                            <li>Utilisation de la fonction <cite>htmlspecialchars()</cite> pour neutraliser certains caractères et sécuriser les données ou les affichages</li>
+                            <li>Message de retour après validation</li>
+                        </ul>
+                        <b>Structure</b> :
+                            <ul>
+                                <li>Un formulaire permet d’entrer un nom, un e-mail et un message</li>
+                                <li>Un test qui vérifie que l'on reçoit le formulaire</li>
+                                <li>On vérifie les données reçues</li>
+                                <li>Les résultats sont affichés dans une interface simple.</li>
+                            </ul> 
+                        <p>
+                            <b>Exemple</b> : <br>
+                            <div class="d-flex justify-content-center">
+                                <img class="screensav" src="<?= $_SESSION['R'].ASSETS.DS.A_IMG.DS.'contact.png'?>" alt="contact">                 
+                            </div>
+                        </p>                                          
+                        <p>
+                           <b>Happy coding ! :)</b>
+                        </p>
+                        <hr>
+
+                        <h4 class="red" id="blog">4. Un petit blog statique</h4>
+                        <b>Objectif</b> : 
+                        <br> Afficher une liste d'articles stockés dans un tableau.  <br>
+                        <b>Concepts pratiqués</b> :
+                        <ul>
+                            <li>Les Variables et tableaux</li>
+                            <li>Les Boucles pour afficher les articles</li>
+                        </ul>
+                        <b>Structure</b> : <br>
+                         Très simple <br>
+                            <ul>
+                                <li>Un tableau d'articles</li>
+                                <li>Une boucle pour afficher les articles (ex.: foreach)</li>
+                            </ul>
+                        <p>
+                        Le tableau d'articles : <br>
+                        <textarea class="code-php">
+                            $articles = [
+                                ["titre" => "Bienvenue sur mon blog", "contenu" => "Ceci est le premier article de mon blog !"],
+                                ["titre" => "PHP pour débutants", "contenu" => "Apprenez à créer des sites dynamiques avec PHP."],
+                                ["titre" => "Contactez-moi", "contenu" => "Laissez vos commentaires pour améliorer ce blog."]
+                            ];
+                        </textarea>
+                        </p>
+                        <b>Exemple</b> : <br>
+                        <div class="d-flex justify-content-center">
+                            <img class="screensav" src="<?= $_SESSION['R'].ASSETS.DS.A_IMG.DS.'blog.png'?>" alt="blog">                 
+                        </div>
+                        <p>
+                           <b>Happy coding ! :)</b>
+                        </p>
+                        <hr>
+
+                        <h4 class="red" id="amazaune">5. Magasin Amazaune</h4>
+                        <b>Objectif</b> : 
+                        <br> Simuler l'ajout d'articles à un panier avec un calcul du total. <br>
+                        <b>Concepts pratiqués</b> :
+                        <ul>
+                            <li></li>   
+                        </ul>
+                        <b>Structure</b> : <br>
+                        <ul>
+                            <li></li>
+                            <li></li>
+                        </ul>                       
+                        <b>Exemple</b> : <br>
+                        <div class="d-flex justify-content-center">
+                            <img class="screensav" src="<?= $_SESSION['R'].ASSETS.DS.A_IMG.DS.'amazaune.png'?>" alt="amazaune">                 
+                        </div>
+                        <p>
+                           <b>Happy coding ! :)</b>
                         </p>
                         <hr>
 
