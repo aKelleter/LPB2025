@@ -29,11 +29,10 @@
                             <li><a href="#blog">Un petit blog statique</a></li>
                             <li><a href="#amazaune">Magasin Amazaune</a></li>
                         </ol>
+                        <h5><b>Besoin de préparation ou de rappels ? C'est par <a href="prepa.php">ici</a> :)</b></h5>
                         <h4 class="red" id="citation">1. Projet : Un générateur de citation aléatoire</h4>
-                        <p>
-                            <b>Objectif</b> : Créer une page qui affiche une citation aléatoire à chaque rechargement. <br>
-                            <b>Concepts pratiqués</b> :
-                        </p>
+                        <b>Objectif</b> : Créer une page qui affiche une citation aléatoire à chaque rechargement. <br>
+                        <b>Concepts pratiqués</b> : <br>
                         <ul>
                            <li>Les Variables (chaîne de caractères)</li>
                            <li>Les Tableaux (stockage des citations)</li>
@@ -41,8 +40,8 @@
                            <li>Les Fonctions internes au PHP (pour générer un nombre aléatoire)</li>
                            <li>Utilisation de la fonction <cite>htmlspecialchars()</cite> pour neutraliser certains caractères et sécuriser les données ou les affichages</li>
                         </ul>
-                        <p>
-                            <b>Informations</b> : <br>
+                        <b>Informations</b> : <br>
+                        <p>                            
                             - Voici un exemple de tableau de citations à utiliser (vous pouvez proposer le vôtre ou en ajouter d'autres :)) : <br>                            
                             <textarea class="code-php">
                                     $citations = [
@@ -61,8 +60,18 @@
                             - Vous pouvez utiliser la fonction <cite>array_rand()</cite> ou la fonction <cite>rand()</cite> pour générer un index aléatoire. <br>
                             - Vous pouvez ajouter un bouton pour recharger une nouvelle citation. <br>
                         </p>
+                        <b>Structure</b> : <br>
+                        <ul>
+                            <li>Un tableau de citations</li>
+                            <li>Une fonction pour sélectionner une citation aléatoire</li>
+                            <li>Un affichage simple de la citation</li>
+                        </ul>
+                        <b>Lien de démonstration</b> : <br>
+                        <p>                           
+                            <a href="https://vps.orionproject.eu/apps/EVALS/janvier/01.citations.php" target="_blank">&#128279; Démonstration : Citations</a>
+                        </p>
+                        <b>Exemple</b> : <br>
                         <p>
-                            <b>Exemple</b> : <br>
                             <div class="d-flex justify-content-center">
                                 <img class="screensav" src="<?= $_SESSION['R'].ASSETS.DS.A_IMG.DS.'citations.png'?>" alt="citations">                 
                             </div>
@@ -73,56 +82,57 @@
                         <hr>
 
                         <h4 class="red" id="convertisseur">2. Projet : Convertisseur d'unités </h4>
-                        <p>
-                            <b>Objectif</b> : Créer un formulaire où l'utilisateur entre une valeur (par ex. en kilomètres) et obtient la conversion 
+                        <b>Objectif</b> : Créer un formulaire où l'utilisateur entre une valeur (par ex. en kilomètres) et obtient la conversion 
                             dans une autre unité (par ex. miles). <br>
-                            <b>Concepts pratiqués</b> :
-                            <ul>
-                                <li>Les Opérateurs</li>
-                                <li>Les Switch case pour gérer les différentes opérations</li>
-                                <li>Les Formulaires HTML et gestion des entrées utilisateur </li>
-                                <li>Les Fonctions (pour convertir les valeurs)</li>
-                                <li>Les Conditions - tests des valeurs</li>
-                                <li>Utilisation de la fonction <cite>htmlspecialchars()</cite> pour neutraliser certains caractères et sécuriser les données ou les affichages</li>
+                        <b>Concepts pratiqués</b> :
+                        <ul>
+                            <li>Les Opérateurs</li>
+                            <li>Les Switch case pour gérer les différentes opérations</li>
+                            <li>Les Formulaires HTML et gestion des entrées utilisateur </li>
+                            <li>Les Fonctions (pour convertir les valeurs)</li>
+                            <li>Les Conditions - tests des valeurs</li>
+                            <li>Utilisation de la fonction <cite>htmlspecialchars()</cite> pour neutraliser certains caractères et sécuriser les données ou les affichages</li>
 
-                            </ul>
-                            <b>Types de conversions gérés</b> dans les 2 sens :
-                            <ul>
-                                <li>Kilomètres ↔ Miles</li>
-                                <li>Celsius ↔ Fahrenheit</li>
-                                <li>Kilogrammes ↔ Livres</li>
-                            </ul> 
-                            Les formules de conversion sont les suivantes : <br>
-                            <ul>
-                                <li>Kilomètres → Miles : valeur * 0.621371 </li>
-                                <li>Miles → Kilomètres : valeur / 0.621371</li>
-                                <li>Celsius → Fahrenheit : (valeur * 9 / 5) + 32</li>
-                                <li>Fahrenheit → Celsius : (valeur - 32) * 5 / 9</li>
-                                <li>Kilogrammes → Livres : valeur * 2.20462</li>
-                                <li>Livres → Kilogrammes : valeur / 2.20462</li>
-                            </ul>
-                            <b>Structure</b> :
-                            <ul>
-                                <li>Un formulaire permet d’entrer une valeur et de sélectionner un type de conversion.</li>
-                                <li>Un test qui vérifie que la valeur n'est pas vide et que l'on a un type de conversion.</li>
-                                <li>Une fonction <b>convertir</b> qui réalise la conversion en fonction du type choisi.</li>
-                                <li>Les résultats sont affichés avec un message simple et efficace.</li>
-                            </ul> 
-                            <b>Validation</b> :
-                            <ul>
-                                <li>Vérification que la valeur saisie est un nombre et que la conversion sélectionnée est valide.</li>
-                            </ul> 
-                            Astuces :
-                            <ul>                       
-                                <li>Utilisez la fonction <cite>number_format()</cite> pour afficher le résultat de la conversion</li>
-                                <li>Exploitez les attributs des élements <cite>input</cite></li>
-                            </ul> 
-                            <b>Exemple</b> : <br>
-                            <div class="d-flex justify-content-center">
-                                <img  class="screensav" src="<?= $_SESSION['R'].ASSETS.DS.A_IMG.DS.'convertisseur.png'?>" alt="convertisseur">                 
-                            </div>
-
+                        </ul>
+                        <b>Types de conversions gérés</b> dans les 2 sens :
+                        <ul>
+                            <li>Kilomètres ↔ Miles</li>
+                            <li>Celsius ↔ Fahrenheit</li>
+                            <li>Kilogrammes ↔ Livres</li>
+                        </ul> 
+                        Les formules de conversion sont les suivantes : <br>
+                        <ul>
+                            <li>Kilomètres → Miles : valeur * 0.621371 </li>
+                            <li>Miles → Kilomètres : valeur / 0.621371</li>
+                            <li>Celsius → Fahrenheit : (valeur * 9 / 5) + 32</li>
+                            <li>Fahrenheit → Celsius : (valeur - 32) * 5 / 9</li>
+                            <li>Kilogrammes → Livres : valeur * 2.20462</li>
+                            <li>Livres → Kilogrammes : valeur / 2.20462</li>
+                        </ul>
+                        <b>Structure</b> :
+                        <ul>
+                            <li>Un formulaire permet d’entrer une valeur et de sélectionner un type de conversion.</li>
+                            <li>Un test qui vérifie que la valeur n'est pas vide et que l'on a un type de conversion.</li>
+                            <li>Une fonction <b>convertir</b> qui réalise la conversion en fonction du type choisi.</li>
+                            <li>Les résultats sont affichés avec un message simple et efficace.</li>
+                        </ul> 
+                        <b>Validation</b> :
+                        <ul>
+                            <li>Vérification que la valeur saisie est un nombre et que la conversion sélectionnée est valide.</li>
+                        </ul> 
+                        <b>Astuces</b> :
+                        <ul>                       
+                            <li>Utilisez la fonction <cite>number_format()</cite> pour afficher le résultat de la conversion</li>
+                            <li>Exploitez les attributs des élements <cite>input</cite></li>
+                        </ul> 
+                        <b>Lien de démonstration</b> : <br>
+                        <p>                                
+                            <a href="https://vps.orionproject.eu/apps/EVALS/janvier/02.convert.php" target="_blank">&#128279; Démonstration : Convertisseur</a>
                         </p>
+                        <b>Exemple</b> : <br>
+                        <div class="d-flex justify-content-center">
+                            <img  class="screensav" src="<?= $_SESSION['R'].ASSETS.DS.A_IMG.DS.'convertisseur.png'?>" alt="convertisseur">                 
+                        </div>                        
                         <p>
                             <b>Happy coding ! :)</b>
                         </p>
@@ -140,18 +150,20 @@
                             <li>Message de retour après validation</li>
                         </ul>
                         <b>Structure</b> :
-                            <ul>
-                                <li>Un formulaire permet d’entrer un nom, un e-mail et un message</li>
-                                <li>Un test qui vérifie que l'on reçoit le formulaire</li>
-                                <li>On vérifie les données reçues</li>
-                                <li>Les résultats sont affichés dans une interface simple.</li>
-                            </ul> 
-                        <p>
-                            <b>Exemple</b> : <br>
-                            <div class="d-flex justify-content-center">
-                                <img class="screensav" src="<?= $_SESSION['R'].ASSETS.DS.A_IMG.DS.'contact.png'?>" alt="contact">                 
-                            </div>
-                        </p>                                          
+                        <ul>
+                            <li>Un formulaire permet d’entrer un nom, un e-mail et un message</li>
+                            <li>Un test qui vérifie que l'on reçoit le formulaire</li>
+                            <li>On vérifie les données reçues</li>
+                            <li>Les résultats sont affichés dans une interface simple.</li>
+                        </ul> 
+                        <b>Lien de démonstration</b> : <br>
+                        <p>                           
+                            <a href="https://vps.orionproject.eu/apps/EVALS/janvier/03.contact.php" target="_blank">&#128279; Démonstration : Contact</a>
+                        </p>
+                        <b>Exemple</b> : <br>
+                        <div class="d-flex justify-content-center">
+                            <img class="screensav" src="<?= $_SESSION['R'].ASSETS.DS.A_IMG.DS.'contact.png'?>" alt="contact">                 
+                        </div>                        
                         <p>
                            <b>Happy coding ! :)</b>
                         </p>
@@ -181,6 +193,10 @@
                             ];
                         </textarea>
                         </p>
+                        <b>Lien de démonstration</b> : <br>
+                        <p>                           
+                            <a href="https://vps.orionproject.eu/apps/EVALS/janvier/04.blog.php" target="_blank">&#128279; Démonstration : Blog</a>
+                        </p>
                         <b>Exemple</b> : <br>
                         <div class="d-flex justify-content-center">
                             <img class="screensav" src="<?= $_SESSION['R'].ASSETS.DS.A_IMG.DS.'blog.png'?>" alt="blog">                 
@@ -195,13 +211,39 @@
                         <br> Simuler l'ajout d'articles à un panier avec un calcul du total. <br>
                         <b>Concepts pratiqués</b> :
                         <ul>
-                            <li></li>   
+                            <li>Gestion d'un formulaire</li>   
+                            <li>Utilisation de la méthode POST</li>
+                            <li>La création de fonctions</li>
+                            <li>L'utilisation des boucles</li>
+                            <li>Générer du code HTML (utiliser la concaténation)</li>
+                            <li>Manipuler les tableaux</li>
                         </ul>
                         <b>Structure</b> : <br>
                         <ul>
-                            <li></li>
-                            <li></li>
-                        </ul>                       
+                            <li>Déclarez et initialisez votre panier avec un tableau vide</li>
+                            <li>Déclarez et initialisez votre le total de votre commande à 0</li>
+                            <li>Testez si vous recevez un formulaire</li>
+                            <li>Si vous recevez un formulaire parcourez vos articles, créez votre panier et mettez à jour le montant de la commande</li>
+                            <li>Créer une fonction pour afficher les articles (dans un form)</li>
+                            <li>Créer une fonction pour afficher le panier</li>
+                            <li>On traite les trois articles dans un seul formulaire (plus simple)</li>
+                        </ul>    
+                        <b>Le tableau d'articles</b> : <br>
+                        <p>
+                        <textarea class="code-php">
+                            $articles = [
+                                ["nom" => "Nike Air AF1", "prix" => 110, "photo" => "af1.png"],
+                                ["nom" => "T-shirt", "prix" => 29, "photo" => "t-shirt.png"],    
+                                ["nom" => "Pantalon", "prix" => 95, "photo" => "pantalon.png"]
+                            ];
+                        </textarea>
+                        </p>
+                        <b>Les photos des articles</b> : <br>
+                        <a href="img.zip">&#128279; Télécharger les photos des articles</a> <br> <br>
+                        <b>Lien de démonstration</b> : <br>
+                        <p>                           
+                            <a href="https://vps.orionproject.eu/apps/EVALS/janvier/05.panier.php" target="_blank">&#128279; Démonstration : Amazaune</a>
+                        </p>
                         <b>Exemple</b> : <br>
                         <div class="d-flex justify-content-center">
                             <img class="screensav" src="<?= $_SESSION['R'].ASSETS.DS.A_IMG.DS.'amazaune.png'?>" alt="amazaune">                 
