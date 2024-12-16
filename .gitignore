@@ -4,6 +4,7 @@ app/conn.php
 # Correctifs des évaluations de janvier
 modules/lpb/php/evals/janvier/correctifs/
 modules/lpb/php/evals/janvier/*.zip
+modules/lpb/php/evals/janvier/*.rar
 
 # MACOS ###
 .DS_Store
