@@ -238,6 +238,46 @@
                             ];
                         </textarea>
                         </p>
+
+                        <b>Gros coup de pouce :) : </b> <br>
+                        Vous trouverez ci-dessous la fonction que j'utilise pour générer le formulaire d'Amazaune. Le principe est simple vous lancer un foreach sur le tableau des articles 
+                        et vous générer un formulaire au départ des données du tableau. Il y a évidemment des éléments du form qui doivent être avant et après la boucle. 
+                        C'est mon cadeau de fin d'année ! <br>
+                        <b>Happy coding !</b> 🤓
+                        <p>
+                            <textarea class="code-php">
+                            function getFormulaire($articles) {
+
+                                $string = '';
+                                $string .= '<form method="post">';
+
+                                foreach ($articles as $article) {
+                                    // Remplace les espaces entre les mots par des underscores pour le nom de l'article
+                                    $nom_article = str_replace(' ', '_', $article['nom']);
+
+                                    $string .= '<div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; border-radius: 5px;">';
+                                    $string .= '<h4>' . $article['nom'] . ' <br> <small><em>' . $article['prix']. ' &euro;</em></small></h4>'; 
+                                    $string .= '<div class="mb-3">'; 
+                                    $string .= '<img src="img/'.$article['photo'].'" alt="'.$article['nom'].'" class="rounded">';        
+                                    $string .= '</div>';          
+                                    $string .= '<div>';       
+                                    $string .= '<label class="form-label" for="quantite_'.$nom_article.'">Quantité :</label>';        
+                                    $string .= '<input class="form-control" type="number" name="quantite_'.$nom_article.'" id="quantite_'.$nom_article.'" value="1" max="10" min="1">';              
+                                    $string .= '<input type="hidden" name="prix_'.$nom_article.'" value="'.$article['prix'].'">';        
+                                    $string .= '<input type="hidden" name="nom_'.$nom_article.'" value="'.$article['nom'].'">';        
+                                    $string .= '</div>';             
+                                    $string .= '</div>';  
+                                } 
+
+                                $string .=  '<button type="submit" class="btn btn-outline-primary" name="ajouter" value="">Ajouter au panier</button>';
+                                $string .=  ' <a class="btn btn-outline-secondary" href="05.panier.php">Reload</a>';
+                                $string .=  '</form>';
+
+                                return $string;
+                            }
+                            </textarea>
+                        </p>
+
                         <b>Les photos des articles</b> : <br>
                         <a href="img.zip">&#128279; Télécharger les photos des articles</a> <br> <br>
                         <b>Lien de démonstration</b> : <br>
