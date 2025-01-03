@@ -23,10 +23,7 @@
                         <h1 class="mt-5 text-center">Leçon 11 : <span class="color_dark_green">Les opérateurs de comparaison</span></h1>  
                         <?= getHtmlSubMenu('10', '12', JS); ?> 
                         
-                        <?= getHtmlBlocWhatCodeDoes(file_get_contents(FILENAME_WCD)); ?>
-                        <?= getHtmlBlockSourceCode($source_code, FILENAME_SOURCE_CODE); ?>
-                        <?= getHtmlBlockRendering(file_get_contents(FILENAME_RENDERING)); ?>
-                        <?= getHtmlBlockExplanations($explanations); ?>
+                        <?= getHtmlBlocWhatCodeDoes(file_get_contents(FILENAME_WCD)); ?>                       
                         <?= getHtmlBlockRessources($ressources); ?>
 
                     </div> <!--col-md-10-->

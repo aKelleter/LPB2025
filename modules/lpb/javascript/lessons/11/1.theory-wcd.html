@@ -1,7 +1,296 @@
+<h3>1. Préambule</h3>
 <p>
-    
+    Il y a de nombreux opérateurs de comparaison que nous connaissons des mathématiques : <br>
+    <br>
+    Plus grand et petit que : a <b class="red">></b> b, a <b class="red"><</b>b. <br>
+    Plus grand et petit ou égal à : a <b class="red">>=</b> b, a <b class="red"><=</b> b. <br>          
+    Égalité : a <b class="red">==</b> b (veuillez noter le signe de la double égalité == signifie un test d’égalité. Un seul symbole a = b signifierait une affectation). <br>
+    Pas égal : en maths la notation est ≠, mais en JavaScript elle est écrite comme une assignation avec un signe d’exclamation : a <b class="red">!=</b> b. <br>
+    <br>
+    Dans cette leçon, nous en apprendrons plus sur les différents types de comparaisons, sur la façon dont JavaScript les fait, y compris sur les particularités importantes. <br>
+    <br>
+    À la fin, vous trouverez une bonne recette pour éviter les problèmes liés aux “bizarreries JavaScript”. <br>
 </p>
-<h3></h3>
+<h3>2. Un booléen comme résultat</h3>
 <p>
-    
+    Tout comme tous les autres opérateurs, une comparaison retourne une valeur de type booléenne. <br>
+    <ul>
+        <li><b class="red">true</b>  – signifie “oui”, “correct” ou “vrai”.</li>
+        <li><b class="red">false</b> – signifie “non”, “incorrect” ou “faux”. </li>
+    </ul>   
 </p>
+Par exemple :
+<textarea class="code-php">
+    alert( 2 > 1 );  // true (correct)
+    alert( 2 == 1 ); // false (faux)    
+    alert( 2 != 1 ); // true (correct)
+</textarea>
+<br>
+Un résultat de comparaison peut être affecté à une variable, comme toute valeur : <br>
+<textarea class="code-php">
+    let result = 5 > 4; // attribue le résultat de la comparaison
+    alert( result ); // true    
+</textarea>
+<h3>3. La comparaison de chaînes de caractères</h3>
+<p>
+    Pour voir quelle chaîne de caractères est plus grande que l’autre, on utilise l’ordre dit 
+    “dictionnaire” ou “lexicographique”. <br>
+    En d’autres termes, les chaînes de caractères sont comparées lettre par lettre. <br>
+    Par exemple : <br>
+</p>
+<textarea class="code-php">
+    alert( 'Z' > 'A' ); // true
+    alert( 'Glow' > 'Glee' ); // true
+    alert( 'Bee' > 'Be' ); // true
+    alert( '9' > '10' ); // true
+</textarea>
+<p>
+    L’algorithme pour comparer deux chaînes de caractères est simple :
+</p>
+<ol>
+    <li>Compare les premiers caractères des deux chaînes de caractères.</li>
+    <li>Si le premier est supérieur (ou inférieur), la première chaîne de caractères est supérieure (ou inférieure) à la seconde. Nous en avons fini.</li>
+    <li>Sinon, si les premiers caractères sont égaux, comparez les deuxièmes caractères de la même manière.</li>
+    <li>Répéter jusqu’à la fin d’une chaîne de caractères.</li>
+    <li>Si les deux chaînes de caractères se sont terminées simultanément, alors elles sont égales. Sinon, la chaîne la plus longue est plus grande.</li>
+</ol>
+<p>
+    Dans l’exemple ci-dessus, la comparaison <b>'Z' > 'A'</b> obtient le résultat à la première étape. <br>
+    La deuxième comparaison <b>'Glow' et 'Glee'</b> nécessite plus d’étapes car les chaînes de caractères 
+    sont comparées caractère par caractère :
+</p>
+<ol>
+    <li>‘G’ est identique à ‘G’. On passe au deuxième caractère.</li>
+    <li>‘l’ est identique à ‘l’. On passe au troisième caractère.</li>
+    <li>‘o’ est plus grand que ‘e’. On a trouvé le résultat.</li>
+</ol>
+<div class="card p-3">    
+    <p><b>Pas vraiment un dictionnaire, mais plutôt l’ordre Unicode</b></p>
+    <p>
+        L’algorithme de comparaison ci-dessus est à peu près équivalent à celui utilisé dans les dictionnaires 
+        ou les annuaires téléphoniques. Mais ce n’est pas exactement la même chose. 
+    </p>
+    <p>
+        Par exemple, cette notion est importante à comprendre. Une lettre majuscule "A" n’est pas égale 
+        à la lettre minuscule "a". Lequel est le plus grand ? En fait, le minuscule "a" l’est. <br> Pourquoi ? 
+    </p>
+    <p>
+        Parce que le caractère minuscule a un index plus grand dans la table de codage interne (Unicode).    
+    </p>
+</div>
+<h3>4. Comparaison de types différentes</h3>
+<p>
+    Lorsque les valeurs comparées appartiennent à différents types, elles sont converties en nombres. <br>
+    Par exemple :
+</p>
+<textarea class="code-php">
+    alert( '2' > 1 ); // true, la chaîne '2' devient un nombre 2
+    alert( '01' == 1 ); // true, la chaîne '01' devient un nombre 1
+</textarea>
+<p>
+    Pour les valeurs booléennes, true devient 1 et false devient 0. <br>
+    Par exemple :
+</p>
+<textarea class="code-php">
+    alert( true == 1 ); // true
+    alert( false == 0 ); // true
+</textarea>
+<br>
+<div class="card p-3">    
+    <p><b>Une conséquence amusante...</b></p>
+    Il est possible que dans le même temps : <br>
+    <ul>
+        <li>Deux valeurs sont égales.</li>
+        <li>L’un d’eux est vrai comme booléen et l’autre est faux comme booléen.</li>
+    </ul>
+    Par exemple :
+    <textarea class="code-php">
+        let a = 0;
+        alert( Boolean(a) ); // false
+
+        let b = "0";
+        alert( Boolean(b) ); // true
+
+        alert(a == b); // true!
+    </textarea>
+    <p>
+        Du point de vue de JavaScript, c’est tout à fait normal. Un contrôle d’égalité convertit en 
+        utilisant la conversion numérique (par conséquent, "0" devient 0), tandis que la conversion 
+        booléenne utilise un autre ensemble de règles.
+    </p>
+</div>
+<h3>5. L'égalité stricte (===)</h3>
+<p>
+    Une vérification d’égalité régulière <b class="red">==</b> a un problème. 
+    Elle ne peut pas faire la différence entre 0 et false :
+</p>
+<textarea class="code-php">
+    alert( 0 == false ); // true
+</textarea> 
+<p>La même chose avec une chaîne de caractères vide :</p>
+<textarea class="code-php">
+    alert( '' == false ); // true
+</textarea>
+<p>
+    C’est parce que les opérandes de différents types sont convertis en un nombre par l’opérateur 
+    d’égalité <b>==</b>. Une chaîne de caractères vide, tout comme false, devient un zéro. <br>
+    <br>
+    Que faire si nous voulons différencier <b>0</b> de <b>faux</b> ? <br>
+    Un opérateur d’égalité stricte <b class="red">===</b> vérifie l’égalité sans conversion de type. <br>
+    <br>
+    En d’autres termes, si a et b sont de types différents, alors a <b class="red">===</b> b renvoie immédiatement false sans tenter de les convertir. <br>
+    <br>
+    Essayons :
+</p>
+<textarea class="code-php">
+    alert( 0 === false ); // false, car les types sont différents
+</textarea>
+<p class="mt-3">
+    Il existe également un opérateur de “strict non-égalité” <b class="red">!==</b>, par analogie à la 
+    non-égalité <b>!=</b>.
+    L’opérateur de vérification de l’égalité stricte est un peu plus long à écrire, mais rend évident 
+    ce qui se passe et laisse moins d’espace pour les erreurs.
+</p>
+<h3>6. Comparaison avec null et undefined</h3>
+<p>
+    Il existe un comportement non intuitif lorsque <b>null</b> ou <b>undefined</b> sont comparés à d’autres valeurs. <br>
+    <br>
+    Pour un contrôle de strict égalité <b>===</b> <br>
+    Ces valeurs sont différentes car chacune d’entre elles appartient à un type distinct.
+</p>
+<textarea class="code-php">
+    alert( null === undefined ); // false
+</textarea>
+<p class="mt-3">
+    <b>Pour un contrôle d’égalité non strict ==</b> <br>
+    <br>
+    Il y a une règle spéciale. Ces deux là forment “un beau couple” : ils sont égaux (au sens de ==), 
+    mais pas à d’autres valeurs.
+</p>
+<textarea class="code-php">
+    alert( null == undefined ); // true
+</textarea>
+<p class="mt-3">
+
+    <b>Pour les mathématiques et autres comparaisons <, >, <=, >=</b> <br>
+    <br>
+    Les valeurs <b>null et undefined</b> sont converties en un nombre : <b>null</b> devient <b>0</b>, 
+    alors qu’<b>undefined</b>devient <b>NaN</b>. <br>
+    <br>
+    Voyons maintenant des choses amusantes qui se produisent lorsque nous appliquons ces règles. 
+    Et, ce qui est plus important, comment ne pas tomber dans un piège avec ces caractéristiques.
+</p>
+<h4>L’étrange résultat : null vs 0</h4>
+<p>
+    Comparons null avec un zéro :
+</p>
+<textarea class="code-php">
+    alert( null > 0 );  // (1) false
+    alert( null == 0 ); // (2) false
+    alert( null >= 0 ); // (3) true
+</textarea>
+<p>
+    Ouais..., mathématiquement c’est étrange. Le dernier résultat indique que "<b>null est supérieur ou 
+    égal à zéro</b>”. Alors que l’une des comparaisons au dessus devrait être correcte, mais les deux sont 
+    fausses. <br>
+    <br>
+    La raison est qu’une vérification d’égalité (<b>==</b>) et les comparaisons (<b><, >, <=, >=)</b> 
+    fonctionnent différemment. Les comparaisons convertissent null en un nombre, donc le traitent comme <b>0</b>. 
+    C’est pourquoi (3) <b>null >= 0</b> est <b>vrai</b> et (1) <b>null > 0</b> est <b>faux</b>. <br>    
+    <br>
+    D’un autre côté, la vérification de l’égalité <b>==</b> pour <b>undefined</b> et <b>null</b> est 
+    définie de telle sorte que, sans aucune conversion, ils sont égaux et ne correspondent à rien 
+    d’autre. C’est pourquoi (2) <b>null == 0</b> est <b>faux</b>.
+</p>
+<h4>Un undefined incomparable</h4>
+<p>
+    La valeur <b>undefined</b> ne doit pas du tout participer aux comparaisons :
+</p>
+<textarea class="code-php">
+    alert( undefined > 0 );  // false (1)
+    alert( undefined < 0 );  // false (2)
+    alert( undefined == 0 ); // false (3)
+</textarea>
+<p>
+    Pourquoi est-ce qu’il n’aime pas le zéro ? Toujours faux! <br>
+    Nous avons ces résultats parce que :
+</p>
+<ul>
+    <li>
+        Les comparaisons (1) et (2) renvoient false car <b>undefined</b> est converti en <b>NaN</b> et 
+        NaN est une valeur numérique spéciale qui renvoie <b>false</b> pour toutes les comparaisons.
+    </li>
+    <li>
+        Le contrôle d’égalité (3) renvoie <b>false</b>, car <b>undefined</b> est uniquement égal à <b>null</b> 
+        et à aucune autre valeur.
+    </li>
+</ul>
+<h3>7. Éviter les problèmes</h3>
+<p>
+    Pourquoi avons-nous observé ces exemples? Devrions-nous nous souvenir de ces particularités tout 
+    le temps ? Eh bien pas vraiment. En fait, ces notions délicates deviennent progressivement 
+    familières au fil du temps, mais il existe un moyen solide d’éviter tout problème avec elles. <br>  
+    <br>
+    Il suffit de traiter toute comparaison avec <b>null/undefined</b> (à l’exception de la stricte égalité ===) 
+    avec un soin exceptionnel. <br>
+    <br>
+    N’utilisez pas de comparaisons <b>=>, >, <, <= </b> avec une variable qui peut être <b>null/undefined</b>, sauf 
+    si vous êtes vraiment sûr de ce que vous faites. Si une variable peut avoir de telles valeurs, 
+    vérifiez-les séparément.
+</p>
+<h3>8. Résumé</h3>
+<ul>
+
+    <li>Les opérateurs de comparaison renvoient une valeur booléenne.</li>
+    <li>Les chaînes de caractères sont comparées lettre par lettre dans l’ordre “dictionnaire”.</li>
+    <li>Lorsque des valeurs de différents types sont comparées, elles sont converties en nombres (à l’exclusion d’un contrôle d’égalité strict).</li>
+    <li>Les valeurs <b>null</b> et <b>undefined</b> sont égales (<b>==</b>) et ne correspondent à aucune autre valeur.</li>
+    <li>Soyez prudent lorsque vous utilisez des comparaisons telles que <b>></b> ou <b><</b> avec des 
+        variables pouvant parfois être <b>null/undefined</b>. Faire une vérification séparée pour 
+        <b>null/undefined</b> est une bonne idée.</li>
+
+</ul>
+<h3>9. Exercices</h3>
+<p>Quel sera le résultat pour les expressions suivantes :</p>
+<textarea class="code-php">
+    5 > 4
+    "apple" > "pineapple"
+    "2" > "12"
+    undefined == null
+    undefined === null
+    null == "\n0\n"
+    null === +"\n0\n"
+</textarea>
+
+<div class="solution">    
+    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
+        Voir la solution
+    </button>
+    
+    <div class="collapse mt-3" id="collapseSolution1">
+        <div class="card card-body">           
+            <textarea class="code-php">
+                5 > 4 → true
+                "apple" > "pineapple" → false
+                "2" > "12" → true
+                undefined == null → true
+                undefined === null → false
+                null == "\n0\n" → false
+                null === +"\n0\n" → false
+            </textarea>
+            <p>
+                Pour quelles raisons :
+                <ol>
+                    <li>5 est plus grand que 4, donc true.</li>
+                    <li>La comparaison du dictionnaire, donc faux. "<b>a</b>" est plus petit que "<b>p</b>".</li>
+                    <li>Encore une fois, comparaison du dictionnaire, le premier caractère de "<b>2</b>" est plus grand que le premier caractère de "<b>1</b>".</li>
+                    <li>Les valeurs <b>null</b> et <b>undefined</b> sont exclusivement égale entre elles.</li>
+                    <li>L’égalité stricte est stricte. Des types différents des deux côtés conduisent à <b>false</b>.</li>
+                    <li>Similaire à (4), <b>null</b> n’est égale qu’à <b>undefined</b>.</li>
+                    <li>Egalité stricte de différents types.</li>
+                </ol>
+            </p>
+        </div>
+    </div>
+</div>
+<hr>
