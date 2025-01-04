@@ -1,265 +1,469 @@
-<h3>1. Préambule</h3>
 <p>
-    Il y a de nombreux opérateurs de comparaison que nous connaissons des mathématiques : <br>
-    <br>
-    Plus grand et petit que : a <b class="red">></b> b, a <b class="red"><</b>b. <br>
-    Plus grand et petit ou égal à : a <b class="red">>=</b> b, a <b class="red"><=</b> b. <br>          
-    Égalité : a <b class="red">==</b> b (veuillez noter le signe de la double égalité == signifie un test d’égalité. Un seul symbole a = b signifierait une affectation). <br>
-    Pas égal : en maths la notation est ≠, mais en JavaScript elle est écrite comme une assignation avec un signe d’exclamation : a <b class="red">!=</b> b. <br>
-    <br>
-    Dans cette leçon, nous en apprendrons plus sur les différents types de comparaisons, sur la façon dont JavaScript les fait, y compris sur les particularités importantes. <br>
-    <br>
-    À la fin, vous trouverez une bonne recette pour éviter les problèmes liés aux “bizarreries JavaScript”. <br>
+    De nombreux opérateurs nous sont connus de l’école, nous les avons également abordés dans lors de l'apprentissage du langage PHP.
+    Ce sont les additions <b class="red">+</b>, multiplications <b class="red">*</b>, soustractions <b class="red">-</b> et ainsi de suite. <br>
+    Dans cette leçon, nous nous concentrons sur les aspects qui ne sont pas couverts par l’arithmétique scolaire.
 </p>
-<h3>2. Un booléen comme résultat</h3>
+<h3>01. Quelques termes</h3>
 <p>
-    Tout comme tous les autres opérateurs, une comparaison retourne une valeur de type booléenne. <br>
-    <ul>
-        <li><b class="red">true</b>  – signifie “oui”, “correct” ou “vrai”.</li>
-        <li><b class="red">false</b> – signifie “non”, “incorrect” ou “faux”. </li>
-    </ul>   
+    Une <b>opérande</b> : c'est le(s) élément(s) surle(s)quel(s) une opération est effectuée. Par exemple, dans <b>5 * 2</b>, les opérandes sont <b></b> et <b>2</b>. <br>
+    <b>Unaire</b> : une opération avec un seul opérande, comme <b>-5</b>. <br>
+    <b>Binaire</b> : une opération avec deux opérandes, comme <b>5 * 2</b>. <br>
 </p>
-Par exemple :
 <textarea class="code-php">
-    alert( 2 > 1 );  // true (correct)
-    alert( 2 == 1 ); // false (faux)    
-    alert( 2 != 1 ); // true (correct)
+    // Un opérateur unaire
+    x = 1;
+
+    x = -x;
+    alert( x ); // -1, le moins unaire a été appliqué
 </textarea>
 <br>
-Un résultat de comparaison peut être affecté à une variable, comme toute valeur : <br>
 <textarea class="code-php">
-    let result = 5 > 4; // attribue le résultat de la comparaison
-    alert( result ); // true    
-</textarea>
-<h3>3. La comparaison de chaînes de caractères</h3>
+    // Un opérateur binaire
+    let x = 1, y = 3;
+    alert( y - x ); // 2, le moins binaire soustrait des valeurs
+</textarea>    
+<h3>02. Les opérateurs arithmétiques</h3>
 <p>
-    Pour voir quelle chaîne de caractères est plus grande que l’autre, on utilise l’ordre dit 
-    “dictionnaire” ou “lexicographique”. <br>
-    En d’autres termes, les chaînes de caractères sont comparées lettre par lettre. <br>
+    Les opérateurs arithmétiques sont les plus courants. <br>
+    <b>+</b> : addition <br>
+    <b>-</b> : soustraction <br>
+    <b>*</b> : multiplication <br>
+    <b>/</b> : division <br>
+    <b>%</b> : modulo (reste de la division) <br>
+    <b>**</b> : puissance <br>
+</p>
+Exemples d'utilisation  du modulo <b>%</b> :
+<textarea class="code-php">
+    alert( 5 % 2 ); // 1, le reste de 5 divisé par 2
+    alert( 8 % 3 ); // 2, le reste de 8 divisé par 3
+    alert( 6 % 3 ); // 0, le reste de 6 divisé par 3
+</textarea>
+<h3>03. Concaténation de chaînes de caractères avec l'opérateur binaire +</h3>
+<p>
+    Découvrons les fonctionnalités des opérateurs JavaScript qui vont au-delà de l’arithmétique scolaire.
+    Habituellement, l’opérateur + additionne des chiffres.
+    Mais si le binaire + est appliqué aux chaînes de caractères, il les fusionne (concatène) :    
+</p>
+<textarea class="code-php">
+    let s = "my" + "string";
+    alert(s); // mystring
+</textarea>
+<br>
+Notez que si l’un des opérandes est une chaîne de caractères, l’autre est automatiquement converti en chaîne de caractères. <br>
+Par exemple :
+<textarea class="code-php">
+alert( '1' + 2 ); // "12"
+alert( 2 + '1' ); // "21"
+</textarea>
+<br>
+Peu importe que le premier opérande soit une chaîne de caractères ou le second. La règle est simple : si l’un des opérandes est une chaîne de caractères, il converti l’autre également en une chaîne de caractères.
+Cependant, notez que les opérations se déroulent de gauche à droite. <br> S’il y a deux nombres suivis d’une chaîne, les nombres seront ajoutés avant d’être convertis en chaîne :
+<textarea class="code-php">
+alert(2 + 2 + '1' ); // "41" et non "221"
+</textarea>
+Ici, les opérateurs travaillent les uns après les autres. Le premier + additionne deux nombres, donc il renvoie 4, puis le + suivant ajoute la chaîne de caractères 1, donc c’est comme 4 + '1' = 41.
+<br>
+<br>
+<textarea class="code-php">
+alert('1' + 2 + 2); // "122" and not "14"
+</textarea>
+Ici, le premier opérande est une chaîne de caractères, le compilateur traite également les deux autres opérandes comme des chaînes de caractères. Le 2 est concaténé à '1', donc c’est comme '1'+ 2 = "12" et "12" + 2 = "122". <br>
+Le binaire <b class="red">+</b> est le seul opérateur qui prend en charge les chaînes de caractères de cette manière. D’autres opérateurs arithmétiques ne fonctionnent qu’avec des nombres et convertissent toujours leurs opérandes en nombres.
+<br>
+Voici l’exemple pour la soustraction et la division :
+<textarea class="code-php">
+alert( 6 - '2' ); // 4, convertit '2' en nombre
+alert( '6' / '2' ); // 3, convertit les deux opérandes en nombres
+</textarea>
+<h3>04. Conversion numérique avec l'opérateur unaire +</h3>
+<p>
+    L’opérateur unaire <b class="red">+</b> appliqué à un seul opérande convertit l’opérande en nombre.
+</p>
+<p>
+    Le plus <b>+</b> existe sous deux formes. La forme binaire que nous avons utilisée ci-dessus et la forme unaire. <br>
+    L’unaire plus ou, en d’autres termes, l’opérateur plus <b>+</b> appliqué à une seule valeur, ne fait rien avec les nombres, mais si l’opérande n’est pas un nombre, alors il est converti en nombre.
+
     Par exemple : <br>
 </p>
 <textarea class="code-php">
-    alert( 'Z' > 'A' ); // true
-    alert( 'Glow' > 'Glee' ); // true
-    alert( 'Bee' > 'Be' ); // true
-    alert( '9' > '10' ); // true
+    // Aucun effet sur les nombres
+    let x = 1;
+    alert( +x ); // 1
+
+    let y = -2;
+    alert( +y ); // -2
+
+    // Convertit les non-nombres
+    alert( +true ); // 1
+    alert( +"" );   // 0
 </textarea>
 <p>
-    L’algorithme pour comparer deux chaînes de caractères est simple :
+    En fait, il fait la même chose que <b class="red">Number(...)</b>, mais il est plus court. <br>
+    La nécessité de convertir des chaînes de caractères en nombres est très fréquente. Par exemple, si nous obtenons des valeurs à partir de champs de formulaire HTML, 
+    il s’agit généralement de chaînes de caractères. Et si on veut les additionner ? <br>
+    Le binaire plus les ajouterait comme des chaînes de caractères :
 </p>
-<ol>
-    <li>Compare les premiers caractères des deux chaînes de caractères.</li>
-    <li>Si le premier est supérieur (ou inférieur), la première chaîne de caractères est supérieure (ou inférieure) à la seconde. Nous en avons fini.</li>
-    <li>Sinon, si les premiers caractères sont égaux, comparez les deuxièmes caractères de la même manière.</li>
-    <li>Répéter jusqu’à la fin d’une chaîne de caractères.</li>
-    <li>Si les deux chaînes de caractères se sont terminées simultanément, alors elles sont égales. Sinon, la chaîne la plus longue est plus grande.</li>
-</ol>
+<textarea class="code-php">
+    let apples = "2";
+    let oranges = "3";
+
+    alert( apples + oranges ); // "23", le binaire plus concatène les chaînes de caractères
+</textarea>
 <p>
-    Dans l’exemple ci-dessus, la comparaison <b>'Z' > 'A'</b> obtient le résultat à la première étape. <br>
-    La deuxième comparaison <b>'Glow' et 'Glee'</b> nécessite plus d’étapes car les chaînes de caractères 
-    sont comparées caractère par caractère :
+    Si nous voulons les traiter comme des nombres, nous devons d’abord les convertir et ensuite seulement nous pouvons les additionner :
 </p>
-<ol>
-    <li>‘G’ est identique à ‘G’. On passe au deuxième caractère.</li>
-    <li>‘l’ est identique à ‘l’. On passe au troisième caractère.</li>
-    <li>‘o’ est plus grand que ‘e’. On a trouvé le résultat.</li>
-</ol>
-<div class="card p-3">    
-    <p><b>Pas vraiment un dictionnaire, mais plutôt l’ordre Unicode</b></p>
-    <p>
-        L’algorithme de comparaison ci-dessus est à peu près équivalent à celui utilisé dans les dictionnaires 
-        ou les annuaires téléphoniques. Mais ce n’est pas exactement la même chose. 
-    </p>
-    <p>
-        Par exemple, cette notion est importante à comprendre. Une lettre majuscule "A" n’est pas égale 
-        à la lettre minuscule "a". Lequel est le plus grand ? En fait, le minuscule "a" l’est. <br> Pourquoi ? 
-    </p>
-    <p>
-        Parce que le caractère minuscule a un index plus grand dans la table de codage interne (Unicode).    
-    </p>
+<textarea class="code-php">
+    let apples = "2";
+    let oranges = "3";
+
+    // les convertir en nombres avant l'addition
+    alert( +apples + +oranges ); // 5
+    // la conversion est effectuée avec l'opérateur unaire + ou avec Number()
+
+    // Avec Number()
+    alert( Number(apples) + Number(oranges) ); // 5
+</textarea>
+<p>
+    Du point de vue du mathématicien, l’abondance des + peut sembler étrange. Mais du point de vue du programmeur, il n’y a rien de spécial : 
+    les plus unaires sont appliqués en premier, ils convertissent les chaînes de caractères en nombres, puis le plus binaire les additionne. <br>
+    Pourquoi les plus unaires sont-ils appliqués aux valeurs avant les binaires ? Comme nous allons le voir, c’est à cause de leur <b>précédence supérieure</b>.
+</p>
+<h3>05. La précédence des opérateurs</h3>
+<p>
+    Si une expression à plusieurs opérateurs, l’ordre d’exécution est défini par leur priorité ou, en d’autres termes, il existe un ordre de priorité implicite entre les opérateurs.
+</p>
+<p>
+    De l’école, nous savons tous que la multiplication dans l’expression 1 + 2 * 2 devrait être calculée avant l’addition. C’est exactement cela la précédence. La multiplication est dite avoir une précédence supérieure à l’addition.
+</p>
+<p>
+    Les parenthèses outrepassent toute priorité, donc si nous ne sommes pas satisfaits de l’ordre par défaut, nous pouvons les utiliser, comme : (1 + 2) * 2.
+</p>
+<p>
+    Il y a beaucoup d’opérateurs en JavaScript. Chaque opérateur a un numéro correspondant à sa priorité de précédence. Celui qui est plus haut sur le tableau s’exécute en premier. Si la priorité est la même, l’ordre d’exécution est de gauche à droite.
+</p>
+<p>
+    Voici un extrait du <a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Operators/Operator_precedence">tableau de précédence</a> des opérateurs JavaScript (vous n’avez pas besoin de vous en souvenir, mais notez que les opérateurs unaires 
+    ont une priorité plus élevée que les binaires correspondants) :
+</p>
+<table class="table">   
+<thead>
+    <tr>
+    <th>Précédence</th>
+    <th>Nom</th>
+    <th>Symbole</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+    <td>…</td>
+    <td>…</td>
+    <td>…</td>
+    </tr>
+    <tr>
+    <td>14</td>
+    <td>plus unaire</td>
+    <td><code>+</code></td>
+    </tr>
+    <tr>
+    <td>14</td>
+    <td>négation unaire</td>
+    <td><code>-</code></td>
+    </tr>
+    <tr>
+    <td>13</td>
+    <td>exponentiation</td>
+    <td><code>**</code></td>
+    </tr>
+    <tr>
+    <td>12</td>
+    <td>multiplication</td>
+    <td><code>*</code></td>
+    </tr>
+    <tr>
+    <td>12</td>
+    <td>division</td>
+    <td><code>/</code></td>
+    </tr>
+    <tr>
+    <td>11</td>
+    <td>addition</td>
+    <td><code>+</code></td>
+    </tr>
+    <tr>
+    <td>11</td>
+    <td>soustraction</td>
+    <td><code>-</code></td>
+    </tr>
+    <tr>
+    <td>…</td>
+    <td>…</td>
+    <td>…</td>
+    </tr>
+    <tr>
+    <td>2</td>
+    <td>affectation</td>
+    <td><code>=</code></td>
+    </tr>
+    <tr>
+    <td>…</td>
+    <td>…</td>
+    <td>…</td>
+    </tr>
+    </tbody>    
+</table>
+<p>
+    Comme on peut le voir, le “plus unaire” a une priorité de 14, ce qui est supérieur à 11 pour “l’addition” (plus binaire). C’est pourquoi, dans l’expression "+apples + +oranges", 
+    les plus unaires fonctionnent avant l’addition.
+</p>
+<h3>05. L'opérateur d'affectation</h3>
+<p>
+    L’opérateur d’affectation <b class="red">=</b> attribue une valeur à une variable.    
+</p>
+<p>
+    Notons qu’une affectation <b>=</b> est aussi un opérateur. Il est répertorié dans le tableau des précédences avec la très faible priorité de 2. <br>
+    C’est pourquoi lorsque nous assignons une variable, comme <b>x = 2 * 2 + 1</b>, les calculs sont effectués en premier, puis le <b>=</b> est évalué, stockant le résultat dans x.
+</p>
+<textarea class="code-php">
+    let x = 2 * 2 + 1;
+
+    alert( x ); // 5
+</textarea>
+<h4>Affectation = retour de valeur</h4>
+<p>
+    Le fait que <b class="red">=</b> soit un opérateur, pas une construction de langage “magique” a une implication intéressante. <br>
+    Tous les opérateurs en JavaScript renvoient une valeur. C’est évident pour + et -, mais aussi vrai pour =. <br>
+    L’appel <b>x = valeur</b> écrit la valeur dans x puis la renvoie. <br>
+    <br>
+    Voici un exemple qui utilise une affectation dans le cadre d’une expression plus complexe : <br>    
+</p>
+<textarea class="code-php">
+    let a = 1;
+    let b = 2;
+
+    let c = 3 - (a = b + 1);
+
+    alert( a ); // 3
+    alert( c ); // 0
+</textarea>
+<p>
+    Dans l’exemple ci-dessus, le résultat de l’expression <b>(a = b + 1)</b> est la valeur qui a été affectée à <b>a</b> (c’est-à-dire 3). Il est ensuite utilisé pour d’autres évaluations.  <br>
+    Drôle de code, n’est-ce pas? Nous devons comprendre comment cela fonctionne, car parfois nous le retrouvons dans les bibliothèques JavaScript ou d'autres codes sources. <br>
+    Cependant, n’écrivez pas le code de cette manière. De telles astuces ne rendent certainement pas le code plus clair ou lisible.
+</p>
+<h3>06. Les affectations chaînées</h3>
+<p>
+    Une autre caractéristique intéressante est la possibilité de chaîner des affectations :
+</p>
+<textarea class="code-php">
+    let a, b, c;
+
+    a = b = c = 2 + 2;
+
+    alert( a ); // 4
+    alert( b ); // 4
+    alert( c ); // 4
+</textarea>
+<p>
+    Dans l’exemple ci-dessus, <b>c = 2 + 2</b> s’exécute en premier, puis <b>b = c</b> stocke le résultat dans b, puis <b>a = b</b> stocke le résultat dans a. <br>
+    Les trois variables reçoivent 4 comme valeur.
+</p>
+<p>
+    Encore une fois, pour des raisons de lisibilité, il est préférable de diviser ce code en quelques lignes :
+</p>
+<textarea class="code-php">
+    c = 2 + 2;
+    b = c;
+    a = c;
+</textarea>
+C’est plus facile à lire et en particulier cela favorise la lecture rapide du code en ce compris la lecture des expressions numériques.
+
+<h3>07. Modification sur place - opérateurs combinés</h3>
+<p>
+    Nous avons souvent besoin d’appliquer un opérateur à une variable et d’y stocker le nouveau résultat. <br>
+    Par exemple :
+</p>
+<textarea class="code-php">
+    let n = 2;
+    n = n + 5;
+    n = n * 2;
+</textarea>
+<p>
+    Cette notation peut être raccourcie en utilisant les opérateurs += et *= :
+</p>
+<textarea class="code-php">
+    let n = 2;
+    n += 5; // maintenant n = 7 (identique à n = n + 5)
+    n *= 2; // maintenant n = 14 (identique à n = n * 2)
+    
+    alert( n ); // 14
+</textarea>
+<p>
+    Il existe des opérateurs de “modification et assignation” courts pour tous les opérateurs arithmétiques et binaires : /=, -= etc. <br>
+    Ces opérateurs ont la même précédence qu’une affectation normale. Ils s’exécutent donc après la plupart des autres calculs :
+</p>
+<textarea class="code-php">
+    let n = 2;
+
+    n *= 3 + 5; // la partie de droite est évaluée en premier (identique à n *= 8)
+
+    alert( n ); // 16
+</textarea>
+<h3>08. Incrémentation / Décrémentation</h3>
+<p>
+    L’augmentation ou la diminution d’un nombre par 1 compte parmi les opérations numériques les plus courantes. <br>
+    Il y a donc des opérateurs spéciaux pour cela :
+</p>
+<p><b>Incrémentation ++</b> augmente une variable de 1 :</p>
+<textarea class="code-php">
+    let counter = 2;
+    counter++;        // fonctionne de la même manière que counter = counter + 1, mais c'est plus court
+    alert( counter ); // 3
+</textarea>
+<p><b>Décrémentation --</b> diminue une variable de 1 :</p>
+<textarea class="code-php">
+    let counter = 2;
+    counter--;        // fonctionne de la même manière que counter = counter - 1, mais c'est plus court
+    alert( counter ); // 1
+</textarea>
+<div class="mt-3 card">    
+    <b class="red">Important :</b> L’incrémentation / décrémentation ne peut être appliquée qu’à une variable. Une tentative pour l’utiliser sur une valeur comme 5++ donnera une erreur.
 </div>
-<h3>4. Comparaison de types différentes</h3>
+<h4>Pré et Post incrémentation</h4>
 <p>
-    Lorsque les valeurs comparées appartiennent à différents types, elles sont converties en nombres. <br>
-    Par exemple :
-</p>
-<textarea class="code-php">
-    alert( '2' > 1 ); // true, la chaîne '2' devient un nombre 2
-    alert( '01' == 1 ); // true, la chaîne '01' devient un nombre 1
-</textarea>
-<p>
-    Pour les valeurs booléennes, true devient 1 et false devient 0. <br>
-    Par exemple :
-</p>
-<textarea class="code-php">
-    alert( true == 1 ); // true
-    alert( false == 0 ); // true
-</textarea>
-<br>
-<div class="card p-3">    
-    <p><b>Une conséquence amusante...</b></p>
-    Il est possible que dans le même temps : <br>
+    Les opérateurs ++ et -- peuvent être placés à la fois après et avant la variable. <br>
     <ul>
-        <li>Deux valeurs sont égales.</li>
-        <li>L’un d’eux est vrai comme booléen et l’autre est faux comme booléen.</li>
+        <li>Lorsque l’opérateur va après la variable, cela s’appelle une “forme postfixée” : counter++. </li>
+        <li>La “forme préfixée” est celle où l’opérateur se place devant la variable : ++counter. </li            >
     </ul>
+</p>
+<p>
+    Ces deux opérateurs font la même chose : augmenter le counter de 1. <br>
+    Y a-t-il une différence ? Oui, mais nous ne pouvons le voir que si nous utilisons la valeur renvoyée de ++/--. <br>
+    Soyons clairs. Comme nous le savons, tous les opérateurs renvoient une valeur. L’incrémentation / décrémentation n’est pas une exception ici. La forme préfixée renvoie la nouvelle valeur, 
+    tandis que la forme postfixée renvoie l’ancienne valeur (avant l’incrémentation / décrémentation).
+</p>
+<p>
+    Pour voir la différence, voici un exemple :
+</p>
+<textarea class="code-php">
+    let counter = 1;
+    let a = ++counter; // (*)
+    
+    alert(a); // 2
+</textarea>
+<p>
+    Ici, dans la ligne (*), l’appel du préfixe ++counter incrémente le compteur et retourne la nouvelle valeur qui est 2. Ainsi, l’alert affiche 2. <br>
+    Maintenant, utilisons la forme postfixe :
+</p>
+<textarea class="code-php">
+    let counter = 1;
+    let a = counter++; // (*) changé ++counter pour counter++
+    
+    alert(a); // 1
+</textarea>
+<p>
+    Dans la ligne (*), la forme postfixe counter++ incrémente également counter, mais renvoie l’ancienne valeur (avant l’incrémentation). Donc, l’alert montre 1.
+</p>
+
+<b>Pour résumer</b> :
+<ul class="card">
+    <li>Si le résultat de l’incrémentation/décrémentation n’est pas utilisé, alors il n’y a pas de différence dans la forme à utiliser. (pré ou post)</li>
+    <li>Si nous souhaitons augmenter la valeur et utiliser le résultat de l’opérateur immédiatement, nous avons besoin de la forme préfixée.</li>
+    <li>Si nous souhaitons incrémenter, mais utiliser la valeur précédente, alors nous avons besoin de la forme postfixée</li>
+</ul>
+
+<p>
+    <b>Incrémentation / décrémentation parmi d’autres opérateurs</b> <br>
+    Les opérateurs <b>++/--</b> peuvent également être utilisés dans une expression. Leur précédence est plus élevée que la plupart des autres opérations arithmétiques. <br>
+    Par exemple :   
+</p>
+<textarea class="code-php">
+    let counter = 1;
+    alert( 2 * ++counter ); // 4
+</textarea>
+<p>A comparer avec :</p>
+<textarea class="code-php">
+    let counter = 1;
+    alert( 2 * counter++ ); // 2, counter++ renvoie "l'ancienne" valeur
+</textarea>
+<p>
+    Bien que techniquement acceptable, une telle notation rend le code moins lisible. Une ligne fait plusieurs choses – pas bien. <br>
+    Lors de la lecture du code, un scan oculaire “vertical” rapide peut facilement manquer un tel counter++, et il n’est pas évident que la variable augmente. <br>
+    Le style “une ligne – une action” est conseillé :
+</p>
+<textarea class="code-php">
+    let counter = 1;
+    alert( 2 * counter );
+    counter++;
+</textarea>
+
+<h3>09. Les opérateurs binaires (travaillent sur les bits)</h3>
+<p>
+    Les opérateurs binaires traitent les arguments comme des nombres entiers de 32 bits et travaillent au niveau de leur représentation binaire. <br>
+    Ces opérateurs ne sont pas spécifiques à JavaScript. Ils sont pris en charge dans la plupart des langages de programmation. <br>
+    La liste des opérateurs :
+</p>
+<ul>
+    <li>AND ( & )</li>
+    <li>OR ( | )</li>
+    <li>XOR ( ^ )</li>
+    <li>NOT ( ~ )</li>
+    <li>LEFT SHIFT ( << )</li>
+    <li>RIGHT SHIFT ( >> )</li>
+    <li>ZERO-FILL RIGHT SHIFT ( >>> )</li>
+</ul>
+<p>
+    Ces opérateurs sont très rarement utilisés, lorsque nous devons jouer avec des nombres au niveau le plus bas (bit à bit). Nous n’aurons pas besoin de ces opérateurs de si tôt, car le 
+    développement Web les utilise peu, mais dans certains domaines particuliers, comme la cryptographie, ils sont utiles.
+</p>
+<p>Vous pouvez lire le <a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Guide/Expressions_and_operators#Op%C3%A9rateurs_binaires" target="_blank">chapitre Opérateurs binaires</a> sur MDN en cas de besoin.</p>
+
+<h3>10. L'opérateur Virgule ,</h3>
+<p>
+    L’opérateur virgule <b class="red">,</b>  est l’un des opérateurs les plus rares et les plus inhabituels. Parfois, il faut écrire un code plus court, il faut donc le connaître pour comprendre ce qui se passe. <br>
+    L’opérateur virgule nous permet d’évaluer plusieurs expressions en les divisant par une virgule ,. Chacun d’eux est évalué, mais seulement le résultat de la dernière est renvoyé. <br>
     Par exemple :
-    <textarea class="code-php">
-        let a = 0;
-        alert( Boolean(a) ); // false
+</p>
+<textarea class="code-php">
+    let a = (1 + 2, 3 + 4);
 
-        let b = "0";
-        alert( Boolean(b) ); // true
+    alert( a ); // 7 (le résultat de 3 + 4);
+</textarea>
+<p>
+    Ici, la première expression 1 + 2 est évaluée mais son résultat n’est pas utilisé, puis 3 + 4 est évalué et renvoyé comme résultat.
+</p>
 
-        alert(a == b); // true!
-    </textarea>
-    <p>
-        Du point de vue de JavaScript, c’est tout à fait normal. Un contrôle d’égalité convertit en 
-        utilisant la conversion numérique (par conséquent, "0" devient 0), tandis que la conversion 
-        booléenne utilise un autre ensemble de règles.
-    </p>
+<div class="p-3 mt-3 mb-3 bg-light border">
+    La virgule a une très faible précédence <br>
+    Veuillez noter que l’opérateur virgule a une précédence très basse, inférieure à <b>=</b>, donc les parenthèses sont importantes dans l’exemple ci-dessus. <br>
+    Sans eux : <b>a = 1 + 2, 3 + 4</b> évalue d’abord <b>+</b>, additionnant les nombres dans a = 3, 7. Ensuite l’opérateur d’affectation <b>=</b> assigne <b>a = 3</b>, 
+    et le reste est ignoré. C’est comme <b>(a = 1 + 2), 3 + 4 </b>. <br>
 </div>
-<h3>5. L'égalité stricte (===)</h3>
 <p>
-    Une vérification d’égalité régulière <b class="red">==</b> a un problème. 
-    Elle ne peut pas faire la différence entre 0 et false :
+    Pourquoi avons-nous besoin d’un tel opérateur qui jette tout sauf la dernière partie ? <br>
+    Parfois, les gens l’utilisent dans des constructions plus complexes pour placer plusieurs actions sur une seule ligne. <br>
+    Par exemple :   
 </p>
 <textarea class="code-php">
-    alert( 0 == false ); // true
-</textarea> 
-<p>La même chose avec une chaîne de caractères vide :</p>
-<textarea class="code-php">
-    alert( '' == false ); // true
+    // trois opérations en une seule ligne
+    for (a = 1, b = 3, c = a * b; a < 10; a++) {
+     ...
+    }
 </textarea>
 <p>
-    C’est parce que les opérandes de différents types sont convertis en un nombre par l’opérateur 
-    d’égalité <b>==</b>. Une chaîne de caractères vide, tout comme false, devient un zéro. <br>
-    <br>
-    Que faire si nous voulons différencier <b>0</b> de <b>faux</b> ? <br>
-    Un opérateur d’égalité stricte <b class="red">===</b> vérifie l’égalité sans conversion de type. <br>
-    <br>
-    En d’autres termes, si a et b sont de types différents, alors a <b class="red">===</b> b renvoie immédiatement false sans tenter de les convertir. <br>
-    <br>
-    Essayons :
+    Ces astuces sont utilisées dans de nombreux frameworks JavaScript, c’est pourquoi elles sont mentionnées. Mais généralement, ils n’améliorent pas la lisibilité du code, nous devrions bien réfléchir 
+    avant de les utiliser.
 </p>
-<textarea class="code-php">
-    alert( 0 === false ); // false, car les types sont différents
-</textarea>
-<p class="mt-3">
-    Il existe également un opérateur de “strict non-égalité” <b class="red">!==</b>, par analogie à la 
-    non-égalité <b>!=</b>.
-    L’opérateur de vérification de l’égalité stricte est un peu plus long à écrire, mais rend évident 
-    ce qui se passe et laisse moins d’espace pour les erreurs.
-</p>
-<h3>6. Comparaison avec null et undefined</h3>
-<p>
-    Il existe un comportement non intuitif lorsque <b>null</b> ou <b>undefined</b> sont comparés à d’autres valeurs. <br>
-    <br>
-    Pour un contrôle de strict égalité <b>===</b> <br>
-    Ces valeurs sont différentes car chacune d’entre elles appartient à un type distinct.
-</p>
-<textarea class="code-php">
-    alert( null === undefined ); // false
-</textarea>
-<p class="mt-3">
-    <b>Pour un contrôle d’égalité non strict ==</b> <br>
-    <br>
-    Il y a une règle spéciale. Ces deux là forment “un beau couple” : ils sont égaux (au sens de ==), 
-    mais pas à d’autres valeurs.
-</p>
-<textarea class="code-php">
-    alert( null == undefined ); // true
-</textarea>
-<p class="mt-3">
 
-    <b>Pour les mathématiques et autres comparaisons <, >, <=, >=</b> <br>
-    <br>
-    Les valeurs <b>null et undefined</b> sont converties en un nombre : <b>null</b> devient <b>0</b>, 
-    alors qu’<b>undefined</b>devient <b>NaN</b>. <br>
-    <br>
-    Voyons maintenant des choses amusantes qui se produisent lorsque nous appliquons ces règles. 
-    Et, ce qui est plus important, comment ne pas tomber dans un piège avec ces caractéristiques.
-</p>
-<h4>L’étrange résultat : null vs 0</h4>
-<p>
-    Comparons null avec un zéro :
-</p>
-<textarea class="code-php">
-    alert( null > 0 );  // (1) false
-    alert( null == 0 ); // (2) false
-    alert( null >= 0 ); // (3) true
-</textarea>
-<p>
-    Ouais..., mathématiquement c’est étrange. Le dernier résultat indique que "<b>null est supérieur ou 
-    égal à zéro</b>”. Alors que l’une des comparaisons au dessus devrait être correcte, mais les deux sont 
-    fausses. <br>
-    <br>
-    La raison est qu’une vérification d’égalité (<b>==</b>) et les comparaisons (<b><, >, <=, >=)</b> 
-    fonctionnent différemment. Les comparaisons convertissent null en un nombre, donc le traitent comme <b>0</b>. 
-    C’est pourquoi (3) <b>null >= 0</b> est <b>vrai</b> et (1) <b>null > 0</b> est <b>faux</b>. <br>    
-    <br>
-    D’un autre côté, la vérification de l’égalité <b>==</b> pour <b>undefined</b> et <b>null</b> est 
-    définie de telle sorte que, sans aucune conversion, ils sont égaux et ne correspondent à rien 
-    d’autre. C’est pourquoi (2) <b>null == 0</b> est <b>faux</b>.
-</p>
-<h4>Un undefined incomparable</h4>
-<p>
-    La valeur <b>undefined</b> ne doit pas du tout participer aux comparaisons :
-</p>
-<textarea class="code-php">
-    alert( undefined > 0 );  // false (1)
-    alert( undefined < 0 );  // false (2)
-    alert( undefined == 0 ); // false (3)
-</textarea>
-<p>
-    Pourquoi est-ce qu’il n’aime pas le zéro ? Toujours faux! <br>
-    Nous avons ces résultats parce que :
-</p>
-<ul>
-    <li>
-        Les comparaisons (1) et (2) renvoient false car <b>undefined</b> est converti en <b>NaN</b> et 
-        NaN est une valeur numérique spéciale qui renvoie <b>false</b> pour toutes les comparaisons.
-    </li>
-    <li>
-        Le contrôle d’égalité (3) renvoie <b>false</b>, car <b>undefined</b> est uniquement égal à <b>null</b> 
-        et à aucune autre valeur.
-    </li>
-</ul>
-<h3>7. Éviter les problèmes</h3>
-<p>
-    Pourquoi avons-nous observé ces exemples? Devrions-nous nous souvenir de ces particularités tout 
-    le temps ? Eh bien pas vraiment. En fait, ces notions délicates deviennent progressivement 
-    familières au fil du temps, mais il existe un moyen solide d’éviter tout problème avec elles. <br>  
-    <br>
-    Il suffit de traiter toute comparaison avec <b>null/undefined</b> (à l’exception de la stricte égalité ===) 
-    avec un soin exceptionnel. <br>
-    <br>
-    N’utilisez pas de comparaisons <b>=>, >, <, <= </b> avec une variable qui peut être <b>null/undefined</b>, sauf 
-    si vous êtes vraiment sûr de ce que vous faites. Si une variable peut avoir de telles valeurs, 
-    vérifiez-les séparément.
-</p>
-<h3>8. Résumé</h3>
-<ul>
+<h3>11. Exercices</h3>
 
-    <li>Les opérateurs de comparaison renvoient une valeur booléenne.</li>
-    <li>Les chaînes de caractères sont comparées lettre par lettre dans l’ordre “dictionnaire”.</li>
-    <li>Lorsque des valeurs de différents types sont comparées, elles sont converties en nombres (à l’exclusion d’un contrôle d’égalité strict).</li>
-    <li>Les valeurs <b>null</b> et <b>undefined</b> sont égales (<b>==</b>) et ne correspondent à aucune autre valeur.</li>
-    <li>Soyez prudent lorsque vous utilisez des comparaisons telles que <b>></b> ou <b><</b> avec des 
-        variables pouvant parfois être <b>null/undefined</b>. Faire une vérification séparée pour 
-        <b>null/undefined</b> est une bonne idée.</li>
-
-</ul>
-<h3>9. Exercices</h3>
-<p>Quel sera le résultat pour les expressions suivantes :</p>
+<h4>1. Les formes postfixées et préfixées</h4>
+<p>Quelles sont les valeurs finales de toutes les variables a, b, c et d après le code ci-dessous ?</p>
 <textarea class="code-php">
-    5 > 4
-    "apple" > "pineapple"
-    "2" > "12"
-    undefined == null
-    undefined === null
-    null == "\n0\n"
-    null === +"\n0\n"
+    let a = 1, b = 1;
+
+    let c = ++a; // ?
+    let d = b++; // ?
 </textarea>
 
 <div class="solution">    
@@ -267,29 +471,152 @@ Un résultat de comparaison peut être affecté à une variable, comme toute val
         Voir la solution
     </button>
     
-    <div class="collapse mt-3" id="collapseSolution1">
-        <div class="card card-body">           
+    <div class="collapse" id="collapseSolution1">
+        <div class="card card-body">
+            <ul>
+                <li>a = 2, b = 2, c = 2 </li>
+                <li>d = 1</li>
+            </ul>
             <textarea class="code-php">
-                5 > 4 → true
-                "apple" > "pineapple" → false
-                "2" > "12" → true
-                undefined == null → true
-                undefined === null → false
-                null == "\n0\n" → false
-                null === +"\n0\n" → false
+                let a = 1, b = 1;
+
+                alert( ++a ); // 2, la forme préfixe renvoie la nouvelle valeur
+                alert( b++ ); // 1, la forme postfixe renvoie l'ancienne valeur
+
+                alert( a ); // 2, incrémenté une fois
+                alert( b ); // 2, incrémenté une fois
+            </textarea>
+        </div>
+    </div>
+</div>
+<hr>
+
+<h4>2. Résultat d'affectation</h4>
+<p>Quelles sont les valeurs de a et x après le code ci-dessous ?</p>
+<textarea class="code-php">
+    let a = 2;
+
+    let x = 1 + (a *= 2);
+</textarea>
+
+<div class="solution">    
+    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
+        Voir la solution
+    </button>
+    
+    <div class="collapse" id="collapseSolution2">
+        <div class="card card-body">
+            La réponse est : <br>
+             - a = 4 (multiplié par 2) <br>
+             - x = 5 (calculé comme 1 + 4) <br>
+        </div>
+    </div>
+</div>
+<hr>
+
+<h4>3. Les conversions de types</h4>
+<p>
+    Quels sont les résultats de ces expressions ?
+</p>
+<textarea class="code-php">
+    "" + 1 + 0
+    "" - 1 + 0
+    true + false
+    6 / "3"
+    "2" * "3"
+    4 + 5 + "px"
+    "$" + 4 + 5
+    "4" - 2
+    "4px" - 2
+    "  -9  " + 5
+    "  -9  " - 5
+    null + 1
+    undefined + 1
+    " \t \n" - 2
+</textarea>
+<p>Réfléchissez bien, notez et comparez avec la réponse.</p>
+<div class="solution">    
+    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
+        Voir la solution
+    </button>
+    
+    <div class="collapse" id="collapseSolution3">
+        <div class="card card-body">
+            <textarea class="code-php">
+                "" + 1 + 0 = "10" // (1)
+                "" - 1 + 0 = -1 // (2)
+                true + false = 1
+                6 / "3" = 2
+                "2" * "3" = 6
+                4 + 5 + "px" = "9px"
+                "$" + 4 + 5 = "$45"
+                "4" - 2 = 2
+                "4px" - 2 = NaN
+                "  -9  " + 5 = "  -9  5" // (3)
+                "  -9  " - 5 = -14 // (4)
+                null + 1 = 1 // (5)
+                undefined + 1 = NaN // (6)
+                " \t \n" - 2 = -2 // (7)
+            </textarea>
+            <br> Les explications : <br>
+            1. L’addition avec une chaîne de caractères "" + 1 converti 1 vers une chaîne de caractères : "" + 1 = "1", ensuite nous avons "1" + 0, la même règle est appliquée. <br>
+            2. La soustraction - (comme la plupart des opérations mathématiques) ne fonctionne qu’avec des nombres, il convertit une chaîne de caractères vide "" vers 0. <br>
+            3. L’addition avec un string ajoute le number 5 au string. <br>
+            4. La soustraction est toujours convertie en nombres, donc elle fait de " -9 " un number -9 (en ignorant les espaces qui l’entourent). <br>
+            5. null devient 0 après la conversion numérique. <br>
+            6. undefined devient NaN après la conversion numérique. <br>
+            7. Les caractères d’espacement sont coupés au début et à la fin de la chaîne de caractères lorsque celle-ci est convertie en nombre. Ici toute la chaîne se compose d’espaces, tels que \t, \n et d’un espace “normal” entre eux. Ainsi, de manière similaire à une chaîne de caractères vide, elle devient 0. <br>
+
+        </div>
+    </div>
+</div>
+<hr>
+
+<h4>2. Corrigez l'addition</h4>
+<p>
+    Voici un code qui demande à l’utilisateur deux nombres et affiche leur somme. <br>
+    Cela ne fonctionne pas correctement. La sortie dans l’exemple ci-dessous est 12 (pour les valeurs d’invite par défaut). <br>
+    Pourquoi ? Réparez-le. Le résultat doit être 3.
+</p>
+<textarea class="code-php">
+    let a = prompt("First number?", 1);
+    let b = prompt("Second number?", 2);
+    
+    alert(a + b); // 12
+</textarea>
+
+<div class="solution">    
+    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
+        Voir la solution
+    </button>
+    
+    <div class="collapse" id="collapseSolution2">
+        <div class="card card-body">
+            La raison en est que le prompt renvoie l’entrée utilisateur sous forme de chaîne de caractères. <br>
+            Les variables ont donc respectivement les valeurs "1" et "2".
+            <textarea class="code-php">
+                let a = "1"; // prompt("First number?", 1);
+                let b = "2"; // prompt("Second number?", 2);
+
+                alert(a + b); // 12
             </textarea>
             <p>
-                Pour quelles raisons :
-                <ol>
-                    <li>5 est plus grand que 4, donc true.</li>
-                    <li>La comparaison du dictionnaire, donc faux. "<b>a</b>" est plus petit que "<b>p</b>".</li>
-                    <li>Encore une fois, comparaison du dictionnaire, le premier caractère de "<b>2</b>" est plus grand que le premier caractère de "<b>1</b>".</li>
-                    <li>Les valeurs <b>null</b> et <b>undefined</b> sont exclusivement égale entre elles.</li>
-                    <li>L’égalité stricte est stricte. Des types différents des deux côtés conduisent à <b>false</b>.</li>
-                    <li>Similaire à (4), <b>null</b> n’est égale qu’à <b>undefined</b>.</li>
-                    <li>Egalité stricte de différents types.</li>
-                </ol>
+                Ce que nous devons faire est de convertir les chaînes de caractères en nombres avant <b>+</b>. Par exemple, en utilisant <b>Number()</b> ou en les préfixant avec <b>+</b>. <br>
+                Par exemple, juste avant prompt :
             </p>
+            <textarea class="code-php">
+                let a = +prompt("First number?", 1);
+                let b = +prompt("Second number?", 2);
+
+                alert(a + b); // 3
+            </textarea>
+            <p>Ou dans l’alert:</p>
+            <textarea class="code-php">
+                let a = prompt("First number?", 1);
+                let b = prompt("Second number?", 2);
+
+                alert(+a + +b); // 3
+            </textarea>
         </div>
     </div>
 </div>
