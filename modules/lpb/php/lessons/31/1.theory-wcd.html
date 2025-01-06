@@ -1,0 +1,213 @@
+<h3>1. Préambule</h3>
+<p>
+    La manipulation des fichiers en PHP permet de lire, écrire, créer et gérer des fichiers sur un serveur. 
+    PHP offre des fonctions natives pour effectuer ces opérations de manière efficace et sécurisée.
+</p>
+<h3>2. Introduction</h3>
+<p>
+    Un fichier est une ressource utilisée pour stocker des données. En PHP, on peut manipuler différents types de fichiers tels que les fichiers texte, JSON, CSV ou même des images.
+</p>
+<h3>3. L'ouverture et la fermeture des fichiers</h3>
+<p>
+    <b>La fonction <b class="red">fopen</b></b> <br>
+    La fonction <b>fopen</b> permet d'ouvrir un fichier en spécifiant son chemin et le mode d'ouverture.
+</p>
+<h4>Syntaxe :</h4>
+<textarea class="code-php">
+    $handle = fopen("chemin_du_fichier", "mode");
+</textarea>
+<h4>Modes courants d'ouverture :</h4>
+<ul>
+    <li><b>r</b> : Lecture seule. Le pointeur est placé au début du fichier.</li>
+    <li><b>w</b> : Écriture seule. Si le fichier existe, son contenu est supprimé ; sinon, le fichier est créé.</li>
+    <li><b>a</b> : Ajout (append). Les données sont ajoutées à la fin du fichier.</li>
+    <li><b>r+</b> : Lecture et écriture.</li>
+    <li><b>w+</b> : Lecture et écriture. Le contenu existant est supprimé.</li>
+    <li><b>a+</b> : Lecture et écriture. Le pointeur est placé à la fin du fichier.</li>
+</ul>
+<h4>Exemple :</h4>
+<textarea class="code-php">
+    $handle = fopen("message.txt", "w");
+    if ($handle) {
+        echo "Fichier ouvert avec succès en mode écriture.";
+        fclose($handle); // Toujours fermer un fichier après utilisation
+    } else {
+        echo "Impossible d'ouvrir le fichier.";
+    }
+</textarea>
+<a class="btn btn-primary" href="tests/fopen" target="_blank">Exécuter <b>tests/fopen</b></a>
+
+<h3>4. Lecture des fichiers</h3>
+<p>
+    PHP propose plusieurs façons de lire un fichier.
+</p>
+
+<h4>1. Lecture ligne par ligne : <b class="red">fgets</b></h4>
+<textarea class="code-php">
+    $handle = fopen("message.txt", "r");
+    if ($handle) {
+        while (($line = fgets($handle)) !== false) {
+            echo $line . "<br>";
+        }
+        fclose($handle);
+    } else {
+        echo "Impossible de lire le fichier.";
+    }
+</textarea>
+<a class="btn btn-primary" href="tests/fgets" target="_blank">Exécuter <b>tests/fgets</b></a>
+
+<h4>2. Lecture caractère par caractère : <b class="red">fgetc</b></h4>
+<textarea class="code-php">
+    $handle = fopen("message.txt", "r");
+    if ($handle) {
+        while (($char = fgetc($handle)) !== false) {
+            echo $char;
+        }
+        fclose($handle);
+    }    
+</textarea>
+<a class="btn btn-primary" href="tests/fgetc" target="_blank">Exécuter <b>tests/fgetc</b></a>
+
+<h4>3. Lecture entière : <b class="red">file_get_contents</b></h4>
+<textarea class="code-php">
+    $filename = "message.txt";
+    $contenu = (@file_exists($filename)) ? file_get_contents($filename) : 'Le fichier source est introuvable';
+    echo $contenu;    
+</textarea>
+<a class="btn btn-primary" href="tests/file_get_contents" target="_blank">Exécuter <b>tests/file_get_contents</b></a>
+
+<h3>5. Écriture dans un fichier</h3>
+
+<h4>1. Ecriture avec : <b class="red">fwrite</b></h4>
+<textarea class="code-php">
+    $handle = fopen("message.txt", "w");
+    if ($handle) {
+        fwrite($handle, "Bonjour, ceci est une ligne écrite en PHP.\n");
+        fwrite($handle, "Voici une autre ligne.");
+        fclose($handle);
+    }
+
+   // Afficher le contenu du fichier
+   $filename = "message.txt";
+   $contenu = (@file_exists($filename)) ? file_get_contents($filename) : 'Le fichier source est introuvable';
+   echo $contenu;
+   
+   // En transformant les sauts de ligne en balises HTML
+   //echo nl2br($contenu);    
+</textarea>
+<a class="btn btn-primary" href="tests/fwrite" target="_blank">Exécuter <b>tests/fwrite</b></a>
+
+<h4>2. Ajout avec <b class="red">fwrite</b> et le mode <b class="red">a</b></h4>
+<textarea class="code-php">
+    $handle = fopen("message.txt", "a");
+    if ($handle) {
+        fwrite($handle, "Ajout d'une nouvelle ligne.\n");
+        fclose($handle);
+    }    
+
+   // Afficher le contenu du fichier
+   $filename = "message.txt";
+   $contenu = (@file_exists($filename)) ? file_get_contents($filename) : 'Le fichier source est introuvable';
+   echo nl2br($contenu);    
+</textarea>
+<a class="btn btn-primary" href="tests/fwritea" target="_blank">Exécuter <b>tests/fwrite avec mode a</b></a>
+
+<h3>6. Vérification de l'existance d'un fichier</h3>
+
+<h4>Avec la fonction : <b class="red">file_exists</b></h4>
+<textarea class="code-php">
+    $filename = "message.txt";
+    if (file_exists($filename)) {
+        echo "Le fichier $filename existe.";
+    } else {
+        echo "Le fichier $filename n'existe pas.";
+    }
+</textarea>
+<a class="btn btn-primary" href="tests/file_exists" target="_blank">Exécuter <b>tests/file_exists</b></a>
+
+<h3>7. La suppresion d'un fichier</h3>
+
+<h4>Avec la fonction : <b class="red">unlink</b></h4>
+<textarea class="code-php">
+    if (file_exists("message.txt")) {
+        unlink("monfichier.txt");
+        echo "Fichier supprimé.";
+    } else {
+        echo "Le fichier n'existe pas.";
+    }    
+</textarea>
+<a class="btn btn-primary" href="tests/unlink" target="_blank">Exécuter <b>tests/unlink</b></a>
+
+<h3>8. La gestion des erreurs</h3>
+<p>
+    Il faut toujours vérifier si les opérations sur les fichiers réussissent pour éviter des erreurs inattendues. <br>
+    Utilisez des conditions ou le gestionnaire d'erreurs.
+</p>
+
+<h4>Exemple : </h4>
+<textarea class="code-php">
+    $handle = @fopen("message.txt", "r"); // Le "@" masque les erreurs
+    if (!$handle) {
+        die("Erreur : Impossible d'ouvrir le fichier.");
+    }
+</textarea>
+<a class="btn btn-primary" href="tests/errors" target="_blank">Exécuter <b>tests/errors</b></a>
+
+<h3>9. Manipulation avancée des fichiers</h3>
+
+<h4>1. Lecture dans un tableau : <b class="red">file</b></h4>
+<p>Lit le fichier et renvoie le résultat dans un tableau</p>
+<textarea class="code-php">
+    $lignes = file("message.txt");
+    foreach ($lignes as $ligne) {
+        echo $ligne . "<br>";
+    }    
+</textarea>
+<a class="btn btn-primary" href="tests/file" target="_blank">Exécuter <b>tests/file</b></a>
+
+<h4>2. Verrouillage d'un fichier : <b class="red">flock</b></h4>
+<p>Permet d’éviter les conflits lors de l’accès simultané à un fichier.</p>
+<textarea class="code-php">
+    $handle = fopen("message.txt", "r+");
+    if (flock($handle, LOCK_EX)) { // LOCK_EX pour verrou exclusif
+        fwrite($handle, "Écriture sécurisée.\n");
+        echo 'Écriture sécurisée terminée.<br>';
+        flock($handle, LOCK_UN); // Déverrouillage
+    }
+    fclose($handle);
+</textarea>
+<a class="btn btn-primary" href="tests/flock" target="_blank">Exécuter <b>tests/flock</b></a>
+
+<h3>10. Bonnes pratiques</h3>
+<ol>
+    <li>Toujours vérifier si un fichier existe avant d'y accéder.</li>
+    <li>Fermez toujours un fichier après son utilisation pour libérer des ressources.</li>
+    <li>Vérifiez les permissions du fichier ou du répertoire pour éviter des erreurs.</li>
+    <li>Utilisez les verrous si plusieurs scripts peuvent accéder au même fichier.</li>
+</ol>
+
+<h3>11. Exemple comlet</h3>
+<textarea class="code-php">
+    $filename = "message.txt";
+
+    // Vérification de l'existence
+    if (!file_exists($filename)) {
+        $handle = fopen($filename, "w");
+        fwrite($handle, "Ligne initiale.\n");
+        fclose($handle);
+    } else {
+        $handle = fopen($filename, "a");
+        fwrite($handle, "Nouvelle ligne ajoutée.\n");
+        fclose($handle);
+    }
+    
+    // Lecture et affichage
+    echo "<pre>";
+    echo file_get_contents($filename);
+    echo "</pre>";
+</textarea>
+<a class="btn btn-primary" href="tests/exemple-complet" target="_blank">Exécuter <b>tests/exemple-complet</b></a>
+
+
+
+
