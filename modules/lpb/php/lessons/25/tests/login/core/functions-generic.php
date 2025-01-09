@@ -34,7 +34,6 @@ function loginWithArray(array $users, string $email, string $pwd): bool
  */
 function logout(): void
 {
-    session_start();
     session_unset();
     session_destroy();
     header("Location: index.php");
