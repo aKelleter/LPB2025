@@ -2,7 +2,7 @@
     require_once('../../../../../boot.php');  
     $_SESSION['R'] = R5;
     require_once($_SESSION['R'].'app'.DS.'conf.php'); 
-    $_SESSION['PAGE'] = PHP;     
+    $_SESSION['PAGE'] = OTHERS;     
     
     // Chargement du/des fichier(s)    
     $source_code = loadFile(FILENAME_SOURCE_CODE);     
@@ -21,17 +21,9 @@
                     <div class="col-md-1"></div>
                     <div class="col-md-10">                       
                         <h1 class="mt-5 text-center">Leçon 01 : <span class="color_dark_green">L'installation de XAMPP</span></h1>  
-                        <?= getHtmlSubMenu('00', '00', OTHERS); ?>   
+                        <?= getHtmlSubMenu('00', '02', OTHERS); ?>   
                         
-                        <?= getHtmlBlocWhatCodeDoes(file_get_contents(FILENAME_WCD)); ?>
-                        <?php
-                            /*
-                            <?= getHtmlBlockSourceCode($source_code, FILENAME_SOURCE_CODE); ?>
-                            <?= getHtmlBlockRendering(file_get_contents(FILENAME_RENDERING)); ?>
-                            <?= getHtmlBlockExplanations($explanations); ?>
-                            <?= sgetHtmlBlockRessources($ressources); ?>
-                            */
-                        ?>
+                        <?= getHtmlBlocWhatCodeDoes(file_get_contents(FILENAME_WCD)); ?>                       
 
                     </div> <!--col-md-10-->
                     <div class="col-md-1"></div>

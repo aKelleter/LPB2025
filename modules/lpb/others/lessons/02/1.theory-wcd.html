@@ -1,0 +1,156 @@
+<h3>1. Préambule</h3>
+<p>
+    En programmation, un paradigme désigne un ensemble de concepts, de styles ou d'approches pour structurer et écrire des programmes informatiques. 
+    Il représente une manière de penser et d'organiser le code, influençant la manière dont les problèmes sont abordés et les solutions conçues. 
+    Les paradigmes sont souvent associés à des méthodologies et des structures spécifiques qui permettent de résoudre certains types de problèmes de manière efficace.
+</p>
+
+<h3>2. Les principaux paradigmes en programmation</h3>
+<p>
+    Il existe plusieurs paradigmes en programmation, chacun ayant ses propres caractéristiques et avantages. 
+    Les principaux paradigmes sont les suivants :
+</p>
+<ol>
+    <li>
+        <b>Le Paradigme procédural</b> :
+        <ul>
+            <li>Basé sur des séquences d'instructions ou de commandes exécutées étape par étape.</li>
+            <li>Le code est organisé en procédures ou fonctions.</li>
+            <li>Exemple de langages : C, Pascal.</li>
+            <li>Exemple de style : écrire une série d'instructions pour calculer une somme ou afficher des résultats.</li>
+        </ul>
+    </li>
+    <li>
+        <b>Le Paradigme orienté objet (POO)</b> :
+        <ul>
+            <li>Organisé autour des objets et des classes.</li>
+            <li>Les objets combinent des données (attributs) et des comportements (méthodes).</li>
+            <li>Favorise l'encapsulation, l'héritage et le polymorphisme.</li>
+            <li>Exemples de langages : Java, Python, C++.</li>
+        </ul>
+    </li>
+    <li>
+        <b>Le Paradigme fonctionnel</b> :
+        <ul>
+            <li>Met l'accent sur les fonctions pures et évite les états mutables et les effets de bord.</li>
+            <li>Inspiré des mathématiques, il favorise des transformations de données en utilisant des fonctions.</li>
+            <li>Exemples de langages : Haskell, Lisp, Scala, certaines parties de Python.</li>
+        </ul>
+    </li>
+    <li>
+        <b>Le Paradigme déclaratif</b> :
+        <ul>
+            <li>Se concentre sur ce que doit être accompli, sans spécifier comment le faire.</li>
+            <li>Comprend les sous-paradigmes comme la programmation logique et la programmation fonctionnelle.</li>
+            <li>Exemples : SQL (requêtes pour manipuler les bases de données), Prolog.</li>
+        </ul>
+    </li>
+    <li>
+        <b>Le Paradigme événementiel</b> :
+        <ul>
+            <li>Basé sur la gestion des événements (comme les clics ou les actions utilisateur).</li>
+            <li>Utilisé dans les interfaces graphiques et les applications interactives.</li>
+            <li>Exemples de langages : JavaScript (dans le contexte des interfaces web).</li>            
+        </ul>
+    </li>
+    <li>
+        <b>Le Paradigme parallèle/concurrent</b> :
+        <ul>
+           <li>Axé sur l'exécution simultanée de plusieurs tâches ou processus.</li>         
+           <li>Utilisé dans les systèmes multicœurs ou distribués.</li>         
+           <li>Exemples : Go, Erlang.</li>         
+        </ul>
+    </li>
+    <li>
+        <b>Le Paradigme logique</b> :
+        <ul>
+           <li>Basé sur des règles logiques pour dériver des conclusions à partir de faits.</li>
+           <li>Exemples de langages : Prolog.</li>          
+        </ul>
+    </li>
+</ol>
+
+<h3>3. Pourquoi les paradigmes sont-ils importants ?</h3>
+<ul>
+    <li>
+        <b>Adaptation au problème</b> : Certains paradigmes sont mieux adaptés à certains types de problèmes (par exemple, la programmation fonctionnelle pour 
+        les transformations de données ou la POO pour modéliser des systèmes complexes).
+    </li>
+    <li>
+        <b>Modularité et maintenabilité</b> : Chaque paradigme apporte des outils conceptuels pour organiser le code de manière claire et extensible.
+    </li>
+    <li>
+        <b>Style de pensée</b> : En changeant de paradigme, un programmeur peut acquérir une nouvelle perspective sur la résolution des problèmes.
+    </li>
+</ul>
+<p>Certains langages de programmation, comme Python, PHP ou JavaScript, sont multi-paradigmes, ce qui signifie qu'ils permettent de combiner plusieurs paradigmes dans un même projet.</p>
+
+<h3>4. Quelques exemples de codes</h3>
+<p>Voici quelques exemples de codes illustrant différents paradigmes :</p>
+
+<h4>Paradigme procédural (PHP)</h4>
+<textarea class="code-php">
+// Fonction pour calculer la somme d'une liste de nombres
+function somme(array $nombres) {
+    $total = 0;
+    foreach ($nombres as $nombre) {
+        $total += $nombre;
+    }
+    return $total;
+}    
+
+// Utilisation
+$nombres = [1, 2, 3, 4, 5];
+echo "Somme : " . somme($nombres) . PHP_EOL;               // Affiche : Somme : 21 
+</textarea>
+
+<h4>Paradigme fonctionelle (PHP)</h4>
+<textarea class="code-php">
+// Calcul de la somme en utilisant array_sum (fonction intégrée)
+$nombres = [1, 2, 3, 4, 5, 6];
+$somme = array_sum($nombres);
+// Affichage des résultats
+echo "Somme : " . $somme . PHP_EOL;               // Affiche : Somme : 21
+</textarea>
+
+<h4>Paradigme orienté objet (PHP)</h4>
+<textarea class="code-php">
+class ListeDeNombres {
+    private $nombres;
+
+    public function __construct(array $nombres) {
+        $this->nombres = $nombres;
+    }
+
+    public function somme() {
+        return array_sum($this->nombres);
+    }   
+}
+
+// Utilisation
+$maListe = new ListeDeNombres([1, 2, 3, 4, 5]);
+echo "Somme : " . $maListe->somme() . PHP_EOL;           // Affiche : Somme : 15
+</textarea>
+
+<h4>Comparaison des 3 paradigmes</h4>
+<table class="table">
+<thead><tr><th>Aspect</th><th>Programmation procédurale</th><th>Programmation fonctionnelle</th><th>Programmation orientée objet</th></tr></thead><tbody><tr><td><strong>Organisation du code</strong></td><td>Fonctions indépendantes</td><td>Transformations de données avec des fonctions</td><td>Données et comportements regroupés dans des objets</td></tr><tr><td><strong>Modularité</strong></td><td>Faible : séparation moins stricte</td><td>Moyenne : focus sur les fonctions pures</td><td>Élevée : encapsulation des données et des comportements</td></tr><tr><td><strong>Réutilisabilité</strong></td><td>Fonctions indépendantes à réutiliser</td><td>Fonctions génériques faciles à composer</td><td>Objets et classes réutilisables</td></tr><tr><td><strong>Exemples d'utilisation</strong></td><td>Problèmes simples, scripts rapides</td><td>Analyse de données, traitement parallèle</td><td>Applications complexes, modélisation d'entités</td></tr></tbody>
+</table>
+
+<h4>Paradigme déclaratif (SQL)</h4>
+<textarea class="code-php">
+SELECT nom, prenom
+FROM utilisateurs
+WHERE age > 18
+ORDER BY nom
+</textarea>
+
+<h4>Paradigme évènementiel (JavaScript)</h4>
+<textarea class="code-php">
+// Gestionnaire d'événement pour un clic sur un bouton
+document.getElementById('monBouton').addEventListener('click', function() {
+    alert('Bouton cliqué !');
+});
+</textarea>
+<br>
+<p>J'espère qu'à présent vous avez une meilleure idée de ce que sont les paradigmes en programmation et que cela vous servira à l'avenir.</p> 

@@ -20,14 +20,10 @@
                 <div class="row">
                     <div class="col-md-1"></div>
                     <div class="col-md-10">                       
-                        <h1 class="mt-5 text-center">Leçon 00 : <span class="color_dark_green">Titre de la leçon</span></h1>  
-                        <?= getHtmlSubMenu('00', '00', OTHERS); ?>   
+                        <h1 class="mt-5 text-center">Leçon 02 : <span class="color_dark_green">Qu'est-ce qu'un paradigme en programmation ?</span></h1>  
+                        <?= getHtmlSubMenu('01', '00', OTHERS); ?>   
                         
-                        <?= getHtmlBlocWhatCodeDoes(file_get_contents(FILENAME_WCD)); ?>
-                        <?= getHtmlBlockSourceCode($source_code, FILENAME_SOURCE_CODE); ?>
-                        <?= getHtmlBlockRendering(file_get_contents(FILENAME_RENDERING)); ?>
-                        <?= getHtmlBlockExplanations($explanations); ?>
-                        <?= getHtmlBlockRessources($ressources); ?>
+                        <?= getHtmlBlocWhatCodeDoes(file_get_contents(FILENAME_WCD)); ?>                                           
 
                     </div> <!--col-md-10-->
                     <div class="col-md-1"></div>

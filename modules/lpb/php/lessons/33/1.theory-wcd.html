@@ -1,0 +1,416 @@
+<h3>Sommaire</h3>
+<ol>
+    <li><a href="#preambule">Préambule</a></li>
+    <li><a href="#concepts">Les concepts clés de la POO</a></li>
+    <li><a href="#class&obj">Création d'une Classe et d'un Objet</a></li>
+    <li><a href="#operateurs">Les opérateurs -> et ::</a></li>
+    <li><a href="#visibilite">La notion de Visibilité</a></li>
+    <li><a href="#heritage">L'Héritage</a></li>
+    <li><a href="#polymorph">Le Polymorphisme</a></li>
+    <li><a href="#constr&destr">Les Constructeurs et Destructeurs</a></li>
+    <li><a href="#interfaces">Les Interfaces</a></li>
+    <li><a href="#traits"> Les Traits</a></li>
+    <li><a href="#chainage">Le chaînage de méthodes</a></li>
+    <li><a href="#abstraites">Les classes abstraites</a></li>
+    <li><a href="#finales">Les classes finales</a></li>
+    <li><a href="#magiques">Les méthodes magiques</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+</ol>
+
+<h3 id="preambule">1. Préambule</h3>
+<p>
+    La Programmation Orientée Objet (POO) est un <b><a href="../../../others/lessons/02/index.php">paradigme de programmation</a></b> qui repose sur le concept d'« objets », lesquels contiennent à la fois des données 
+    (sous forme de propriétés) et des méthodes (fonctions associées). PHP, à partir de sa version 5, offre un support robuste pour la POO. Cette approche 
+    permet de mieux organiser le code, de le rendre réutilisable et plus facile à maintenir.
+</p>
+
+<h3 id="concepts">2. Les concepts clés de la POO</h3>
+<ol>
+    <li><b>Classe et Objet</b> : Une <b class="red">classe</b> est un modèle (ou blueprint) pour créer des <b class="red">objets</b>. Un <b class="red">objet</b> est une instance d'une classe.</li>
+    <li><b>Propriétés</b> : Les <b class="red">variables</b> définies dans une <b class="red">classe</b>.</li>
+    <li><b>Méthodes</b> : Les <b class="red">fonctions</b> définies dans une <b class="red">classe</b>.</li>
+    <li><b>Encapsulation</b> : <b class="red">Restreindre l'accès</b> à <b class="red">certaines parties d'un objet</b> pour protéger son état interne.</li>
+    <li><b>Héritage</b> : Une <b class="red">classe</b> peut hériter les <b class="red">propriétés</b> et <b class="red">méthodes</b> d'une autre <b class="red">classe</b>.</li>
+    <li><b>Polymorphisme</b> : La capacité à <b class="red">utiliser une méthode de différentes manières</b> selon le contexte.</li>
+</ol>
+
+<h3 id="class&obj">3. Création d'une Classe et d'un Objet</h3>
+<p>Voici un exemple simple de définition d'une classe et de création d'un objet en PHP :</p>
+<textarea class="code-php">
+    class Voiture {
+        public $marque;
+        public $couleur;
+    
+        public function demarrer() {
+            return "La voiture démarre.";
+        }
+    }
+    
+    // Création d'un objet
+    $maVoiture = new Voiture();
+    $maVoiture->marque = "Toyota";
+    $maVoiture->couleur = "Rouge";
+    
+    echo $maVoiture->demarrer(); // Affiche : La voiture démarre.
+</textarea>
+<a class="btn btn-primary" href="tests/classe-objet" target="_blank">Exécuter <b>tests/classe-objet</b></a>
+
+<h4 id="operateurs">L'opérateur <b class="red">-></b></h4>
+<p>
+    En PHP, l'opérateur <b>-></b> est utilisé pour accéder aux propriétés et méthodes d'un objet. Cet opérateur lie un objet à ses membres (propriétés ou méthodes). Voici des cas d'utilisation pour mieux comprendre :
+</p>
+<h4>Différence avec <b class="red">::</b></h4>
+<p>
+    L'opérateur <b class="red">::</b> est utilisé pour accéder aux <b class="red">membres ou méthodes statiques d'une classe</b> ou pour accéder à des constantes. Tandis que<b>-></b> est utilisé pour accéder aux membres d'une instance d'objet.
+</p>
+<ul>
+    <li>Avc le mot clé : <b class="red">static</b></li>
+</ul>
+<p>Exemple : </p>
+<textarea class="code-php">
+class Voiture {
+    const TYPE = "Véhicule";
+    public static function description() {
+        return "<p>C'est une voiture.</p>";
+    }
+}
+
+echo Voiture::TYPE; // Affiche : Véhicule
+echo Voiture::description(); // Affiche : C'est une voiture.
+</textarea>
+<a class="btn btn-primary" href="tests/static" target="_blank">Exécuter <b>tests/static</b></a>
+
+
+<h3 id="visibilite">4. La notion de Visibilité</h3>
+<ul>
+    <li><b class="red">public</b> : Accessible depuis n'importe où.</li>
+    <li><b class="red">private</b> : Accessible uniquement à l'intérieur de la classe.</li>
+    <li><b class="red">protected</b> : Accessible à l'intérieur de la classe et des classes dérivées.</li>
+</ul>
+<p>Exemple : Comment gérer une propriété placée en private ?</p>
+<textarea class="code-php">
+    class Voiture {
+        private $marque;
+    
+        public function setMarque($marque) {
+            $this->marque = $marque;
+        }
+    
+        public function getMarque() {
+            return $this->marque;
+        }
+    }
+    
+    $maVoiture = new Voiture();
+    $maVoiture->setMarque("Tesla");
+    echo $maVoiture->getMarque(); // Affiche : Tesla
+</textarea>
+<a class="btn btn-primary" href="tests/visibilite" target="_blank">Exécuter <b>tests/visibilite</b></a>
+
+
+<h3 id="heritage">5. L'Héritage</h3>
+<p>L'héritage permet de créer une nouvelle classe basée sur une classe existante. Attention toutefois, le PHP ne gère pas encore l'héritage multiple (utilisez les Traits pour palier à ce manque, si besoin est).</p>
+<textarea class="code-php">
+    class Vehicule {
+        public $type;
+    
+        public function demarrer() {
+            return "Le véhicule démarre.<br>";
+        }
+    }
+    
+    class Moto extends Vehicule {
+        public function faireWheelie() {
+            return "La moto fait un wheelie !<br>";
+        }
+    }
+    
+    $maMoto = new Moto();
+    $maMoto->type = "Deux-roues";
+    echo $maMoto->demarrer(); // Affiche : Le véhicule démarre.
+    echo $maMoto->faireWheelie(); // Affiche : La moto fait un wheelie !
+</textarea>
+<a class="btn btn-primary" href="tests/heritage" target="_blank">Exécuter <b>tests/heritage</b></a>
+
+
+<h3 id="polymorph">6. Le Polymorphisme</h3>
+<p>Le polymorphisme permet d'utiliser des méthodes du même nom dans des classes différentes.</p>
+<textarea class="code-php">
+    class Animal {
+        public function faireDuBruit() {
+            return "L'animal fait un bruit.<br>";
+        }
+    }
+    
+    class Chien extends Animal {
+        public function faireDuBruit() {
+            return "Le chien aboie.<br>";
+        }
+    }
+    
+    $monChien = new Chien();
+    $monAnimal = new Animal();
+    
+    echo $monChien->faireDuBruit(); // Affiche : Le chien aboie.
+    echo $monAnimal->faireDuBruit(); // Affiche : L'animal fait un bruit.
+</textarea>
+<a class="btn btn-primary" href="tests/polymorph" target="_blank">Exécuter <b>tests/polymorph</b></a>
+
+
+<h3 id="constr&destr">7. Les Constructeurs et Destructeurs</h3>
+<p>Les constructeurs permettent d'initialiser les propriétés d'une classe au moment de la création d'un objet. Les destructeurs s'exécutent lorsque l'objet est détruit.</p>
+<textarea class="code-php">
+class Voiture {
+    public $marque;
+
+    public function __construct($marque) {
+        $this->marque = $marque;
+    }
+
+    public function __destruct() {
+        echo "L'objet Voiture est détruit.";
+    }
+}
+
+$maVoiture = new Voiture("BMW");
+echo $maVoiture->marque; // Affiche : BMW
+</textarea>
+<a class="btn btn-primary" href="tests/const-dest" target="_blank">Exécuter <b>tests/const-dest</b></a>
+
+
+<h3 id="interfaces">8. Les Interfaces</h3>
+<p>Les interfaces permettent de définir des méthodes que les classes doivent implémenter.</p>
+<textarea class="code-php">
+interface Volant {
+    public function voler();
+}
+
+class Avion implements Volant {
+    public function voler() {
+        return "L'avion vole.";
+    }
+}
+
+$monAvion = new Avion();
+echo $monAvion->voler(); // Affiche : L'avion vole.
+</textarea>
+<a class="btn btn-primary" href="tests/interface" target="_blank">Exécuter <b>tests/interface</b></a>
+
+
+<h3 id="traits">9. Les Traits</h3>
+<p>Les traits permettent de réutiliser du code dans plusieurs classes sans héritage.</p>
+<textarea class="code-php">
+trait Salutation {
+    public function direBonjour() {
+        return "Bonjour !";
+    }
+}
+
+class Personne {
+    use Salutation;
+}
+
+$personne = new Personne();
+echo $personne->direBonjour(); // Affiche : Bonjour !
+</textarea>
+<a class="btn btn-primary" href="tests/traits" target="_blank">Exécuter <b>tests/traits</b></a>
+
+<h3 id="chainage">10. Le chaînage de méthodes</h3>
+<p>
+    Le chaînage de méthodes permet d'appeler plusieurs méthodes d'un objet en une seule instruction.
+    Il n'est possible que si chaque méthode retourne l'objet actuel avec return $this.
+</p>
+<textarea class="code-php">
+class Voiture {
+    public $marque;
+
+    public function setMarque($marque) {
+        $this->marque = $marque;
+        return $this; // Retourne l'objet courant pour permettre le chaînage
+    }
+
+    public function afficherMarque() {
+        return $this->marque;
+    }
+}
+
+$maVoiture = new Voiture();
+echo $maVoiture->setMarque("Tesla")->afficherMarque(); // Affiche : Tesla     
+</textarea>
+<a class="btn btn-primary" href="tests/chainage" target="_blank">Exécuter <b>tests/chainage</b></a>
+
+<h3 id="abstraites">11. Les classes abstraites</h3>
+<p>
+    Une classe abstraite est une classe qui ne peut pas être instanciée. Elle sert de modèle pour d'autres classes qui en héritent.
+    Les méthodes abstraites définissent une signature de méthode sans implémentation.
+</p>
+<textarea class="code-php">
+abstract class Vehicule {
+    abstract public function demarrer();
+}
+
+class Voiture extends Vehicule {
+    public function demarrer() {
+        return "La voiture démarre.";
+    }
+}
+
+$maVoiture = new Voiture();
+echo $maVoiture->demarrer(); // Affiche : La voiture démarre.
+</textarea>
+<a class="btn btn-primary" href="tests/abstract" target="_blank">Exécuter <b>tests/abstract</b></a>
+
+
+<h3 id="finales">12. Les classes finales</h3>
+<p>
+    Une classe finale est une classe qui ne peut pas être héritée. Elle est utilisée pour empêcher la modification de la classe ou de ses méthodes.
+</p>
+<textarea class="code-php">
+    final class Voiture {
+        public function demarrer() {
+            return "La voiture démarre.";
+        }
+    }
+    
+    class Velo {
+        public function regonfler(){
+            return '<p>Le vélo est regonflé.</p>';
+        }
+        
+        final public function revendre(){
+            return '<p>Le vélo est revendu.</p>';
+        }
+    }
+    
+    //----------------------------------------
+    
+    
+    // Erreur : Impossible d'hériter d'une classe finale
+    class VoitureElectrique extends Voiture {
+        public function recharger() {
+            return "La voiture électrique se recharge.";
+        }
+    }
+    
+    // Impossible de surcharger une méthode finale
+    class VeloDeCourse extends Velo {
+        public function regonfler(){
+            return '<p>Le vélo de course est regonflé.</p>';
+        }
+        
+        // Erreur : Impossible de surcharger une méthode finale
+        public function revendre(){
+            return '<p>Le vélo de course est revendu.</p>';
+        }
+    }
+</textarea>
+<a class="btn btn-primary" href="tests/final" target="_blank">Exécuter <b>tests/final</b></a>
+
+<h3 id="magiques">13. Les méthodes magiques</h3>
+<p>
+    Les méthodes magiques sont des méthodes qui sont appelées suite à un événement particulier (construction, destruction, clonage...).
+    Si la méthode n'est pas implémentée dans votre classe, l'action par défaut sera effectuée. 
+    Les méthodes magiques commencent par un double caractère de soulignement ou underscore (<b class="red">__</b>).
+    Elles permettent de modifier le comportement par défaut des objets. Voici quelques-unes des méthodes magiques les plus courantes :
+</p>
+
+<h4><b>__construct</b> et <b>__destruct</b></h4>
+<p>
+    Ces méthodes sont utilisées pour initialiser un objet lors de sa création (<b>__construct</b>) et pour effectuer des actions spécifiques avant que l'objet soit détruit (<b>__destruct</b>).
+    Déjà vu au chapître 7.
+</p>
+
+<h4><b>__get</b> et <b>__set</b></h4>
+<p>
+    Ces méthodes permettent d'accéder à des propriétés non accessibles ou inexistantes (<b>__get</b>) ou de les définir (<b>__set</b>).
+</p>
+<textarea class="code-php">
+class Voiture {
+    private $data = [];
+
+    public function __get($name) {
+        return $this->data[$name] ?? "<p>Propriété inexistante.</p>";
+    }
+
+    public function __set($name, $value) {
+        $this->data[$name] = $value;
+    }
+}
+
+$maVoiture = new Voiture();
+echo $maVoiture->modele; // Affiche : Propriété inexistante.
+$maVoiture->modele = "Tesla Model S";
+echo $maVoiture->modele; // Affiche : Tesla Model S
+</textarea>
+<a class="btn btn-primary" href="tests/get-set" target="_blank">Exécuter <b>tests/get-set</b></a>
+
+<h4><b>__call</b> et <b>__callStatic</b></h4>
+<p>
+    Ces méthodes sont invoquées lorsqu'une méthode inaccessible ou inexistante est appelée sur un objet (<b>__call</b>) ou statiquement (<b>__callStatic</b>).
+</p>
+<textarea class="code-php">
+class Voiture {
+    public function __call($name, $arguments) {
+        return "<p>La méthode $name() n'existe pas.</p>";
+    }
+
+    public static function __callStatic($name, $arguments) {
+        return "<p>La méthode statique $name() n'existe pas.</p>";
+    }
+}
+
+$maVoiture = new Voiture();
+echo $maVoiture->demarrer(); // Affiche : La méthode demarrer() n'existe pas.
+echo Voiture::arreter(); // Affiche : La méthode statique arreter() n'existe pas.
+</textarea>
+<a class="btn btn-primary" href="tests/call-callst" target="_blank">Exécuter <b>tests/call-callst</b></a>
+
+<h4><b>__toString</b></h4>
+<p>
+    Cette méthode est utilisée pour définir le comportement lorsqu'un objet est traité comme une chaîne de caractères.
+</p>
+<textarea class="code-php">
+class Voiture {
+    public $marque;
+
+    public function __construct($marque) {
+        $this->marque = $marque;
+    }
+
+    public function __toString() {
+        return "Voiture : $this->marque";
+    }
+}
+
+$maVoiture = new Voiture("Toyota");
+echo $maVoiture; // Affiche : Voiture : Toyota
+</textarea>
+<a class="btn btn-primary" href="tests/tostring" target="_blank">Exécuter <b>tests/tostring</b></a>
+
+<h4><b><b>__invoke</b></b></h4>
+<p>
+    Cette méthode est appelée lorsque vous tentez d'utiliser votre objet comme une fonction.
+</p>
+<textarea class="code-php">
+class Voiture {
+    public function __invoke() {
+        return "L'objet Voiture est invoqué.";
+    }
+}
+
+$maVoiture = new Voiture();
+echo $maVoiture(); // Affiche : L'objet Voiture est invoqué.
+</textarea>
+<a class="btn btn-primary" href="tests/invoke" target="_blank">Exécuter <b>tests/invoke</b></a>
+
+<h4><b>__isset</b>, <b>__unset</b>, <b>__debugInfo</b>, <b>__clone</b></h4>
+<p>
+    Ces méthodes sont appelées lorsque vous tentez d'utiliser les fonctions isset(), unset(), var_dump() ou le mot clef clone.
+</p>
+
+<h3 id="conclusion">15. Conclusion</h3>
+<p>
+    La POO en PHP offre une manière puissante et flexible de structurer le code. 
+    En utilisant les classes, l'héritage, les interfaces et les traits, vous pouvez créer des applications modulaires, faciles à maintenir et à faire évoluer. 
+    Prenez le temps de pratiquer ces concepts pour bien les maîtriser.
+</p>
