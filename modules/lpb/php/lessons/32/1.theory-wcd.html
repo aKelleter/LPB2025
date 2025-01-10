@@ -1,0 +1,166 @@
+<h3>1. Présentation</h3>
+<p>
+    <b>header()</b> permet de modifier les entêtes HTTP d'une page. Elle est souvent utilisée pour rediriger l'utilisateur vers une autre page. 
+</p>
+
+<h3>2. Syntaxe</h3>
+<textarea class="code-php">
+    header(string $header, bool $replace = true, int $response_code = 0);
+</textarea>
+<ul class="mt-3">
+    <li><b>$header</b> : L'en-tête HTTP à envoyer. Cela peut inclure des directives comme le type de contenu, les redirections ou les cookies.</li>
+    <li><b>$replace</b> (facultatif) : Définit si une en-tête existante doit être remplacée. Par défaut, cette valeur est true.</li>
+    <li><b>$response_code</b> (facultatif) : Le code de statut HTTP à envoyer (par exemple, 200, 404, 301).</li>
+</ul>
+
+<h3>3. Utilisations courantes de header()</h3>
+
+<h4>1. Les Redirections</h4>
+<p>Avec le paramètre "<b>Location:</b>" suivi de l'url de redirection</p>
+<textarea class="code-php">
+    header("Location: https://www.google.be");
+    exit; // Toujours utiliser `exit` après une redirection pour arrêter le script.
+</textarea>
+<a class="btn btn-primary" href="tests/redir" target="_blank">Exécuter <b>tests/redir</b></a>
+
+<p>
+    Redirection après x secondes avec le paramètre "<b>Refresh:</b>" suivi du nombre de secondes et du paramètre "<b>url=</b>" et l'url, avec un point-virgule entre les deux.
+</p> 
+<textarea class="code-php">        
+    header("Refresh: 2; url=https://www.example.com");
+    echo "Vous allez être redirigé vers \"www.example.com\" dans 2 secondes.";
+    exit;
+</textarea>
+<a class="btn btn-primary" href="tests/redir2" target="_blank">Exécuter <b>tests/redir2</b></a>
+
+<h4>2. Définir le type de contenu</h4>
+<textarea class="code-php">
+    header("Content-Type: application/json");
+    echo json_encode(["message" => "Bonjour, monde!"]);
+</textarea>
+<a class="btn btn-primary" href="tests/typecontenu" target="_blank">Exécuter <b>tests/typecontenu</b></a>
+
+
+<h4>3. Forcer le téléchargement d’un fichier</h4>
+<textarea class="code-php">
+    header("Content-Disposition: attachment; filename=\"document.pdf\"");
+    header("Content-Type: application/pdf");
+    readfile("sample.pdf");    
+</textarea>
+<a class="btn btn-primary" href="tests/file" target="_blank">Exécuter <b>tests/file</b></a>
+
+
+<h4>4. Contrôle du cache</h4>
+<textarea class="code-php">
+    header("Cache-Control: no-cache, no-store, must-revalidate"); // HTTP 1.1
+    header("Pragma: no-cache"); // HTTP 1.0
+    header("Expires: 0"); // Empêche la mise en cache
+</textarea>    
+<a class="btn btn-primary" href="tests/cache" target="_blank">Exécuter <b>tests/cache</b></a>
+
+
+<h4>5. Envoyer un code de statut HTTP personnalisé</h4>
+<textarea class="code-php">
+    header("HTTP/1.1 404 Not Found");
+    echo "Erreur 404 : Page non trouvée.";
+</textarea>
+<a class="btn btn-primary" href="tests/status" target="_blank">Exécuter <b>tests/status</b></a>
+
+<h3>4. Points importants</h3>
+
+<h4>1. Les en-têtes doivent être envoyés avant tout contenu HTML ou texte.</h4>
+<p>
+    Si vous essayez d’envoyer un en-tête après que du contenu ait été envoyé, PHP déclenchera une erreur de type :
+    <b class="red">Cannot modify header information</b>
+</p>
+
+<p><b>Exemple problématique</b> :</p>
+<textarea class="code-php">
+    echo "Affichage d'un texte avant l'envoi d'un header (et donc envoi d'un header)<br>";
+    header("Location: https://www.google.be"); // Cela provoquera une erreur.   
+</textarea>
+<a class="btn btn-primary" href="tests/before" target="_blank">Exécuter <b>tests/before</b></a>
+<b>Remarque</b> Si le paramètre <b class="red">output_buffering = off</b> dans le fichier <b>php.ini</b>, dans le cas contraire l'erreur ne sera pas affichée.
+    
+<p>
+    <b>Première solution</b> : <br>
+    Placer la fonction header() avant tout affichage de contenu.
+</p>
+<textarea class="code-php">
+    // retourne un code 400
+    header("HTTP/1.0 400 Bad Request");    
+    echo "Erreur 400 - Mauvaise requête"; // Cela fonctionnera
+</textarea>
+<a class="btn btn-primary" href="tests/soluce1" target="_blank">Exécuter <b>tests/soluce1</b></a>
+
+
+<p>
+    <b>Seconde solution</b> : <br>
+    Utiliser la fonction <b>ob_start()</b> pour démarrer la temporisation de sortie. Cela permet de stocker le contenu dans un tampon avant de l'envoyer.
+</p>
+<textarea class="code-php">
+    ob_start(); // Démarre la temporisation de sortie
+    echo "Affichage d'un texte avant l'envoi d'un header (et donc envoi d'un header)<br>";
+    // Attendre 2 secondes pour bien montrer que le contenu est stocké dans un tampon et pas affiché
+    sleep(2);
+    header("Location: https://www.example.com"); // Cela fonctionnera
+    ob_end_flush(); // Envoie le contenu du tampon de sortie et stop la temporisation de sortie   
+</textarea>
+<a class="btn btn-primary" href="tests/soluce2" target="_blank">Exécuter <b>tests/soluce2</b></a>
+
+
+<p>
+    <b>Troisième solution</b>: <br>
+    Utiliser la fonction headers_sent() pour vérifier si les en-têtes ont déjà été envoyés.
+</p>
+<textarea class="code-php">
+    // echo "Affichage d'un texte avant l'envoi d'un header (et donc envoi d'un header)<br>";
+    // Si les en-têtes n'ont pas encore été envoyés, on peut utiliser header()
+    if (!headers_sent()) {
+        header("Location: https://www.example.com");
+        exit;
+    } else {
+        echo "Les en-têtes ont déjà été envoyés.";
+    }
+</textarea>
+<a class="btn btn-primary" href="tests/soluce3" target="_blank">Exécuter <b>tests/soluce3</b></a>
+
+<h4>2. Les en-têtes HTTP sont sensibles à la casse</h4>
+<p>
+    Les en-têtes HTTP sont sensibles à la casse. Par exemple, <b>Content-Type</b> est différent de <b>content-type</b>.
+</p>
+
+<h3>5. Un exemple complet</h3>
+<textarea class="code-php">   
+    // Contrôle du cache
+    header("Cache-Control: no-cache, no-store, must-revalidate");
+    header("Pragma: no-cache");
+    header("Expires: 0");
+    
+    // Redirection vers une page si nécessaire
+    if (!isset($_GET['access'])) {
+        header("Location: error.php");
+        exit;
+    }
+    
+    // Définir le type de contenu
+    header("Content-Type: application/json");
+    
+    // Envoyer une réponse JSON
+    $response = [
+        "status" => "success",
+        "message" => "Bienvenue sur notre API"
+    ];
+    echo json_encode($response);
+</textarea>
+<a class="btn btn-primary" href="tests/complet" target="_blank">Exécuter <b>tests/complet</b></a>
+
+<h3>6. Résumé</h3>
+<ul>
+    <li>La fonction header() est un outil puissant pour gérer les en-têtes HTTP.</li>
+    <li>Elle est utilisée pour rediriger les utilisateurs, gérer le cache, définir des types de contenu ou envoyer des codes de statut HTTP.</li>
+    <li>Attention à toujours appeler cette fonction avant d’envoyer tout contenu au navigateur.</li>
+</ul>
+<p>
+    Avec ces connaissances, vous pouvez mieux contrôler l’interaction entre votre serveur PHP et le navigateur de l’utilisateur. 😊
+</p>
