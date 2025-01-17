@@ -52,7 +52,7 @@
     La fonction va donc transformer mon heure en heure GMT et se baser sur 7h30 pour calculer le Timestamp. <br> <br>
 
     La fonction <code>gmmktime()</code>, en revanche, considère que l’heure passée est une heure GMT. Cette fonction va donc calculer le Timestamp de l’heure exacte 
-    donnée. C’est la raison pour laquelle nopus obtenons un écart de 3600 secondes entre les deux Timestamps renvoyées par mktime() et gmmktime() : 
+    donnée. C’est la raison pour laquelle nous obtenons un écart de 3600 secondes entre les deux Timestamps renvoyées par mktime() et gmmktime() : 
     car ces deux Timestamps ne représentent pas la même date.
 </p>
 <h4>Obtenir un Timestamp à partir d’une chaine de caractères</h4>

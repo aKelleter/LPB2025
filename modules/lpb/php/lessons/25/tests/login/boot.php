@@ -7,8 +7,10 @@ const D_CORE = 'core';
 const D_CONF = 'conf';
 const D_APP = 'app';
 const D_ASSETS = 'assets';
+const D_CSS = 'css';
 
-// Génération du chemin d'accès au répertoire racine (suppression du nom du fichier courant)
+// Génération du chemin d'accès au répertoire racine 
+// (suppression du nom du fichier courant)
 $path = $_SERVER['PHP_SELF'];
 $pattern = "/^(.*\/)[^\/]+$/";
 $replacement = "$1";

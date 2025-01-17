@@ -5,7 +5,6 @@
     $logout = null;
 
     // On vérifie si l'utilisateur est connecté
-    /*
     if(checkConnexion()) {
         $donnees = HTMLUserDatas($_SESSION['user']);
         $logout = '<a href="logout.php">Logout</a>';
@@ -13,7 +12,7 @@
         header('Location: index.php');
         exit;
     }
-    */
+    
 ?>
 <!DOCTYPE html>
 <html lang="en">

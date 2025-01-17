@@ -15,7 +15,8 @@ function HTMLHead(string $pagename = ''): string
     $string = '';
 
     $string .= '<meta charset="UTF-8">'."\n";
-    $string .= '<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">'."\n";;
+    $string .= '<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">'."\n";
+    $string .= '<link href="'.$path.D_ASSETS.DS.D_CSS.DS.'styles.css" rel="stylesheet">'."\n";
     $string .= '<link rel="shortcut icon" href="'.$path.D_ASSETS.DS.'img/favicon.ico" type="image/x-icon">'."\n";;
     $string .= '<title>'.APP_NAME . $separator . $pagename.'</title>'."\n";;
 
