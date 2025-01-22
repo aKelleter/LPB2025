@@ -21,7 +21,7 @@
                     <div class="col-md-1"></div>
                     <div class="col-md-10">                       
                         <h1 class="mt-5 text-center">Leçon 30 : <span class="color_dark_green">Créer et formater une date</span></h1>  
-                        <?= getHtmlSubMenu('29', '00'); ?>   
+                        <?= getHtmlSubMenu('29', '31'); ?>   
                         
                         <?= getHtmlBlocWhatCodeDoes(file_get_contents(FILENAME_WCD)); ?>
                         <?= getHtmlBlockSourceCode($source_code, FILENAME_SOURCE_CODE); ?>
