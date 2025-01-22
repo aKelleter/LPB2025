@@ -1,13 +1,13 @@
 <?php 
-    require_once('../../boot.php');  
-    $_SESSION['R'] = R2;  
+    require_once('../../../../boot.php');  
+    $_SESSION['R'] = R4;
     require_once($_SESSION['R'].'app'.DS.'conf.php'); 
-    $_SESSION['PAGE'] = LDB;    
+    $_SESSION['PAGE'] = LDB;      
 ?>
 <!doctype html>
 <html lang="fr">
     <?php require_once $_SESSION['R'].'app'.DS.'head.php'; ?>
-    <body>    
+    <body>   
     <?php require_once $_SESSION['R'].'app'.DS.'header.php'; ?>
         <div class="b-divider"></div>
 
@@ -16,12 +16,14 @@
                 <div class="row">
                     <div class="col-md-1"></div>
                     <div class="col-md-10">                       
-                        <h1 class="mt-5 text-center">Le Module LDB</h1>
-                        <ul>
-                            <li>Présentation du cours</li>
-                            <li>Les leçons</li>
-                            <li>Les évaluations</li>
-                        </ul>                        
+                        <h1 class="mt-5 text-center">LDB : La liste des évaluations</h1>
+                        
+                        <div class="mt-5">
+                            <?php                                 
+                                echo getHtmlCoursesList(listEvals(), LDB);                             
+                            ?>
+                        </div>
+
                     </div> <!--col-md-10-->
                     <div class="col-md-1"></div>
                 </div>

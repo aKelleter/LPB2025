@@ -43,11 +43,16 @@
                             <li><a class="dropdown-item" href="<?= $_SESSION['R'].SANDBOX.DS.JS.DS.'index.php' ?>" target="_blank">Sandbox</a></li>                                                                                    
                         </ul>
                     </li>
-                    <li>
-                        <a href="<?= $_SESSION['R'].MOD.DS.LDB.DS.'index.php' ?>" class="nav-link <?= ($_SESSION['PAGE'] == 'ldb')? 'menu-selected': 'menu-normal'; ?>">
+                    <li class="nav-item dropdown">
+                        <a href="<?= $_SESSION['R'].MOD.DS.LDB.DS.'index.php' ?>" class="nav-link <?= ($_SESSION['PAGE'] == 'ldb')? 'menu-selected': 'menu-normal'; ?> dropdown-toggle href="<?= $_SESSION['R'].MOD.DS.LPB.DS.JS.DS.'index.php' ?>" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="<?= $_SESSION['R'].ASSETS.DS.A_IMG.DS.'sprites.svg'?>#table"></use></svg>
                             Ldb
                         </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="<?= $_SESSION['R'].MOD.DS.LDB.DS.COURS.DS.'index.php' ?>">Présentation</a></li>
+                            <li><a class="dropdown-item" href="<?= $_SESSION['R'].MOD.DS.LDB.DS.COURS.DS.LESS.DS.'index.php' ?>">Les leçons</a></li>                                                                                    
+                            <li><a class="dropdown-item" href="<?= $_SESSION['R'].MOD.DS.LDB.DS.COURS.DS.EVALS.DS.'index.php' ?>">Les évaluations</a></li>                                                                                    
+                        </ul>
                     </li> 
                     <li class="nav-item dropdown">
                         <a class="nav-link <?= ($_SESSION['PAGE'] == 'others')? 'menu-selected': 'menu-normal'; ?> dropdown-toggle" href="<?= $_SESSION['R'].MOD.DS.LPB.DS.OTHERS.DS.'index.php' ?>" role="button" data-bs-toggle="dropdown" aria-expanded="false">

@@ -47,12 +47,14 @@ function getHtmlCoursesList(array $courses, string $courseType): string {
                 $string .= '<li><a href="'.$course['id'].'/index.php" class="link-script">'.$course['title'].'</a></li>';
             elseif($courseType == JS)
                 $string .= '<li><a href="'.$course['id'].'/index.php" class="link-script">'.$course['title'].'</a></li>';
+            elseif($courseType == LDB)
+                $string .= '<li><a href="'.$course['id'].'/index.php" class="link-script">'.$course['title'].'</a></li>';
             elseif($courseType == OTHERS)
                 $string .= '<li><a href="'.$course['id'].'/index.php" class="link-script">'.$course['title'].'</a></li>';
         } 
         $string .= '</ol>';   
     }else {
-        $string .= '<div class="lpb-msg">No course available... patience :)</div>';
+        $string .= '<div class="lpb-msg">No data available... patience :)</div>';
     }
         
     return $string;
