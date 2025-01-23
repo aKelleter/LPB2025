@@ -17,22 +17,31 @@
                     <div class="col-md-1"></div>
                     <div class="col-md-10">                       
                         <h1 class="mt-5 text-center">Le module LDB</h1>
-                        <h3>Présentation du cours</h3>
+                        <h3>Sommaire</h3>
+                        <ol>
+                            <li><a href="#presentation">Présentation du cours</a></li>   
+                            <li><a href="#objectifs">Objectifs du cours</a></li>   
+                            <li><a href="#comprendre">Ce qu'il faut comprendre</a></li>   
+                            <li><a href="#bd">Qu'est-ce q'une base de données ?</a></li>   
+                            <li><a href="#fonctionnement">Comment fonctionne une base de données ?</a></li>   
+                            <li><a href="#types">Les différents types de bases de données</a></li>   
+                        </ol>
+                        <h3 id="presentation">1. Présentation du cours</h3>
                         <p>
                             Le module <b>LDB</b> (Bases de données - Les bases) devrait vous permettre de <b>concevoir</b>, <b>implanter</b>, <b>alimenter</b> et <b>interroger</b> une base
                             de données (<b>BD</b>/<b>DB</b>), et intégrer cette BD à une application. Le contenu présente
                             tout ce qu’il est nécessaire de maîtriser lorsque l'on conçoit une BD ou que l’on développe des applications qui s’appuient sur une BD.
                         </p>
 
-                        <h3>Objectifs du cours</h3>
+                        <h3 id="objectifs">2. Objectifs du cours</h3>
                         <ol>
                             <li>Assimiler les principes de base des SGBD relationnels.</li>
                             <li>Aborder la conception des bases de données relationnelles.</li>
                             <li>Aborder la mise en œuvre des bases de données relationnelles.</li>
-                            <li>Aborder l'interrogation des bases de données relationnelles.</li>
+                            <li>Apprentissage de l'interrogation des bases de données relationnelles.</li>
                         </ol>
 
-                        <h3>Ce qu'il faut comprendre pour utiliser efficacement un SGBD (<b>S</b>ystème de <b>G</b>estion de <b>B</b>ase de <b>D</b>onnées <b>R</b>elationnelles)</h3>
+                        <h3 id="comprendre">3. Ce qu'il faut comprendre pour utiliser efficacement un SGBD (<b>S</b>ystème de <b>G</b>estion de <b>B</b>ase de <b>D</b>onnées <b>R</b>elationnelles)</h3>
                         <ul>
                             <li>L'architecture</li>
                             <li>La structuration d'un base de données relationnelles</li>
@@ -42,7 +51,7 @@
                             <li>Les transactions</li>
                         </ul>
 
-                        <h3>Qu’est-ce qu’une base de données ?</h3>
+                        <h3 id="bd">4. Qu’est-ce qu’une base de données ?</h3>
                         <ul>
                             <li>On les appelle <b>BD</b>, <b>BDD</b> ou <b>DB</b> (en anglais) par commodité : les bases de données ont pour but de stocker, organiser et analyser les données. </li>
                             <li>Elles désignent une collection d’informations organisées pour être facilement consultables, gérables et mises à jour. </li>
@@ -54,15 +63,15 @@
                             </li>                        
                         </ul>
 
-                        <h3>Comment fonctionne une base de données ?</h3>
+                        <h3 id="fonctionnement">5. Comment fonctionne une base de données ?</h3>
                         <ul>
                             <li>Les BD sont stockées sous forme de fichiers ou d’ensembles de fichiers. </li>
                             <li>Les BD hiérarchiques traditionnelles sont organisées en triptyque : champs (“fields” : une seule pièce d’information), enregistrements (ensemble de champs) et fichiers (collection d’enregistrements). </li>
                             <li>Les bases de données prédominantes sont aujourd’hui les suivantes : SQL, NoSQL et bases de données cloud. </li>
-                            <li>C’est le gestionnaire de base (ou "database administrator/manage", DBA) qui élabore, implémente, configure voir interroge et/ou modifie les BD. </li>                            
+                            <li>C’est le gestionnaire de BD (ou "database administrator/manage", DBA) qui élabore, implémente, configure voir interroge et/ou modifie les BD. </li>                            
                         </ul>
 
-                        <h3>Les différents types de bases de données </h3>
+                        <h3 id="types">6. Les différents types de bases de données</h3>
                         <ul>
                             <li>
                                 La BD <b>hiérarchique</b>. Souvent présentée sous forme d’arbre avec ses ramifications, il s’agit du tout premier programme qui a permis de structurer l’information de façon hiérarchique. 
@@ -102,9 +111,7 @@
                                 La BD <B>orientée graph</B>. C’est un type de database <B>NoSQL</B> qui utilise la théorie des graphes pour stocker, cartographier et effectuer des requêtes sur les relations entre les 
                                 données.
                             </li>
-                        </ul>
-
-                        
+                        </ul>                        
                     </div> <!--col-md-10-->
                     <div class="col-md-1"></div>
                 </div>

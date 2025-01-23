@@ -1,9 +1,130 @@
 <h3>Sommaire</h3>
 <ol>
-   
+   <li><a href="#donnees">Les données</a></li>
 </ol>
 
-<h3 id="preambule">1. Préambule</h3>
+<h3 id="donnees">1. Les données</h3>
 <p>
-
+    Une donnée c'est une valeur qui désigne une certaine information. C'est un entier, un flottant, une chaîne de caractères. Une donnée au sens brut, c'est une valeur.
+    On parle également d'information dans le sens où les données sont qualifiées, on sait ce qu'elles représentent.
+    Par exemple, si on donne le nom d'un élève, on sait que c'est un nom, si on donne un âge, on sait que c'est un âge.
 </p>
+<p>
+    Pour résumé, <b>une donnée, c'est une valeur associée à la signification de cette valeur</b>.    
+</p>
+<p>
+    Les données servent à qualifier ce que l'on appel des <b>entités</b>, autrement dit des objets du monde réel. On se retrouve donc avec une certaine structuration 
+    (on parle de <b>modélisation</b>) qui permet de décrire les entités en fonction d'une application. Cette structuration consiste à distinguer ces <b>entités</b>, à les regrouper
+    et à les décrire avec des <b>données</b>.
+</p>
+<p>
+    Par exemple, si on prend une application de gestion d'élèves, on peut distinguer les entités suivantes :
+</p>
+<ul>
+    <li>Les élèves</li>
+    <li>Les classes</li>
+    <li>Les professeurs</li>
+    <li>Les matières</li>
+</ul>
+<p>
+    Chacune de ces entités est décrite par des données. Par exemple, un élève est décrit par son nom, son prénom, son âge, sa classe, etc.
+</p>
+<p>
+    Une base de données a une <b>structure</b> qui est définie par un ensemble de tables. Chaque table est composée de <b>colonnes</b> qui <b>définissent les données de l'entité</b>. <br>
+    Si il n'y a pas de structure, on ne peut pas stocker les données de manière organisée. C'est pour cela que les bases de données sont structurées. <br>
+    On parlera alors d'une collection, d'une liste de documents, de textes ou d'images.
+</p>
+<p>Par exemple, une table élève peut contenir les colonnes suivantes :</p>
+<ul>
+    <li>id</li>
+    <li>nom</li>
+    <li>prenom</li>
+    <li>age</li>
+    <li>classe</li>
+</ul>
+<p>
+    Si nous prenons deux entités, <b>élève</b> et <b>matières</b>, nous pouvons les relier par une relation. Par exemple, l'entité élève étudie l'entité matières. <br>
+    Nous essayons de faire une structuration des objets de manière à obtenir une bases de données qui soit cohérente et qui permette de stocker les données de manière organisée.
+</p>
+<p>
+    Une base de données, ce sont des données qui sont structurées selon des règles assez strictes si l'on veut que les données soient cohérentes et éviter les problèmes.
+    La structure des bases de données va permettre de faire de l'interrogation précise du contenu de la BD.
+</p>
+<p>
+    Petite précision, lorsque l'on parle de valeur, on parle de valeur élémentaire ou <b>atomique</b> (les entiers, les flottants, les chaînes de caractères,...). Les valeurs <b>atomiques</b> ne
+    peuvent pas être décomposées en d'autres valeurs. Par exemple, un nom est une valeur atomique, un prénom est une valeur atomique, un âge est une valeur atomique. A l'inverse, une adresse (<b>tableau</b>)
+    est une valeur <b>non atomique</b> car elle est composée de plusieurs valeurs atomiques (numéro, rue, code postal, ville).
+</p>
+<p>
+    Les données sont groupées dans des bases de données avec comme importances :
+</p>
+<ul>
+    <li>La structuration</li>
+    <li>La cohérence</li>
+    <li>La persistance</li>
+    
+</ul>
+<p>
+    La <b>structuration</b> permet de stocker les données de manière organisée, nous venons de l'aborder.
+</p>
+<p>
+    La <b>cohérence</b> permet de garantir que les données sont correctes.
+</p>
+<p>
+    La <b>persistance</b> permet de stocker les données de manière durable. Ce sont des fichiers sur un disque dur, des fichiers sur un serveur, des fichiers sur un cloud. 
+    Les données sont stockées de manière durable. Lors d'un arrêt ou d'un redémarrage de l'ordinateur (serveur), les données sont toujours présentes, puisque physiquement représentée dans des fichiers.
+    Un fichier est-il une base de données ? Oui, si il est structuré et cohérent. Un fichier Excel est une base de données (liste de contact). Un fichier <b>CSV</b> est une base de données. Un fichier XML est une base de données.
+</p>
+<p>
+    Exemple de fichier structuré : <br>
+
+    Le format CSV (Comma Separated Values) est un format de fichier qui permet de stocker des données tabulaires. Les données sont séparées par des virgules. <br>
+    Exemple de fichier CSV : <br>
+
+    <pre>
+        "nom" ; "prenom" ; "age"
+        "Dupont" ; "Jean" ; 25
+        "Durand" ; "Paul" ; 30
+        "Martin" ; "Marie" ; 20
+    </pre>
+
+    On retrouve dans le fichier CSV un format. Le format c'est la manière de coder les données que l'on a placé dans le fichier, ce codage (la représentation physique) est la manière dont on 
+    distingue les différentes valeurs qui sont placées dans le fichier (les guillemets, les points-virgules, les virgules, les retours à la ligne, etc). Ces éléments de codage ne nous intéresse pas
+    dans une base de données, ce qui nous intéresse c'est la structure des données, c'est à dire les données elles-mêmes. <br> <br>
+
+    Le format est une information important lorsque l'on accède à un fichier, si on ne connait pas le format, on ne peut pas exploiter les données. <br>
+    <b>Dès que l'on a un format et que l'on représente des lignes selon ce format on obtient une base de données.</b> <br> <br>    
+
+    <strong>Est-ce suffisant ?</strong> <br>
+
+    Non, parce que si l'on réalise des applications qui vont accéder directement à des fichiers on réalise rapidement que de très gros problèmes se posent. <br>
+    
+</p>
+<img src="img/acces-file.png" alt="Problèmes d'accès direct aux fichiers" class="mx-auto d-block">
+<p>
+    Les problèmes sont les suivants :    
+</p>
+<ul>
+    <li>Les données sont souvent dupliquées</li>
+    <li>Les données sont incohérentes, si le format n'est pas respecté</li>
+    <li>Les données sont difficilement accessibles, il faut connaître le format et implémenter le code qui va le gérer</li>
+    <li>Les données sont difficilement modifiables</li>
+    <li>Les données sont difficilement partageables</li>
+    <li>Les données sont difficilement sécurisables</li>
+    <li>La difficulté de la gestion des accès</li>
+    <li>Les problèmes d'accès concurentiels</li>
+    <li>Des problèmes de performances</li>
+    <li>...</li>
+</ul>
+<p>
+    Pour résoudre ces problèmes, on a inventé les bases de données. Les bases de données sont des logiciels qui permettent de gérer les données de manière structurée, cohérente et persistante.
+    On va donc étudier, non pas directement les fichiers qui stockent les données, mais ce que l'on appel les sytèmes de gestion de base de données (<b>SGBD</b>).
+</p>
+<img src="img/acces-sgbd.png" alt="Problèmes d'accès direct aux fichiers" class="mx-auto d-block">
+
+<p class="mt-4">
+    Un <b>SGBD</b> c'est un système qui va entre autre gérer les fichiers de données pour nous.
+    Comme présenté ci-dessus, il y une machine de type serveur, sur ce serveur il y a un processus qui est le serveur du SGBD. Il est le seul habilité à accéder au disque et aux fichiers de données.
+    Il est également le seul a pouvoir gérer les ressource matérielles qui représentent la(les) base(s) de données présentent sur le serveur. <br> 
+</p>
+    
