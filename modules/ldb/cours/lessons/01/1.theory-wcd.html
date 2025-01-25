@@ -1,8 +1,3 @@
-<h3>Sommaire</h3>
-<ol>
-   <li><a href="#donnees">Les données</a></li>
-</ol>
-
 <h3 id="donnees">1. Les données</h3>
 <p>
     Une donnée c'est une valeur qui désigne une certaine information. C'est un entier, un flottant, une chaîne de caractères. Une donnée au sens brut, c'est une valeur.
@@ -127,4 +122,48 @@
     Comme présenté ci-dessus, il y une machine de type serveur, sur ce serveur il y a un processus qui est le serveur du SGBD. Il est le seul habilité à accéder au disque et aux fichiers de données.
     Il est également le seul a pouvoir gérer les ressource matérielles qui représentent la(les) base(s) de données présentent sur le serveur. <br> 
 </p>
+<p>
+    Une application ne communique pas directement avec les fichiers de données, elle communique avec le serveur du SGBD. <br>
+</p>
+<p>
+    Dans le schéma ci-dessus, vous observez un exemple d'architecture "client-serveur". Vous avez une machine serveur sur lequel tourne le service SGBD, 
+    qui va interprêter les commandes qu'il reçoit. <br> Vous avez également des machines clientes, sur ces machines clientes vous avez des programmes qui tournent et qui sont connectés 
+    au serveur. Ces programmes échangent des commandes avec le serveur. <br> Dans ce cas, les problèmes de concurences, la fiabilité, les performances,... sont pris en charge par le SGBD. <br>
+    Le serveur est un programme extrêment sophistiqué qui gère un ensemble de services, dont gestion de très grosses masses de données potentiellement.<br>
+</p>
+<h4>Les niveaux d'abstractions d'un SGBD</h4>
+<p>
+    Le serveur SGBD peut présenter une représentation <b class="red">logique</b> des données très éloignée de la représentation <b class="red">physique</b>.
+    <br>
+    Le niveau logique définit la <b class="red">modélisation</b> des données.
+</p>
+<img src="img/sgbd-levels.png" alt="les niveaux d'abstraction" class="mx-auto d-block">
+<p>
+    Dans un <b>SGBD</b> nous avons ce que l'on appel des niveaiux d'abstractions. A partir du moment où nous avons un programme qui gère les données, nous n'avons
+    plus besoin de connaître le format des fichiers, on peut s'abastraire de la représentation physique des données, càd de la manière dont elles sont stockées sur le disque.
+    On peut se concentrer sur la structuration logique des données, càd sur les données elles-mêmes (ou représentation conceptuelle). </p>
+<p>
+    Un serveur de bases de données relationnelles fourni une représentation conceptuelle (logique) des données sous la forme de tables (tableaux). La représentation sous la forme
+    de tables n'a pas grand chose à voir avec le format d'encodage de ces tables. Nous faisons abstraction de pleins de détails qui ne nous intéressent pas. <br>
+    Les seules choses que l'on veut savoir, c'est comment les données sont structurées conceptuellement pour pouvoir les interroger, les modifier, les supprimer, les ajouter, etc. <br>
+    C'est un des rôles du serveur, qui est de nous fournir une vision des données, une vision extrêmement pratique, simple, d'un haut niveau d'abstraction et de cohérence. Cette vision,
+    c'est la vision du modèle de données. Càd que la structure que le serveur utilise pour représenter les données, c'est une structure qui est conforme à un modèle et le modèle que 
+    nous souhaitons utiliser est le modèle <b>relationnel</b>. Il existe d'autres modèles mais le plus courant c'est le modèle relationnel, cve dernier s'appuie sur le <b>SQL</b> (Structured Query Language)<br>   
+</p>
+<h4>Le langage SQL</h4>
+<p>
+    Pour manipuler les données, on utilise un langage de requête qui est le <b>SQL</b>. Le SQL permet (mais pas que) de faire des requêtes sur les données, de les modifier, de les supprimer, de les ajouter, etc. 
+</p>
+<img src="img/sgbd-sql.png" alt="Le Language SQL" class="mx-auto d-block">
+<p>
+    On envoi des commandes sur notre représentation logique (tables) à l'aide du SQL et le serveur va se charger de traduire ces commandes en commandes physiques qui vont être exécutées sur les fichiers de données.
+    Ces commandes en plus de la manipulation des données, permettent de définir la structure des données, de définir les contraintes d'intégrité, de définir les contraintes de sécurité, de définir les contraintes de performances, etc.
+</p>
+<p>
+    Comme nous venons de le voir, le SQL est le langage qu'il nous faudra connaitre, il est le plus répandu et le plus utilisé. Il est le langage de référence pour les bases de données 
+    relationnelles. 
+</p>
+
+
+
     

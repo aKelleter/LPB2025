@@ -2,8 +2,8 @@
   
     // Définition des constantes de l'application
     const APP_NAME = 'LPB - LDB <sup>3</sup>';
-    const APP_UPDATE = '23012025 - 18:40';
-    const APP_VERSION = 'v0.50.1'.' - '.APP_UPDATE;
+    const APP_UPDATE = '25012025 - 18:30';
+    const APP_VERSION = 'v0.50.2'.' - '.APP_UPDATE;
 
     const APP_YEAR = '2024-2025';
     const APP_AUTHOR = 'A. Kelleter';
@@ -29,11 +29,11 @@
     const A_JS = 'js';
 
     // Titres
-    const TITLE_WHAT_CODE_DOES = 'I. La théorie';
-    const TITLE_SOURCE_CODE = 'II. Le code source';
-    const TITLE_RENDERING = 'III. Le rendu dans le navigateur';
-    const TITLE_EXPLANATIONS = 'IV. Résumé - Explications';
-    const TITLE_RESSOURCES = 'V. Ressources additionnelles';
+    const TITLE_WHAT_CODE_DOES = 'La théorie';
+    const TITLE_SOURCE_CODE = 'Le code source';
+    const TITLE_RENDERING = 'Le rendu dans le navigateur';
+    const TITLE_EXPLANATIONS = 'Le résumé / explications';
+    const TITLE_RESSOURCES = 'Les ressources additionnelles';
 
     // Noms de fichiers
     const FILENAME_WCD = '1.theory-wcd.html';

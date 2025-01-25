@@ -21,7 +21,7 @@
                     <div class="col-md-1"></div>
                     <div class="col-md-10">                       
                         <h1 class="mt-5 text-center">Leçon 00 : <span class="color_dark_green">...</span></h1>  
-                        <?= getHtmlSubMenu('00', '00'); ?>   
+                        <?= getHtmlSubMenuLDB('00', '00'); ?>   
                         
                         <?= getHtmlBlocWhatCodeDoes(file_get_contents(FILENAME_WCD)); ?>                       
                         <?= getHtmlBlockRessources($ressources); ?>

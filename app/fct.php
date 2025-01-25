@@ -230,6 +230,35 @@ function getHtmlSubMenu(string $prevUrl, string $nextUrl, string $mod = PHP): st
     return $string;
 }
 
+/**
+ * getHtmlSubMenuLDB($prevUrl, $nextUrl) :
+ * 
+ * Affiche le sous-menu de navigation entre les leçons du module LDB
+ * 
+ * @param string $prevUrl 
+ * @param string $nextUrl 
+ * @return string 
+ */
+function getHtmlSubMenuLDB(string $prevUrl, string $nextUrl): string {
+    $string = '';
+    $string .= '    <!-- Sub menu -->
+                    <div class="row mt-1">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-10">                              
+                            <div class="submenu">';
+                                if($prevUrl != '00')
+                                    $string .= '<a href="'.$_SESSION['R'].MOD.DS.LDB.DS.COURS.DS.LESS.DS.$prevUrl.DS.'index.php'.'" class="icon-sub"><svg class="bi" width="24" height="24"><use xlink:href="'.$_SESSION['R'].ASSETS.DS.A_IMG.DS.'sprites.svg#arrowLeftSquare"></use></svg></a>';
+
+                                $string .='<a href="'.$_SESSION['R'].MOD.DS.LDB.DS.COURS.DS.LESS.DS.'index.php'.'" class="icon-sub"><svg class="bi" width="24" height="24"><use xlink:href="'.$_SESSION['R'].ASSETS.DS.A_IMG.DS.'sprites.svg#rocket"></use></svg></a>';
+
+                                if($nextUrl != '00')
+                                    $string .= '<a href="'.$_SESSION['R'].MOD.DS.LDB.DS.COURS.DS.LESS.DS.$nextUrl.DS.'index.php'.'" class="icon-sub"><svg class="bi" width="24" height="24"><use xlink:href="'.$_SESSION['R'].ASSETS.DS.A_IMG.DS.'sprites.svg#arrowRightSquare"></use></svg></a>
+                            </div>
+                        </div>
+                    </div>';
+    return $string;
+}
+
 /** 
  * listCourses() : 
  * 

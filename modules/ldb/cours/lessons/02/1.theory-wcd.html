@@ -1,0 +1,74 @@
+<h3>Sommaire</h3>
+<ol>
+   <li><a href="#installation">Installation d'un SGBD</a></li>
+   <li><a href="#relationnel">Le modèle relationnel</a></li>
+   <li><a href="#relations">Relations et nuplets</a></li>
+</ol>
+
+<h3 id="installation">1. Installation d’un SGBD</h3>
+<p>
+    Un <b>SGBD</b> (Système de Gestion de Base de Données) est un logiciel qui permet de stocker, de gérer et de manipuler des données. Il existe plusieurs SGBD sur le marché, les plus connus sont:    
+</p>
+<ul>
+    <li>Oracle</li>
+    <li>MySQL</li>
+    <li>PostgreSQL</li>
+    <li>Microsoft SQL Server</li>
+    <li>SQLite</li>
+    <li>MariaDB</li>
+</ul>
+<p>
+    Pour ce cours, nous allons utiliser <b>MariaDB</b>. <b>MariaDB</b> est un fork de <b>MySQL</b>, c'est-à-dire une version modifiée de <b>MySQL</b>. <b>MariaDB</b> est un <b>SGBD</b>
+    open source, son code source est librement accessible et modifiable. <b>MariaDB</b> est un <b>SGBD</b> très performant et très fiable, il est utilisé par de nombreuses entreprises dans le monde entier 
+    (Wikipédia, Google, CentOS, Verizon,...). <b>MySQL</b> quant à lui est un <b>SGBD</b> propriétaire, son code source n'est pas librement accessible et modifiable. <b>MySQL</b> est un <b>SGBD</b> très 
+    performant et très fiable, il est utilisé par de nombreuses entreprises dans le monde entier (YouTube, GitHub, Spotify, Netflix, la NASA,...).
+</p>
+<p>
+    En début d'année nous avons installé un logiciel qui se nomme XAMPP. XAMPP est ce que l'on pourrait appeler un serveur stack (une pile de serveurs).
+    C'est un ensemble de logiciels qui forment l'infrastructure opérationelle sur une machine donnée. Une pile de serveurs est un ensemble de logiciels
+    que l'on installent sur une machine pour lui permettre de fonctionner comme un serveur. <br> XAMPP est une pile de serveurs qui contient les logiciels suivants:   
+</p>
+<ul>
+    <li>Apache: un serveur web</li>
+    <li>MariaDB: un SGBD</li>
+    <li>PHP: un langage de programmation</li>
+    <li>Perl: un langage de programmation</li>
+    <li>FileZilla FTP Server: un serveur de fichiers</li>
+    <li>PhpMyAdmin: est un outil logiciel libre écrit en PHP, destiné à gérer l'administration de MySQL sur le Web. phpMyAdmin prend en charge un large éventail d'opérations sur MySQL et MariaDB.</li>
+    <li>Mercury Mail Transport: un serveur de messagerie</li>
+</ul>
+<p>
+    Pour résumé, nous avons déjà installé un SGBD sur nos machines, en l'occurence MariaDB. Il ne nous reste plus qu'à lancer le serveur MariaDB (daemon) pour pouvoir commencer à travailler avec.
+</p>
+
+<h3 id="relationnel">2. Le modèle relationnel</h3>
+<p>
+    C’est un ensemble de résultats scientifiques, qui ont en commun de s’appuyer sur une représentation tabulaire des données. Beaucoup de ces résultats ont
+    débouché sur des mises en œuvre pratique. Ils concernent essentiellement deux problématiques complémentaires :
+</p>
+
+<h4>1. La structuration des données</h4>
+<p>
+    Comme nous allons le voir dans ce chapitre, on ne peut pas se contenter de placer toute une base de données dans une seule table, sous peine de rencontrer rapidement des
+    problèmes insurmontables. Une base de données relationnelle, c’est un ensemble de tables associées les unes aux autres. La conception du <b>schéma</b> (structures des tables, contraintes sur leur contenu,
+    liens entre tables) doit obéir à certaines règles et satisfaire certaines propriétés. Une théorie solide, la <b>normalisation</b> a été développée qui permet de s’assurer que l’on a construit un schéma correct
+</p>
+
+<h4>2. Les langages d'interrogation</h4>
+<p>
+    Le langage <b>SQL</b> que nous connaissons maintenant est issu d’efforts intenses de recherche menés dans les années 70-80. Deux approches se sont dégagées : la principale
+    est une conception déclarative des langages de requêtes, basées sur la logique mathématique. Avec cette approche on formule (c’est le mot) ce que l’on souhaite, et le système décide comment calculer
+    le résultat. La seconde est de nature plus procédurale, et identifie l’ensemble minimal des opérateurs dont le système doit disposer pour évaluer une requête. 
+</p>
+
+<h3 id="relations">3. Relations et nuplets</h3>
+<p>
+    L’expression « modèle relationnel » a pour origine (surprise!) la notion de relation, un des fondements mathématiques sur lesquels s’appuie la théorie relationnelle. Dans le modèle relationnel, la seule structure acceptée
+    pour représenter les données est la relation.
+</p>
+<h4>Qu’est-ce qu’une relation ?</h4>
+<p>
+    Dans le contexte des bases de données, les objets auxquels on s’intéresse sont des valeurs élémentaires comme les entiers, les réels,... .
+    La notion de valeur élémentaire s’oppose à celle de valeur structurée : il n’est pas possible en relationnel de placer dans une cellule un graphe, une liste, un enregistrement.
+</p>
+
