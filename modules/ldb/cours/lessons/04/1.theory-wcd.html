@@ -1,0 +1,68 @@
+<h3>Sommaire</h3>
+<ol>
+    <li><a href="#normalisation">La normalisation</a></li>
+    <li><a href="#denormalisation">La dénormalisation</a></li>
+    <li><a href="#cles">Clés Primaires et Étrangères</a></li>
+    <li><a href="#modphys">Modélisation physique</a></li>
+</ol>
+
+<h3 id="normalisation">1. La normalisation</h3>
+<p>
+    La normalisation est un processus visant à organiser les données dans une base de données pour minimiser la redondance et éviter les anomalies de mise à jour. 
+    Elle implique de décomposer les tables en sous-tables plus petites et de définir des relations entre elles.
+</p>
+<strong>Formes Normales</strong> :
+<ul>
+    <li>Première Forme Normale (1NF) : Assure que chaque colonne d’une table contient des valeurs atomiques et que chaque enregistrement est unique.</li>
+    <li>Deuxième Forme Normale (2NF) : Élimine les redondances des données en s’assurant que chaque attribut non clé est pleinement fonctionnellement dépendant de la clé primaire.</li>
+    <li>Troisième Forme Normale (3NF) : Élimine les dépendances transitoires en s’assurant que les attributs non clés ne dépendent pas d’autres attributs non clés.</li>
+</ul>
+<p>
+     Exemple de Normalisation : <br>
+    Supposons une table non normalisée ClientsCommandes :
+</p>
+<img src="img/table-non-norm.svg" alt="table non normalisée" width="15%" class="mx-auto d-block">
+<p>
+    Pour normaliser, nous pouvons la diviser en deux tables : Clients et Commandes.
+</p>
+<img src="img/table-norm.svg" alt="table normalisée" width="15%" class="mx-auto d-block">
+
+<h3 id="denormalisation">2. Dénormalisation</h3>
+<p>
+    Parfois, pour des raisons de performance, il peut être utile de dénormaliser certaines parties de la base de données. La dénormalisation consiste à réintroduire une certaine 
+    redondance pour réduire le nombre de jointures nécessaires lors des requêtes complexes, améliorant ainsi les performances de lecture.
+</p>
+
+<h3 id="cles">3. Clés Primaires et Étrangères</h3>
+<p>
+    Les clés primaires sont des attributs ou un ensemble d’attributs qui identifient de manière unique chaque enregistrement d’une table. Les clés étrangères sont des attributs 
+    d’une table qui font référence à la clé primaire d’une autre table, établissant une relation entre les deux tables.
+</p>
+<p>
+    Exemple de Clé Primaire et Étrangère :
+</p>
+<textarea class="code-php">
+    CREATE TABLE Clients (
+        id_client INT PRIMARY KEY,
+        nom_client VARCHAR(100)
+    );
+    
+    CREATE TABLE Commandes (
+        id_commande INT PRIMARY KEY,
+        date_commande DATE,
+        montant_commande DECIMAL(10, 2),
+        id_client INT,
+        FOREIGN KEY (id_client) REFERENCES Clients(id_client)
+    );
+</textarea>
+
+<h3 id="modphys">4. Modélisation physique</h3>
+<p>
+    La modélisation physique consiste à traduire le modèle logique en un schéma de base de données réel en tenant compte des contraintes techniques et des performances. 
+    Elle implique la définition des types de données, des index, des contraintes et des partitions.
+</p>
+
+
+
+
+

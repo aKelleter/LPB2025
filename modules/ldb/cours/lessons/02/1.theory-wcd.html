@@ -66,9 +66,99 @@
     L’expression « modèle relationnel » a pour origine (surprise!) la notion de relation, un des fondements mathématiques sur lesquels s’appuie la théorie relationnelle. Dans le modèle relationnel, la seule structure acceptée
     pour représenter les données est la relation.
 </p>
+
 <h4>Qu’est-ce qu’une relation ?</h4>
 <p>
     Dans le contexte des bases de données, les objets auxquels on s’intéresse sont des valeurs élémentaires comme les entiers, les réels,... .
     La notion de valeur élémentaire s’oppose à celle de valeur structurée : il n’est pas possible en relationnel de placer dans une cellule un graphe, une liste, un enregistrement.
 </p>
+<p>
+    Une relation est un objet abstrait, on peut la représenter de différentes manières (graphe ou table). Une représentation naturelle est le graphe comme ci-dessous :
+</p>
+<img src="img/relation-graphe.png" alt="relation sous la forme d'un graphe" class="mx-auto d-block">
+<p>
+    Une autre structure possible est la table, qui s’avère beaucoup plus pratique quand la relation n’est plus binaire mais ternaire et au-delà, comme ci-dessous :
+</p>
+<img src="img/relation-table.png" alt="relation sous la form d'une table" class="mx-auto d-block">
+<p>
+    Dans une base relationnelle, on utilise toujours la représentation d’une relation sous forme de table. À partir de maintenant nous pourrons nous permettre d’utiliser les deux termes comme synonymes.
+</p>
+
+<h4>Les nuplets (lignes)</h4>
+<p>
+    Un élément d’une relation de dimension n est un <b>nuplet</b> (𝑎1, 𝑎2, · · · , 𝑎𝑛). <b class="red">Dans la représentation par table, un nuplet est une ligne</b>. Là encore nous 
+    assimilerons les deux termes, toutefois <b>nuplet</b> indique plus précisément la structure constituée d’une liste de valeurs. <br>
+    La définition d’une relation comme un ensemble (au sens mathématique) a quelques conséquences importantes :
+</p>
+    <ul>
+        <li>
+            L’ordre des nuplets est indifférent car il n’y a pas d’ordre dans un ensemble; conséquence pratique :
+            le résultat d’une requête appliquée à une relation ne dépend pas de l’ordre des lignes dans la relation.
+        </li>
+        <li>
+            On ne peut pas trouver deux fois le même nuplet car il n’y a pas de doublons dans un ensemble.
+        </li>
+        <li>
+            Il n’y a pas (en théorie) de « cellule vide » dans la relation ; toutes les valeurs de tous les attributs de chaque nuplet (ligne) sont toujours connues.
+        </li>
+    </ul>
+<p>
+    Dans la pratique les choses sont un peu différentes pour les doublons et les cellules vides, comme nous le verrons plus tard dans le cours.
+</p>
+
+<h4>Le schéma</h4>
+<p>
+    Finalement, on notera qu’aussi bien la représentation par graphe que celle par table incluent un nommage de chaque dimension (le type de jeu, leur nombre, dans notre exemple). 
+    Ce nommage n’est pas strictement indispensable (on pourrait utiliser la position par exemple), mais s’avère très pratique et sera donc utilisé systématiquement.
+    On peut donc décrire une relation par :
+</p>
+<ol>
+    <li>Le nom de la relation (nom de la table).</li>
+    <li>Un nom (distinct) pour chaque dimension, dit nom d’attribut (colonne).</li>
+    <li>Le domaine de valeur (type) de chaque dimension (entier, flottant, booléen,...).</li>
+</ol>
+<p>
+    Cette description est ce que l'on appel <b>le schéma de la relation (le schéma de la table)</b>.
+</p>
+<p>
+    Et en ce qui concerne le vocabulaire, le tableau suivant montre celui, rigoureux, issu de la modélisation mathématique et celui, plus vague, correspondant à la représentation par table. Les termes de chaque ligne
+    seront considérés comme équivalents, mais on privilégiera les premiers qui sont plus précis.
+</p>
+<img src="img/vocabulaire.png" alt="vocabulaire" class="mx-auto d-block">
+<p>
+    Attention à utiliser ce vocabulaire soigneusement, sous peine de confusion. Ne pas confondre par exemple le nom d’attribut (qui est commun à toute la table) et la valeur d’attribut (qui est spécifique à un nuplet).
+    La structure utilisée pour représenter les données est donc extrêmement simple. Il faut insister sur le fait que les valeurs des attributs, celles que l’on trouve dans chaque cellule de la table, sont élémentaires : 
+    entiers, chaînes de caractères, etc. 
+</p>
+<p>
+    On ne peut pas avoir une valeur d’attribut qui soit un tant soit peu construite, comme par exemple une liste, ou une sous-relation (sous-tableau). Les valeurs dans une base de données sont dites 
+    atomiques (pour signifier qu’elles sont non-décomposables, rien de toxique à priori). Cette contrainte conditionne tous les autres aspects du modèle relationnel, et notamment la conception, et l’interrogation.
+    Une base bien formée suit des règles dites de normalisation. La forme normale minimale est définie ci-dessous.
+</p>
+
+<h4>Que représente une relation (table)</h4>
+<p>
+    En première approche, une relation (table) est simplement un ensemble de nuplets (lignes). On peut donc lui appliquer des opérations ensemblistes : intersection, union, produit cartésien, projection, etc. Cette vision se soucie peu
+    de la signification de ce qui est représenté, et peut mener à des manipulations dont la finalité reste obscure. Ce n’est pas forcément le meilleur choix pour un utilisateur humain, mais ça l’est pour un système qui ne se
+    soucie que de la description opérationnelle
+</p>
+<p>
+    Dans une seconde approche, plus « sémantique », une relation (table) est un mécanisme permettant d’énoncer des faits sur le monde réel. Chaque nuplet (ligne) correspond à un tel énoncé. Si une ligne est présent dans la table,
+    le fait est considéré comme vrai, sinon il est faux.
+</p>
+<p>
+    Cette approche mène directement à une manipulation des données fondée sur des raisonnements s’appuyant sur les valeurs de vérité énoncées par les faits de la base. On a alors recours à la logique formelle pour
+    exprimer ces raisonnements de manière rigoureuse. Dans cette approche, qui est à la base de SQL, interroger une base, c’est déduire un ensemble de faits qui satisfont un énoncé logique (une « formule »). Selon ce point
+    de vue, SQL est un langage pour écrire des formules logiques, et un système relationnel est (entre autres) une machine qui effectue des démonstrations.
+</p>
+
+<h4>Note finale de ce chapitre</h4>
+<p>
+    Comme nous l’avons vu ci-dessus, le schéma d’une table consiste – pour l’essentiel – en un nom (de table) et un ensemble de noms de colonnes. On pourrait naïvement penser qu’il suffit de créer une unique
+    table et de tout mettre dedans pour avoir une base de données. En fait, une telle approche est inapplicable et il est indispensable de créer plusieurs tables, associées les unes aux autres.
+    Le schéma d’une base de données est donc constitué d’un ensemble de schéma de tables. Pourquoi en arrive-t-on là et quels sont les problèmes que l’on souhaite éviter? 
+    C’est ce que nous aborederons plus tard avec la notion centrale qui est celle de la <b>clé d’une table</b>.
+</p>
+
+
 

@@ -1,0 +1,108 @@
+<h3>Sommaire</h3>
+<ol>
+   <li><a href="#preambule">Préambule</a></li>
+   <li><a href="#concepts">Concepts de base</a></li>
+   <ul>
+       <li><a href="#schema">Le schéma</a></li>
+       <li><a href="#tables">Les tables</a></li>
+       <li><a href="#relations">Les relations</a></li>
+       <li><a href="#integrite">L'intégrité référentielle</a></li>
+       <li><a href="#indexation">L'indexation</a></li>
+       <li><a href="#modelisation">La modélisation des données</a></li>
+       <li><a href="#base-modelisation">Les Concepts de Base de la Modélisation</a></li>
+       <li><a href="#diagramme">Diagramme Entité-Relation (ERD)</a></li>
+    </ul>
+</ol>
+
+<h3 id="preambule">1. Préambule</h3>
+<p>
+    Après les notions théoriques sur les SGBD, nous allons à présent nous intéresser à certains concepts factuels qui sont utilisés dans la gestion des bases de données. 
+    Ainsi, que sur leur structures et les différents types de données qui peuvent être stockés dans une base de données.    
+</p>
+
+<h3 id="concepts">2. Concepts de base</h3>
+<p>
+    Les bases de données relationnelles reposent sur plusieurs concepts fondamentaux qui permettent de structurer et d’organiser les données de manière efficace et cohérente. 
+    Comprendre ces concepts est essentiel pour tirer pleinement parti des capacités des SGBD relationnels.
+</p>
+
+<h4 id="schema">2.1 Le schéma</h4>
+<p>
+    Le schéma d’une base de données est une description formelle de la structure de la base de données. 
+    Il définit les tables, les colonnes, les clés primaires et étrangères, les contraintes d’intégrité, etc. 
+    Le schéma est généralement défini lors de la conception de la base de données et ne change pas fréquemment.
+    Il sert de plan pour l’organisation des données et assure la cohérence et l’intégrité des informations stockées.
+</p>
+
+<h4 id="tables">2.2 Les tables</h4>
+<p>
+    Les tables sont les structures de base dans une base de données relationnelle. Elles sont composées de lignes (ou enregistrements) et de colonnes (ou champs). 
+    Chaque table représente une entité spécifique, par exemple, une table des utilisateurs peut contenir des informations sur les utilisateurs d’une application. <br>
+
+    Voici un exemple de création d’une table en SQL pour stocker les informations des utilisateurs :
+</p>
+<img src="img/table.png" alt="une table utilisateur" class="mx-auto d-block">
+<p>
+    Dans cet exemple, la table utilisateurs a six colonnes : id, nom, prenom, email, passwd et actif. 
+    La colonne id est définie comme clé primaire, garantissant l’unicité de chaque enregistrement.
+</p>
+<img src="img/table-edit.png" alt="Edition de la table utilisateur" class="mx-auto d-block">
+
+<h4 id="relations">2.3 Les relations</h4>
+<p>
+    Les relations sont des liens entre les tables qui permettent de structurer les données de manière logique et de les interconnecter. 
+    Les relations sont établies par l’utilisation de clés étrangères. <b>Une clé étrangère dans une table est une colonne qui fait référence à la clé primaire d’une autre table</b>. <br>
+    Voici un exemple de relation entre deux tables :
+</p>
+<img src="img/model-blog.png" alt="Modèle de la DB Blog" class="mx-auto d-block">
+<p>
+    Dans cet exemple, la colonne auteur de la table article est une clé étrangère qui référence la colonne id de la table user. 
+    Cela établit une relation entre les utilisateurs et leurs articles.
+</p>
+
+<h4 id="integrite">2.4 L'intégrité référentielle</h4>
+<p>
+    L’intégrité référentielle assure que les relations entre les tables restent cohérentes. Par exemple, un article ne peut pas être associée à un utilisateur qui n’existe 
+    pas dans la table user. Les SGBD relationnels utilisent des contraintes pour maintenir cette intégrité.
+</p>
+
+<h4 id="indexation">2.5 L'indexation</h4>
+<p>
+    Les index sont des structures de données qui améliorent la vitesse d’exécution des requêtes sur une base de données. Ils sont créés sur une ou plusieurs
+    colonnes d’une table et permettent un accès plus rapide aux données.
+</p>
+
+<h4 id="modelisation">2.6 La modélisation des données</h4>
+<p>
+    La modélisation des données est une étape importante dans la conception de bases de données relationnelles. Elle consiste à structurer et organiser les données de manière 
+    logique et cohérente afin de répondre efficacement aux besoins d’une application. Une bonne modélisation des données améliore la performance des requêtes, facilite 
+    la maintenance de la base de données et assure l’intégrité des données.
+</p>
+
+<h4 id="base-modelisation">2.7 Les Concepts de Base de la Modélisation</h4>
+<p>
+    La modélisation des données repose sur plusieurs concepts fondamentaux :
+</p>
+<ul>
+    <li><b>Entités</b> : Représentent des objets ou concepts du monde réel ayant une existence indépendante. Par exemple, un utilisateur, un produit ou une commande.</li>
+    <li><b>Attributs</b> : Décrivent les propriétés des entités. Par exemple, un utilisateur peut avoir des attributs comme le nom, l’email et la date de naissance.</li>
+    <li><b>Relations</b> : Définissent les liens entre les entités. Par exemple, une relation entre utilisateurs et commandes indique qu’un utilisateur peut passer plusieurs commandes.</li>
+</ul>
+
+<h4 id="diagramme">2.8 Diagramme Entité-Relation (ERD)</h4>
+<p>
+    Un diagramme entité-relation (ERD) est un outil visuel utilisé pour représenter les entités, leurs attributs et les relations entre elles. Il aide à conceptualiser et à planifier 
+    la structure de la base de données avant sa mise en œuvre. <br>
+
+    Exemple de Diagramme Entité-Relation :
+</p>
+<img src="img/model-blog.png" alt="Diagramme de la DB Blog" class="mx-auto d-block">
+<p>
+    Dans cet exemple, nous avons deux entités : user et article. La relation montre qu’un utilisateur peut écrire plusieurs articles.
+</p>
+
+
+
+
+
+

@@ -1,9 +1,9 @@
 <?php
   
-    // Définition des constantes de l'application
+    // Définition des constantes de l'application   
     const APP_NAME = 'LPB - LDB <sup>3</sup>';
-    const APP_UPDATE = '25012025 - 18:30';
-    const APP_VERSION = 'v0.50.2'.' - '.APP_UPDATE;
+    const APP_UPDATE = '26012025 - 21:05';
+    const APP_VERSION = 'v0.51.0'.' - '.APP_UPDATE;
 
     const APP_YEAR = '2024-2025';
     const APP_AUTHOR = 'A. Kelleter';
