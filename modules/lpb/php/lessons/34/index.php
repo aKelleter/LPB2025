@@ -20,10 +20,10 @@
                 <div class="row">
                     <div class="col-md-1"></div>
                     <div class="col-md-10">                       
-                        <h1 class="mt-5 text-center">Leçon 33 : <span class="color_dark_green">Introduction à la Programmation Orientée Objet (POO) en PHP</span></h1>  
-                        <?= getHtmlSubMenu('32', '34'); ?>   
+                        <h1 class="mt-5 text-center">Leçon 34 : <span class="color_dark_green">Accéder et interroger une base de données en PHP</span></h1>  
+                        <?= getHtmlSubMenu('33', '00'); ?>   
                         
-                        <?= getHtmlBlocWhatCodeDoes(file_get_contents(FILENAME_WCD)); ?>                       
+                        <?= getHtmlBlocWhatCodeDoes(file_get_contents(FILENAME_WCD)); ?>                        
                         <?= getHtmlBlockRessources($ressources); ?>
 
                     </div> <!--col-md-10-->

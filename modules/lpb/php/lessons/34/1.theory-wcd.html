@@ -1,0 +1,159 @@
+<h3>1. Préambule</h3>
+<p>
+    Dans cette leçon, vous apprendrez comment accéder à une base de données et exécuter des requêtes en PHP. Nous utiliserons MariaDB/MySQL comme exemple de base de données et PDO (PHP Data Objects) 
+    pour la connexion et les requêtes.
+</p>
+<h3>2. Prérequis</h3>
+<ul>
+    <li>Un serveur web et PHP installé sur votre système.</li>
+    <li>Un serveur de base de données MariaDB/MySQL actif.</li>
+    <li>Une base de données configurée avec des tables (par exemple, une table users).</li>
+</ul>
+<h3>3. Le code SQL pour créer une base de données 'blog_v1'</h3>
+<textarea class="code-php">
+    CREATE DATABASE blog_v1
+    CHARACTER SET utf8mb4
+    COLLATE utf8mb4_general_ci;
+</textarea>
+<p>
+    Vous pouvez exécuter cette commande dans votre outil de gestion de base de données (par exemple, phpMyAdmin, DBeaver, MySQL Workbench, Navicat, etc.) ou via la ligne de commande MySQL.
+</p>
+<p>
+    <strong>Explication des options</strong> :
+</p>
+<ul>
+    <li><b>CHARACTER SET utf8mb4</b> : Le charset (jeu de caractères) spécifie l'ensemble de caractères utilisable pour stocker des données textuelles dans une table ou une colonne.. <b>utf8mb4</b> est un charset utilisé pour supporter tous les caractères Unicode, y compris les émojis.</li>
+    <li><b>COLLATE utf8mb4_general_ci</b> : La collation définit la manière dont les caractères sont comparés et triés dans une base de données. <b>utf8mb4_general_ci</b> : Insensible à la casse (ci = case-insensitive).</li>
+</ul>
+
+<h3>4. Le code SQL pour créer une table 'users'</h3>
+<textarea class="code-php">
+    CREATE TABLE blog_v1.users (
+    users_id INT AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(100) NOT NULL,
+    prenom VARCHAR(100) NULL,
+    passwd VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+</textarea>
+<p>
+    Vous pouvez exécuter cette commande dans votre outil de gestion de base de données (par exemple, phpMyAdmin, DBeaver, MySQL Workbench, Navicat, etc.) ou via la ligne de commande MySQL.
+</p>
+<p>
+    <strong>Explication des colonnes</strong> :
+</p>
+<ul>
+    <li><b>users_id</b> : Clé primaire auto-incrémentée pour identifier chaque utilisateur de manière unique.</li>
+    <li><b>nom</b> : Le nom de l'utilisateur (maximum 100 caractères, non nul).</li>
+    <li><b>prenom</b> : Le prénom de l'utilisateur (maximum 100 caractères, nul autorisé).</li>
+    <li><b>passwd</b> : Le mot de passe de l'utilisateur (maximum 255 caractères, non nul).</li>
+    <li><b>email</b> : L'adresse e-mail de l'utilisateur (maximum 255 caractères, unique et non nulle).</li>
+    <li><b>created_at</b> : Horodatage automatique pour enregistrer la date et l'heure de création de l'enregistrement.</li>
+</ul>
+
+<h3>5. Le code SQL pour ajouter des utilisateurs</h3>
+<textarea class="code-php">
+    INSERT INTO blog_v1.users (nom, prenom, passwd, email, created_at)
+    VALUES ('Doe', 'John', 'john123', 'jd@mail.com', '2021-09-01 12:00:00'),
+           ('Smith', 'Alice', 'alice123', 'alice@mail.com', '2021-09-02 10:00:00'),
+           ('Brown', 'Bob', 'bob123', 'bob@mail.com', '2021-09-03 08:00:00');
+</textarea>
+<p>
+    Vous pouvez exécuter cette commande dans votre outil de gestion de base de données (par exemple, phpMyAdmin, DBeaver, MySQL Workbench, Navicat, etc.) ou via la ligne de commande MySQL.
+</p>
+<p>
+    <strong>Explication de l'INSERT</strong> :
+</p>
+<ul>
+    <li><b>INSERT INTO blog_v1.users</b> : Insère des enregistrements dans la table 'users' de la base de données 'blog_v1'. Entre parenthèses, les champs mis à jour.</li>
+    <li><b>VALUES</b> : Les valeurs à insérer dans les colonnes de la table. Entre parenthèses, les valeurs des champs.</li>
+</ul>
+
+<h3>6. Configuration de la connexion à la base de données</h3>
+<p>
+    <strong>Code d'exemple pour la connexion</strong> :    
+</p>
+<textarea class="code-php">
+<?php
+    // Informations de connexion
+    $host = 'localhost'; // Adresse du serveur MySQL
+    $dbname = 'votre_base_de_donnees'; // Nom de la base de données
+    $username = 'votre_utilisateur'; // Nom d'utilisateur MySQL
+    $password = 'votre_mot_de_passe'; // Mot de passe MySQL
+    
+    try {
+        // Création d'une instance PDO
+        $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
+        // Configuration des options PDO
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        echo "Connexion à la base de données réussie !";
+    } catch (PDOException $e) {
+        // Gestion des erreurs
+        die("Erreur de connexion : " . $e->getMessage());
+    }
+?>
+</textarea>
+<p>
+    Dans cet exemple : <br>
+    PDO est utilisé pour gérer la connexion. <br>
+    setAttribute permet de configurer le mode d'erreur pour simplifier le débogage. <br>
+</p>
+<ul>
+    <li><b>$host</b> : Adresse du serveur MySQL (localhost si le serveur MySQL est sur la même machine).</li>
+    <li><b>$dbname</b> : Nom de la base de données à laquelle vous souhaitez vous connecter.</li>
+    <li><b>$username</b> : Nom d'utilisateur MySQL.</li>
+    <li><b>$password</b> : Mot de passe MySQL.</li>
+    <li><b>new PDO()</b> : Crée une nouvelle instance de la classe PDO pour établir une connexion à la base de données.</li>
+    <li><b>setAttribute()</b> : Configure le mode d'erreur pour simplifier le débogage. <b>PDO::ERRMODE_EXCEPTION</b> signifie que les erreurs lanceront des exceptions.</li>
+</ul>
+
+<h3>7. Exécuter des requêtes SQL</h3>
+
+<h4>7.1 Requête SELECT (Lecture de données)</h4>
+
+<p>Pour récupérer des données d'une table :</p>
+<textarea class="code-php">
+<?php
+    // Exemple de requête SELECT
+    $sql = "SELECT * FROM users WHERE nom = :nom";
+
+    try {
+        // Préparation de la requête
+        $stmt = $pdo->prepare($sql);
+        
+        // Liaison des paramètres
+        $stmt->bindParam(':nom', $nom);
+        $nom = "Smith";
+
+        // Exécution de la requête
+        $stmt->execute();
+
+        // Récupération des résultats
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        echo "<br>Résultats de la requête : $sql <br>";
+        foreach ($results as $row) {
+            echo "<p>Nom : " . $row['nom'] . ",<br> Prenom : " . $row['prenom'] . ",<br> Email : " . $row['email'] . " </p>";
+        }
+
+    } catch (PDOException $e) {
+        echo "Erreur : " . $e->getMessage();
+    }
+?>
+</textarea>
+<a class="btn btn-primary" href="tests/select.php" target="_blank">Exécuter <b>tests/select.php</b></a>
+
+<p>
+    <strong>Explication de la requête SELECT</strong> :
+</p>
+<ul>
+    <li><b>SELECT * FROM users WHERE nom = :nom</b> : Sélectionne toutes les colonnes de la table 'users' où le champ 'nom' est égal à la valeur de :nom.</li>
+    <li><b>prepare()</b> : Prépare la requête SQL pour l'exécution.</li>
+    <li><b>bindParam()</b> : Lie un paramètre de requête à une variable PHP.</li>
+    <li><b>execute()</b> : Exécute la requête préparée.</li>
+    <li><b>fetchAll(PDO::FETCH_ASSOC)</b> : Récupère toutes les lignes de résultats sous forme de tableau associatif.</li>
+</ul>
+
+    
+

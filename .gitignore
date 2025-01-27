@@ -5,6 +5,7 @@ app/conn.php
 #modules/lpb/php/evals/janvier/correctifs/
 modules/lpb/php/evals/janvier/*.zip
 modules/lpb/php/evals/janvier/*.rar
+modules/lpb/php/evals/album-photo/correctifs/
 
 # Les sources
 _src/
