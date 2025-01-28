@@ -115,7 +115,7 @@
     Pour résoudre ces problèmes, on a inventé les bases de données. Les bases de données sont des logiciels qui permettent de gérer les données de manière structurée, cohérente et persistante.
     On va donc étudier, non pas directement les fichiers qui stockent les données, mais ce que l'on appel les sytèmes de gestion de base de données (<b>SGBD</b>).
 </p>
-<img src="img/acces-sgbd.png" alt="Problèmes d'accès direct aux fichiers" class="mx-auto d-block">
+<img src="img/acces-sgbd.png" alt="Problèmes d'accès direct aux fichiers" width="100%" class="mx-auto d-block">
 
 <p class="mt-4">
     Un <b>SGBD</b> c'est un système qui va entre autre gérer les fichiers de données pour nous.
@@ -137,7 +137,7 @@
     <br>
     Le niveau logique définit la <b class="red">modélisation</b> des données.
 </p>
-<img src="img/sgbd-levels.png" alt="les niveaux d'abstraction" class="mx-auto d-block">
+<img src="img/sgbd-levels.png" alt="les niveaux d'abstraction" width="100%" class="mx-auto d-block">
 <p>
     Dans un <b>SGBD</b> nous avons ce que l'on appel des niveaiux d'abstractions. A partir du moment où nous avons un programme qui gère les données, nous n'avons
     plus besoin de connaître le format des fichiers, on peut s'abastraire de la représentation physique des données, càd de la manière dont elles sont stockées sur le disque.
@@ -154,8 +154,7 @@
 <p>
     Pour manipuler les données, on utilise un langage de requête qui est le <b>SQL</b>. Le SQL permet (mais pas que) de faire des requêtes sur les données, de les modifier, de les supprimer, de les ajouter, etc. 
 </p>
-<img src="img/sgbd-sql.png" alt="Le Language SQL" class="mx-auto d-block">
-<img src="img/sgbd-sql.png" alt="Le Language SQL" class="mx-auto d-block">
+<img src="img/sgbd-sql.png" alt="Le Language SQL"  width="100%" class="mx-auto d-block">
 <p>
     On envoi des commandes sur notre représentation logique (tables) à l'aide du SQL et le serveur va se charger de traduire ces commandes en commandes physiques qui vont être exécutées sur les fichiers de données.
     Ces commandes en plus de la manipulation des données, permettent de définir la structure des données, de définir les contraintes d'intégrité, de définir les contraintes de sécurité, de définir les contraintes de performances, etc.
