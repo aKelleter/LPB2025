@@ -1,6 +1,6 @@
 <?php
 function listDirectories($dir) {
-    
+
     if (is_dir($dir)) {
         if ($dh = opendir($dir)) {
             echo "<ul>";
@@ -31,14 +31,14 @@ $path = './';
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> 
     <link rel="shortcut icon" href="../../assets/img/favicon.ico"> 
     <link href="../../assets/css/styles.css" rel="stylesheet">
-    <title>Sandbox JavaScript</title>
+    <title>Sandbox PHP</title>
 </head>
 <body>
     <div class="container-fluid">
         <div class="row mt-5">                
             <div class="col-md-4"></div>
             <div class="col-md-4">
-                <h1 class="mb-5 text-center">Sandbox JavaScript</h1>
+                <h1 class="mb-5 text-center">Sandbox PHP</h1>
                     <?php listDirectories($path); ?>
             </div>
             <div class="col-md-4"></div>

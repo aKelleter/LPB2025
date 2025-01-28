@@ -29,7 +29,8 @@
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="<?= $_SESSION['R'].MOD.DS.LPB.DS.PHP.DS.'index.php' ?>">Présentation</a></li>
                             <li><a class="dropdown-item" href="<?= $_SESSION['R'].MOD.DS.LPB.DS.PHP.DS.LESS.DS.'index.php' ?>">Les leçons</a></li>                                                                                    
-                            <li><a class="dropdown-item" href="<?= $_SESSION['R'].MOD.DS.LPB.DS.PHP.DS.EVALS.DS.'index.php' ?>">Les évaluations</a></li>                                                                                    
+                            <li><a class="dropdown-item" href="<?= $_SESSION['R'].MOD.DS.LPB.DS.PHP.DS.EVALS.DS.'index.php' ?>">Les évaluations</a></li>     
+                            <li><a class="dropdown-item" href="<?= $_SESSION['R'].SANDBOX.DS.PHP.DS.'index.php' ?>" target="_blank">Sandbox PHP</a></li>                                                                                                                                                                                                                                                                           
                         </ul>
                     </li>         
                     <li class="nav-item dropdown">
@@ -39,8 +40,9 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="<?= $_SESSION['R'].MOD.DS.LPB.DS.JS.DS.'index.php' ?>">Présentation</a></li>
-                            <li><a class="dropdown-item" href="<?= $_SESSION['R'].MOD.DS.LPB.DS.JS.DS.LESS.DS.'index.php' ?>">Les leçons</a></li>                                                                                    
-                            <li><a class="dropdown-item" href="<?= $_SESSION['R'].SANDBOX.DS.JS.DS.'index.php' ?>" target="_blank">Sandbox</a></li>                                                                                    
+                            <li><a class="dropdown-item" href="<?= $_SESSION['R'].MOD.DS.LPB.DS.JS.DS.LESS.DS.'index.php' ?>">Les leçons</a></li>  
+                            <li><a class="dropdown-item" href="<?= $_SESSION['R'].MOD.DS.LDB.DS.JS.DS.EVALS.DS.'index.php' ?>">Les évaluations</a></li>       
+                            <li><a class="dropdown-item" href="<?= $_SESSION['R'].SANDBOX.DS.JS.DS.'index.php' ?>" target="_blank">Sandbox JS</a></li>                                                                                                                                                                                            
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
@@ -62,7 +64,7 @@
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="<?= $_SESSION['R'].MOD.DS.LPB.DS.OTHERS.DS.'index.php' ?>">Accueil</a></li>                            
                             <li><a class="dropdown-item" href="<?= $_SESSION['R'].MOD.DS.LPB.DS.OTHERS.DS.LESS.DS.'index.php' ?>">Les leçons</a></li>
-                            <li><a class="dropdown-item" href="<?= $_SESSION['R'].MOD.DS.LPB.DS.OTHERS.DS.'liens.php' ?>">Liens</a></li>
+                            <li><a class="dropdown-item" href="<?= $_SESSION['R'].MOD.DS.LPB.DS.OTHERS.DS.'liens.php' ?>">Liens</a></li>                            
                         </ul>
                     </li>                           
                 </ul>

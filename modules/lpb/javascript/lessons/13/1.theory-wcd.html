@@ -1,0 +1,209 @@
+<h3>1. Intro</h3>
+<p>
+    Parfois, nous devons effectuer différentes actions en fonction d’une condition.
+    Pour ce faire, nous pouvons utiliser l’instruction if et l’opérateur conditionnel '?'.
+</p>
+
+<h3>2. L'instruction if</h3>
+<p>Exemple : </p>
+<textarea class="code-php">
+    let year = prompt('En quelle année la spécification ECMAScript-2015 a-t-elle été publiée ?', '');
+    if (year == 2015) alert( 'C\'est correct!' );
+</textarea>
+<a class="btn btn-primary" href="tests/intro" target="_blank">Exécuter <b>tests/intro</b></a>
+
+<p>
+    Dans l’exemple ci-dessus, la condition est une vérification d’égalité simple : <b>year == 2015</b>, mais elle peut être beaucoup plus complexe.
+    S’il y a plus d’une instruction à exécuter, nous devons envelopper notre bloc de code entre accolades :
+</p>
+<textarea class="code-php">
+    if (year == 2015) {
+        alert( "C'est correct!" );
+        alert( "Vous êtes le meilleur!" );
+    }
+</textarea>
+<p>
+    Il est recommandé d’entourer votre bloc de code avec des accolades <b>{}</b> à chaque fois avec <b>if</b>, même s’il n’y a qu’une seule instruction. Cela améliore la lisibilité.
+</p>
+
+<h3>3. La conversion booléenne</h3>
+<p>
+    L’instruction <b>if (…)</b> évalue l’expression entre parenthèses et la convertit en type booléen. <br>
+    Rappelons les règles de conversion du chapitre Les conversions de types: <br>
+</p>
+<ul>
+    <li>Une valeur numérique <b>0</b>, une chaîne de caractères vide <b>""</b>, <b>null</b>, <b>undefined</b> et <b>NaN</b> deviennent <b>false</b>.</li>
+    <li>Les <b>autres valeurs</b> deviennent <b>true</b>.</li>
+</ul>
+
+<p>
+    Donc, le code sous cette condition ne sera jamais exécuté :
+</p>
+<textarea class="code-php">
+    if (0) { // 0 est converti en false
+        // ...
+    }
+</textarea>
+
+<p>… Et à l’intérieur de cette condition – il fonctionne toujours :</p>
+<textarea class="code-php">
+    if (1) { // 1 est converti en true
+        // ...
+    }
+</textarea>
+
+<p>Nous pouvons également transmettre une valeur booléenne pré-évaluée à <b>if</b>, comme ici :</p>
+<textarea class="code-php">
+    let cond = (year == 2015); // l'égalité évalue à vrai ou faux
+
+    if (cond) {
+    ...
+    }
+</textarea>
+
+<h3>4. La clause else</h3>
+<p>
+    L’instruction if peut contenir un bloc optionnel else. Il s’exécute lorsque la condition est fausse. <br>
+    Par exemple :
+</p>
+<textarea class="code-php">
+    let year = prompt('En quelle année la spécification ECMAScript-2015 a-t-elle été publiée ?', '');
+
+    if (year == 2015) {
+        alert("Vous l'avez deviné !");
+    } else {
+        alert("Comment pouvez-vous vous tromper à ce point ?"); // toute autre valeur que 2015
+    }
+</textarea>
+<a class="btn btn-primary" href="tests/else" target="_blank">Exécuter <b>tests/else</b></a>
+
+<h3>Plusieurs conditions : “else if”</h3>
+<p>
+    Parfois, nous aimerions tester plusieurs variantes d’une condition. Il y a une clause else if pour cela. <br>
+    Par exemple :
+</p>
+<textarea class="code-php">
+    let year = prompt('En quelle année la spécification ECMAScript-2015 a-t-elle été publiée ?', '');
+
+    if (year < 2015) {
+        alert( 'Trop tôt...' );
+    } else if (year > 2015) {
+        alert( 'Trop tard' );
+    } else {
+        alert( 'Exactement!' );
+    }
+</textarea>
+<a class="btn btn-primary" href="tests/elseif" target="_blank">Exécuter <b>tests/elseif</b></a>
+<p>
+    Dans le code ci-dessus, JavaScript vérifie <b>year < 2015</b>. Si il est faux, il passe à l’année de condition suivante <b>year > 2015</b> et c’est toujours false il passe à la dernière 
+    instruction et affiche la dernière alerte. Il peut y avoir plus de blocs <b>else if</b>. Le <b>dernier else est optionnel</b>.
+</p>
+
+<h3>L'Opérateur ternaire ‘?’</h3>
+<p>
+    Parfois, nous devons attribuer une variable en fonction d’une condition.
+    <b>if() else; </b> est une solution, mais il existe une syntaxe plus courte : l’opérateur conditionnel <b>?</b>.
+</p>
+<p>
+    L’opérateur dit “ternaire” ou “point d’interrogation” nous permet de le faire plus rapidement et plus simplement.
+    L’opérateur est représenté par un point d’interrogation <b>?</b>. Appelé aussi “ternaire” parce que l’opérateur a trois opérandes. 
+    C’est en fait le seul et unique opérateur en JavaScript qui en a autant.
+</p>
+<p>
+    La syntaxe est :
+</p>
+<textarea class="code-php">
+    let result = condition ? value1 : value2;
+</textarea>
+<p>
+    La condition est évaluée, si elle est vraie, alors value1 est retournée, sinon – value2. <br>
+    Par exemple :
+</p>
+<textarea class="code-php">
+    let accessAllowed = (age > 18) ? true : false;
+</textarea>
+<p>
+    Techniquement, nous pouvons omettre les parenthèses autour de age > 18. L’opérateur point d’interrogation a une faible précédence, 
+    il s’exécute donc après la comparaison >. Cet exemple fera la même chose que le précédent :
+</p>
+<textarea class="code-php">
+    // l'opérateur de comparaison "age > 18" s'exécute en premier quoiqu'il en soit
+    // (pas besoin de l'envelopper entre parenthèses)
+    let accessAllowed = age > 18 ? true : false;
+</textarea>
+<p>Mais les parenthèses rendent le code plus lisible, il est donc recommandé de les utiliser.</p>
+
+<h3>7. Plusieurs ‘?’</h3>
+<p>
+    Une séquence d’opérateurs point d’interrogation ? permettent de renvoyer une valeur qui dépend de plusieurs conditions. <br>
+    Par exemple :
+</p>
+<textarea class="code-php">
+    let age = prompt('age?', 18);
+
+    let message = (age < 3) ? 'Hi, baby!' :
+        (age < 18) ? 'Bonjour!' :
+        (age < 100) ? 'Salutations!' :
+        'Quel âge inhabituel !';
+
+    alert( message );
+</textarea>
+<p>
+    Il peut être difficile au début de comprendre ce qui se passe. Mais après un examen plus approfondi, nous constatons que ce n’est qu’une séquence de tests ordinaire. <br>
+    Le premier point d’interrogation vérifie si age < 3. <br> <br>
+    Si vrai – retourne 'Hi, baby!', Sinon, il continue avec l’expression après les deux points “:” suivants et vérifie si age < 18. <br>
+    Si vrai – retourne 'Bonjour!', Sinon, il continue avec l’expression après les deux points “:” suivants et vérifie si age < 100. <br>
+    Si vrai – retourne 'Salutations!', Sinon, l’expression continue après les derniers deux-points et retourne 'Quel âge inhabituel !'. <br>
+    <br>
+    La même logique utilisant if..else :
+</p>
+<textarea class="code-php">
+    let message;
+
+    if (age < 3) {
+        message = 'Hi, baby!';
+    } else if (age < 18) {
+        message = 'Bonjour!';
+    } else if (age < 100) {
+        message = 'Salutations!';
+    } else {
+        message = 'Quel âge inhabituel !';
+    }
+
+    alert( message );
+</textarea>
+
+<h3>Utilisation non traditionnelle de ‘?’</h3>
+<p>
+    Parfois, le point d’interrogation ? est utilisé en remplacement de if :
+</p>
+<textarea class="code-php">
+    let company = prompt('Quelle est la compagnie qui a créé JavaScript?', '');
+
+    (company == 'Netscape') ?
+        alert('Exact!') : alert('Faux.');
+</textarea>
+<p>
+    Selon si la condition <b>company == 'Netscape'</b> est vraie ou non, la première ou la deuxième partie après ? s’exécute et affiche l’alerte correspondante. <br>
+    Nous n’attribuons pas de résultat à une variable ici. L’idée est d’exécuter un code différent en fonction de la condition.
+</p>
+<p>
+    <strong>Il n’est pas recommandé d’utiliser l’opérateur ternaire de cette manière.</strong>
+</p>
+<p>
+    La notation semble être plus courte qu’un <b>if</b>, ce qui plaît à certains programmeurs. Mais c’est moins lisible.
+    Voici le même code avec <b>if</b> pour comparaison :
+</p>
+<textarea class="code-php">
+    let company = prompt('Quelle est la compagnie qui a créé JavaScript?', '');
+
+    if (company == 'Netscape') {
+        alert('Exact!');
+    } else {
+        alert('Faux.');
+    }   
+</textarea>
+<p>
+    Nos yeux scrutent le code verticalement. Les constructions qui couvrent plusieurs lignes sont plus faciles à comprendre qu’un jeu d’instructions horizontal long. <br>
+    L’idée d’un point d’interrogation <b>?</b> est de renvoyer l’une ou l’autre valeur selon la condition. Veuillez l’utiliser pour cela exactement. Il y a <b>if</b> pour exécuter différentes branches du code.
+</p>
