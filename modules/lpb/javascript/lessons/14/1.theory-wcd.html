@@ -1,0 +1,149 @@
+<h3>1. Introduction</h3>
+<p>
+    Il y a trois opérateurs logiques en JavaScript : <b>||</b> (OR), <b>&&</b> (AND), <b>!</b> (NOT), <b>??</b> (Coalescence nulle). Nous couvrons ici les trois premiers, nous aborderons l’opérateur <b>??</b> 
+    dans la leçon suivante. <br> Bien qu’ils soient appelés “logiques”, ils peuvent être appliqués à des valeurs de tout type, pas seulement booléennes. Le résultat peut également être de tout type. <br>
+    Voyons les détails.
+</p>
+
+<h3>2. || (OR)</h3>
+<p>
+    L’opérateur “OR” est représenté avec deux symboles de ligne verticale (pipe) :
+</p>
+<textarea class="code-php">
+    result = a || b;
+</textarea>
+<p>
+    En programmation classique, le OU logique est destiné à manipuler uniquement les valeurs booléennes. Si l’un de ses arguments est true, alors il renvoie true, sinon il renvoie false.
+    En JavaScript, l’opérateur est un peu plus compliqué et puissant. Mais voyons d’abord ce qui se passe avec les valeurs booléennes.
+    Il existe quatre combinaisons logiques possibles :
+</p>
+
+<textarea class="code-php">
+alert( true  || true  ); // true
+alert( false || true  ); // true
+alert( true  || false ); // true
+alert( false || false ); // false
+</textarea>
+<a class="btn btn-primary" href="tests/or-1" target="_blank">Exécuter <b>tests/or-1</b></a>
+<p>
+    Comme on peut le voir, le résultat est toujours <b>true</b> sauf pour le cas où les deux opérandes sont <b>false</b>.
+    Si une opérande n’est pas un booléen, il est converti en booléen pour l’évaluation.
+    Par exemple, un nombre 1 est traité comme true, un nombre 0 – comme false :
+</p>
+<textarea class="code-php">
+    if (1 || 0) { // fonctionne comme si ( true || false ) {
+        alert( 'Vrai!' );
+    }
+</textarea>
+<a class="btn btn-primary" href="tests/or-2" target="_blank">Exécuter <b>tests/or-2</b></a>
+<p>
+    La plupart du temps, <b>OR ||</b> est utilisé dans une instruction <b>if</b> pour tester si l'une des conditions données est correcte. <br>
+    Par exemple :
+</p>
+<textarea class="code-php">
+    let hour = 9;
+
+    if (hour < 10 || hour > 18) {
+        alert( 'Le bureau est fermé.' );
+    }
+</textarea>
+<a class="btn btn-primary" href="tests/or-3" target="_blank">Exécuter <b>tests/or-3</b></a>
+<p>
+    Nous pouvons passer plus de conditions :
+</p>
+<textarea class="code-php">
+    let hour = 12;
+    let isWeekend = true;
+
+    if (hour < 10 || hour > 18 || isWeekend) {
+        alert( 'Le bureau est fermé.' ); // c'est le week-end
+    }
+</textarea>
+<a class="btn btn-primary" href="tests/or-4" target="_blank">Exécuter <b>tests/or-4</b></a>
+
+<h3>3. OR "||" cherche la première valeur vraie</h3>
+<p>
+    La logique décrite ci-dessus est quelque peu classique. Maintenant, apportons les fonctionnalités “supplémentaires” de JavaScript. <br>
+    L’algorithme étendu fonctionne comme suit.  <br>
+    En cas de multiples valeurs liées par OR :
+</p>
+<textarea class="code-php">
+    result = value1 || value2 || value3;
+</textarea>
+<p>
+    L’opérateur OR <b>||</b> fait ce qui suit : <br>
+    <ul>
+        <li>Évalue les opérandes de gauche à droite.</li>
+        <li>Pour chaque opérande, il le convertit en booléen. Si le résultat est true, arrêt et retour de la valeur d’origine de cet opérande.</li>
+        <li>Si tous les autres opérandes ont été évalués (c’est-à-dire que tous étaient <b>false</b>), retour du dernier opérande.</li>
+    </ul>    
+    Une valeur est renvoyée sous sa forme d’origine, sans conversion. <br>
+    En d’autres termes, une chaîne de OR <b>||</b> renvoie la première valeur <b>true</b> ou la dernière valeur si aucune valeur true n’a été trouvée. <br>
+    Par exemple :
+</p>
+<textarea class="code-php">
+    alert( 1 || 0 ); // 1 (1 est vrai)
+    alert( true || 'quoi qu\'il arrive' ); // (true est vrai)
+    alert( null || 1 ); // 1 (1 est la première valeur vraie)
+    alert( null || 0 || 1 ); // 1 (la première valeur vraie)
+    alert( undefined || null || 0 ); // 0 (toutes les valeurs sont fausses, donc la dernière est renvoyée)
+</textarea>
+<a class="btn btn-primary" href="tests/or-5" target="_blank">Exécuter <b>tests/or-5</b></a>
+<p class="mt-4">
+    Cela conduit à des usages intéressants par rapport à un “OR pur, classique, booléen uniquement”. 
+</p>
+<ol>
+    <li><strong>Obtenir la première valeur vraie parmi une liste de variables ou d’expressions</strong>.</li>
+    <p>
+        Par exemple, nous avons les variables <b>firstName</b>, <b>lastName</b> et <b>nickName</b>, toutes optionnelles (c’est-à-dire peut être indéfini ou avoir des valeurs fausses).
+        Utilisons OR <b>||</b> pour choisir celui qui contient les données et l’afficher (ou <b>Anonymous</b> si rien n’est défini) :
+    </p>
+    <textarea class="code-php">
+        let firstName = "";
+        let lastName = "";
+        let nickName = "SuperCoder";
+
+        alert( firstName || lastName || nickName || "Anonymous"); // SuperCoder
+    </textarea>
+    <a class="btn btn-primary" href="tests/or-6" target="_blank">Exécuter <b>tests/or-6</b></a>
+
+    <p>Si toutes les variables étaient fausses, ce serait "Anonymous" qui apparaîtrait.</p>
+
+    <li><strong>Évaluation des courts-circuits</strong>.</li>
+    <p>
+        Une autre caractéristique de l’opérateur OR <b>||</b> est l’évaluation dite de “court-circuit”. <br>
+        Cela signifie que <b>||</b> traite ses arguments jusqu’à ce que la première valeur de vérité soit atteinte, puis la valeur est renvoyée immédiatement, sans même toucher l’autre argument. <br>
+        L’importance de cette fonctionnalité devient évidente si un opérande n’est pas seulement une valeur, mais une expression avec un effet secondaire, comme une affectation de variable ou un appel de fonction. <br>
+        Dans l’exemple ci-dessous, seul le deuxième message est affiché :
+    </p>
+    <textarea class="code-php">
+        true || alert("Pas affiché");
+        false || alert("Affiché");
+    </textarea>
+    <a class="btn btn-primary" href="tests/or-7" target="_blank">Exécuter <b>tests/or-7</b></a>
+    <p>
+        Dans la première ligne, l’opérateur OR <b>||</b> arrête l’évaluation immédiatement après avoir vu true, de sorte que alert n’est pas exécuté. <br>
+        Parfois, les gens utilisent cette fonctionnalité pour exécuter des commandes uniquement si la condition sur la partie gauche est fausse.    
+    </p>
+</ol>
+
+<h3>4. && (AND)</h3>
+<p>
+    L’opérateur <b>AND</b> est représenté avec deux esperluettes <b>&&</b> :
+</p>
+<textarea class="code-php">
+    result = a && b;
+</textarea>
+<p>
+    En programmation classique, <b>AND</b> retourne true <b>si les deux opérandes</b>b> sont <b>true</b> et false dans les autres cas :
+</p>
+
+
+    
+
+   
+
+
+
+
+
