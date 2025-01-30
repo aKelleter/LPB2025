@@ -137,13 +137,142 @@ alert( false || false ); // false
 <p>
     En programmation classique, <b>AND</b> retourne true <b>si les deux opérandes</b>b> sont <b>true</b> et false dans les autres cas :
 </p>
+<textarea class="code-php">
+    alert( true && true ); // true
+    alert( false && true ); // false
+    alert( true && false ); // false
+    alert( false && false ); // false
+</textarea>
 
+<p class="mt-4">Un exemple avec <b>if</b> </p>
+<textarea class="code-php">
+    let hour = 12;
+    let minute = 30;
 
+    if (hour == 12 && minute == 30) {
+        alert( 'L’heure est 12:30' );
+    }
+</textarea>
+
+<p class="mt-4">Tout comme pour OR, toute valeur est autorisée en tant qu’opérande de AND :</p>
+<textarea class="code-php">
+    if (1 && 0) { // évalué comme true && false => donc false
+        alert( "Ne marchera pas, car le résultat est faux" );
+    }else{
+        alert( "Else : Le résultat est faux on passe dans le else" );
+    }
+</textarea>
+<a class="btn btn-primary" href="tests/and-1" target="_blank">Exécuter <b>tests/and-1</b></a>
+
+<h3>5. AND “&&” cherche la première valeur fausse</h3>
+<p>En cas de multiples valeurs liées par AND :</p>
+<textarea class="code-php">
+    result = value1 && value2 && value3;
+</textarea>
+<p>
+    L’opérateur AND && effectue les opérations suivantes :
+</p>
+<ul>
+    <li>Évalue les opérandes de gauche à droite.</li>
+    <li>Pour chaque opérande, il le convertit en booléen. Si le résultat est false, arrêtez et retournez la valeur d’origine de cet opérande.</li>
+    <li>Si tous les autres opérandes ont été évalués (c’est-à-dire tous étaient vrais), retournez le dernier opérande.</li>
+</ul>
+<p>
+    En d’autres termes, une chaîne de AND <b>&&</b> renvoie la <b>première valeur false</b> ou la dernière valeur si aucune valeur <b>false</b> n’a été trouvée.
+    Les règles ci-dessus sont similaires à OR. La différence est que AND retourne la première valeur false tandis que OR renvoie la première valeur true.    
+    Exemples :
+</p>
+<textarea class="code-php">
+    // Si le premier opérande est vrai,
+    // AND retourne le second opérande :
+    alert( 1 && 0 ); // 0
+    alert( 1 && 5 ); // 5
     
+    // si le premier opérande est faux,
+    // AND le retourne. Le deuxième opérande est ignoré
+    alert( null && 5 ); // null
+    alert( 0 && "Bazinga" ); // 0
+</textarea>
+<a class="btn btn-primary" href="tests/and-2" target="_blank">Exécuter <b>tests/and-2</b></a>
 
-   
+<p class="mt-4">Nous pouvons également transmettre plusieurs valeurs à la suite sur une même ligne. Voyez comment le premier faux est retourné :</p>
+<textarea class="code-php">
+    alert( 1 && 2 && null && 3 ); // null
+</textarea>
 
+<p class="mt-4">Lorsque toutes les valeurs sont vraies, la dernière valeur est renvoyée :</p>
+<textarea class="code-php">
+    alert( 1 && 2 && 3 ); // 3, la dernière valeur
+</textarea>
 
+<div class="alert alert-info mt-5">  
+    <strong>[X] Information</strong> <br>
+    <hr class="mb-3">
+    La <b>précédence</b> de <b>AND && est supérieure à OR ||</b> <br>
+    La priorité de l’opérateur AND && est supérieure à OR ||. <br>
+    Donc, le code <b>a && b || c && d</b> est essentiellement le même que si <b>&&</b> était entre parenthèses: <b>(a && b) || (c && d)</b>.
+</div>
 
+<div class="alert alert-danger mt-5">  
+    <strong>/!\ Danger</strong> <br>
+    <hr class="mb-3">
+    <strong>Ne remplacez pas if par || ou && !</strong> <br>
+    Parfois, les gens utilisent l’opérateur AND <b>&&</b> comme “plus court pour écrire <b>if</b>”. <br>
+    Par exemple : <br>
+    <textarea class="code-php">
+        let x = 1;
+        (x > 0) && alert( 'Supérieur à zéro!' );
+    </textarea>
+    <p>
+        L’action dans la partie droite de <b>&&</b> ne s’exécutera que si l’évaluation lui parvient. C’est-à-dire que seulement si <b>(x > 0)</b> est vrai.
+        Donc, nous avons une analogie pour : <br>
+    </p>
+    <textarea class="code-php">
+        let x = 1;
+        if (x > 0) alert( 'Supérieur à zéro!' );
+    </textarea>
+    <p>
+        Bien que la variante avec <b>&&</b> semble plus courte, <b>if</b> est plus évident et a tendance à être un peu plus lisible. <br>
+        Nous recommandons donc d’utiliser chaque construction dans son but : utilisez <b>if</b> si nous voulons <b>if</b> et utilisez <b>&&</b> si nous voulons <b>ET</b>.
+    </p>
+</div>
 
+<h3>5. ! (NOT)</h3>
+<p>
+    L’opérateur booléen NOT est représenté par un point d’exclamation !. <br>
+    La syntaxe est assez simple :
+</p>
+<textarea class="code-php">
+    result = !value;
+</textarea>
+<p class="mt-4">
+    L’opérateur accepte un seul argument et effectue les opérations suivantes : <br>
+</p>
+<ul>
+    <li>Convertit l’opérande en type booléen : true/false.</li>
+    <li>Renvoie la valeur inverse.</li> 
+</ul>
+<p>
+    Par exemple :
+</p>
+<textarea class="code-php">
+    alert( !true ); // false
+    alert( !0 ); // true
+</textarea>
 
+<p class="mt-4">Un double NOT <b>!!</b> est parfois utilisé pour convertir une valeur en type booléen :</p>
+<textarea class="code-php">
+    alert( !!"non-empty string" ); // true
+    alert( !!null ); // false
+</textarea>
+<p class="mt-4">
+    Autrement dit, le premier <b>NOT</b> convertit la valeur en booléen et retourne l’inverse, et que le second <b>NOT</b> l’inverse encore. À la fin, nous avons une conversion valeur à booléen simple.
+    Il existe un moyen un peu plus verbeux de faire la même chose – une fonction Boolean intégrée :
+</p>
+<textarea class="code-php">
+    alert( Boolean("non-empty string") ); // true
+    alert( Boolean(null) ); // false
+</textarea>
+<div class="alert alert-info mt-5">
+    <strong>La précédence de NOT ! est la plus élevée de tous les <b class="red">opérateurs binaire</b>, il est donc toujours exécuté en premier, avant les autres.</strong>
+</div>

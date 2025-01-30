@@ -20,10 +20,10 @@
                 <div class="row">
                     <div class="col-md-1"></div>
                     <div class="col-md-10">                       
-                        <h1 class="mt-5 text-center">Leçon 14 : <span class="color_dark_green">Les opérateurs logiques</span></h1>  
-                        <?= getHtmlSubMenu('13', '15', JS); ?> 
+                        <h1 class="mt-5 text-center">Leçon 15 : <span class="color_dark_green">L'opérateur de coalescence des nuls '??'</span></h1>  
+                        <?= getHtmlSubMenu('14', '16', JS); ?> 
                         
-                        <?= getHtmlBlocWhatCodeDoes(file_get_contents(FILENAME_WCD)); ?>                                               
+                        <?= getHtmlBlocWhatCodeDoes(file_get_contents(FILENAME_WCD)); ?>                       
 
                     </div> <!--col-md-10-->
                     <div class="col-md-1"></div>
