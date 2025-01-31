@@ -252,7 +252,7 @@ a.link{
 }
 
 .btn-primary:hover {
-    background-color: var(--color-light-lime);
+    background-color: var(--color-light-turquoise);
     border-color: var(--color-lime-jade);
     color: var(--color-light-red);    
 }

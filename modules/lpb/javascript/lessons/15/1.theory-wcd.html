@@ -1,9 +1,177 @@
-<div class="alert alert-danger mt-5">  
-    <strong>/!\ Un ajout récent</strong> <br>
-    <hr class="mb-3">
-    Ceci est un ajout récent au language. Les anciens navigateurs peuvent nécessiter des <a href="https://developer.mozilla.org/fr/docs/Glossary/Polyfill">polyfills</a>. 
-</div>
 <h3>1. Présentation</h3>
 <p>
-    
+    L’opérateur de coalescence des nuls est écrit sous la forme de deux points d’interrogation <b>??</b>. <br>
+    Comme il traite <b>null</b> et <b>undefined</b> de la même manière, nous utiliserons un terme spécial ici, dans cette leçon. 
+    Par souci de brièveté, nous dirons qu’une expression est “définie” lorsqu’elle n’est ni <b>null</b> ni <b>undefined</b>. <br>
 </p>
+Le résultat de <b>a ?? b</b> est : <br>
+<ul>
+    <li>si a est défini, alors a, </li>
+    <li>si a n’est pas défini, alors b</li>
+</ul>
+<p>
+    En d’autres termes, <b>??</b> renvoie le premier argument s’il n’est pas <b>null/undefined</b>. Sinon, le second. <br>
+    L’opérateur de coalescence des nuls est simplement une "belle" syntaxe pour obtenir la première valeur “définie” des deux. <br>
+    Nous pouvons réécrire <b>result = a ?? b</b> en utilisant les opérateurs que nous connaissons déjà, comme ceci : <br>
+</p>
+<textarea class="code-php">
+    result = (a !== null && a !== undefined) ? a : b; // écriture ternaire
+</textarea>
+<p class="mt-4">
+    Maintenant, il devrait être absolument clair ce que fait <b>??</b>. Voyons où cela aide. <br>
+    Le cas d’utilisation courant de <b>??</b> est de fournir une valeur par défaut. <br>    
+    Dans l'exemple ci-dessous, nous affichons ici <b>user</b> si sa valeur n’est pas <b>null/undefined</b>, sinon <b>Anonymous</b> :    
+</p>
+<textarea class="code-php">
+    let user;
+    alert(user ?? "Anonymous"); // Anonymous (user is undefined)
+</textarea>
+<p class="mt-4">
+    Voici un exemple avec un nom attribué à user :
+</p>
+<textarea class="code-php">
+    let user = "John";
+    alert(user ?? "Anonymous"); // John (user n'est pas null/undefined)
+</textarea>
+
+<p class="mt-4">
+    Nous pouvons également utiliser une séquence de <b>??</b> pour sélectionner la première valeur dans une liste qui n’est pas null/undefined.
+    Admettons que nous ayons les données d’un utilisateur dans les variables <b>firstName</b>, <b>lastName</b> ou <b>nickName</b>.
+    Tous peuvent être indéfinis, si l’utilisateur décide de ne pas entrer de valeurs correspondantes.
+    Nous aimerions afficher le nom d’utilisateur à l’aide de l’une de ces variables, ou afficher “Anonyme” si toutes sont null/undefined.
+    Utilisons l’opérateur <b>??</b> pour cela :
+</p>
+<textarea class="code-php">
+    let firstName = null;
+    let lastName = null;
+    let nickName = "SuperCoder";
+    // affiche la première valeur définie :
+    alert(firstName ?? lastName ?? nickName ?? "Anonymous"); // SuperCoder
+</textarea>
+<a class="btn btn-primary" href="tests/coa-1" target="_blank">Exécuter <b>tests/coa-1</b></a>
+
+
+<h3>2. Comparaison avec ||</h3>
+<p>
+    L’opérateur OR <b>||</b> peut être utilisé de la même manière que <b>??</b>, comme il a été décrit dans la <a href="../14/index.php">leçon précédente</a>. <br>
+    Par exemple, dans le code ci-dessus, nous pourrions remplacer <b>??</b> par <b>||</b> et toujours obtenir le même résultat :    
+</p>
+<textarea class="code-php">
+    let firstName = null;
+    let lastName = null;
+    let nickName = "SuperCoder";
+    // affiche la première valeur définie :
+    alert(firstName || lastName || nickName || "Anonymous"); // SuperCoder
+</textarea>
+<a class="btn btn-primary" href="tests/coa-2" target="_blank">Exécuter <b>tests/coa-2</b></a>
+
+<p class="mt-4">
+    Historiquement, l’opérateur OR <b>||</b> était là en premier. Il existe depuis le début de JavaScript, donc les développeurs l’utilisaient à de telles fins depuis longtemps.
+    D’un autre côté, l’opérateur de coalescence des nuls <b>??</b> a été ajouté à JavaScript par après (2019/2020), et la raison en était que les gens n’étaient pas tout à fait satisfaits de <b>||</b>.
+    La différence importante entre eux est que :
+</p>
+<ul>
+    <li><b>||</b> renvoie la première valeur vraie.</li>
+    <li><b>??</b> renvoie la première valeur définie.</li>
+</ul>
+<p>
+    En d’autres termes, <b>||</b> ne fait pas la distinction entre <b>false</b>, <b>0</b>, une chaîne vide <b>" "</b> et <b>null/undefined</b>.
+    Ce sont toutes des valeurs fausses. Si l’un de ceux-ci est le premier argument de <b>||</b>, alors nous obtiendrons le deuxième argument comme résultat.
+
+    Dans la pratique cependant, nous pouvons vouloir utiliser la valeur par défaut uniquement lorsque la variable est null/undefined. Autrement dit, lorsque la valeur est vraiment inconnue ou non définie.
+    Par exemple, considérez ceci :
+</p>
+<textarea class="code-php">
+    let height = 0;
+
+    alert(height || 100); // 100
+    alert(height ?? 100); // 0
+</textarea>
+<a class="btn btn-primary" href="tests/coa-3" target="_blank">Exécuter <b>tests/coa-3</b></a>
+
+<p class="mt-4">    
+    L’expression <b>height || 100</b> vérifie que <b>height</b> est une valeur fausse, et c’est <b>0</b>, elle est fausse en effet. <br>
+    -----> donc le résultat de <b>||</b> est le deuxième argument, <b>100</b>. <br>
+    L’expression <b>height ?? 100</b> vérifie que <b>height</b> est <b>null/undefined</b>, et ce n’est pas le cas, <br>
+    -----> donc le résultat est <b>height</b>, “sa valeur”, c’est-à-dire <b>0</b>. <br>
+
+En pratique, la hauteur = zéro est souvent une valeur valide, qui ne doit pas être remplacée par la valeur par défaut. <br>
+<strong>Alors <b>??</b> fait ce qu’il faut.</strong> :)
+</p>
+
+<h3>3. Priorité</h3>
+<p>
+    La priorité de l’opérateur <b>??</b> est la même que celle de <b>||</b>. Elle est égale à <b>4</b> dans le <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence#Table" target="_blank">tableau MDN</a>.
+</p>
+<p>
+    Cela signifie que, tout comme <b>||</b>, l’opérateur de coalescence des nuls <b>??</b> est évalué avant <b>=</b> et <b>?</b>, mais après la plupart des autres opérations, telles que <b>+</b>, <b>*</b>.
+    Nous devrons donc peut-être ajouter des parenthèses dans des expressions comme celle-ci :
+</p>
+<textarea class="code-php">
+    let height = null;
+    let width = null;
+
+    // important : utilisez des parenthèses
+    let area = (height ?? 100) * (width ?? 50);
+
+    alert(area); // 5000
+</textarea>
+<a class="btn btn-primary" href="tests/coa-4" target="_blank">Exécuter <b>tests/coa-4</b></a>
+
+<p class="mt-4">
+    Sinon, si nous omettons les parenthèses, alors que <b>*</b> a une priorité plus élevée que <b>??</b>, il s’exécuterait en premier, conduisant à des résultats incorrects.
+</p>
+<textarea class="code-php">
+    let height = null;
+    let width = null;
+
+    // sans parenthèses
+    let area = height ?? 100 * width ?? 50;
+
+    // ...fonctionne de cette façon (pas ce que nous voulons) :
+    //let area = height ?? (100 * width) ?? 50;
+
+    alert(area); // 0, mais devrait être 5000    
+</textarea>
+<a class="btn btn-primary" href="tests/coa-5" target="_blank">Exécuter <b>tests/coa-5</b></a>
+
+<h3>4. En utilisant ?? avec && ou ||</h3>
+<p>
+    Pour des raisons de sécurité, JavaScript interdit d’utiliser <b>??</b> avec les opérateurs <b>&&</b> et <b>||</b>, à moins que la priorité ne soit explicitement spécifiée entre parenthèses. <br>
+    Le code ci-dessous déclenche une erreur de syntaxe :
+</p>
+<textarea class="code-php">
+    let x = 1 && 2 ?? 3; // Syntax error
+</textarea>
+<a class="btn btn-primary" href="tests/coa-6" target="_blank">Exécuter <b>tests/coa-6</b></a>
+<p>
+    La limitation est sûrement discutable, mais elle a été ajoutée à la spécification du langage dans le but d’éviter les erreurs de programmation, quand les gens commencent à passer de <b>||</b> à <b>??</b>.
+    Utilisez des parenthèses explicites pour la contourner :
+</p>
+<textarea class="code-php">
+    let x = (1 && 2) ?? 3; // fonctionne
+    alert(x); // 2
+</textarea>
+<a class="btn btn-primary" href="tests/coa-7" target="_blank">Exécuter <b>tests/coa-7</b></a>
+
+<h3>5. Résumé</h3>
+<ul>
+    <li>
+        L’opérateur de coalescence des nuls <b>??</b> fournit un moyen court de choisir une valeur “définie” à partir d’une liste.
+        Il est utilisé pour attribuer des valeurs par défaut aux variables :
+        <textarea class="code-php">
+            // configurer height = 100, si height est null ou undefined
+            height = height ?? 100;
+        </textarea>
+    </li>
+    <li>
+        L’opérateur <b>??</b> a une priorité très faible, un peu plus élevée que <b>?</b> et <b>=</b>, pensez donc à ajouter des parenthèses lors de son utilisation dans une expression.
+    </li>
+    <li>
+        Il est interdit de l’utiliser avec <b>||</b> ou <b>&&</b> sans parenthèses explicites.
+    </li>
+</ul>
+    
+
+
+
