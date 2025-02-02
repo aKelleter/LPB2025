@@ -1,0 +1,77 @@
+<h3>Sommaire</h3>
+<ol>
+    <li><a href="#preambule">Introduction</a></li>
+    <li><a href="#connexion">Se connecter au serveur SGBD MySQL/MariaDB</a></li>
+    <li><a href="#creer">Création d'une base de données</a></li>
+</ol>
+
+<h3 id="preambule">1. Introduction</h3>
+<p>
+    Utiliser le terminal pour créer une base de données et une table. C'est une bonne pratique pour comprendre comment fonctionne un SGBD. Cela permet de mieux appréhender les outils graphiques que 
+    sont les interfaces utilisateurs pour les SGBD et cela permet également de comprendre les commandes SQL qui sont à la base de la gestion des bases de données.
+</p>
+
+<h3 id="connexion">2. Se connecter su serveur SGBD MySQL/MariaDB</h3>
+<p>
+    Pour se connecter au serveur SGBD, il suffit de taper la commande suivante dans le terminal :
+</p>
+<textarea class="code-php">
+    mysql -u root -p
+</textarea>
+<p>
+    Cette commande permet de se connecter au serveur SGBD en tant qu'utilisateur <b>root</b> et de demander le mot de passe associé à cet utilisateur. 
+    Une fois le mot de passe saisi, vous devriez voir un message de bienvenue de la part du serveur SGBD.
+</p>
+<img src="img/terminal-connexion.png" alt="terminal : connexion au SGBD" class="mx-auto d-block">
+<p>
+    Si vous devez vous connecter sur un port différent de celui par défaut (3306), vous pouvez ajouter l'option <b>--port</b> ou <b>-P</b> suivi du numéro du port. 
+    Par exemple, pour se connecter sur le port 3307, vous pouvez utiliser la commande suivante :
+    </p>
+    <textarea class="code-php">
+        mysql -u root -p -P 3307
+    </textarea>
+    <p>
+</p>
+<img src="img/terminal-connexion-port.png" alt="terminal : connexion au SGBD avec un port différent" class="mx-auto d-block">
+
+<h3 id="creer">3. Création d'une base de données</h3>
+<p>
+    Pour créer une nouvelle base de données, utilisez la commande suivante :
+</p>
+<textarea class="code-php">
+    CREATE DATABASE nom_de_la_base_de_donnees;
+</textarea>
+<p class="mt-4">
+    Par exemple, pour créer une base de données nommée magasin :
+</p>
+<textarea class="code-php">
+    CREATE DATABASE magasin;
+</textarea>
+<p class="mt-4">
+    Vous pouvez (...devriez) spécifier le jeu de caractères et la collation lors de la création :
+</p>
+<textarea class="code-php">
+    CREATE DATABASE magasin CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+</textarea>
+<p class="mt-4">
+    Cela garantit que la base utilise le bon encodage pour stocker les caractères spéciaux et optimise l'ordre de tri. <br>
+    Vous pouvez vérifier si la base a bien été créée avec :
+</p>
+<p>
+    Le jeu de caractères et la collation par défaut de MariaDB sont définis dans le fichier de configuration my.cnf (ou mariadb.cnf selon le système). 
+    Pour les configurer globalement, modifiez ou ajoutez les lignes suivantes sous la section [mysqld] :    
+</p>
+<textarea class="code-php">
+    [mysqld]
+    character-set-server=utf8mb4
+    collation-server=utf8mb4_unicode_ci
+</textarea>
+<p class="mt-4">
+    Pour vérifier si la base de données a bien été créée, vous pouvez utiliser la commande suivante : <br>   
+</p>
+<textarea class="code-php">
+    SHOW DATABASES;
+</textarea>
+<p class="mt-4">    
+    Cette commande permet d'afficher la liste des bases de données présentes sur le serveur SGBD.
+</p>

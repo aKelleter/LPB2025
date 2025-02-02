@@ -20,10 +20,9 @@
                 <div class="row">
                     <div class="col-md-1"></div>
                     <div class="col-md-10">                       
-                        <h1 class="mt-5 text-center">Leçon 05 : <span class="color_dark_green">Xampp & Mysql : mise en route et vérifications.</span></h1>  
-                        <?= getHtmlSubMenuLDB('04', '06'); ?>   
+                        <h1 class="mt-5 text-center">Leçon 06 : <span class="color_dark_green">Utiliser le terminal pour créer une base de données et une table et ajouter des données.</span></h1>  
+                        <?= getHtmlSubMenuLDB('05', '07'); ?>   
                         <?= getHtmlBlocWhatCodeDoes(file_get_contents(FILENAME_WCD)); ?>                       
-                        
                     </div> <!--col-md-10-->
                     <div class="col-md-1"></div>
                 </div>
