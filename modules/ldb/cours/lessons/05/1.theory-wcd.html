@@ -1,0 +1,59 @@
+<h3>Sommaire</h3>
+<ol>
+    <li><a href="#preambule">Introduction</a></li>
+    <li><a href="#check">Vérification de l'installation</a></li>
+</ol>
+
+<h3 id="preambule">1. Introduction</h3>
+<p>
+    Au début du module LPB nous avons installé sur nos machines un <b>serveur web (Apache)</b>, un <b>serveur de base de données</b> (MariaDB) et un <b>serveur PHP</b> 
+    en installant le logiciel <b><a href="https://www.apachefriends.org/fr/index.html">XAMPP</a></b>. Cet outil a également installé un outil de gestion de base de données 
+    de type "web based" nommé <b><a href="https://www.phpmyadmin.net/">phpMyAdmin</a></b>. Nous ajouterons un autre outil de gestion de base de données de type "desktop application" 
+    nommé <b><a href="https://dbeaver.io/">DBeaver</a></b> ou <b>Mysql Workbench</b> pour celles et ceux qui le préfèrent. Mais ce cours ne traitera que de 
+    <b><a href="https://dbeaver.io/">DBeaver</a></b>.
+</p>
+<p>
+    Un petit mot sur <b>DBeaver</b>. C'est un outil de gestion de base de données universel et gratuit qui prend en charge la plupart des bases de données relationnelles telles que <b>MySQL</b>, 
+    <b>MariaDB</b>, <b>PostgreSQL</b>, <b>SQLite</b>, etc. Il est basé sur <b>Eclipse</b> et est disponible sous licence publique générale GNU.
+</p>
+
+<h4>Installation de DBeaver</h4>
+<p>
+    Pour installer <b>DBeaver</b>, il suffit de se rendre sur le site officiel de l'application <a href="https://dbeaver.io/download/">https://dbeaver.io/download/</a> et de télécharger 
+    la version correspondant à votre système d'exploitation. Pour les utilisateurs de Windows, il suffit de télécharger le fichier <b>.exe</b> et de l'exécuter. Pour les utilisateurs 
+    MacOS, il suffit de télécharger le fichier <b>.dmg</b> et de l'installer. Pour les utilisateurs de Linux, il suffit de télécharger le fichier <b>.deb</b> ou <b>.rpm</b> 
+</p>
+<p>
+    Maintenant que nous avons installé tous les outils graphiques nécessaires pour gérer nos bases de données, nous allons voir comment créer une base de données et une table  en utilisant
+    le terminal de votre système d'exploitation. :D <br>
+    Ensuite, nous verrons comment faire la même chose en utilisant <b>phpMyAdmin</b>  et ainsi qu'un logiciel graphique tel que <b>DBeaver</b>. 
+    Vous aurez ainsi une idée de la manière dont les bases de données sont gérées à travers différents outils.
+</p>
+
+<h3 id="check">2. Vérification de l'installation et du bon fonctionnement du système SGBD installé sur votre ordinateur</h3>
+<p>
+    Pour se faire lancer le programme <b>XAMPP</b> : 
+</p>
+<ul>
+    <li>Sur <b>Windows</b>, cliquez sur le raccourci sur le bureau ou dans le menu démarrer</li>
+    <li>
+        Sur <b>MacOS</b>, ouvrez le <b>launchpad</b>, rechercher <b>manager-osx</b> et lancer l'application ou encore à l'aide du terminal, tapez <code>sudo /Applications/XAMPP/xamppfiles/xampp start</code>
+        ou pour terminer lancer l'application <b>XAMPP</b> dans le dossier <b>Applications</b></li>
+    <li>Sur <b>Linux</b>, ouvrez le terminal et tapez <code>sudo /opt/lampp/lampp start</code></li>
+</ul>
+<img src="img/xampp-1.png" alt="interface serveurs xampp" class="mx-auto d-block">
+<p>
+    Une fois le programme lancé, vous devriez voir une interface ressemblant à celle ci-dessus. Cliquez sur le bouton <b>Start</b> pour démarrer les serveurs <b>Apache</b> et <b>MySQL</b>. 
+    Si tout se passe bien, vous devriez voir les deux serveurs démarrés comme sur l'image ci-dessous.   
+</p>
+<p>
+    Si besoin est vous pouvez modifier les ports sur lesquels les serveurs écouteront les requêtes. Pour ce faire, cliquez sur le bouton <b>Config</b> et sélectionnez <b>Port</b>.
+    Par défaut, <b>Apache</b> écoute sur le port <b>80</b> et <b>MySQL</b> sur le port <b>3306</b>. Vous pouvez les modifier si vous avez des conflits avec d'autres applications.
+</p>
+<p>
+    Si les témoins à côté des serveurs sont de couleurs vertes, c'est que ces derniers ont démarré sans encombre. Dans le cas contraire, il faut chercher la raison pour laquelle 
+    les serveurs n'ont pas démarré correctement.
+</p>
+<p>
+    Si tout est en ordre, nous pouvons passer à la suite. :D
+</p>
