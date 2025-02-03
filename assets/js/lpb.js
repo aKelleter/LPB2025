@@ -50,8 +50,8 @@ function initCodeMirror(classes, modes)
           undoDepth: 200            
         });
         cdmr.setSize("100%", "100%") // Width, Height of editor 
-        console.log("id : " + id + " not found");
-        console.log("mode : " + modes + " not found");
+        //console.log("id : " + id + " not found");
+        //console.log("mode : " + modes + " not found");
       }
   } else {
       //DEBUG// 
