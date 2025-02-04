@@ -20,8 +20,8 @@
                 <div class="row">
                     <div class="col-md-1"></div>
                     <div class="col-md-10">                       
-                        <h1 class="mt-5 text-center">Leçon 06 : <span class="color_dark_green">Utiliser le terminal pour créer une base de données.</span></h1>  
-                        <?= getHtmlSubMenuLDB('05', '07'); ?>   
+                        <h1 class="mt-5 text-center">Leçon 07 : <span class="color_dark_green">Utiliser le terminal pour créer un utilisateur, une table et des données</span></h1>  
+                        <?= getHtmlSubMenuLDB('06', '08'); ?>   
                         <?= getHtmlBlocWhatCodeDoes(file_get_contents(FILENAME_WCD)); ?>                       
                     </div> <!--col-md-10-->
                     <div class="col-md-1"></div>

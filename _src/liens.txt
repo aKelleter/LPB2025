@@ -6,3 +6,7 @@ JAVASCRIPT
 ----------
 hoisting
 https://code-garage.fr/blog/qu-est-ce-que-le-hoisting-en-javascript/
+
+LDB
+---
+https://www.scaler.com/topics/mysql-flush-privileges/

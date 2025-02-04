@@ -1,0 +1,81 @@
+<h3 id="intro">1. Introduction</h3>
+<p>
+    Nous avons récemment travaillé sur un projet qui consiste en une application web, développée en PHP pour gérer des photos et des albums photos.
+    Cette application permet à un utilisateur de se connecter, de créer des albums, d'ajouter des photos à ses albums, de les modifier et de les supprimer.
+    Nous pouvons également ajouter la possibilité de taguer les photos avec des mots-clés pour les organiser.
+</p>
+<p>
+    Pour faire évoluer notre application et l'améliorer, nous allons lui adjoindre une base de données pour stocker les données des utilisateurs, 
+    des albums et des photos et éventuellement des tags. Nous allons également étudier les requêtes SQL pour effectuer des opérations sur ces données.
+</p>
+<p>
+    Pour stocker les données de notre galerie de photos, nous allons utiliser une base de données. Nous allons créer une base de données 
+    <code>galerie_photos</code> contenant plusieurs tables :
+
+    <ul>
+        <li>La table <code>utilisateurs</code> pour stocker les informations des utilisateurs (nom, email, mot de passe, date de création)</li>
+        <li>La table <code>albums</code> pour stocker les informations des albums (nom, description, date de création)</li>
+        <li>La table <code>photos</code> pour stocker les informations des photos (titre, description, chemin du fichier, date d'ajout)</li>
+        <li>La table <code>tags</code> pour stocker les mots-clés des photos (facultatif)</li>
+        <li>La table <code>photo_tags</code> pour lier les photos aux tags (facultatif)</li>
+    </ul>   
+</p>
+<p> 
+    Nous allons en premier lieu utiliser les applications de gestion telles que phpMyAdmin et DBeaver pour travailler sur cette base de données,
+    autrement dit pour ajouter, modifier, supprimer et afficher les données de notre galerie de photos. <br>
+    Nous étudierons également les requêtes SQL pour effectuer des opérations sur les données stockées dans la base de données. <br>
+    Avant toute chose nous allons créer la base de données et les tables nécessaires pour stocker les données de notre galerie de photos. <br>
+    Analysons le script SQL suivant.
+</p>
+
+<h3 id="script">2. Le script SQL</h3>
+<textarea class="code-php">
+CREATE DATABASE galerie_photos CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE galerie_photos;
+
+-- Table des utilisateurs (si nécessaire)
+CREATE TABLE utilisateurs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(100) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    mot_de_passe VARCHAR(255) NOT NULL,
+    date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- Table des albums
+CREATE TABLE albums (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    utilisateur_id INT, -- Si chaque utilisateur a ses propres albums
+    nom VARCHAR(255) NOT NULL,
+    description TEXT,
+    date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (utilisateur_id) REFERENCES utilisateurs(id) ON DELETE SET NULL
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- Table des photos
+CREATE TABLE photos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    album_id INT NOT NULL,
+    titre VARCHAR(255),
+    description TEXT,
+    chemin_fichier VARCHAR(255) NOT NULL, -- Stocke le chemin de la photo sur le serveur
+    date_ajout TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (album_id) REFERENCES albums(id) ON DELETE CASCADE
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- Table des tags (facultatif, pour organiser les photos par mot-clé)
+CREATE TABLE tags (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(50) UNIQUE NOT NULL
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- Table de liaison entre photos et tags (facultatif)
+CREATE TABLE photo_tags (
+    photo_id INT NOT NULL,
+    tag_id INT NOT NULL,
+    PRIMARY KEY (photo_id, tag_id),
+    FOREIGN KEY (photo_id) REFERENCES photos(id) ON DELETE CASCADE,
+    FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+</textarea>   
+<a class="btn btn-primary" href="files/galerie_photos.sql">Le fichier SQL pour créer la base de données ainsi que les tables</a>

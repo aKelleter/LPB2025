@@ -1,0 +1,126 @@
+<h3>Sommaire</h3>
+<ol>
+    <li><a href="#user">Création d'un utilisateur et attribution des droits</a></li>
+    <li><a href="#use"> Utilisation de la Base de Données</a></li>
+    <li><a href="#table">Création d'une Table</a></li>
+    <li><a href="#insert">Insertion de Données</a></li> 
+    <li><a href="#select">Affichage des Données</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>   
+</ol>
+
+<h3 id="user">1. Création d'un utilisateur et attribution des droits</h3>
+<p>
+    Il est recommandé de créer un utilisateur distinct pour manipuler la base de données. Voici un exemple de code SQL pour créer un utilisateur et lui attribuer des droits sur la base <b>magasin</b>
+</p>
+
+<p>-- Créons un utilisateur '<b>user_magasin</b>' avec le mot de passe '<b>azerty</b>' : </p>   
+<textarea class="code-php">
+    CREATE USER 'user_magasin'@'localhost' IDENTIFIED BY 'azerty';
+</textarea>
+
+<p class="mt-4"> -- Attribuons tous les droits sur la base '<b>magasin</b>' à l'utilisateur '<b>user_magasin</b>' : </p>
+<textarea class="code-php">
+    GRANT ALL PRIVILEGES ON magasin.* TO 'user_magasin'@'localhost';
+</textarea>
+
+<p class="mt-4"> -- Appliquons les changements immédiatement, en actualisant les privilèges :</p>
+<textarea class="code-php">
+    FLUSH PRIVILEGES;
+</textarea>
+
+<p class="mt-4">
+La commande SQL <b>FLUSH PRIVILEGES;</b>  est utilisée pour actualiser les privilèges des utilisateurs afin que toute modification apportée aux comptes d'utilisateurs soit appliquée au système.
+Ceci garantit que toute modification apportée aux autorisations des utilisateurs est immédiatement appliquée sans nécessiter un redémarrage du serveur <b>SGBD</b>.
+</p>
+
+<p class="mt-4">-- Vérifions les droits de l'utilisateur : </p>
+<textarea class="code-php">
+    SHOW GRANTS FOR 'user_magasin'@'localhost';    
+</textarea>
+
+<h3 id="use">2. Utilisation de la Base de Données</h3>
+<p>
+    Pour utiliser la base de données nouvellement créée :
+</p>
+<textarea class="code-php">
+    USE magasin;
+</textarea>
+
+<p class="mt-4">
+    Vous pouvez maintenant commencer à créer des tables et insérer des données.
+</p>
+
+<h3 id="table">3. Création d'une Table</h3>
+<p>
+    Créons une table <b>produits</b> avec quelques <b>champs</b>.
+</p>
+<p>
+    Mais avant cela, voici quelques explications sur la table <b>produits</b>. <br>
+    La table <b>produits</b> stockera les informations sur des produits vendus dans un magasin. Cette table contiendra plusieurs colonnes (<b>champs</b>) :
+</p>
+<ul>
+    <li><b>id</b> : Un identifiant unique pour chaque produit (avec une clé primaire et auto-incrémenté).</li>
+    <li><b>nom</b> : Le nom du produit, avec une longueur maximale de 100 caractères.</li>
+    <li><b>prix</b> : Le prix du produit, stocké sous forme décimale avec deux chiffres après la virgule.</li>
+    <li><b>stock</b> : Le nombre d'unités disponibles en stock, avec une valeur par défaut de 0.</li>
+</ul>
+<p>
+    Voici la commande <b>SQL</b> pour créer cette table :
+</p>
+<textarea class="code-php">
+    CREATE TABLE produits (
+        id INT PRIMARY key AUTO_INCREMENT,
+        nom VARCHAR(100) NOT NULL,
+        prix DECIMAL(10,2) NOT NULL,
+        stock INT DEFAULT 0
+    ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;    
+</textarea>
+<p>
+    Cette structure garantit une bonne gestion des produits et un stockage efficace des données.
+</p>
+
+<div class="info p-3 mt-4">
+    Le <b>CHARACTER SET</b> et la <b>COLLATE</b> à la fin de la commande <b>CREATE TABLE</b> permettent de définir l'encodage des caractères 
+    et les règles de tri (collation) pour la table produits. <br> <br>
+    <b>utf8mb4</b> : Il s'agit du jeu de caractères utilisé pour stocker les données textuelles, prenant en charge l'Unicode complet (y compris les emojis et caractères spéciaux). <br>
+    <b>utf8mb4_unicode_ci</b> suit les règles de tri Unicode complètes, prenant en compte les spécificités linguistiques (comme les accents).   <br><br>
+    Une autre option courante est <b>utf8mb4_general_ci</b>, qui est plus simple et plus rapide sur les tris, mais moins précise pour les langues non-anglaises. <br>
+    <b>general</b> : Cela signifie que la comparaison est basée sur des règles simplifiées, optimisées pour la rapidité plutôt que pour la précision linguistique. <br>
+    <b>ci</b> (case-insensitive) : Cela signifie que la collation est insensible à la casse, c'est-à-dire que "Produit", "produit" et "PRODUIT" seront considérés comme identiques. 
+</div>
+
+<h3 id="insert">4. Insertion de Données</h3>
+<p>
+    Ajoutons quelques produits à notre table produits :
+</p>
+<textarea class="code-php">
+    INSERT INTO produits (nom, prix, stock)
+    VALUES
+    ('Ordinateur portable', 899.99, 10),
+    ('Souris sans fil', 29.99, 50),
+    ('Clavier mécanique', 79.99, 30);
+</textarea>
+<p class="mt-4">
+    Cette commande <b>INSERT INTO</b> ajoute trois produits à la table <b>produits</b> avec leurs noms, prix et stock.
+</p>
+
+<h3 id="select">5. Affichage des Données</h3>
+<p>
+    Pour afficher les produits de la table <b>produits</b>, vous pouvez utiliser la commande <b>SELECT</b> :
+</p>
+<textarea class="code-php">
+    SELECT * FROM produits;
+</textarea>
+
+<h3 id="conclusion">6. Conclusion</h3>
+<p>
+    Vous avez maintenant une base de données fonctionnelle avec MariaDB. Vous savez comment créer une base, un utilisateur, une table et insérer des données. <br>
+    Super ! Maintenant, nous allons faire la même chose avec un logiciel de gestion de Bases de données tel que <b>DBeaver</b>.
+</p>
+
+
+
+
+
+
+
