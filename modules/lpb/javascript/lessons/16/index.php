@@ -12,7 +12,8 @@
 <!doctype html>
 <html lang="fr">
     <?php require_once $_SESSION['R'].'app'.DS.'head.php'; ?>
-    <body>    
+    <body>   
+    
     <?php require_once $_SESSION['R'].'app'.DS.'header.php'; ?>
         <div class="b-divider"></div>
         <main>
@@ -22,9 +23,9 @@
                     <div class="col-md-10">                       
                         <h1 class="mt-5 text-center">Leçon 16 : <span class="color_dark_green">Les boucles : while et for</span></h1>  
                         <?= getHtmlSubMenu('15', '17', JS); ?> 
-                        
-                        <?= getHtmlBlocWhatCodeDoes(file_get_contents(FILENAME_WCD)); ?>                       
+                        <?= getHtmlBlocWhatCodeDoes(file_get_contents(FILENAME_WCD)); ?>     
 
+                        <button onclick="scrollToTop()" class="btn btn-primary mb-4" id="scrollToTopBtn">Haut de page</button>  
                     </div> <!--col-md-10-->
                     <div class="col-md-1"></div>
                 </div>

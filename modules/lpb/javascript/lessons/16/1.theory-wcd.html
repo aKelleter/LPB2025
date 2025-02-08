@@ -1,7 +1,370 @@
+<h3 id="intro">1. Introduction</h3>
 <p>
-    
+    Nous avons souvent besoin d’effectuer des actions similaires plusieurs fois de suite. <br>
+    Par exemple, lorsque nous devons extraire des marchandises d’une liste les unes à la suite des autres. Ou exécutez simplement le même code pour chaque numéro de 1 à 10.
+    Les boucles permettent de répéter plusieurs fois la même partie du code.
 </p>
-<h3></h3>
+<div class="alert alert-info p-3 mt-4">
+    <strong>[X] Information</strong> <hr>
+    Cet leçon ne couvre que les boucles de base : <b>while</b>, <b>do..while</b> et <b>for(.. ; .. ; ..)</b>. <br>
+    Les boucles modernes telles que <b>for..of</b> et <b>for..in</b> seront couvertes dans les prochains chapitres.
+</div>
+
+<h3 id="while">2. La boucle “while”</h3>
 <p>
-    
+    La boucle while a la syntaxe suivante :
 </p>
+<textarea class="code-php">
+    while (condition) {
+        // code
+        // appelé "loop body" ("corps de boucle")
+    }
+</textarea>
+<p>
+    Tant que la condition est vraie, le code du corps de la boucle est exécuté. <br>
+    Par exemple, la boucle ci-dessous affiche <b>i</b> tant que <b>i < 3</b> :
+</p>
+<textarea class="code-php">
+    let i = 0;
+    while (i < 3) { // montre 0, puis 1, puis 2
+        alert( i );
+        i++;
+    }
+</textarea>
+<p class="mt-4">
+    Une unique exécution du corps de la boucle est appelée une itération. La boucle dans l’exemple ci-dessus fait <b>trois</b> itérations. <br>
+    S’il n’y avait pas d’i++ dans l’exemple ci-dessus, la boucle se répèterait (en théorie) pour toujours. En pratique, le navigateur fournit des moyens d’arrêter ces boucles, 
+    et pour JavaScript côté serveur, nous pouvons tuer le processus. <br>
+    Toute expression ou variable peut être une condition de boucle, pas seulement une comparaison. Ils sont évalués et convertis en un booléen par while.
+    Par exemple, le moyen le plus court d’écrire while (i != 0) pourrait être while (i) :
+</p>
+<textarea class="code-php">
+    let i = 3;
+    while (i) { // quand i devient 0, la condition devient fausse et la boucle s'arrête
+        alert( i );
+        i--;
+    }
+</textarea>
+
+<div class="alert alert-info mt-4">
+    <strong>[X] Information</strong> <hr>
+    Les accolades ne sont pas requises pour un corps de boucle qui ne possède qu'une seule ligne. <br>
+    Si le corps de la boucle a une seule déclaration, nous pouvons omettre les accolades <b>{…}</b> :
+</div>
+<textarea class="code-php">
+    let i = 3;
+    while (i) alert(i--);
+</textarea>
+
+<h3 id="dowhile">3. La boucle “do…while”</h3>
+<p>
+    La vérification de la condition peut être déplacée sous le corps de la boucle en utilisant la syntaxe <b>do..while</b> :
+</p>
+<textarea class="code-php">
+    do {
+        // corps de la boucle
+    } while (condition);
+</textarea>
+<p>
+    La boucle exécute d’abord le corps, puis vérifie la condition et, tant que c’est vrai, l’exécute encore et encore. <br>
+    Par exemple :
+</p>
+<textarea class="code-php">
+    let i = 0;
+    do {
+        alert( i );
+        i++;
+    } while (i < 3);
+</textarea>
+<p class="mt-4">
+    Cette forme de syntaxe est rarement utilisée, sauf lorsque vous souhaitez que le corps de la boucle s’exécute <b class="red">au moins une fois</b>, 
+    quelle que soit la condition. <br> Habituellement, l’autre forme est préférée : <b>while(…) {…}</b>.
+</p>
+
+<h3 id="for">4. La boucle “for”</h3>
+<p>
+    La boucle for est plus complexe, mais c’est aussi la boucle la plus utilisée.
+    Cela ressemble à ceci :
+</p>
+<textarea class="code-php">
+    for (début; condition; étape) {
+        // ... corps de la boucle ...
+    }
+</textarea>
+<p class="mt-4">
+    Apprenons la signification de ces parties par l’exemple.  <br>
+    La boucle ci-dessous exécute alert(i) pour i en partant de 0 jusqu’à 3 (mais non compris) :
+</p>
+<textarea class="code-php">
+    for (let i = 0; i < 3; i++) { // affiche 0, puis 1, puis 2
+        alert(i);
+    }
+</textarea>
+<p>
+    Examinons la déclaration de la boucle for partie par partie :
+</p>
+<div class="alert alert-info mt-4">
+    <strong>[X] Analyse et fonctionnement</strong> <hr>
+    <b>début : 	let i = 0</b> 	Exécute une fois en entrant dans la boucle. <br> <br>
+
+    <b>condition : 	i < 3</b> 	Vérifié avant chaque itération de la boucle, en cas d’échec, la boucle s’arrête. <br>
+    <b>corps : 	alert(i)</b> 	Exécute encore et encore tant que la condition est vraie <br>
+    <b>étape : 	i++</b> Exécute après le corps à chaque itération <br>
+    <b>Revérification de la condition</b> : La boucle s’arrête si la condition est fausse.
+</div>
+
+<div class="alert alert-info mt-4">
+    <strong>[X] Information</strong> <hr>
+    Déclaration et de la variable dans la boucle. <br>
+    Ici, la variable de type compteur <b>i</b> est déclarée directement dans la boucle. Cela s’appelle une déclaration de variable “en ligne”. <br>
+    De telles variables ne sont visibles que dans la boucle.
+    <textarea class="code-php">
+    for (let i = 0; i < 3; i++) {
+        alert(i); // 0, 1, 2
+      }
+    alert(i); // On n epeut accéder à i ici
+    </textarea>
+
+    <p class="mt-4">
+            Au lieu de définir une variable, nous pouvons en utiliser une existante :
+    </p>
+    <textarea class="code-php">
+        let i = 0;
+
+        for (i = 0; i < 3; i++) { // utiliser une variable existante
+            alert(i); // 0, 1, 2
+        }
+        
+        alert(`Ici aussi : ${i}`); // 3, visible, car déclaré en dehors de la boucle
+    </textarea>
+    <a href="tests/for-1" class="btn btn-primary" target="_blank">Exécuter <b>tests/for-1</b></a>
+</div>
+
+<h3 id="jump">5. Sauter des parties</h3>
+<p>
+    Toute partie d'un <b>for</b> peut être ignorée. <br>
+    Par exemple, nous pouvons omettre le début si nous n’avons rien à faire (pas d'initialisation) au début de la boucle. <br>
+    Comme ici :
+</p>
+<textarea class="code-php">
+    let i = 0; // nous avons déjà une déclaration de i en dehors de la boucle
+
+    for (; i < 3; i++) { // pas besoin de "let i = 0", car nous avons déjà i
+        alert( i ); // 0, 1, 2
+    }
+</textarea>
+
+<p class="mt-4">
+    Nous pouvons également supprimer l’étape :
+</p>
+<textarea class="code-php">
+    let i = 0;
+
+    for (; i < 3;) {
+        alert( i++ );
+    }
+</textarea>
+
+<p class="mt-4">
+    Si nous omettons la condition, la boucle sera infinie, comme dans l’exemple ci-dessous :
+</p>
+<textarea class="code-php">
+    for (;;) {
+        // répéter sans fin
+    }
+</textarea>
+<p class="info">
+    Veuillez noter que les deux les points-virgules ; de for doivent être présents, sinon ce serait une erreur de syntaxe.
+</p>
+
+<h3 id="break">6. Briser/casser la boucle</h3>
+<p>
+    Normalement, la boucle sort quand la condition devient fausse. <br>
+    Mais nous pouvons forcer la sortie à tout moment. Il y a une directive spéciale appelée <b>break</b> pour cela.
+    Par exemple, la boucle ci-dessous demande à l’utilisateur une série de chiffres, mais “se brise” lorsqu'aucun numéro n’est entré :
+</p>
+<textarea class="code-php">
+    let sum = 0;
+
+    while (true) {
+        let value = Number(prompt("Entrez un nombre", ''));
+        if (!value) break; // (*)
+        sum += value;
+    }
+    alert( 'Sum: ' + sum );
+</textarea>
+<a href="tests/for-2" class="btn btn-primary" target="_blank">Exécuter <b>tests/for-2</b></a>
+
+<p class="mt-4">
+    La directive <b>break</b> est activée sur la ligne (*) si l’utilisateur entre une ligne vide ou annule l’entrée. <br>
+    Il arrête la boucle immédiatement, en passant le contrôle à la première ligne après la boucle. À savoir, alert.
+</p>
+<p>
+    La combinaison “boucle infinie + <b>break</b> au besoin” est idéale pour les situations où la condition doit être vérifiée non pas au début / à la fin de la boucle, 
+    mais au milieu, voire à plusieurs endroits du corps.
+</p>
+
+<h3 id="continue">7. Continuer jusqu'à la prochaine itération : continue</h3>
+<p>
+    La directive <b>continue</b> est une “version plus légère” de <b>break</b>. Cela n’arrête pas toute la boucle.  <br>
+    Au lieu de cela, elle arrête l’itération en cours et force la boucle à en démarrer une nouvelle (si la condition le permet). <br> <br>
+    
+    Nous pouvons l’utiliser si nous avons terminé l’itération en cours et aimerions passer à la suivante. <br>
+    La boucle ci-dessous utilise continue pour ne produire que des valeurs <b>impaires</b> :
+</p>
+<textarea class="code-php">
+    for (let i = 0; i < 10; i++) {
+
+        // si vrai, sauter le reste du corps
+        if (i % 2 == 0) continue;
+
+        alert(i); // 1, puis 3, 5, 7, 9
+    }
+</textarea>
+<a href="tests/for-3" class="btn btn-primary" target="_blank">Exécuter <b>tests/for-3</b></a>
+
+<p>
+    Pour les valeurs <b>paires</b> de <b>i</b>, la directive continue arrête l’exécution du corps en passant le contrôle à la prochaine itération de for 
+    (avec le nombre suivant). Donc, l’alert n’est appelée que pour les valeurs <b>impaires</b>.
+</p>
+
+<div class="alert alert-info mt-4">
+    <strong>[X] Information</strong> <hr>
+    La directive <b>continue</b> aide à réduire le niveau d’imbrication <br>
+    Une boucle affichant des valeurs impaires pourrait ressembler à ceci :
+    <textarea class="code-php">
+    for (let i = 0; i < 10; i++) {
+
+        if (i % 2) {
+          alert( i );
+        }
+      
+      }
+    </textarea>
+    <p>
+        D’un point de vue technique, c’est identique à l’exemple du dessus. Certes, nous pouvons simplement envelopper le code 
+        dans un bloc if au lieu de continue. <br> <br>
+        Mais comme effet secondaire, nous avons obtenu un niveau d’imbrication supplémentaire (l’appel de l’alert à l’intérieur 
+        des accolades). Si le code à l’intérieur du if est plus long que quelques lignes, la lisibilité globale peut 
+        en être réduite.
+    </p>
+</div>
+<div class="alert alert-danger mt-4">
+    <strong>/!\ Pas de <b>break</b>/<b>continue</b> à droite de ‘<b>?</b>’</strong> <hr>
+
+    Veuillez noter que les constructions de syntaxe qui ne sont pas des expressions ne peuvent pas être utilisées avec l’opérateur ternaire <b>?</b>. 
+    Tout particulièrement les directives telles que <b>break/continue</b> ne sont pas autorisées. <br>
+    Par exemple, si nous prenons ce code :
+    <textarea class="code-php">
+    let i = 0;
+    (i > 5) ? alert(i) : continue; // erreur
+    </textarea>
+    <p>
+        Il générera une erreur, car <b>continue</b> est une instruction, pas une expression. <br>
+        Nous devons utiliser une instruction <b>if</b> pour cela.
+    </p>
+    <p>
+        Le code ci-dessous est correct :
+    </p>
+    <textarea class="code-php">
+    let i = 0;
+    if (i > 5) {
+        alert(i);
+    } else {
+        continue; 
+    }
+    </textarea>
+    <p>
+        C’est une autre raison pour ne pas utiliser l’opérateur point d’interrogation ? au lieu de if.
+    </p>
+</div>
+
+<h3 id="label">8. Des labels pour <b>break</b>/<b>continue</b></h3>
+<p>
+    Parfois, nous avons besoin de sortir de plusieurs niveaux de boucles immédiatement. <br>
+    Par exemple, dans le code ci-dessous, nous bouclons sur <b>i</b> et <b>j</b> pour demander les coordonnées (i, j) de (0,0) à (2,2) :
+</p>
+<textarea class="code-php">
+    for (let i = 0; i < 3; i++) {
+
+        for (let j = 0; j < 3; j++) {
+      
+          let input = prompt(`Value at coords (${i},${j})`, '');
+      
+          // Et si nous voulons sortir d'ici et aller à Done (ci-dessous) ?
+        }
+      }
+      
+      alert('Done!');
+</textarea>
+<p class="mt-4">
+    Nous avons besoin d’un moyen d’arrêter le processus si l’utilisateur annule la saisie. <br>
+    Le <b>break</b> ordinaire après input ne ferait que briser la boucle intérieure. Ce n’est pas suffisant – les <b>labels</b> viennent à la rescousse.
+    Un <b>label</b> est un identifiant avec deux points avant une boucle :
+</p>
+<textarea class="code-php">
+    labelName: for (...) {
+        ...
+    }
+</textarea>
+<p>
+    L’instruction <b>break</b> <labelName> dans la boucle interrompt tout le bloc de code relatif au label. <br>
+    Comme ici :
+</p>
+<textarea class="code-php">
+    outer: for (let i = 0; i < 3; i++) {
+
+            for (let j = 0; j < 3; j++)
+            {
+                let input = prompt(`Value at coords (${i},${j})`, '');
+
+                // si une chaîne est vide ou annulée, alors rompre les deux boucles
+                if (!input) break outer; // (*)
+
+                // faire quelque chose avec la valeur …
+            }
+        }
+
+    alert('Done!');
+</textarea>
+<a href="tests/for-4" class="btn btn-primary" target="_blank">Exécuter <b>tests/for-4</b></a>
+<p class="mt-4">
+    Dans le code ci-dessus, <b>break outer</b> regarde vers le haut, vers le label <b>outer:</b> et sort de cette boucle. <br>
+    Donc, le contrôle va directement de <b>(*)</b> à <b>alert('Done!')</b>. <br>
+    Nous pouvons également déplacer le label sur une ligne séparée :
+</p>
+<textarea class="code-php">
+    outer:
+    for (let i = 0; i < 3; i++) { ... }
+</textarea>
+<p>
+    La directive <b>continue</b> peut également être utilisée avec un label. Dans ce cas, l’exécution passe à l’itération suivante de la boucle labellisée.
+</p>
+
+<div class="alert alert-danger mt-4">
+    <strong>/!\ Les labels ne permettent pas de “sauter” n’importe où</strong> <hr>
+    - Les labels ne sont pas très recommandés. <br>
+    - Les labels peuvent sauter n’importe où : dans un autre bloc, dans un autre bloc de code, et ainsi de suite. <br>
+    - Par exemple, il est impossible de faire ceci : <br>
+    <textarea class="code-php">
+        break label;  // saute au label ci-dessous (ne fonctionne pas)
+
+        label: for (...)
+    </textarea>    
+    <p>
+        Une directive <b>break</b> doit être à l’intérieur d’un bloc de code. Techniquement, tout bloc de code étiqueté fera l’affaire, par exemple :
+    </p>
+    <textarea class="code-php">
+        label: {
+            // ...
+            break label; // fonctionne
+            // ...
+          }
+    </textarea>
+
+   -  Cela rend le code difficile à comprendre et à lire. <br>
+   - Les labels sont utilisés dans des cas très rares, lorsque les boucles sont imbriquées et que nous devons sortir de plusieurs niveaux de boucles immédiatement. <br>
+   - Dans 99,9% des cas, les <b>break</b> sont utilisés à l’intérieur de boucles, comme nous l’avons vu dans les exemples ci-dessus. <br>
+    <br>
+   - Un <b>continue</b> n’est possible que depuis l’intérieur d’une boucle. 
+</div>

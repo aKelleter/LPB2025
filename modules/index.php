@@ -48,7 +48,7 @@
                         <h1 class="mt-5 text-center"><span class="red">MODULE LPB</span> : Langages de programmation - Les bases (80h)</h1>
                         <h2 class="mt-5">Objectifs du module</h2> 
                         <p>
-                            <img src="assets/img/programmation.jpg" class="img-fluid" alt="Programmation">
+                            <img src="../assets/img/programmation.jpg" class="img-fluid" alt="Programmation">
                         </p>                        
                         <h3> Les objectifs généraux</h3>                        
 
@@ -109,7 +109,7 @@
                         <h1 class="mt-5 text-center"><span class="red">MODULE LDB</span> : Langages de base de données - Les bases (48h)</h1>
                         <h2 class="mt-5">Objectifs du module</h2> 
                         <p>
-                            <img src="assets/img/databases.jpg" class="img-fluid" alt="Programmation">
+                            <img src="../assets/img/databases.jpg" class="img-fluid" alt="database">
                         </p>
                         <h3> Les objectifs généraux</h3>
                         <ol>        

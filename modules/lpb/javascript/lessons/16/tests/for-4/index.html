@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        outer: for (let i = 0; i < 3; i++)
+        {
+
+            for (let j = 0; j < 3; j++)
+            {
+
+                let input = prompt(`Value at coords (${i},${j})`, '');
+
+                // si une chaîne est vide ou annulée, alors rompre les deux boucles
+                if (!input) break outer; // (*)
+
+                // faire quelque chose avec la valeur …
+            }
+        }
+
+        alert('Done!');
+    </script>    
+</body>
+</html>

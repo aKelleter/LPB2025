@@ -338,8 +338,10 @@ a.link{
     margin: 5px;    
 }
 
-
-
-/*
-    IDs    
-*/
+#scrollToTopBtn {
+    display: none; /* Masqué par défaut */
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    z-index: 99;
+}

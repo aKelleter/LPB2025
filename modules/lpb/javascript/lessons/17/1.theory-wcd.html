@@ -1,0 +1,107 @@
+<h3 id="intro">1. Introduction</h3>
+<p>
+    Une instruction switch peut remplacer plusieurs vérification <b>if</b>. <br>
+    Cela donne un moyen plus descriptif de comparer une valeur avec plusieurs variantes.
+</p>
+
+<h3 id="syntaxe">2. La syntaxe</h3>
+<p>
+    Le <b>switch</b> a un ou plusieurs blocs <b>case</b> (les cas) et une valeur par défaut facultative.
+    Cela ressemble à ceci :
+</p>
+<textarea class="code-php">
+    switch(x) {
+        case 'value1':  // si (x === 'value1')
+          ...
+          [break]
+      
+        case 'value2':  // si (x === 'value2')
+          ...
+          [break]
+      
+        default:
+          ...
+          [break]
+      }
+</textarea>
+<ul class="mt-3">
+    <li>a valeur de x est vérifiée pour une égalité stricte avec la valeur du premier case (c’est-à-dire, value1), puis du second (value2) et ainsi de suite.</li>
+    <li>Si l’égalité est trouvée, switch commence à exécuter le code à partir du case correspondant, jusqu’au prochain break (ou jusqu’à la fin du switch).</li>
+    <li>Si aucun cas ne correspond, le code par défaut (default) est exécuté (s’il existe).</li>
+</ul>
+
+<h3 id="exemple">3. La syntaxe</h3>
+<p>
+    Voici un exemple simple de switch :
+</p>
+<textarea class="code-php">
+    let a = 2 + 2;
+
+    switch (a) {
+        case 3:
+            alert( 'Trop petit' );
+            break;
+        case 4:
+            alert( 'Exact!' );
+            break;
+        case 5:
+            alert( 'Trop grand' );
+            break;
+        default:
+            alert( "Je ne connais pas cette valeur" );
+    }
+</textarea>
+<p>
+    Ici, le switch commence à comparer a avec le premier case dont la valeur est 3. La correspondance échoue. <br>
+    Ensuite 4, c’est une correspondance. L’exécution commence donc à partir du case 4 jusqu’au prochain break. <br>
+    S’il n’y a pas de break, l’exécution continue avec le case suivant sans aucun contrôle. <br>
+    Un exemple sans break:
+</p>
+<textarea class="code-php">
+    let a = 2 + 2;
+
+    switch (a) {
+        case 3:
+            alert( 'Trop petit' );           
+        case 4:
+            alert( 'Exact!' );            
+        case 5:
+            alert( 'Trop grand' );
+        default:
+            alert( "Je ne connais pas cette valeur" );
+    }
+</textarea>
+<p>
+    Dans l’exemple ci-dessus, nous verrons l’exécution séquentielle de trois alert :
+</p>
+<textarea class="code-php">
+    alert( 'Exact!' );
+    alert( 'Trop grand' );
+    alert( "Je ne connais pas cette valeur" );    
+</textarea>
+
+<div class="alert alert-info">
+    <strong>/!\ Toute expression peut être un argument switch/case</strong> <hr>
+    <p>
+        <b>Switch</b> et <b>case</b> permettent des expressions arbitraires.
+        Par exemple :
+    </p>
+    <textarea class="code-php">
+        let a = "1";
+        let b = 0;
+
+        switch (+a) {
+        case b + 1:
+            alert("Ceci est exécuté, parce que +a est égale à 1 et est exactement égale à b+1");
+            break;
+
+        default:
+            alert("Ceci n'est pas exécuté");
+        }
+    </textarea> 
+    <p class="mt-3">
+        Ici <b>+a</b> donne 1, qui est comparé à b + 1 dans le case, et le code correspondant est exécuté.
+    </p>
+
+</div>
+

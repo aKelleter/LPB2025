@@ -12,7 +12,7 @@
 <!doctype html>
 <html lang="fr">
     <?php require_once $_SESSION['R'].'app'.DS.'head.php'; ?>
-    <body>    
+    <body>  
     <?php require_once $_SESSION['R'].'app'.DS.'header.php'; ?>
         <div class="b-divider"></div>
         <main>
@@ -20,11 +20,9 @@
                 <div class="row">
                     <div class="col-md-1"></div>
                     <div class="col-md-10">                       
-                        <h1 class="mt-5 text-center">Leçon 03 : <span class="color_dark_green">Place du code et ordre d'exécution</span></h1>  
-                        <?= getHtmlSubMenu('02', '04', JS); ?> 
-                        
+                        <h1 class="mt-5 text-center">Leçon 17 : <span class="color_dark_green">La déclaration switch</span></h1>  
+                        <?= getHtmlSubMenu('16', '18', JS); ?>                         
                         <?= getHtmlBlocWhatCodeDoes(file_get_contents(FILENAME_WCD)); ?>                        
-                        <?= getHtmlBlockRessources($ressources); ?>
                         
                         <button onclick="scrollToTop()" class="btn btn-primary mb-4" id="scrollToTopBtn">Haut de page</button> 
                     </div> <!--col-md-10-->

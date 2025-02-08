@@ -12,7 +12,7 @@
 <!doctype html>
 <html lang="fr">
     <?php require_once $_SESSION['R'].'app'.DS.'head.php'; ?>
-    <body>    
+    <body>  
     <?php require_once $_SESSION['R'].'app'.DS.'header.php'; ?>
         <div class="b-divider"></div>
         <main>
@@ -28,7 +28,8 @@
                         <?= getHtmlBlockRendering(file_get_contents(FILENAME_RENDERING)); ?>
                         <?= getHtmlBlockExplanations($explanations); ?>
                         <?= getHtmlBlockRessources($ressources); ?>
-
+                        
+                        <button onclick="scrollToTop()" class="btn btn-primary mb-4" id="scrollToTopBtn">Haut de page</button> 
                     </div> <!--col-md-10-->
                     <div class="col-md-1"></div>
                 </div>
