@@ -2,7 +2,7 @@
     require_once('../../../../../boot.php');  
     $_SESSION['R'] = R5;
     require_once($_SESSION['R'].'app'.DS.'conf.php'); 
-    $_SESSION['PAGE'] = LDB;     
+    $_SESSION['PAGE'] = JS;     
     
     // Chargement du/des fichier(s)    
     $source_code = loadFile(FILENAME_SOURCE_CODE);     
@@ -12,7 +12,7 @@
 <!doctype html>
 <html lang="fr">
     <?php require_once $_SESSION['R'].'app'.DS.'head.php'; ?>
-    <body>    
+    <body>  
     <?php require_once $_SESSION['R'].'app'.DS.'header.php'; ?>
         <div class="b-divider"></div>
         <main>
@@ -20,12 +20,12 @@
                 <div class="row">
                     <div class="col-md-1"></div>
                     <div class="col-md-10">                       
-                        <h1 class="mt-5 text-center">Leçon 03 : <span class="color_dark_green">Concepts et structure d'une base de données</span></h1>  
-                        <?= getHtmlSubMenuLDB('02', '04'); ?>   
+                        <h1 class="mt-5 text-center">Leçon 18 : <span class="color_dark_green">Les Fonctions</span></h1>  
+                        <?= getHtmlSubMenu('17', '19', JS); ?> 
                         
-                        <?= getHtmlBlocWhatCodeDoes(file_get_contents(FILENAME_WCD)); ?>    
-
-                        <button onclick="scrollToTop()" class="btn btn-primary mb-4" id="scrollToTopBtn">Haut de page</button>
+                        <?= getHtmlBlocWhatCodeDoes(file_get_contents(FILENAME_WCD)); ?>
+                        <button onclick="scrollToTop()" class="btn btn-primary mb-4" id="scrollToTopBtn">Haut de page</button> 
+                        
                     </div> <!--col-md-10-->
                     <div class="col-md-1"></div>
                 </div>

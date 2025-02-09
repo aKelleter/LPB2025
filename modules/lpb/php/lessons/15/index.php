@@ -28,6 +28,7 @@
                         <?= getHtmlEmptySpace(); ?>
                         <?= getHtmlBlockRessources($ressources); ?>
 
+                        <button onclick="scrollToTop()" class="btn btn-primary mb-4" id="scrollToTopBtn">Haut de page</button> 
                     </div> <!--col-md-10-->
                     <div class="col-md-1"></div>
                 </div>

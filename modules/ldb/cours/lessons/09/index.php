@@ -22,7 +22,9 @@
                     <div class="col-md-10">                       
                         <h1 class="mt-5 text-center">Leçon 09 : <span class="color_dark_green">Analyse d'un cas : "Le gestionnaire d'albums photos"</span></h1>  
                         <?= getHtmlSubMenuLDB('08', '10'); ?>   
-                        <?= getHtmlBlocWhatCodeDoes(file_get_contents(FILENAME_WCD)); ?>                       
+                        <?= getHtmlBlocWhatCodeDoes(file_get_contents(FILENAME_WCD)); ?>    
+                        
+                        <button onclick="scrollToTop()" class="btn btn-primary mb-4" id="scrollToTopBtn">Haut de page</button> 
                     </div> <!--col-md-10-->
                     <div class="col-md-1"></div>
                 </div>

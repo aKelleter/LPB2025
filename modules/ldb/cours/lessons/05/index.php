@@ -22,8 +22,9 @@
                     <div class="col-md-10">                       
                         <h1 class="mt-5 text-center">Leçon 05 : <span class="color_dark_green">Xampp & Mysql : mise en route et vérifications.</span></h1>  
                         <?= getHtmlSubMenuLDB('04', '06'); ?>   
-                        <?= getHtmlBlocWhatCodeDoes(file_get_contents(FILENAME_WCD)); ?>                       
+                        <?= getHtmlBlocWhatCodeDoes(file_get_contents(FILENAME_WCD)); ?>     
                         
+                        <button onclick="scrollToTop()" class="btn btn-primary mb-4" id="scrollToTopBtn">Haut de page</button>                         
                     </div> <!--col-md-10-->
                     <div class="col-md-1"></div>
                 </div>

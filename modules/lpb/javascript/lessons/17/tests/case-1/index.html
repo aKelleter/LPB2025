@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>        
+        let level = 4;
+
+        switch (level) {
+            case 3:
+                alert('Alerte DefCon 3!');
+                break;
+
+            case 4: // (*) groupement des "case" 4 et 5 car il n'y a pas d'instruction "break"
+                    console.log('DefCon 4 activated'); // On peut tout à fait exécuter une ou plusieurs instructions dans le case 4 si besoin est.
+            case 5:
+                alert('Alerte DefCon 5!');
+                break;
+
+            default:
+                alert("Cette alerte n’est pas prise en charge");
+        }
+    </script>
+    
+</body>
+</html>

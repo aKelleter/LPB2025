@@ -80,7 +80,7 @@
     alert( "Je ne connais pas cette valeur" );    
 </textarea>
 
-<div class="alert alert-info">
+<div class="alert alert-info mt-4">
     <strong>/!\ Toute expression peut être un argument switch/case</strong> <hr>
     <p>
         <b>Switch</b> et <b>case</b> permettent des expressions arbitraires.
@@ -102,6 +102,72 @@
     <p class="mt-3">
         Ici <b>+a</b> donne 1, qui est comparé à b + 1 dans le case, et le code correspondant est exécuté.
     </p>
-
 </div>
+
+<h3 id="group">Groupement de “case”</h3>
+<p>
+    Si plusieurs case ont le même code, ils peuvent être groupés. <br>
+    Par exemple, si nous voulons le même code pour case 3 et case 5 :
+</p>
+<textarea class="code-php">
+    let level = 4;
+
+    switch (level) {
+        case 3:
+            alert('Alerte DefCon 3!');
+            break;
+
+        case 4: // (*) groupement des "case" 4 et 5 car il n'y a pas d'instruction "break"
+                console.log('DefCon 4 activated'); // On peut tout à fait exécuter une ou plusieurs instructions dans le case 4 si besoin est.
+        case 5:
+            alert('Alerte DefCon 5!');
+            break;
+
+        default:
+            alert("Cette alerte n’est pas prise en charge");
+    }
+</textarea>
+<a href="tests/case-1" class="btn btn-primary" target="_blank">Exécuter <b>tests/case-1</b></a>
+
+<p class="mt-3">
+    Dans le code ci-dessus, les case "4" et "5" affichent le même message. <br>
+    La possibilité de “grouper” les case est un effet secondaire de la façon dont le <b>switch/case</b> fonctionne sans break.  <br>
+    Ici, l’exécution du case "4" commence à partir de la ligne (*) et passe ensuite par le case 5, car il n’y a pas d'instruction <b>break</b>.    
+</p>
+
+<div class="alert alert-danger mt-4">
+    <strong>/!\ Attention : Le type compte</strong> <hr>
+    <p>
+        Soulignons que le contrôle d’égalité est toujours strict (===). Les valeurs doivent être du même type pour correspondre.
+    </p>
+    <textarea class="code-php">
+        let arg = prompt("Enter a value?");
+
+        switch (arg) {
+        case '0':
+        case '1':
+            alert( '1 ou 0' );
+            break;
+
+        case '2':
+            alert( '2' );
+            break;
+
+        case 3:
+            alert( 'Ne sera jamais exécuté!' );
+            break;
+
+        default:
+            alert( 'Une valeur inconnue' );
+        }
+    </textarea>
+    <p>
+        Pour <b>0</b>, <b>1</b>, la première alert() est exécutée. <br>
+        Pour <b>2</b>, la deuxième alert() est exécutée. <br>
+        Mais pour <b>3</b>, le résultat du prompt est une chaîne de caractères "3", ce qui n’est pas strictement égal <b>===</b> au chiffre 3. 
+        Nous avons donc un code inactif dans le "case 3" ! Le "default" sera dès lors exécuté.
+    </p>
+</div>
+
+
 

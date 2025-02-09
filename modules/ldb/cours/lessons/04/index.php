@@ -23,6 +23,8 @@
                         <h1 class="mt-5 text-center">Leçon 04 : <span class="color_dark_green">Normalisation et dénormalisation</span></h1>  
                         <?= getHtmlSubMenuLDB('03', '05'); ?>   
                         <?= getHtmlBlocWhatCodeDoes(file_get_contents(FILENAME_WCD)); ?>   
+
+                        <button onclick="scrollToTop()" class="btn btn-primary mb-4" id="scrollToTopBtn">Haut de page</button> 
                     </div> <!--col-md-10-->
                     <div class="col-md-1"></div>
                 </div>

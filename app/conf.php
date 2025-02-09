@@ -2,8 +2,8 @@
   
     // Définition des constantes de l'application   
     const APP_NAME = 'LPB - LDB <sup>3</sup>';
-    const APP_UPDATE = '08022025 - 19:20';
-    const APP_VERSION = 'v0.63.0'.' - '.APP_UPDATE;
+    const APP_UPDATE = '09022025 - 12:20';
+    const APP_VERSION = 'v0.64.0'.' - '.APP_UPDATE;
 
     const APP_YEAR = '2024-2025';
     const APP_AUTHOR = 'A. Kelleter';
