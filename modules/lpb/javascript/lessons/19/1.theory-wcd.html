@@ -1,0 +1,363 @@
+
+<h3 id="intro">Introduction</h3>
+<p>
+    En JavaScript, une fonction n’est pas une “structure de langage magique”, mais un type de valeur particulier.
+    La syntaxe utilisée précédemment s’appelle une déclaration de fonction :
+</p>
+<textarea class="code-php" id="">
+    function sayHi() {
+      alert( "Hello" );
+    }      
+</textarea>
+<p>
+    Il existe une autre syntaxe pour créer une fonction appelée <b>Expression de Fonction</b>. <br>
+    Cela nous permet de créer une nouvelle fonction au milieu de n’importe quelle expression. <br>
+    Par exemple :
+</p>
+<textarea class="code-php" id="">
+    let sayHi = function() {
+      alert( "Hello" );
+    };
+</textarea>
+<p class="mt-4">
+    Ici, nous pouvons voir une variable <b>sayHi</b> obtenir une valeur, la nouvelle fonction, créée en tant que <b>function() { alert("Hello"); }</b>.
+</p>
+<p>
+    Comme la création de la fonction se produit dans le contexte de l’expression d’affectation (à droite de =), il s’agit d’une <b>Fonction Expression</b>.
+</p>
+<p>
+    Veuillez noter qu’il n’y a pas de nom après le mot clé <b>function</b>. L’omission d’un nom est autorisée pour les fonctions expressions.
+</p>
+<p>
+    Ici, nous l’assignons immédiatement à la variable, donc la signification de ces exemples de code est la même : “créer une fonction et la mettre dans la variable sayHi”. <br>
+    Dans des situations plus avancées, que nous verrons plus tard, une fonction peut être créée et immédiatement appelée ou planifiée pour une exécution ultérieure, 
+    non stockée nulle part, restant ainsi anonyme.
+</p>
+
+<h3 id="fctval">2. La fonction est une valeur</h3>
+<p>
+    Répétons-le : quelle que soit la manière dont la fonction est créée, une fonction est une valeur. Les deux exemples ci-dessus stockent une fonction dans la variable sayHi. <br>
+    La signification de ces exemples de code est la même : “créer une fonction et la placer dans la variable sayHi”. <br>
+    Nous pouvons même afficher cette valeur en utilisant alert : 
+</p>
+<textarea class="code-php" id="">
+    function sayHi() {
+        alert( "Hello" );
+    }
+    
+    alert( sayHi ); // affiche le code de la fonction
+</textarea>
+<p class="mt-4">
+    Veuillez noter que la dernière ligne n’exécute pas la fonction, car il n’y a pas de parenthèses après sayHi. <br>
+    Il y a des langages de programmation où toute mention d’un nom de fonction provoque son exécution, mais JavaScript n’est pas comme ça.
+    En JavaScript, une fonction est une valeur, nous pouvons donc la traiter comme une valeur. Le code ci-dessus montre sa représentation sous forme de chaîne de caractères, 
+    qui est le code source. <br> <br>
+
+    Certes, une fonction est une valeur spéciale, en ce sens que nous pouvons l’appeler comme cela <b>sayHi()</b>. <br>
+    Mais c’est toujours une valeur. Nous pouvons donc travailler avec comme avec d’autres types de valeurs. <br>
+    Nous pouvons copier une fonction dans une autre variable :
+</p>
+<textarea class="code-php" id="">
+    function sayHi() {   // (1) créer
+      alert( "Hello" );
+    }
+    
+    let func = sayHi;    // (2) copier
+    
+    func(); // Hello     // (3) exécuter la copie (ça fonctionne)!
+    sayHi(); // Hello    //     cela fonctionne toujours aussi (pourquoi pas)
+</textarea>
+<p class="mt-4">
+    Voici ce qui se passe ci-dessus en détail : <br>
+    <br>
+     - La déclaration de fonction (1) crée la fonction et la place dans la variable nommée <b>sayHi</b>. <br>
+     - La ligne (2) la copie dans la variable <b>func</b>. Veuillez noter à nouveau : il n’y a pas de parenthèses après sayHi. S’il y en avait, alors <b>func = sayHi()</b> écrirait 
+     le résultat de l’appel <b>sayHi()</b> dans <b>func</b>, et non la fonction <b>sayHi</b> elle-même. <br>
+     - Maintenant, la fonction peut être appelée à la fois en tant que <b>sayHi()</b> et <b>func()</b>. <br>
+     <br>
+    Nous aurions aussi pu utiliser une Fonction Expression pour déclarer <b>sayHi</b>, à la première ligne :
+</p>
+<textarea class="code-php" id="">
+    let sayHi = function() { // (1) create
+      alert( "Hello" );
+    };
+    
+    let func = sayHi;
+    // ...
+</textarea>
+<p>
+    Tout fonctionnerait de la même manière.
+</p>
+<div class="alert alert-info">
+    <strong>[X] Information : Pourquoi y a-t-il un point-virgule à la fin ?</strong> <hr>
+    <p>
+        Il peut y avoir une question, pourquoi l' <b>Expression de Fonction</b> possède un point-virgule <b>;</b> à la fin, et la déclaration de fonction non :
+    </p>
+    <textarea class="code-php" id="">
+        function sayHi() {
+          // ...
+        }
+        
+        let sayHi = function() {
+          // ...
+        };
+    </textarea>
+    <p>
+        La réponse est simple : une expression de fonction est créée ici en tant que <b>function(…) {…}</b> à l’intérieur de l’instruction d’affectation : <b>let sayHi = …;</b>. Le point-virgule <b>;</b> 
+        est recommandé à la fin de l’instruction, il ne fait pas partie de la syntaxe de la fonction. <br> <br>
+        Le point-virgule serait là pour une affectation plus simple, telle que <b>let sayHi = 5;</b>, et il est également là pour une affectation de fonction.
+    </p>
+</div>
+
+<h3 id="callback">3. Fonctions callback (de rappel)</h3>
+<p>
+    Examinons plus d’exemples de fonctions passées en tant que valeurs et utilisant des expressions de fonction. <br>
+    Nous allons écrire une fonction ask(question, yes, no) avec trois paramètres : <br>
+    <br>
+    <b>question</b> <br>
+        -> Texte de la question <br>
+    <b>yes</b> <br>
+        -> Fonction à exécuter si la réponse est “Yes” <br>
+    <b>no</b> <br>
+        -> Fonction à exécuter si la réponse est “No” <br>
+    <br>
+    La fonction doit poser la question et, en fonction de la réponse de l’utilisateur, appeler <b>yes()</b> ou <b>no()</b> :
+</p>
+<textarea class="code-php" id="">
+    function ask(question, yes, no) {
+      if (confirm(question)) yes();
+      else no();
+    }
+    
+    function showOk() {
+      alert( "You agreed." );
+    }
+    
+    function showCancel() {
+      alert( "You canceled the execution." );
+    }
+    
+    // utilisation: les fonctions showOk, showCancel sont transmises en tant qu'arguments à ask
+    ask("Do you agree?", showOk, showCancel);
+</textarea>
+<a href="tests/fct-1" class="btn btn-primary" target="_blank">Exécuter <b>tests/fct-1</b></a>
+
+<p class="mt-4">
+    En pratique, ces fonctions sont très utiles. La principale différence entre une demande réelle (ask) et l’exemple ci-dessus est que les fonctions réelles utilisent des moyens d’interagir 
+    avec l’utilisateur plus complexes que la simple confirmation (confirm). Dans le navigateur, une telle fonction dessine généralement une belle fenêtre de questions. 
+    Mais c’est une autre histoire. <br>
+    Les arguments <b>showOk</b> et <b>showCancel</b> de <b>ask</b> s’appellent des <b>fonctions callback</b> (fonctions de rappel) ou simplement des <b>callbacks</b> (rappels). <br>
+    L’idée est que nous passions une fonction et attendions qu’elle soit “rappelée” plus tard si nécessaire. Dans notre cas, <b>showOk</b> devient le rappel pour la réponse “<b>oui</b>” et <b>showCancel</b>
+    pour la réponse “<b>non</b>”. Nous pouvons utiliser les Fonctions Expressions pour écrire la même fonction mais plus courte :
+</p>
+<textarea class="code-php" id="">
+    function ask(question, yes, no) {
+      if (confirm(question)) yes();
+      else no();
+    }
+    
+    ask(
+      "Do you agree?",
+      function() { alert("You agreed."); },
+      function() { alert("You canceled the execution."); }
+    );
+</textarea>
+<p>
+    Ici, les fonctions sont déclarées directement dans l’appel <b>ask(...)</b>. Elles n’ont pas de nom et sont donc appelées anonymes. De telles fonctions ne sont pas accessibles en dehors de 
+    ask (car elles ne sont pas affectées à des variables), mais c’est exactement ce que nous voulons ici. <br>
+    Ce genre de code apparaît dans nos scripts très naturellement, c’est dans l’esprit de JavaScript.
+</p>
+<div class="alert alert-info mt-4">
+    <b class="red">Une fonction est une valeur représentant une “action”.</b> <br> <br>
+    Des valeurs régulières telles que des chaînes de caractères ou des nombres représentent les données. <br>
+    Une fonction peut être perçue comme une action. <br>    
+    Nous pouvons tout aussi bien la passer en tant que variable ou l’exécuter si nous le voulons.    
+</div>
+
+<h3 id="versus">4. Expression de fonction vs Déclaration de fonction</h3>
+<p>
+    Formulons les principales différences entre les déclarations de fonction et les expressions de fonctions. <br>
+    Tout d’abord, la syntaxe : comment les différencier dans le code. <br> <br>
+
+    <b>1. La déclaration de fonction : une fonction est déclarée séparément dans le flux de code principal.</b> <br>
+</p>
+<textarea class="code-php" id="">
+    // Déclaration de fonction
+    function sum(a, b) {
+      return a + b;
+    }
+</textarea>
+<p>
+    <b>2. L’expression de fonction : une fonction créée dans une expression ou dans une autre construction de syntaxe. Ici, la fonction est créée à droite de “l’affectation de l’expression” = :</b> <br>
+</p>
+<textarea class="code-php" id="">
+    // Expression de fonction
+    let sum = function(a, b) {
+      return a + b;
+    };
+</textarea>
+<p>
+    La différence la plus subtile est quand une fonction est créée par le mot eur JavaScript. <br>
+    <b>Une expression de fonction est créée lorsque l’exécution l’atteint.</b><br>
+    Une fois que le flux d’exécution passe à droite de l’affectation, let sum = function… , la fonction est créée et peut désormais être utilisée (assignée, appelée, etc.). <br> <br>
+    
+    Les déclarations de fonction sont différentes. <br>    
+    <b>Une déclaration de fonction peut être appelée plus tôt que sa définition.</b> <br>
+    Par exemple, une fonction déclarée est visible dans tout le script, peu importe où elle se trouve. <br>
+
+    Cela est dû aux algorithmes internes. Lorsque JavaScript se prépare à exécuter le script, il recherche d’abord les fonctions déclarées  et les crées. 
+    Nous pouvons considérer cela comme une “étape d’initialisation”. <br>
+    Une fois que toutes les déclarations de fonctions ont été traitées, le reste du code est exécuté. Ainsi, il a accès à ces fonctions pour les appeler.
+
+    Par exemple, le code ci-dessous fonctionne :
+</p>
+<textarea class="code-php" id="">
+    sayHi("John"); // Hello, John
+
+    function sayHi(name) {
+        alert( `Hello, ${name}` );
+    }
+</textarea>
+<p>
+    La déclaration de fonction <b>sayHi</b> est créée lorsque JavaScript est sur le point de démarrer le script et est visible partout dans celui-ci. <br>
+    <br>
+    … S’il s’agissait d’une expression de fonction, cela ne fonctionnerait pas :    
+</p>
+<textarea class="code-php" id="">
+    sayHi("John"); // erreur!
+    
+    let sayHi = function(name) {  // (*) erreur, la fonction n'est pas encore déclarée
+        alert( `Hello, ${name}` );
+    };
+</textarea>
+<p>
+    Les expressions de fonction sont créées lorsque l’exécution les atteint. Cela ne se produirait que dans la ligne (*). Trop tard. <br>
+    Une autre particularité des déclaration de fonction est leur portée de bloc.
+</p>
+<p>
+    <b>En mode strict, quand une déclaration de fonction se trouve dans un bloc de code, elle est visible partout dans ce bloc. Mais pas en dehors.</b> <br>
+    Par exemple, imaginons que nous ayons besoin de déclarer une fonction <b>welcome()</b> en fonction de la variable d’un age obtenu lors de l’exécution. <br>
+    Ensuite, nous prévoyons de l’utiliser quelque temps plus tard. Si nous utilisons la déclaration de fonction, cela ne fonctionnera pas comme prévu :
+</p>
+<textarea class="code-php" id="">
+    let age = prompt("Quel est votre age ?", 18);
+
+    // déclarer conditionnellement une fonction
+    if (age < 18) {
+
+        function welcome() {
+            alert("Hello!");
+        }
+
+    } else {
+
+        function welcome() {
+            alert("Greetings!");
+        }
+
+    }
+
+    // ...l'utiliser plus tard
+    welcome(); // Error: welcome is not defined
+</textarea>
+<p>
+    C’est parce qu’une déclaration de fonction n’est visible que dans le bloc de code dans lequel elle réside. <br>
+    Voici un autre exemple :
+</p>
+<textarea class="code-php" id="">
+    let age = 16; // prendre 16 comme exemple
+
+    if (age < 18) {
+        welcome();               // \   (exécution)
+                                 //  |
+        function welcome() {     //  |
+            alert("Hello!");     //  |  La déclaration de fonction est disponible
+        }                        //  |  partout dans le bloc où elle est déclarée
+                                 //  |
+        welcome();               // /   (exécution)
+
+    } else {
+
+        function welcome() {
+            alert("Greetings!");
+        }
+    }
+
+    // Ici, nous sommes en dehors des accolades,
+    // nous ne pouvons donc pas voir les déclarations de fonction faites à l'intérieur de celles-ci.
+
+    welcome(); // Error: welcome is not defined
+</textarea>
+<p>
+    Que pouvons-nous faire pour rendre welcome visible en dehors de <b>if</b> ?
+    L’approche correcte consisterait à utiliser une expression de fonction et à attribuer <b>welcome</b> à la variable déclarée en dehors de <b>if</b> et offrir ainsi la visibilité appropriée. <br>
+    Ce code fonctionne comme prévu :
+</p>
+<textarea class="code-php" id="">
+    let age = prompt("What is your age?", 18);
+
+    let welcome;
+
+    if (age < 18) {
+
+        welcome = function() {
+            alert("Hello!");
+        };
+
+    } else {
+
+        welcome = function() {
+            alert("Greetings!");
+        };
+
+    }
+
+    welcome(); // ok maintenant
+</textarea>
+<a href="tests/fct-2" class="btn btn-primary" target="_blank">Exécuter <b>tests/fct-2</b></a>
+
+<p>
+    Ou nous pourrions simplifier encore davantage en utilisant un opérateur conditionnel ternaire ? :
+</p>
+<textarea class="code-php" id="">
+    let age = prompt("What is your age?", 18);
+
+    let welcome = (age < 18) ?
+      function() { alert("Hello!"); } :
+      function() { alert("Greetings!"); };
+
+    welcome(); // ok maintenant
+</textarea>
+<div class="alert alert-info mt-4">
+    <strong>[X] Information : Quand choisir la déclaration de fonction par rapport à l'expression de fonction ?</strong> <hr>
+    <p>
+        En règle générale, lorsque nous devons déclarer une fonction, la première chose à prendre en compte est la syntaxe de la déclaration de fonction. 
+        Cela donne plus de liberté dans l’organisation de notre code, car nous pouvons appeler de telles fonctions avant qu’elles ne soient déclarées. <br>
+        C’est également meilleur pour la lisibilité, car il est plus facile de rechercher la fonction <b>f(…) {…}</b> dans le code que <b>let f = function(…) {…};</b>. <br>
+        Les <b>déclarations de fonction</b> sont plus “accrocheuses”. <br>
+        … Mais si une déclaration de fonction ne nous convient pas pour une raison quelconque (nous en avons vu un exemple ci-dessus), 
+        alors il convient d’utiliser une <b>expression de fonction</b>.
+    </p>
+</div>
+
+<h3 ide="resume">5. Résumé</h3>
+
+<ul>
+    <li>Les fonctions sont des valeurs. Elles peuvent être attribuées, copiées ou déclarées à n’importe quel endroit du code.</li>
+    <li>Si la fonction est déclarée comme une instruction distincte dans le flux de code principal, cela s’appelle une “déclaration de fonction”.</li>
+    <li>Si la fonction est créée dans le cadre d’une expression, elle est appelée “expression de fonction”.</li>
+    <li>Les déclarations de fonctions sont traitées avant l’exécution du bloc de code. Elles sont visibles partout dans le bloc.</li>
+    <li>Les expressions de fonction sont créées lorsque le flux d’exécution les atteint.</li>
+</ul>
+<p>
+    Dans la plupart des cas, lorsque nous devons déclarer une fonction, une déclaration de fonction est préférable parce qu’elle est visible avant la déclaration elle-même. 
+    Cela nous donne plus de flexibilité dans l’organisation du code et il est généralement plus lisible.
+</p>
+<p>
+    Nous devrions donc utiliser une expression de fonction uniquement lorsqu’une déclaration de fonction n’est pas adaptée à la tâche. Nous en avons vu quelques exemples dans cete 
+    leçon et nous en verrons d’autres à l’avenir.
+</p>
+
+    
+
+

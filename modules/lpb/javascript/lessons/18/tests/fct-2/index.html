@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>        
+        function showMessage(from, text) {
+            from = '*' + from + '*'; // Formate l'affichage de "from"
+            alert( from + ': ' + text );
+        }
+
+        let from = "Anne";
+        showMessage(from, "Salut"); // *Ann*: Salut
+
+        // la valeur de "from" est la même, la fonction a modifié une copie locale
+        alert( from ); // Anne
+    </script>
+    
+</body>
+</html>

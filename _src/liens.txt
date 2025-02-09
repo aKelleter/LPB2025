@@ -10,3 +10,6 @@ https://code-garage.fr/blog/qu-est-ce-que-le-hoisting-en-javascript/
 LDB
 ---
 https://www.scaler.com/topics/mysql-flush-privileges/
+
+Cours Harvard SQL Introduction
+https://cs50.harvard.edu/x/2025/notes/7/

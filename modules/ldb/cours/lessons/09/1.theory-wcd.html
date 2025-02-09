@@ -79,3 +79,137 @@ CREATE TABLE photo_tags (
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 </textarea>   
 <a class="btn btn-primary" href="files/galerie_photos.sql">Le fichier SQL pour créer la base de données ainsi que les tables</a>
+
+<div class="alert alert-info mt-4">
+    <strong>[X] Information : Que signifie UNIQUE dans le champs nom de la table tags </strong> <hr>
+    L'attribut <b>UNIQUE</b> dans la colonne nom de la table tags signifie que chaque valeur dans cette colonne doit être unique dans toute la table. <br>
+    Concrètement :
+    <ul>
+        <li>Chaque tag doit avoir un nom unique.</li>
+        <li>Il n'est pas possible d'avoir deux tags avec le même nom.</li>
+    </ul>
+
+    Cela permet d'éviter les doublons et assure que chaque tag est unique dans la base de données. <br>
+    Si tu veux que le tag soit unique mais sans empêcher l'insertion en cas de doublon, on peut  utiliser <b>INSERT IGNORE</b> ou <b>ON DUPLICATE KEY UPDATE</b>, 
+    selon le comportement souhaité. <br>
+</div>
+<p>
+    Exemple : Tentative d'insertion de trois tag dont un tag déjà.
+</p>
+<textarea class="code-php">
+    INSERT INTO tags (nom) VALUES ('Paysage');  -- OK
+    INSERT INTO tags (nom) VALUES ('Nature');   -- OK
+    INSERT INTO tags (nom) VALUES ('Paysage');  -- ERREUR ! Le nom existe déjà
+</textarea>
+
+<h3 id="insert">3. Insertion des données dans les tables et points d'attention</h3>
+<p>
+    Pour avoir une base de données fonctionnelle, il faut insérer les données dans le bon ordre, en respectant les relations entre les tables. Voici comment procéder correctement.
+</p>
+
+<h4>1. Insérer des utilisateurs</h4>
+<p>
+    Si l'application est multi-utilisateurs, on commence par ajouter des utilisateurs.
+</p>
+<textarea class="code-php" id="">
+    INSERT INTO utilisateurs (nom, email, mot_de_passe) 
+    VALUES 
+    ('Alice Dupont', 'alice@example.com', 'motdepasse1'),
+    ('Bob Martin', 'bob@example.com', 'motdepasse2');
+</textarea>
+<div class="alert alert-info"> [!] Point d'attention : Le mot de passe devrait être haché en PHP (avec la fonction password_hash()).</div>
+
+<h4>2. Insérer des albums</h4>
+<p>
+    Chaque album doit être associé à un utilisateur (utilisateur_id).
+</p>
+<textarea class="code-php" id="">
+    INSERT INTO albums (utilisateur_id, nom, description) 
+    VALUES 
+    (1, 'Voyage en Italie', 'Photos de mon voyage à Rome et Venise'),
+    (2, 'Nature et Paysages', 'Collection de belles photos de la nature');
+</textarea>
+<div class="alert alert-info">
+    [!] Point d'attention : 
+    <ul>
+        <li>S'assurer que <b>utilisateur_id</b> existe déjà dans la table utilisateurs, sinon la clé étrangère posera un problème.</li>
+        <li>Si les utilisateurs ne sont pas obligatoires, il faut gérer les NULL.</li>
+    </ul>
+</div>
+
+<h4>3. Insérer des photos</h4>
+<p>
+    Chaque photo doit être associée à un album (<b>album_id</b>) et avoir un chemin valide.
+</p>
+<textarea class="code-php" id="">
+    INSERT INTO photos (album_id, titre, description, chemin_fichier) 
+    VALUES 
+    (1, 'Colisée', 'Photo du Colisée à Rome', 'images/rome_colisee.jpg'),
+    (1, 'Gondole à Venise', 'Balade en gondole', 'images/venise_gondole.jpg'),
+    (2, 'Cascade', 'Belle cascade en forêt', 'images/cascade.jpg');
+</textarea>
+<div class="alert alert-info">
+    [!] Point d'attention : 
+    <ul>S
+        <li>Vérifier que <b>album_id</b> existe bien dans la table albums.</li>
+        <li>Le champ <b>chemin_fichier</b> doit contenir un chemin valide vers l’image stockée sur le serveur.</li>
+    </ul>
+</div>
+
+<h4>4. Insérer des tags (facultatif)</h4>
+<p>
+    Si on souhaite organiser les photos par tags, on peut ajouter des tags. <br>
+    Les tags sont uniques et permettent de catégoriser les photos.
+</p>
+<textarea class="code-php" id="">
+    INSERT INTO tags (nom) 
+    VALUES 
+    ('Voyage'), 
+    ('Nature'), 
+    ('Architecture');
+</textarea>
+<div class="alert alert-info">
+    [!] Point d'attention : 
+    <ul>
+        <li>Si un tag existe déjà (grâce à UNIQUE), une erreur peut se produire.
+            👉 Utiliser <b>INSERT IGNORE</b> pour ignorer l’erreur ou <b>ON DUPLICATE KEY UPDATE</b> pour mettre à jour l’existant.</li>
+    </ul>
+    <p>Exemples :</p>
+    <textarea class="code-php">
+        INSERT IGNORE INTO tags (nom) VALUES ('Voyage');
+    </textarea>
+    <p>OU</p>
+    <textarea class="code-php">
+        INSERT INTO tags (nom) VALUES ('Voyage') ON DUPLICATE KEY UPDATE nom = nom;
+    </textarea>
+</div>
+
+<h4>5. Associer des tags aux photos</h4>
+<p>
+    La table <b>photo_tags</b> fait le lien entre les photos et les tags.
+</p>
+<textarea class="code-php" id="">
+    -- Associer les tags aux photos
+    INSERT INTO photo_tags (photo_id, tag_id) 
+    VALUES 
+    (1, 3), -- "Colisée" est associé au tag "Architecture"
+    (2, 1), -- "Gondole à Venise" est associé à "Voyage"
+    (3, 2); -- "Cascade" est associé à "Nature"
+
+</textarea>
+<div class="alert alert-info">
+    [!] Point d'attention : 
+    <ul>
+        <li>Vérifier que <b>photo_id</b> et <b>tag_id</b> existent dans les tables photos et tags avant l'insertion.</li>
+        <li>Une même photo ne doit pas être associée deux fois au même tag (clé primaire <b>photo_id</b>, <b>tag_id</b> empêche cela).</li>
+    </ul>
+</div>
+
+<h3>4. Résumé des précautions</h4>
+<p>
+✅ Respecter l’ordre des insertions pour éviter les erreurs de clés étrangères. <br>
+✅ Vérifier l’existence des IDs avant de les référencer. <br>
+✅ Gérer les erreurs de doublons avec UNIQUE (INSERT IGNORE, ON DUPLICATE KEY UPDATE). <br>
+✅ Stocker les chemins de fichiers de façon organisée. <br>
+✅ Toujours hacher les mots de passe des utilisateurs en PHP. <br>
+</p>

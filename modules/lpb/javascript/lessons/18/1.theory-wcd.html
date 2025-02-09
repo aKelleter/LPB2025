@@ -1,7 +1,388 @@
+<h3 id="intro">1. Introduction</h3>
 <p>
-    
+    Très souvent, nous devons effectuer une action similaire à plusieurs endroits du script. <br>
+    Par exemple, nous devons afficher un message lorsqu’un visiteur se connecte, se déconnecte, voir dans d'autres circonstances. <br>
+    Les fonctions sont les principales “composantes” du programme. Elles permettent au code d’être appelé plusieurs fois sans devoir le répéter. <br>
+    Nous avons déjà vu des exemples de fonctions intégrées, telles que alert(message), prompt(message, default). Mais nous pouvons aussi créer nos propres fonctions.
 </p>
-<h3></h3>
+
+<h3 id="declare">2. Déclarer une fonction</h3>
 <p>
-    
+    Pour créer une fonction, nous pouvons utiliser une déclaration de fonction. <br>
+    Cela ressemble à ceci :
 </p>
+<textarea class="code-php">
+    function showMessage() {
+        alert( 'Hello everyone!' );
+      }
+</textarea>
+<p>
+    Le mot-clé <b>function</b> zrrive en premier, suivi du nom de la fonction, puis d'une liste de paramètres entre les parenthèses (séparés par des virgules, vides dans l’exemple ci-dessus, 
+    nous verrons des exemples plus tard) et enfin ; entre accolades; le code de la fonction proprement dit, également appelé “le corps de la fonction”.
+</p>
+<textarea class="code-php" id="">
+    function name(parameter1, parameter2, ... parameterN) {
+        // corps de la fonction
+    }
+</textarea>
+<p>
+    Notre nouvelle fonction peut être appelée par son nom : showMessage(). <br>
+    Par exemple :
+</p>
+<textarea class="code-php">
+    function showMessage() {
+        alert( 'Hello everyone!' );
+      }
+      
+      showMessage();
+      showMessage();
+</textarea>
+<p>
+    L’appel <b>showMessage()</b> exécute le code de la fonction. Dans ce cas, nous voyons le message deux fois, parce qu’on appelle deux fois la fonction. <br>
+    Cet exemple illustre clairement l’un des principaux objectifs des fonctions: éviter la duplication de code. <br>
+    Si nous devons un jour modifier le message ou son affichage, il suffit de modifier le code à un endroit: la fonction qui le renvoie.
+</p>
+
+<h3 id="varloc">3. Les variables locales</h3>
+<p>
+    Une variable déclarée à l’intérieur d’une fonction n’est visible qu’à l’intérieur de cette fonction.
+    Par exemple :
+</p>
+<textarea class="code-php">
+    function showMessage() {
+        let message = "Hello, I'm JavaScript!"; // local variable
+
+        alert( message );
+    }
+
+    showMessage(); // Hello, I'm JavaScript!
+
+    alert( message ); // Error! La variable n'est pas accessible en dehors de la fonction
+</textarea>
+<p>
+    La variable <b>message</b> est déclarée à l’intérieur de la fonction. Elle est visible uniquement à l’intérieur de celle-ci. <br>
+    Si nous essayons d’accéder à la variable en dehors de la fonction, une erreur se produira.
+</p>
+
+<h3 id="varext">4. Les variables externes</h3>
+<p>
+    Une fonction peut accéder à une variable externe également. <br>
+    Par exemple :
+</p>
+<textarea class="code-php">
+    let userName = 'John';
+
+    function showMessage() {
+        let message = 'Hello, ' + userName;
+        alert(message);
+    }
+
+    showMessage(); // Hello, John
+</textarea>
+<a href="tests/fct-1" class="btn btn-primary" target="_blank">Exécuter <b>tests/fct-1</b></a>
+
+<p>
+    La fonction <b>showMessage()</b> peut accéder à la variable <b>userName</b> depuis l’extérieur. <br>
+    Elle peut lire la variable, mais pas la modifier. <br>
+    Nous pouvons appeler la fonction autant de fois que nous le souhaitons, avec différentes valeurs de <b>userName</b>.
+</p>
+<p>
+    Les variables déclarées en dehors de toute fonction, telle que <b>userName</b> dite externe dans le code ci-dessus, sont également appelées <b>"globales"</b>. <br>
+    Les variables globales sont visibles depuis n’importe quelle fonction (sauf si elles sont masquées par les variables locales, voir exemple ci-dessous).
+</p>
+<textarea class="code-php" id="">
+    let userName = 'John';
+
+    function showMessage() {
+    let userName = "Bob"; // déclarer une variable locale
+
+    let message = 'Hello, ' + userName; // Bob
+    alert(message);
+    }
+
+    // la fonction créera et utilisera son propre userName
+    showMessage();
+
+    alert( userName ); // John, inchangé, la fonction n'a pas accédé à la variable externe
+</textarea>
+
+<div class="alert alert-danger mt-4">
+    <p>
+        <strong>/!\ Règles de portées des variables avec les fonctions</strong> <hr>
+        Les variables déclarées avec <b>let</b> appartiennent à la portée du bloc dans lequel elles sont définies <b class="red">et indirectement aux portées des blocs de ce bloc</b>. 
+        D'une certaine façon <b>let</b> fonctionne comme <b>var</b>, la seule différence dans cette analogie est que <b class="red">let fonctionne avec les portées de bloc</b> et <b>var</b>
+        avec <b class="red">les portées des fonctions</b> :
+    </p>
+    <textarea class="code-php">
+        function varTest() {
+          var x = 31;
+          if (true) {
+            var x = 71; // c'est la même variable !
+            console.log(x); // 71
+          }
+          console.log(x); // 71
+        }
+          
+        function letTest() {
+          let x = 31;
+          if (true) {
+            let x = 71; // c'est une variable différente
+            console.log(x); // 71
+          }
+          console.log(x); // 31
+        }          
+    </textarea>
+</div>
+
+<h3 id="arg">5. Les arguments</h3>
+<p>
+    Nous pouvons transmettre des données arbitraires à des fonctions à l’aide de paramètres.
+    Dans l’exemple ci-dessous, la fonction a deux paramètres: <b>from</b> et <b>text</b>.
+</p>
+<textarea class="code-php">
+    function showMessage(from, text) { // arguments: from, text
+        alert(from + ': ' + text);
+    }
+
+    showMessage('Anne', 'Salut!'); // Anne: Salut! (*)
+    showMessage('Anne', "Comment vas-tu?"); // Anne: Comment vas-tu? (**)
+</textarea>
+<p>
+    Lorsque la fonction est appelée dans les lignes (*) et (**), les valeurs données sont copiées dans les variables locales <b>from</b> et <b>text</b>. Ensuite, la fonction les utilise. <br>
+    Voici un autre exemple: nous avons une variable from et la transmettons à la fonction. Remarque : la fonction change from, mais le changement n’est pas visible à l’extérieur,
+    car une fonction obtient toujours une copie de la valeur :
+</p>
+<textarea class="code-php">
+    function showMessage(from, text) {
+        from = '*' + from + '*'; // Formate l'affichage de "from"
+        alert( from + ': ' + text );
+    }
+
+    let from = "Anne";
+    showMessage(from, "Salut"); // *Ann*: Salut
+
+    // la valeur de "from" est la même, la fonction a modifié une copie locale
+    alert( from ); // Anne
+</textarea>
+<a href="tests/fct-2" class="btn btn-primary" target="_blank">Exécuter <b>tests/fct-2</b></a>
+<p class="mt-4">
+    Lorsqu’une valeur est passée en tant que paramètre de fonction, elle est également appelée argument. <br>
+    En d’autres termes, pour mettre ces termes au clair : <br>
+    <ul>
+        <li>Un paramètre est une variable dans la déclaration de la fonction.</li>
+        <li>Un argument est la valeur qui est passée à la fonction lors de son appel.</li>
+    </ul>
+    <br>
+    Nous déclarons des fonctions en listant leurs paramètres, puis les appelons en passant des arguments. <br>
+    Dans l’exemple ci-dessus, on pourrait dire : "la fonction showMessage est déclarée avec deux paramètres, puis appelée avec deux arguments : from et "Salut".
+</p>
+
+<h3 id="paramDef">6. Les valeurs par défaut</h3>
+<p>
+    Si une fonction est appelée, mais qu’aucun argument n’est fourni, alors la valeur correspondante devient <b>undefined</b>.
+    Par exemple, la fonction showMessage(from, text) mentionnée précédemment peut être appelée avec un seul argument :
+</p>
+<textarea class="code-php">
+    function showMessage(from, text) {
+        alert( from + ': ' + text );
+    }
+
+    showMessage('Anne'); // Anne: undefined
+</textarea>
+<p>
+    Ce n’est pas une erreur. Un tel appel produirait "Anne: undefined". Comme la valeur de text n’est pas transmise, elle devient <b>undefined</b>.
+    Nous pouvons spécifier la valeur dite “par défaut” (à utiliser si omise) pour un paramètre dans la déclaration de fonction, en utilisant = :
+</p>
+<textarea class="code-php">
+    function showMessage(from, text = "...") {
+        alert( from + ': ' + text );
+    }
+
+    showMessage('Anne'); // Anne: ...
+</textarea>
+<p>
+    Maintenant, si le paramètre <b>text</b> n’est pas passé, il obtiendra la valeur "...".
+    La valeur par défaut s'active également si le paramètre existe, mais est strictement égal à undefined, comme ceci :
+</p>
+<textarea class="code-php">
+    showMessage("Anne", undefined); // Anne: ...
+</textarea>
+<p>
+    Dans notre cas, "..." est une chaîne de caractères, mais il peut s’agir d’une expression plus complexe, qui n’est évaluée et affectée que si le paramètre est manquant. 
+    Donc, cela est également possible :
+</p>
+<textarea class="code-php">
+    function showMessage(from, text = anotherFunction()) {
+        // anotherFunction() est exécuté uniquement si aucun texte n'est fourni
+        // son résultat devient la valeur de text
+    }
+</textarea>
+<div class="alert alert-info mt-4">   
+    <strong>Remarque</strong> <hr>
+    En JavaScript, un paramètre par défaut est évalué chaque fois que la fonction est appelée sans le paramètre correspondant. <br>
+    Dans l’exemple ci-dessus, <b>anotherFunction()</b> n’est pas du tout appelé, si le paramètre text est fourni. <br>
+    D’un autre côté, il est appelé indépendamment à chaque fois que <b>text</b> est manquant.
+</div>
+
+<h3 id="paramDefAlter">7. Paramètres par défaut alternatifs</h3>
+<p>
+    Il est parfois judicieux de définir des valeurs par défaut pour les paramètres non pas dans la fonction déclaration, mais à un stade ultérieur, lors de son exécution. <br>
+    Nous pouvons vérifier si le paramètre est passé lors de l’exécution de la fonction, en le comparant avec <b>undefined</b> :
+</p>
+<textarea class="code-php">
+    function showMessage(text) {
+        // ...
+      
+        if (text === undefined) { // si le paramètre est manquant
+          text = 'empty message';
+        }
+      
+        alert(text);
+      }
+      
+      showMessage(); // empty message   
+</textarea>
+<p>
+    …Ou nous pourrions utiliser l’opérateur de coalescence null <b>??</b> :
+</p>
+<textarea class="code-php">
+    function showMessage(text) {
+        // affiche "empty message" si text est false, dans ce cas, null ou undefined
+        alert( text ?? 'empty message' );
+    }
+      
+    showMessage(); // empty message
+</textarea>
+
+<h3 id="return">8. Retourner une valeur</h3>
+<p>
+    Une fonction peut retourner/renvoyer une valeur dans le code appelant en tant que résultat.
+    L’exemple le plus simple serait une fonction qui additionne deux valeurs :
+</p>
+<textarea class="code-php">
+    function sum(a, b) {
+        return a + b;
+    }
+
+    let result = sum(1, 2);
+    alert( result ); // 3
+</textarea>
+<p>
+    L’instruction <b>return</b> termine l’exécution de la fonction et spécifie la valeur à renvoyer à l’appelant de la fonction. <br>
+    L’expression après <b>return</b> est évaluée et devient la valeur de retour de la fonction. <br>
+    Il peut y avoir plusieurs <b>return</b> dans une fonction. Ils peuvent être conditionnels et ils peuvent être n’importe où dans la fonction. 
+    Un exemple de fonction avec des retours conditionnels :
+</p>
+<textarea class="code-php">
+    function checkAge(age) {
+        if (age >= 18) {
+            return true;
+        } else {
+            return confirm('Avez-vous l’autorisation de vos parents?');
+        }
+    }
+
+    let age = prompt('Quel âge avez-vous?', 18);
+
+    if ( checkAge(age) ) {
+        alert( 'Accès accordé' );
+    } else {
+        alert( 'Accès refusé' );
+    }
+</textarea>
+<a href="tests/fct-3" class="btn btn-primary" target="_blank">Exécuter <b>tests/fct-3</b></a>
+
+<p>
+    Il est possible d’utiliser <b>return</b> sans valeur. Cela entraîne la sortie immédiate de la fonction. <br>
+    Par exemple :
+</p>
+<textarea class="code-php">
+    function showMovie(age) {
+        if ( !checkAge(age) ) {
+            return;
+        }
+
+        alert( "Vous pouvez regarder le film" );
+        // ...
+    }
+</textarea>
+<p>
+    Dans l’exemple ci-dessus, si <b>checkAge(age)</b> renvoie <b>false</b>, <b>showMovie</b> s’arrête immédiatement. <br>
+    L’instruction <b>alert</b> ne sera pas exécutée.
+</p>
+<div class="alert alert-danger mt-4">
+    <strong>/!\ N’ajoutez jamais de nouvelle ligne entre <b>return</b> et la valeur</strong> <hr>
+    Pour une longue expression dans return, il pourrait être tentant de la mettre sur une ligne séparée, comme ceci :
+    <textarea class="code-php">
+        return
+        (some + long + expression + or + whatever * f(a) + f(b));
+    </textarea>
+    Cela ne fonctionne pas, car JavaScript suppose un point-virgule après le return. Cela fonctionnera comme :
+    <textarea class="code-php">
+        return;
+        (some + long + expression + or + whatever * f(a) + f(b));
+    </textarea>
+    Donc, cela devient effectivement un retour vide. <br>
+    Si nous voulons que l’expression renvoyée recouvre plusieurs lignes, nous devons la démarrer à la même ligne que return. Ou du moins mettre les parenthèses d’ouverture comme suit : <br>
+    <textarea class="code-php">
+        return (
+            some + long + expression
+            + or + whatever * f(a) + f(b)
+        );
+    </textarea>
+</div>
+
+<h3 id="name">9. Nommer une fonction (convention de nommage)</h3>
+<div>
+    Les fonctions sont des actions. Donc, leur nom est généralement un verbe. Il convient de décrire brièvement, mais aussi précisément que possible, le rôle de la fonction. 
+    Pour qu’une personne qui lit le code reçoive le bon indice. <br> <br>
+    C’est une pratique répandue de commencer une fonction avec un préfixe verbal qui décrit vaguement l’action. Il doit exister un accord au sein de l’équipe sur la signification des préfixes.
+    Par exemple, les fonctions qui commencent par "show" affichent généralement quelque chose. <br>
+    Fonctions commençant par… :<br>
+    <ul>
+        <li>show… – affiche quelque chose.</li>
+        <li>get… – retourne une valeur.</li>
+        <li>calc… – calcule quelque chose.</li>
+        <li>create… – crée quelque chose.</li>
+        <li>check… – vérifie quelque chose et retourne un booléen, etc.</li>
+    </ul>
+    Exemples de quelques noms :
+    <textarea class="code-php" id="">
+        showMessage(..)     // affiche un message
+        getAge(..)          // renvoie l'âge (l'obtient en quelque sorte)
+        calcSum(..)         // calcule une somme et renvoie le résultat
+        createForm(..)      // crée un formulaire (et le retourne généralement)
+        checkPermission(..) // vérifie une permission, retourne vrai/faux
+    </textarea>
+    <p>
+        Avec les préfixes en place, un coup d’œil sur un nom de fonction permet de comprendre le type de travail effectué et le type de valeur renvoyé.
+    </p>
+</div>
+
+<div class="alert alert-info mt-4">
+    <strong>[X] Information : Une fonction – une action</strong> <hr>
+    <p>
+        Une fonction doit faire exactement ce qui est suggéré par son nom, pas plus. <br>
+        Deux actions indépendantes méritent généralement deux fonctions, même si elles sont généralement appelées ensemble (dans ce cas, nous pouvons créer une 
+        troisième fonction qui appelle ces deux actions). <br>
+        
+        Quelques exemples de violation de cette règle :
+        <ul>
+            <li><b>getAge</b> – serait mauvais si elle affichait une alert avec l’âge (devrait seulement obtenir).</li>
+            <li><b>createForm</b> – serait mauvais s’il modifiait le document en y ajoutant un formulaire (il ne devrait que le créer et le renvoyer).</li>
+            <li<><b>checkPermission</b> – serait mauvais s’il affiche le message d’accès accordé/refusé (doit uniquement effectuer la vérification et renvoyer le résultat).</li>
+        </ul>
+                
+        Ces exemples supposent des significations communes de préfixes. Vous et votre équipe êtes libres de vous entendre sur d’autres sens, mais ils ne sont généralement pas très différents. 
+        Dans tous les cas, vous devez bien comprendre ce que signifie un préfixe, ce qu’une fonction préfixée peut et ne peut pas faire. Toutes les fonctions ayant le même préfixe doivent obéir 
+        aux règles. Et l’équipe devrait partager ces connaissances. <br> <br>
+
+        <b>En règle générale, les noms de fonctions doivent être concis et descriptifs.</b>
+        
+    </p>    
+</div>
+
+
+
+
+

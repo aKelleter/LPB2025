@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>        
+       function checkAge(age) {
+            if (age >= 18) {
+                return true;
+            } else {
+                return confirm('Avez-vous l’autorisation de vos parents?');
+            }
+        }
+
+        let age = prompt('Quel âge avez-vous?', 18);
+
+        if ( checkAge(age) ) {
+            alert( 'Accès accordé' );
+        } else {
+            alert( 'Accès refusé' );
+        }
+    </script>    
+</body>
+</html>
