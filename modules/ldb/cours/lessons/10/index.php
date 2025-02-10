@@ -20,11 +20,11 @@
                 <div class="row">
                     <div class="col-md-1"></div>
                     <div class="col-md-10">                       
-                        <h1 class="mt-5 text-center">Leçon 10 : <span class="color_dark_green">Modélisation</span></h1>  
+                        <h1 class="mt-5 text-center">Leçon 10 : <span class="color_dark_green">Modélisation : MCD</span></h1>  
                         <?= getHtmlSubMenuLDB('09', '11'); ?>   
                         
                         <?= getHtmlBlocWhatCodeDoes(file_get_contents(FILENAME_WCD)); ?>                       
-                        <?= getHtmlBlockRessources($ressources); ?>
+                        
 
                         <button onclick="scrollToTop()" class="btn btn-primary mb-4" id="scrollToTopBtn">Haut de page</button> 
                     </div> <!--col-md-10-->

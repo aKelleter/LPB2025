@@ -1,6 +1,16 @@
 <h3>Sommaire</h3>
 <ol>
-   
+    <li><a href="#intro">Introduction</a></li>
+    <li><a href="#mcd">Le modèle MCD</a></li>
+    <ul>
+        <li><a href="#entite">2.1 L'entité</a></li>
+        <li><a href="#assoc">2.2 Association</a></li>
+        <li><a href="#prop">2.3 Propriété</a></li>
+        <li><a href="#occ">2.4 Occurence</a></li>
+        <li><a href="#id">2.5 Identifiant</a></li>
+        <li><a href="#card">2.6 Cardinalité</a></li>
+        <li><a href="#bin">2.7 Types d'association binaires</a></li>
+    </ul>
 </ol>
 
 <h3 id="intro">1. Introduction</h3>
@@ -24,7 +34,7 @@
     le sens attaché à ces données et à leurs rapports et non à l’utilisation qui peut en être faite. Cette section présente les différentes notions liées à un MCD.
 </p>
 
-<h4>2.1 L'entité</h4>
+<h4 id="entite">2.1 L'entité</h4>
 <p>
     <b>Définition</b> :  Une entité est une classe d’objets homogènes ayant une existence propre par rapport au réel modélisé.
 </p>
@@ -36,7 +46,7 @@
 </p>
 <img src="img/entites.png" alt="Entites" width="80%" class="mx-auto d-block">
 
-<h4>2.2 Association</h4>
+<h4 id="assoc">2.2 Association</h4>
 <p>
     <b>Définition</b> : Une association est une liaison qui va lier un certain nombre d’entités dans le réel modélisé.
 </p>
@@ -51,4 +61,256 @@
     est appelée branche.
 </p>
 <img src="img/association.png" alt="Association" width="80%" class="mx-auto d-block">
+<p>
+    Remarques :
+</p>
+<ul>
+    <li>Une association peut lier deux entités ou plus.</li>
+    <li>Une association peut être réflexive, c’est-à-dire qu’elle peut lier une entité à elle-même.</li>
+    <li>Une association peut être binaire, ternaire, quaternaire, etc. selon le nombre de branches qu’elle possède.</li>
+</ul>
+<p>
+    Exemples Les deux associations "appartenir" et "enseigner" de l’exemple précédent sont des
+    associations binaires, étant donné que chacune d’elles lie exactement deux entités. <br>
+    Si on considère que chaque étudiant pourrait faire partie d’un même binôme avec un autre
+    étudiant tout au long de l’année, alors cette information pourrait être représentée par une
+    association réflexive "binôme" qui va lier l’entité "Étudiant" à elle-même. <br>
+    Si on voulait maintenant préciser, dans notre MCD, le module enseigné par un certain
+    enseignant à un certain groupe, alors l’association binaire "Enseigner" se transformerait en
+    association ternaire qui lierait les 3 entités "Enseignant", "Groupe" et "Module".
+</p>
+<img src="img/mcd-2.png" alt="MCD" width="80%" class="mx-auto d-block">
 
+<h4 id="prop">2.3 Propriété</h4>
+<p>
+    <b>Définition</b> : Une propriété est une information simple sur une entité ou une association. 
+</p>
+<p>
+    Exemple :
+</p>
+<p> 
+    Pour un étudiant, il serait intéressant d’avoir comme propriétés : son numéro d’inscription, son nom, 
+    son/ses prénom(s), et sa date de naissance. <br>
+    Pour un groupe : son code. <br>
+    Pour un enseignant : son nom, son/ses prénom(s) et son grade. Pour un module : son code, son
+    intitulé et son volume horaire.
+</p>
+<p>
+    Si on voulait représenter la note d’un étudiant pour chaque module, alors cela pourrait être
+    modélisé par une association "évalué" entre l’entité "Étudiant" et l’entité "Module", la note serait
+    alors une propriété de cette association. 
+</p>
+<p>
+    En effet, la note ne pourrait pas être une propriété de
+    l’entité "Étudiant", car chaque étudiant possède plusieurs notes, et la note ne pourrait pas non
+    plus être une propriété de l’entité "Module" car cela pourrait signifier que tous les étudiants
+    auraient la même note pour un certain module.
+</p>
+<p>
+    <b>Représentation graphique</b> : Les propriétés sont listées dans la case inférieure de l’entité ou
+    de l’association concernée.
+</p>
+<p>
+    Exemple :
+</p>
+<img src="img/mcd-3.png" alt="MCD" width="80%" class="mx-auto d-block">
+
+<p class="mt-3">
+    Remarques :
+</p>
+<ul>
+    <li>Une entité doit posséder au moins une propriété.</li>
+    <li>Une association peut ne pas posséder de propriétés. Dans ce cas, sa forme ovale peut être constituée d’une seule 
+        case (Exemple : association "binome" dans le MCD précédant).</li>
+</ul>
+
+<h4 id="occ">2.4 Occurence</h4>
+<p>
+    Une <b>occurrence</b> est un exemple concret d’une <b>entité</b> ou d’une <b>association</b>. 
+</p>
+<p>
+    Étant donné qu’une entité est une classe/famille d’objets homogènes, chaque membre de
+    cette famille est alors une occurrence de l’entité considérée. Pour chaque occurrence d’une
+    entité, chaque propriété prend une valeur.
+</p>
+<img src="img/occurences.png" alt="occurences d'une entité" width="60%" class="mx-auto d-block">
+
+<p>Pour résumé :</p>
+<ul>
+    <li>
+        Une <b>entité</b> représente un groupe d’objets qui ont des caractéristiques communes. <br>
+        Exemple : L’entité "Étudiant" représente tous les étudiants.
+    </li>
+    <li>
+        Une <b>occurrence d’une entité</b> est un élément particulier de ce groupe. <br>
+        Exemple : Un étudiant spécifique comme John Doe (numéro d’inscription 23467) est une occurrence de l’entité "Étudiant".
+    </li>
+    <li>
+        Une <b>association</b> est un lien entre plusieurs entités. <br>
+        Exemple : L’association "<b>appartenir</b>" peut relier un étudiant à un groupe.
+    </li>
+    <li>
+        Une <b>occurrence d’une association</b> est un cas précis de ce lien. <br>
+        Exemple : L’étudiant John Doe (numéro 23467) appartient au groupe "S4", donc il existe une occurrence de l’association "appartenir" entre John Doe et le groupe S4.
+    </li>
+</ul>
+<img src="img/occ-assoc.png" alt="occurences d'une association" width="80%" class="mx-auto d-block">
+
+<p>
+    Résumé en image mentale :
+</p>
+<p>
+    👉 Entité = une catégorie (ex. Étudiant, Groupe) <br>
+    👉 Occurrence d’entité = un élément précis de cette catégorie (ex. Ali Bouali, Groupe S4) <br>
+    👉 Association = un lien entre deux ou plusieurs entités (ex. Appartenir) <br>
+    👉 Occurrence d’association = un cas précis de ce lien (ex. Ali Bouali appartient au Groupe S4) <br>
+</p>
+
+<h4 id="id">2.5 Identifiant</h4>
+<p>
+    <b>Définition</b> : Un identifiant est un ensemble de propriétés (une ou plusieurs) qui permet d’identifier une occurrence 
+    d’entité ou d’association de manière unique.
+</p>
+<p>
+    Cela signifie qu’il n’existe pas deux occurrences de la même entité ou de la même association
+    avec la même valeur d’identifiant. Toute entité ou association possède un identifiant. 
+</p>
+<p>
+    Représentation graphique
+</p>
+<ul>
+    <li>
+        <b>L’identifiant d’une entité est explicite</b> : l’ensemble des propriétés le formant sont précisées
+        en les soulignant.
+    </li>
+    <li>
+        <b>L’identifiant d’une association est implicite</b> : il n’est pas représenté graphiquement et est
+        automatiquement formé par l’ensemble des identifiants des entités liées par l’association
+    </li>
+</ul>
+<p>
+    Exemple : 
+</p>
+<p>    
+    La propriété "numInscription" identifie de manière unique une occurrence de l’entité
+    "Étudiant" : il n’existe pas deux étudiants avec la même valeur pour cette propriété. C’est donc
+    un identifiant pour l’entité "Étudiant". 
+</p>
+<p>    
+    De la même manière, "codeGroupe" est un identifiant
+    pour l’entité "Groupe" et "codeModule" est un identifiant pour l’entité "Module". 
+</p>
+<p>    
+    Par contre, aucune des propriétés déjà présentes dans l’entité "Enseignant" n’identifie une occurrence de
+    l’entité de manière unique, il est alors nécessaire d’ajouter une nouvelle propriété qui jouera le
+    rôle d’identifiant, par exemple : "numEns" qui sera un numéro unique pour chaque enseignant
+    de l’école.
+</p>
+<p>
+    En ce qui concerne les associations, leur identifiant est implicite : on ne le représente pas
+    graphiquement. Pour l’association "appartenir" par exemple, l’identifiant est formé automatiquement 
+    des deux propriétés "numInscription" et "codeGroupe".
+</p>
+<img src="img/identifiant.png" alt="identifiant" width="85%" class="mx-auto d-block">
+<p>
+    Exemple : 
+</p>
+<p>
+— Si on reprend l’exemple d’occurrence d’association précédent, celui-ci est décrit à travers 
+la valeur de l’identifiant de l’étudiant et la valeur du code du groupe (numInscription=23467, codeGroupe="S4").
+</p>
+<p>
+— Une occurrence de l’association "évalué" sera décrite par trois valeurs, étant donné que
+cette association possède une propriété, ex. (numInscription=23467, codeModule="INF4",
+note=15).
+</p>
+
+<h4 id="card">2.6 Cardinalité</h4>
+<p>
+    La cardinalité sert à définir combien de fois une occurrence d’une entité peut être liée à une occurrence d’une 
+    association.
+</p>
+<p>
+    Elle est représentée par deux nombres (min, max) qui indiquent : <br>
+    <br>
+    <b>Le minimum (min)</b> : Combien de fois une occurrence doit obligatoirement être liée à une association ? <br>
+    <b>Le maximum (max)</b> : Combien de fois une occurrence peut être liée au maximum à une association ? <br>
+    <br>
+</p>
+<p>
+    <b>Remarque</b> : <br>
+    Par convention la valeur min sera mise à <b>0</b> ou bien à <b>1</b>, et la valeur max sera
+    mise à <b>1</b> ou bien à <b>n</b>, de la manière suivante :
+</p>
+<p>
+    — Lorsque la réponse à la question pour identifier la cardinalité minimale : <br>
+    <b>= 0</b> alors min ←0 <br>
+    <b>> 0</b> alors min ←1 <br>
+   — Lorsque la réponse à la question pour identifier la cardinalité maximale : <br>
+    <b>= 1</b> alors max ←1 <br>
+    <b>> 1</b> alors max ←n <br> <br>
+
+</p>
+<p>
+    <b>Représentation graphique</b> :  Les cardinalités sont placées au niveau des branches des associations du coté des
+    entités concernées. <br>
+    Reprenons le MCD précédant :
+</p>    
+<img src="img/cardi-1.png" alt="Cardinalité 1" width="85%" class="mx-auto d-block">
+<img src="img/cardi-2.png" alt="Cardinalité 2" width="85%" class="mx-auto d-block">
+
+<p>
+    <b>Remarque</b> : <br>
+    
+    En ce qui concerne l’association réflexive "binome", les deux occurrences de l’entité "Étudiant" 
+    qui seront liées par une occurrence de l’association auront le même rôle, les
+    cardinalités des deux côtés seront donc identiques. Notons que cela n’est toutefois pas applicable à 
+    toutes les associations réflexives.
+</p>
+<img src="img/cardi-schem.png" alt="Cardinalité Schéma" width="85%" class="mx-auto d-block">
+
+<h4 id="bin">2.7 Types d'association binaires</h4>
+<p>
+    <b>Association de type fils-fils</b>
+</p>
+<p>
+    Une association est de type fils-fils si la valeur max des cardinalités des deux entités liées
+    est égale à 1. Dans ce cas, chaque occurrence de chacune des deux entités pourra être liée à une
+    seule occurrence de l’autre entité au plus.
+</p>
+<p>
+    <b>Association de type père-fils</b>
+</p>
+<p>
+    Une association est de type père-fils si la valeur max de la cardinalité d’une des entités
+    liées est égale à 1 alors que l’autre est égale à n. La première entité sera dite fils alors que la
+    deuxième sera dite père, par rapport à cette association. Ainsi, une occurrence de l’entité fils ne
+    pourra être liée qu’à une seule occurrence de l’entité père, alors qu’une occurrence de l’entité
+    père pourra être liée à plusieurs occurrences de l’entité fils.
+</p>
+<p>
+    <b>Association de type père-père</b>
+</p>
+<p>
+    Une association est de type père-père si la valeur max des cardinalités des deux entités liées
+    est égale à n. Dans ce cas, chaque occurrence de chacune des deux entités pourra être liée à
+    plusieurs occurrences de l’autre entité.
+</p>
+<p>
+    Exemples Dans notre MCD :
+</p>
+<ul>
+    <li>
+        L’association "binome" est de type fils-fils. En effet, chaque étudiant ne pourra être relié
+        qu’à un seul autre étudiant pour former un binôme.
+    </li>
+    <li>
+        L’association "appartenir" est de type père-fils, où l’entité "Étudiant" est le fils et l’entité 
+        "Groupe" est le père. Un étudiant n’appartiendra qu’à un seul groupe et un groupe
+        contiendra plusieurs étudiants.
+    </li>
+    <li>
+        L’association "évalué" est de type père-père. Chaque étudiant peut être évalué pour plusieurs 
+        modules, et pour chaque module, plusieurs étudiants peuvent être évalués.
+    </li>
+</ul>
