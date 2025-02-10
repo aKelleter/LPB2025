@@ -1,0 +1,93 @@
+<p>
+    
+</p>
+<h3 id="intro">1. Introduction</h3>
+<p>
+    Comme nous le savons du chapitre Les types de données, il existe huit types de données dans le langage JavaScript. Sept d’entre elles sont appelées “<b>primitives</b>”, car leurs valeurs ne contiennent qu’une 
+    seule chose (que ce soit une chaîne, un nombre ou autre).
+</p>
+<p>
+    En revanche, les objets sont utilisés pour stocker des collections de données variées et d’entités plus complexes. En JavaScript, les objets pénètrent dans presque tous les aspects du langage. 
+    Nous devons donc d’abord les comprendre avant d’aller plus loin.
+</p>
+<p>
+    Un objet peut être créé avec des accolades <b>{…}</b>, avec une liste optionnelle de propriétés. Une propriété est une paire “<b>clé: valeur</b>”, dans laquelle la clé (key) est une chaîne de caractères 
+    (également appelée “nom de la propriété”), et la valeur (value) peut être n’importe quoi. <br>
+    Nous pouvons imaginer un objet comme une armoire avec des fichiers signés. Chaque donnée est stockée dans son fichier par la clé. Il est facile de trouver un fichier par son nom ou 
+    d’ajouter/supprimer un fichier.
+</p>
+<p>
+    Un objet vide (“armoire vide”) peut être créé en utilisant l’une des deux syntaxes suivantes :
+</p>
+<textarea class="code-php" id="">
+    let user = new Object(); // syntaxe pour créer un objet avec le "constructeur d'objet"
+    let user = {};  // syntaxe pour créer un  "objet littéral"
+</textarea>
+<p>
+    Habituellement, les accolades <b>{...}</b> sont utilisées. Cette déclaration s’appelle un "<b>objet littéral</b>" (object literal).
+</p>
+
+<h3 id="props">Littéraux et propriétés</h3>
+<p>
+    Nous pouvons immédiatement inclure certaines propriétés dans <b>{...}</b> sous forme de paires “clé: valeur” :
+</p>
+<textarea class="code-php" id="">
+    let user = {     // un objet
+        name: "John",  // par clé "nom" valeur de stockage "John"
+        age: 30        // par clé "age" valeur de stockage 30
+    };
+</textarea>
+<p>
+    Une propriété a une <b>clé</b> (également appelée “nom” ou “identifiant”) avant les deux points ":" et une valeur à sa droite. <br>
+    <br>
+    Dans l’objet user, il y a deux propriétés : <br>
+    <br>
+        - La première propriété porte le nom "<b>name</b>" et la valeur "<b>John</b>". <br>
+        - La seconde a le nom "<b>age</b>" et la valeur <b>30</b>. <br>
+    <br>
+    L’objet <b>user</b> résultant peut être imaginé comme une armoire avec deux fichiers signés intitulés “nom” et “âge”. <br>
+</p>
+<p>
+    Nous pouvons ajouter, supprimer et lire des fichiers à tout moment. <br>
+    Les valeurs de propriété sont accessibles à l’aide de la notation par points :
+</p>
+<textarea class="code-php" id="">
+    // récupère les valeurs de propriété de l'objet :
+    alert( user.name ); // John
+    alert( user.age ); // 30
+</textarea>
+<p>
+    La valeur peut être de tout type. Ajoutons un booléen :
+</p>
+<textarea class="code-php" id="">
+    user.isAdmin = true;
+</textarea>
+<p class="mt-4">Pour supprimer une propriété, nous pouvons utiliser l’opérateur delete :</p>
+<textarea class="code-php" id="">
+    delete user.age;
+</textarea>
+<p class="mt-4">
+    Nous pouvons également utiliser des noms de propriété "multi-mots", mais ils doivent ensuite être entourés de quotes :    
+</p>
+<textarea class="code-php" id="">
+    let user = {
+        name: "John",
+        age: 30,
+        "likes birds": true  // nom de propriété multi-mots
+    };
+</textarea>
+<p class="mt-4">
+    La dernière propriété de la liste peut se terminer par une virgule :
+</p>
+<textarea class="code-php" id="">
+    let user = {
+        name: "John",
+        age: 30,
+    };
+</textarea>
+<p>
+    Cela s’appelle une virgule “<b>trailing</b>” ou “<b>hanging</b>”. Elle facilite l’ajout/suppression/déplacement des propriétés, car toutes les lignes se ressemblent.
+</p>
+... EN COURS
+
+

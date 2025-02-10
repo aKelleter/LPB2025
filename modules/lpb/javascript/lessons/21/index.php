@@ -1,38 +1,29 @@
 <?php 
-    require_once('../../../../boot.php');  
-    $_SESSION['R'] = R4;
+    require_once('../../../../../boot.php');  
+    $_SESSION['R'] = R5;
     require_once($_SESSION['R'].'app'.DS.'conf.php'); 
-    $_SESSION['PAGE'] = JS;      
+    $_SESSION['PAGE'] = JS;     
+    
+    // Chargement du/des fichier(s)    
+    $source_code = loadFile(FILENAME_SOURCE_CODE);     
+    require_once(FILENAME_EXPLANATION);
+    require_once(FILENAME_RESSOURCES);
 ?>
 <!doctype html>
 <html lang="fr">
     <?php require_once $_SESSION['R'].'app'.DS.'head.php'; ?>
-    <body>   
+    <body>  
     <?php require_once $_SESSION['R'].'app'.DS.'header.php'; ?>
         <div class="b-divider"></div>
-
         <main>
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-1"></div>
                     <div class="col-md-10">                       
-                        <h1 class="mt-5 text-center">Javascript : La liste des leçons</h1>
+                        <h1 class="mt-5 text-center">Leçon 21 : <span class="color_dark_green">Les Objets</span></h1>  
+                        <?= getHtmlSubMenu('20', '22', JS); ?> 
+                        <?= getHtmlBlocWhatCodeDoes(file_get_contents(FILENAME_WCD)); ?>                        
                         
-                        <div class="mt-5">
-                            <?php 
-                                //DEBUG// DBGPrint(listCourses(), PR, 'Liste des cours');
-                                echo getHtmlCoursesList(listCourses(), JS);                             
-                            ?>
-
-                            <fieldset class="red border rounded p-2">
-                                <legend class="w-auto">Légende</legend>
-                                <hr>
-                                <ul>
-                                    <li>FD : Les Fondamentaux</li>
-                                    <li>OBJ : Les Objets</li>
-                                </ul>
-                            </fieldset>
-                        </div>
                         <button onclick="scrollToTop()" class="btn btn-primary mb-4" id="scrollToTopBtn">Haut de page</button> 
                     </div> <!--col-md-10-->
                     <div class="col-md-1"></div>

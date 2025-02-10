@@ -25,13 +25,14 @@
                             ?>
                         </div>
 
+                        <button onclick="scrollToTop()" class="btn btn-primary mb-4" id="scrollToTopBtn">Haut de page</button> 
                     </div> <!--col-md-10-->
                     <div class="col-md-1"></div>
                 </div>
             </div>
         </main>
         <?php require_once $_SESSION['R'].'app'.DS.'footer.php'; ?>
-        
+        <?php require_once $_SESSION['R'].'app'.DS.'loadscripts.php'; ?>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     </body>
 </html>

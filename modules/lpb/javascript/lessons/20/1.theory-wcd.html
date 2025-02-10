@@ -1,7 +1,96 @@
 <p>
     
 </p>
-<h3></h3>
+<h3 id="intro">1. Introduction</h3>
 <p>
-    
+    Il existe une syntaxe plus simple et concise pour créer des fonctions, c’est souvent "mieux" que les <b>Expressions de Fonction</b>. <br>
+    Les “<b>fonctions fléchées</b>” sont appelées ainsi pour leur syntaxe :
 </p>
+<textarea class="code-php" id="">
+    let func = (arg1, arg2, ..., argN) => expression;
+</textarea>
+<p>
+    Cela va créer une function <b>func</b> qui accepte les arguments <b>arg1...argN</b>, puis évalue l’expression sur le côté droit et retourne le résultat. <br>
+    C’est donc la version raccourcie de :
+</p>
+<textarea class="code-php" id="">
+    let func = function(arg1, arg2, ..., argN) {
+        return expression;
+    };
+</textarea>
+<p>
+    Voyons un exemple concret :
+</p>
+<textarea class="code-php" id="">
+    let sum = (a, b) => a + b;
+
+    /* Cette fonction fléchée est la forme raccourcie de :
+
+    let sum = function(a, b) {
+        return a + b;
+    };
+
+    */
+
+    alert( sum(1, 2) ); // 3
+</textarea>
+<p class="mt-4">
+    Comme vous pouvez le voir <b>(a, b) => a + b</b> représente une fonction qui accepte 2 arguments nommés <b>a</b> et <b>b</b>. Lors de l’exécution, elle évalue l’expression <b>a + b</b> 
+    et retourne le résultat (avec un <b>return</b> implicite). <br>
+    Pour un argument unique, alors les parenthèses autour du paramètre peuvent être omises, rendant la fonction encore plus courte. <br>
+    Par exemple:
+</p>
+<textarea class="code-php" id="">
+    let double = n => n * 2;
+    // Similaire à : let double = function(n) { return n * 2 }
+
+    alert( double(3) ); // 6
+</textarea>
+<p class="mt-4">
+    S’il n’y a <b>pas d’arguments</b>, les <b>parenthèses</b> seront alors vides, mais elles <b>doivent êtres présentes</b> :
+</p>
+<textarea class="code-php" id="">
+    let sayHi = () => alert("Hello!");
+    sayHi();
+</textarea>
+<p>
+    Les <b>fonctions fléchées</b> peuvent être utilisées de la même manière que les <b>Expressions de Fonction</b>. <br>
+    Par exemple pour créer une fonction dynamiquement :
+</p>
+<textarea class="code-php" id="">
+    let age = prompt("What is your age?", 18);
+
+    let welcome = (age < 18) ?
+    () => alert("Hello!") :
+    () => alert("Greetings!");
+
+    welcome(); // ok now
+</textarea>
+<p class="mt-4">
+    Les fonctions fléchées peuvent paraître étranges et peu lisibles au début, mais cela change rapidement avec les yeux s’habituant à cette structure.
+    Elles sont très utiles pour des actions sur une ligne et que l’on est juste paresseux d’écrire d’autres mots.
+</p>
+
+<h3 id="multi">2. Les fonctions flèchées multiligne</h3>
+<p>
+    Les fonctions fléchées que nous avons vues jusqu’à présent étaient très simples. Elles ont pris des arguments à gauche de =>, les ont évalués et ont renvoyé l’expression de droite avec elles. <br>
+    Parfois nous avons besoin de plus de complexité, comme des expressions multiples ou des déclarations. Cela est possible avec des accolades les délimitant. Il faut ensuite utiliser un return 
+    à l’intérieur de celles-ci. <br>
+    Comme cela :
+</p>
+<textarea class="code-php" id="">
+    let sum = (a, b) => {  // Les accolades ouvre une fonction multiligne
+        let result = a + b;
+        return result; // si nous utilisons des accolades, nous avons besoin d'un "return" explicite
+    };
+    
+    alert( sum(1, 2) ); // 3
+</textarea>
+<div class="alert alert-info mt-4">
+    <strong>Plus à venir</strong> <hr>
+    Nous nous arrêtons ici sur les fonctions fléchées pour leur syntaxe brève mais ce n’est pas tout ! <br> <br>
+    Les fonctions fléchées ont d’autres particularités intéressantes. <br>
+    Pour les apprendre en profondeur, nous devons d’abord voir d’autres aspects de JavaScript, nous reviendrons donc aux fonctions fléchées plus tard dans le module avec "<b>Les fonctions fléchées revisitées</b>". <br> <br>
+    Pour l’instant, nous pouvons les utiliser pour des actions sur une ligne ou des callbacks (rappels).
+</div>
+
