@@ -11,3 +11,117 @@
     (appelées aussi relations, d’où le nom du modèle relationnel), qui sont des tableaux à deux
     dimensions.
 </p>
+
+
+<h3 id="term">2. Terminologie</h3>
+<p>
+    <b>Table</b>  : Tableau à deux dimensions. Appelé aussi relation; <br>
+    <b>Tuple</b>  : Chaque ligne dans une table est appelée un n-uplet ou tuple. Il ne peut
+    pas y avoir deux tuples identiques dans une même table; <br>
+    <b>Attribut</b> : Le titre de chaque colonne dans une table est appelé attribut; <br>
+    <b>Composant</b> :  Une donnée à l’intersection d’une ligne et d’une colonne est appelée
+    composant du tuple; <br>
+    <b>Domaine</b> :  Un domaine d’un attribut est la plage de valeurs qui peuvent être prises
+    par les composants appropriés; <br>
+    <b>Schéma de table</b> :  Une table T avec une liste d’attributs A1,A2, . . . ,Am sera décrite par
+    son schéma : T(A1,A2, . . . ,Am); <br>
+    <b>Schéma d’une BDD</b> :  Le schéma d’une base de données est l’ensemble des schémas des tables
+    de cette base de données; <br>
+    <b>Clé primaire</b> : Une clé primaire est un attribut ou un ensemble d’attributs d’une table
+    qui permet d’identifier les tuples de cette table de manière unique. Elle
+    est soulignée par un trait continu; <br>
+    <b>Clé étrangère</b> : Une clé étrangère est un attribut ou un ensemble d’attributs d’une table
+    qui est à l’origine <b>clé primaire</b> d’une autre table. Elle permet donc de relier les tables. Pour toute valeur de clé étrangère dans une table, il
+    doit y avoir une valeur de <b>clé primaire</b> correspondante dans la table d’origine. Une clé étrangère peut être marquée par le symbole *, ou elle
+    peut être soulignée par un trait pointillé.
+</p>
+
+<h3 id="passage">3. Passage d’un MCD vers un MLD</h3>
+<p>
+    Pour le passage d’un MCD vers un MLD, il y a lieu d’exécuter les étapes suivantes :
+</p>
+<ol>
+    <li>
+        En ce qui concerne <b>les entités</b> du MCD :
+        <ul>
+            <li>Toute entité se transforme en table dans le MLD.</li>
+            <li>Ses propriétés deviennent attributs de la table dans le MLD.</li>
+            <li>Son identifiant est la clé primaire de la table dans le MLD.</li>
+        </ul>
+    </li>
+    <li>
+        En ce qui concerne <b>les associations</b> :
+        <ul>
+            <li>
+                (a) Pour une association de type <b>père-fils</b> :
+                <ul>
+                    <li>L’identifiant de la table père est ajouté comme attribut à la table fils et sera clé étrangère.</li>
+                    <li>Les propriétés de l’association sont aussi ajoutées comme attributs à la table fils.</li>
+                </ul>
+            </li>
+            <li>
+                (b) Pour une association de type <b>père-père</b> :
+                <ul>
+                    <li>L’association se transforme en table dans le MLD.</li>
+                    <li>Les identifiants des entités liées sont attributs de la nouvelle table et joueront chacun le rôle de clé étrangère. Les deux ensemble forment la clé primaire de la table.</li>
+                    <li>Les propriétés de l’association sont des attributs dans la nouvelle table.</li>
+                </ul>
+            </li>
+            <li>
+                (c) Pour une association de type <b>fils-fils</b> : <br>
+                une telle association est traitée au cas par cas selon l’importance des entités liées et le pourcentage de participation des entités à l’association.
+            </li>
+        </ul>
+    </li>
+</ol>
+<p>
+    <b>Remarque</b> :  <br> Les associations ternaires ou d’une dimension plus importante sont traitées avec
+    le même principe que ci-dessus.
+</p>
+<p>
+    <b>Exemple</b> :  <br> Reprenons l’exemple du MCD de la scolarité vu précédemment :
+</p>
+<img src="img/cardi-schem.png" alt="Cardinalité Schéma" width="85%" class="mx-auto d-block">
+
+<p class="mt-4">
+    Ce MCD contient 4 entités. Le MLD correspondant contiendra donc au moins les 4 tables suivantes :
+</p>
+<ul>
+    <li>Étudiant</li>
+    <li>Groupe</li>
+    <li>Enseignant</li>
+    <li>Module</li>
+</ul>
+<p>
+    En ce qui concerne les associations :
+</p>
+<ul>
+    <li>L’association père-fils "appartenir" : la table de l’entité fils prendra l’identifiant de son
+        père comme clé étrangère;</li>
+    <li>L’association père-père "évaluer" : se transformera en une table;</li>
+    <li>L’association ternaire "enseigner" : peut être traitée comme une association père-père
+        étant donné que toutes les cardinalités max sont à n. Elle se transforme donc en une
+        nouvelle table;</li>
+    <li>L’association réflexive fils-fils "binome" : la table "Étudiant" prendra "numInscriptionBi-
+        nome" comme clé étrangère, étant que les cardinalités min sont à 1 sur les deux branches
+        de l’association (chaque étudiant formera un binôme avec un autre étudiant).</li>
+</ul>
+
+<h4>Le MLD produit est alors :</h4>
+<ul>
+    <li>Étudiant(numInscription, nomEtu, prénomEtu, dateNaissance, codeGroupe*, numIns-
+        criptionBinome*)</li>
+    <li>Groupe(codeGroupe)</li>
+    <li>Enseignant(numEns, nomEns, prénomEns, grade)</li>
+    <li>Module(codeModule, intituléModule, volume)</li>
+    <li>évalué(numInscription*, codeModule*, note)</li>
+    <li>enseigner(numEns*, codeModule*, codeGroupe*)</li>
+</ul>
+
+<h3 id="fils-fils">4. Autres exemples pour illustrer les associations fils-fils</h3>
+
+<h4>Exemple cas (<b>1 : 1</b>) - Cas d’association où le min = 1 pour les cardinalités des
+    deux entités Considérons le MCD suivant concernant une compétition automobile.</h4>
+<p>
+
+</p>

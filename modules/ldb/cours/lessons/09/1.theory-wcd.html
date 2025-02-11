@@ -197,7 +197,9 @@ CREATE TABLE photo_tags (
     (3, 2); -- "Cascade" est associé à "Nature"
 
 </textarea>
-<div class="alert alert-info">
+<a class="btn btn-primary" href="files/content.sql">Le fichier SQL pour créer les données</a>
+
+<div class="alert alert-info mt-4">
     [!] Point d'attention : 
     <ul>
         <li>Vérifier que <b>photo_id</b> et <b>tag_id</b> existent dans les tables photos et tags avant l'insertion.</li>
@@ -213,3 +215,136 @@ CREATE TABLE photo_tags (
 ✅ Stocker les chemins de fichiers de façon organisée. <br>
 ✅ Toujours hacher les mots de passe des utilisateurs en PHP. <br>
 </p>
+
+<h3>5. Et maintenant quelques requêtes SQL sur notre nouvelle DB !</h4>
+
+<h4>1. Sélection des données</h4>
+<p>
+    a) Récupérer tous les utilisateurs
+</p>
+<textarea class="code-php" id="">
+    SELECT * FROM galerie_photos.utilisateurs;
+</textarea>
+<p>
+    b) Afficher tous les albums avec leurs descriptions
+</p>
+<textarea class="code-php" id="">
+    SELECT nom, description FROM galerie_photos.albums;
+</textarea>
+<p>
+    c) Lister toutes les photos avec leur titre et leur chemin de fichier
+</p>
+<textarea class="code-php" id="">
+    SELECT titre, chemin_fichier FROM galerie_photos.photos;
+</textarea>
+
+<h4>2. Requêtes avec jointures</h4>
+<p>
+    a) Afficher les albums avec le nom de l'utilisateur qui les a créés
+</p>
+<textarea class="code-php" id="">
+    SELECT galerie_photos.albums.nom AS album, galerie_photos.utilisateurs.nom AS utilisateur
+    FROM galerie_photos.albums
+    JOIN galerie_photos.utilisateurs ON galerie_photos.albums.utilisateur_id = galerie_photos.utilisateurs.id;
+</textarea>
+<p>
+    b) Afficher les photos avec le nom de leur album
+</p>
+<textarea class="code-php" id="">
+    SELECT galerie_photos.photos.titre AS photo, galerie_photos.albums.nom AS album
+    FROM galerie_photos.photos
+    JOIN galerie_photos.albums ON galerie_photos.photos.album_id = galerie_photos.albums.id;
+</textarea>
+<p>
+    c) Afficher les photos et leurs tags associés
+</p>
+<textarea class="code-php" id="">
+    SELECT galerie_photos.photos.titre AS photo, galerie_photos.tags.nom AS tag
+    FROM galerie_photos.photos
+    JOIN galerie_photos.photo_tags ON galerie_photos.photos.id = galerie_photos.photo_tags.photo_id
+    JOIN galerie_photos.tags ON galerie_photos.photo_tags.tag_id = galerie_photos.tags.id;
+</textarea>
+
+<h4>3. Requêtes avec filtres (WHERE)</h4>
+<p>
+    a) Trouver les albums appartenant à un utilisateur spécifique (ex: Alice)
+</p>
+<textarea class="code-php" id="">
+    SELECT galerie_photos.albums.nom, galerie_photos.albums.description FROM galerie_photos.albums
+    JOIN galerie_photos.utilisateurs ON galerie_photos.albums.utilisateur_id = galerie_photos.utilisateurs.id
+    WHERE galerie_photos.utilisateurs.nom = 'Alice Dupont';
+</textarea>
+<p>
+    b) Trouver toutes les photos ayant un tag spécifique (ex: "Voyage")
+</p>
+<textarea class="code-php" id="">
+    SELECT galerie_photos.photos.titre, galerie_photos.tags.nom AS tag
+    FROM galerie_photos.photos
+    JOIN galerie_photos.photo_tags ON galerie_photos.photos.id = galerie_photos.photo_tags.photo_id
+    JOIN galerie_photos.tags ON galerie_photos.photo_tags.tag_id = galerie_photos.tags.id
+    WHERE galerie_photos.tags.nom = 'Voyage';
+</textarea>
+
+<h4>4. Comptage et agrégation</h4>
+<p>
+    a) Nombre total d'albums
+</p>
+<textarea class="code-php" id="">
+    SELECT COUNT(*) AS total_albums FROM galerie_photos.albums;
+</textarea>
+<p>
+    b) Nombre de photos dans chaque album
+</p>
+<textarea class="code-php" id="">
+    SELECT galerie_photos.albums.nom AS album, COUNT(galerie_photos.photos.id) AS total_photos
+    FROM galerie_photos.albums
+    JOIN galerie_photos.photos ON galerie_photos.albums.id = galerie_photos.photos.album_id
+    GROUP BY galerie_photos.albums.id;
+</textarea>
+<p>
+    c) Nombre de photos par tag
+</p>
+<textarea class="code-php" id="">
+    SELECT galerie_photos.tags.nom AS tag, COUNT(galerie_photos.photo_tags.photo_id) AS total_photos
+    FROM galerie_photos.tags
+    JOIN galerie_photos.photo_tags ON galerie_photos.tags.id = galerie_photos.photo_tags.tag_id
+    GROUP BY galerie_photos.tags.id;
+</textarea>
+
+<h4>5. Modification et suppression</h4>
+<p>
+    a) Modifier la description d'un album
+</p>
+<textarea class="code-php" id="">
+    UPDATE albums
+    SET description = 'Photos de mon voyage à Rome et Venise et Pise'
+    WHERE nom = 'Voyage en Italie';
+</textarea>
+<p>
+    b) Supprimer une photo spécifique (ex: "Gondole à Venise")
+</p>
+<textarea class="code-php" id="">
+    DELETE FROM galerie_photos.photos WHERE titre = 'Gondole à Venise';
+    -- OU en utilisant l'ID
+    DELETE FROM galerie_photos.photos WHERE id = 2;
+
+    -- Insérer à nouveau la photo supprimée
+    INSERT INTO galerie_photos.photos (album_id, titre, description, chemin_fichier) 
+    VALUES 
+    (1, 'Gondole à Venise', 'Balade en gondole', 'images/venise_gondole.jpg');    
+</textarea>
+<p>
+    c) Supprimer un utilisateur et tous ses albums associés
+</p>
+<textarea class="code-php" id="">
+    DELETE FROM galerie_photos.utilisateurs
+    WHERE nom = 'Alice Dupont';
+</textarea>
+<div class="alert alert-danger mt-4">
+    <strong>/!\ Attention</strong> 
+    <hr>
+    ⚠️ Cela mettra <b>NULL</b> dans <b>utilisateur_id</b> des <b>albums</b> de cet utilisateur <b>à cause de ON DELETE SET NULL dans la contrainte FOREIGN KEY</b>.
+</div>
+
+
+
