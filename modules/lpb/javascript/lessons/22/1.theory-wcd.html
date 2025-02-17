@@ -1,0 +1,317 @@
+
+<h3>1. Introduction</h3>
+<p>
+    Une des différences fondamentale des objets avec les primitives est que ceux-ci sont stockés et copiés “par référence”, en opposition aux valeurs primitives : 
+    strings, numbers, booleans, etc. – qui sont toujours copiés comme “valeur entière”. <br>
+
+    On comprendra plus facilement en regardant “sous le capot” ce qui se passe lorsque nous copions une valeure. <br>
+    
+    Commençons avec une primitive, comme une chaîne de caractères. <br>
+    
+    Ici nous assignons une copie de message dans phrase :    
+</p>
+<textarea class="code-php" id="">
+    let message = "Hello!";
+    let phrase = message;
+</textarea>
+<p class="mt-4">
+    Il en résulte deux variables indépendantes, chacune stockant la chaîne de caractères "Hello!".
+</p>
+<p>
+    Un résultat plutôt évident n’est-ce pas ? <br>
+    Les objets ne fonctionnent pas comme cela. <br>
+</p>
+<p>
+    Une variable à laquelle on assigne un objet ne stocke pas l’objet lui-même, mais son “adresse en mémoire”, en d’autres termes “une référence” à celui-ci. <br>
+    Prenons un exemple d’une telle variable :
+</p>
+
+<textarea class="code-php" id="">
+    let user = {
+        name: "John"
+    };
+</textarea>
+<p class="mt-4">
+    Et la façon dont elle est stockée en mémoire :  
+    <div class="alert alert-info">| REF(user) | --> | 0X0016 | OBJ {name: "John"} |</div> <br>
+</p>
+<p>
+    L’objet est stocké quelque part dans la mémoire (du coté droit de l’image), tandis que la variable <b>user</b> (du coté gauche) a une référence à celui-ci. <br>
+    On peut imaginer la variable d’objet, ici <b>user</b>, comme une feuille de papier avec l’adresse de l’objet écrit dessus. <br>    
+    Lorque l’on réalise une action avec l’objet, par exemple récupérer la propriété <b>user.name</b>, le moteur JavaScript regarde à l’adresse et réalise l’opération sur l’objet actuel. <br>
+</p>
+<p>
+    Et voilà pourquoi cela est important. <br>    
+    Lorsqu’une variable d’objet est copiée – <b>la référence est copiée</b>, l’objet lui-même n’est pas dupliqué.
+    Par exemple: <br>
+</p>
+<textarea class="code-php" id="">
+    let user = { name: "John" };
+    let admin = user; // copie la référence (copie l'adresse de l'objet en mémoire)
+</textarea>
+<p class="mt-4">
+    Maintenant nous avons deux variables, chacune avec la référence vers le même objet : <br>
+</p>
+<div class="alert alert-info">| REF(user) | --> | 0X0016 | OBJ {name: "John"} | <-- | REF(admin) |</div>
+<p class="mt-4">
+    Comme vous pouvez le voir, il n’y a toujours qu’un seul objet, mais maintenant avec deux variables qui le référence. <br>
+    On peut utiliser n’importe quelle variable pour accéder à l’objet et modifier son contenu :
+</p>
+<textarea class="code-php" id="">
+    let user = { name: "John" };
+    let admin = user;
+
+    admin.name = "Pete"; // changé par la référence "admin"
+
+    alert(user.name); // 'Pete', les changements sont visibles sur la référence "user"
+</textarea>
+<p class="mt-4">
+    C’est comme si nous avions une armoire avec deux clés et que nous en utilisions une (<b>admin</b>) pour y entrer et y apporter des modifications. <br>
+    Ensuite, si nous utilisons plus tard une autre clé (<b>user</b>), nous ouvrons toujours la même armoire et pouvons accéder au contenu modifié.
+</p>
+
+<h3>2. Comparaison par référence</h3>
+<p>
+    Deux objets sont égaux seulement s’ils sont le même objet. <br>
+    Par exemple, ici a et b référencent le même objet, aussi sont-ils similaires :
+</p>
+<textarea class="code-php" id="">
+    let a = {};
+    let b = a; // copie la référence
+
+    alert( a == b ); // true, les deux variables référencent le même objet
+    alert( a === b ); // true
+</textarea>
+<p class="mt-4">
+    Et ici deux objets indépendants ne sont pas égaux, même s’ils se ressemblent (les deux sont vides) :
+</p>
+<textarea class="code-php" id="">
+    let a = {};
+    let b = {}; // deux objets différents
+
+    alert( a == b ); // false
+</textarea>
+
+<p class="mt-4">
+    Pour des comparaisons comme <b>obj1 > obj2</b> ou des comparaisons avec une primitive <b>obj == 5</b>, les objets sont convertis en primitives. <br>
+    Nous étudierons comment les conversions d’objets fonctionnent très bientôt, mais pour dire la vérité, de telles comparaisons sont rarement nécessaires, 
+    en général elles sont le résultat d’une erreur de programmation. :D
+</p>
+
+<div class="alert alert-info mt-4">
+    <strong>Les objets const peuvent être modifiés</strong> <hr>
+    Un effet secondaire important du stockage des objets en tant que références est qu’un objet déclaré comme <b>const</b> peut être modifié. <br>
+    Par exemgle : <br>
+
+    <textarea class="code-php" id="">
+        const user = {
+            name: "John"
+        };
+         
+        user.name = "Pete"; // (*)
+          
+        alert(user.name); // Pete
+    </textarea>
+    <p>
+        Il peut sembler que la ligne (*) aurait dû causer une erreur, mais ce n’est pas le cas. La valeur de <b>user</b> est une constante, elle doit toujours référencer le même objet, 
+        mais les propriétés de cet objet sont libres de changer. <br>
+        En d’autres termes, <b>const user</b> donne une erreur uniquement si nous essayons de définir <b>user=...</b> dans son ensemble. <br>
+        Cela dit, si nous avons vraiment besoin de créer des propriétés d’objet constantes, c’est également possible, mais en utilisant des méthodes totalement différentes. 
+        Nous aborderons cela plus tard.
+    </p>
+</div>
+
+<h3>3. Clonage et fusion, Object.assign</h3>
+<p>
+    Copier une variable object crée une référence en plus vers le même objet. <br>
+    Mais que se passe-t-il si nous devons dupliquer un objet ? <br>
+    Nous pouvons créer un nouvel objet et reproduire la structure de l’existant, en itérant sur ses propriétés et en les copiant au niveau primitif. <br>
+    Comme cela :
+</p>
+<textarea class="code-php" id="">
+    let user = {
+        name: "John",
+        age: 30
+    };
+    
+    let clone = {}; // le nouvel object vide
+    
+    // on copie toutes les propritétés de user
+    for (let key in user) {
+        clone[key] = user[key];
+    }
+    
+    // maintenant clone est un objet complétemnet indépendant avec le même contenu
+    clone.name = "Pete"; // On change les données de celui-ci
+
+    alert( user.name ); // c'est toujour John dans l'objet copié
+</textarea>
+<p class="mt-4">
+    On peut aussi utiliser la méthode <b>Object.assign</b> pour cela.
+    La syntaxe est :
+</p>
+<textarea class="code-php" id="">
+    // Object.assign(dest, [src1, src2, src3...])
+    Object.assign(dest, ...sources)
+</textarea>
+<ul class="mt-4">
+    <li>Le premier argument <b>dest</b> est l’objet cible</li>
+    <li>Les autres arguments sont une liste d’objets source.</li>
+</ul>
+<p>
+    Il copie les propriétés de tous les objets sources dans la cible dest, puis les renvoie comme résultat. <br>
+    Par exemple, nous avons l’objet user, ajoutons-lui quelques autorisations :
+</p>
+<textarea class="code-php" id="">
+    let user = { name: "John" };
+
+    let permissions1 = { canView: true };
+    let permissions2 = { canEdit: true };
+    
+    // copie toutes les propriétés de permissions1 et 2 dans user
+    Object.assign(user, permissions1, permissions2);
+    
+    // now user = { name: "John", canView: true, canEdit: true }
+    alert(user.name); // John
+    alert(user.canView); // true
+    alert(user.canEdit); // true
+</textarea>
+<p>
+    Si la propriété copiée existe déja, elle est écrasée.
+</p>
+<textarea class="code-php" id="">
+    let user = { name: "John" };
+
+    Object.assign(user, { name: "Pete" });
+    
+    alert(user.name); // on a user = { name: "Pete" }
+</textarea>
+<p>
+    Nous pouvons également utiliser Object.assign pour effectuer un simple clonage d’objet :
+</p>
+<textarea class="code-php" id="">
+    let user = {
+        name: "John",
+        age: 30
+    };
+      
+    let clone = Object.assign({}, user);
+      
+    alert(clone.name); // John
+    alert(clone.age); // 30
+</textarea>
+<p class="mt-4">
+    Ici cela copie toutes les propriétés de user dans l’objet vide et le retourne. <br>
+    Il existe également d’autres méthodes de clonage d’un objet, par ex. en utilisant la syntaxe <b>spread clone = {...user}</b>, abordé plus loin dans la leçon.
+</p>
+
+<h3>4. Clonage imbriqué</h3>
+<p>
+    Jusqu’à maintenant on suppose que toutes les propriétés de user sont des primitives. Mais les propriétés peuvent être des références vers d’autres objets. Comment gérer ces cas-là ? <br>
+    Comme ceci : <br>
+</p>
+<textarea class="code-php" id="">
+    let user = {
+        name: "John",
+        sizes: {
+          height: 182,
+          width: 50
+        }
+    };
+      
+    alert( user.sizes.height ); // 182
+</textarea>
+<p class="mt-4">
+    Ce n’est plus suffisant de copier <b>clone.sizes = user.sizes</b>, car <b>user.sizes</b> est un objet, il sera copié par référence. Donc clone et user partageront le même objet sizes :
+</p>
+<textarea class="code-php" id="">
+    let user = {
+        name: "John",
+        sizes: {
+          height: 182,
+          width: 50
+        }
+    };
+    
+    let clone = Object.assign({}, user);
+    
+    alert( user.sizes === clone.sizes ); // true, c'est le même objet
+    
+    // user et clone partage l'objet sizes
+    user.sizes.width = 60;    // changer une propriété d'un endroit
+    alert(clone.sizes.width); // 60, obtenir le résultat de l'autre
+</textarea>
+<p class="mt-4">
+    Pour résoudre ce problème et faire en sorte que user et clone soient des objets véritablement séparés, nous devrions utiliser une boucle de clonage 
+    qui examine chaque valeur de user[key] et, s’il s’agit d’un objet, répliquer également sa structure. C’est ce qu’on appelle un « clonage profond » 
+    ou « clonage structuré ». Il existe une méthode <b>structuredClone</b> qui implémente le clonage en profondeur.
+</p>
+
+<h4>structuredClone</h4>
+<p>
+    L’appel <b>structuredClone(object)</b> clone l’object avec toutes les propriétés imbriquées.
+    Voici comment nous pouvons l’utiliser dans notre exemple :
+</p>
+<textarea class="code-php" id="">
+    let user = {
+        name: "John",
+        sizes: {
+          height: 182,
+          width: 50
+        }
+    };
+    
+    let clone = structuredClone(user);
+    
+    alert( user.sizes === clone.sizes ); // false, c'est un objet différent
+    
+    // user et clone n'ont plus aucun lien entre eux
+    user.sizes.width = 60;    // changer une propriété d'un endroit
+    alert(clone.sizes.width); // 50, sans lien
+</textarea>
+<p class="mt-4">
+    La méthode <b>structuredClone</b> peut cloner la plupart des types de données, tels que des objets, des tableaux, des valeurs primitives. <br>
+    Il prend également en charge les références circulaires, lorsqu’une propriété d’objet fait référence à l’objet lui-même (directement ou via une chaîne ou des références). <br>
+    Par exemple :
+</p>
+<textarea class="code-php" id="">
+    let user = {};
+
+    // créons une référence circulaire :
+    // user.me fait référence à l'utilisateur lui-même
+    user.me = user;
+    
+    let clone = structuredClone(user);
+    alert(clone.me === clone); // true
+</textarea>
+<p class="mt-4">
+    Comme vous pouvez le voir, <b>clone.me</b> fait référence au <b>clone</b>, pas à <b>user</b> ! Ainsi, la référence circulaire a également été clonée correctement.
+    Cependant, il existe des cas où <b>structuredClone</b> échoue. <br>
+    Par exemple, lorsqu’un objet a une propriété de type <b>fonction</b> :    
+</p>
+<textarea class="code-php" id="">
+    // error
+    structuredClone({
+      f: function() {}
+    });
+</textarea>
+<p class="mt-4">
+    Les propriétés de fonction ne sont pas prises en charge. <br>
+    Pour gérer des cas aussi complexes, nous devrons peut-être utiliser une combinaison de méthodes de clonage, écrire du code personnalisé ou, pour ne pas réinventer la roue, 
+    prendre une implémentation existante, par exemple <b>_.cloneDeep(obj)</b> de la bibliothèque JavaScript <b>lodash</b>.
+</p>
+
+<h3>5. Résumé</h3>
+<p>
+    Les objets sont assignés et copiés par référence. En d’autres termes, une variable ne stocke pas la “valeur de l’objet” mais la “référence” (l’adresse en mémoire) de la valeur. Donc copier cette variable, ou la passer en argument d’une fonction, copie la référence, pas l’objet lui-même.
+</p>
+<p>
+    Toutes les opérations faites par une copie de la référence (comme ajouter/supprimer une propriété) sont faites sur le même objet.
+</p>
+<p>    
+    Pour faire une “copie réelle” (un clone), nous pouvons utiliser <b>Object.assign</b> pour la soi-disant “copie superficielle” (les objets imbriqués sont copiés par référence) ou 
+    une fonction de “clonage en profondeur” <b>structuredClone</b> ou utiliser une implementation personnalisée de clonage, telle que <b>_.cloneDeep(obj)</b>.
+</p>
+
+
+

@@ -27,7 +27,7 @@
     Habituellement, les accolades <b>{...}</b> sont utilisées. Cette déclaration s’appelle un "<b>objet littéral</b>" (object literal).
 </p>
 
-<h3 id="props">Littéraux et propriétés</h3>
+<h3 id="props">2. Littéraux et propriétés</h3>
 <p>
     Nous pouvons immédiatement inclure certaines propriétés dans <b>{...}</b> sous forme de paires “clé: valeur” :
 </p>
@@ -88,6 +88,400 @@
 <p>
     Cela s’appelle une virgule “<b>trailing</b>” ou “<b>hanging</b>”. Elle facilite l’ajout/suppression/déplacement des propriétés, car toutes les lignes se ressemblent.
 </p>
-... EN COURS
+<h4>6. Crochets</h4>
+<p>
+    Pour les propriétés multi-mots, l’accès par points ne fonctionne pas :
+</p>
+<textarea class="code-php" id="">
+    // cela donnerait une erreur de syntaxe
+    user.likes birds = true
+</textarea>
+<p class="mt-4">
+    JavaScript ne comprend pas cela. Il pense que nous adressons <b>user.likes</b>, ensuite il donne une erreur de syntaxe lorsqu’il rencontre des <b>birds</b> inattendus. <br>
+    Le point nécessite que la clé soit un identificateur de variable valide. Cela implique qu’elle ne contient aucun espace, ne commence pas par un chiffre et n’inclut pas de caractères spéciaux 
+    ($ et _ sont autorisés). <br>
+    Il existe une autre “notation entre crochets” qui fonctionne avec n’importe quelle chaîne :
+</p>
+<textarea class="code-php" id="">
+    let user = {};
+
+    // définir
+    user["likes birds"] = true;
+
+    // obtenir la valeur par clé
+    alert(user["likes birds"]); // true
+
+    // supprimer
+    delete user["likes birds"];
+</textarea>
+<p class="mt-4">
+    Maintenant tout va bien. Veuillez noter que la chaîne de caractères entre crochets est correctement entourée de quotes (tout type de guillemets fera l’affaire). <br>
+    Les crochets fournissent également un moyen d’obtenir le nom de la propriété comme résultat de toute expression (par opposition à une chaîne de caractères littérale), 
+    semblable à une variable, comme ceci :
+</p>
+<textarea class="code-php" id="">   
+    let key = "likes birds";
+
+    // pareil que user["likes birds"] = true;
+    user[key] = true;
+</textarea>
+<p class="mt-4">
+    Ici, la variable key peut être calculée au moment de l’exécution ou dépendre de la saisie de l’utilisateur. <br>
+    Et ensuite, nous l’utilisons pour accéder à la propriété. Cela nous donne beaucoup de flexibilité. <br>
+    Par exemple :
+</p>
+<textarea class="code-php" id="">
+    let user = {
+        name: "John",
+        age: 30
+    };
+    
+    let key = prompt("Que voulez-vous savoir sur l'utilisateur ?", "name");
+    
+    // accès par variable
+    alert( user[key] ); // John (si entré "name")
+</textarea>
+<p class="mt-4">
+    La notation par points ne peut pas être utilisée de la même manière :
+</p>
+<textarea class="code-php" id="">
+    let user = {
+        name: "John",
+        age: 30
+      };
+      
+      let key = "name";
+      alert( user.key ) // undefined
+</textarea>
+<h4>7. Les Propriétés calculées</h4>
+<p>
+    Nous pouvons utiliser des crochets dans un objet littéral, lorsqu’on crée un objet. Cela s’appelle des propriétés calculées (computed propertie). <br>
+    Par exemple :
+</p>
+<textarea class="code-php" id="">
+    let fruit = prompt("Quel fruit souhaitez-vous acheté?", "apple");
+
+    let bag = {
+      [fruit]: 5, // le nom de la propriété est tiré de la variable fruit
+    };
+    
+    alert( bag.apple ); // 5 si fruit="apple"
+</textarea>
+<p class="mt-4">
+    La signification d’une propriété calculée est simple: [fruit] signifie que le nom de la propriété doit être extrait de fruit. <br>
+    Ainsi, si un visiteur entre "apple", bag deviendra {apple: 5}. <br>    
+    Essentiellement, cela fonctionne de la même façon que : <br>
+</p>
+<textarea class="code-php" id="">
+    let fruit = prompt("Quel fruit souhaitez-vous acheté?", "apple");
+    let bag = {};
+
+    // prendre le nom de la propriété de la variable fruit
+    bag[fruit] = 5;
+</textarea>
+<p>
+    … Mais a une meilleure apparence. <br>
+    <br>
+    Nous pouvons utiliser des expressions plus complexes entre crochets :
+</p>
+<textarea class="code-php" id="">
+    let fruit = 'apple';
+    let bag = {
+    [fruit + 'Computers']: 5 // bag.appleComputers = 5
+    };
+</textarea>
+<p class="mt-4">
+    <b>Les crochets sont beaucoup plus puissants que la notation par points. Ils autorisent tous les noms de propriété et variables. Mais ils sont aussi plus lourds à écrire.
+    Ainsi, la plupart du temps, lorsque les noms de propriété sont connus et simples, le point est utilisé. Et si nous avons besoin de quelque chose de plus complexe, nous passons aux crochets.</b>
+</p>
+<h4>8. Valeur de propriété abrégée (Property value shorthand)</h4>
+<p>
+    Dans du code réel, nous utilisons souvent des variables existantes en tant que valeurs pour les noms de propriétés. <br>
+    Par exemple :
+</p>
+<textarea class="code-php" id="">
+    function makeUser(name, age) {
+        return {
+          name: name,
+          age: age,
+          // ...autres propriétés
+        };
+      }
+      
+      let user = makeUser("John", 30);
+      alert(user.name); // John
+</textarea>
+<p class="mt-4">
+    Dans l’exemple ci-dessus, les propriétés portent les mêmes noms que les variables. 
+    Le cas d’utilisation de la création d’une propriété à partir d’une variable est si courant qu’il existe une valeur spéciale de propriété abrégée (property value shorthand) 
+    pour la rendre plus courte. <br>
+    Au lieu de <b>name:name</b>, nous pouvons simplement écrire <b>name</b>, comme ceci :
+</p>
+<textarea class="code-php" id="">
+    function makeUser(name, age) {
+        return {
+          name, // pareil que name: name
+          age,  // pareil que age: age
+          // ...
+        };
+      }
+</textarea>
+<p class="mt-4">
+    Nous pouvons utiliser à la fois des propriétés normales et des raccourcis dans le même objet :
+</p>
+<textarea class="code-php" id="">
+    let user = {
+        name,  // pareil que name: name
+        age: 30
+    };
+</textarea>
+<h4>9. Limitations des noms de propriété</h4>
+<p>
+    Comme nous le savons déjà, une variable ne peut pas avoir un nom égal à l’un des mots réservés au langage comme “for”, “let”, “return” etc. <br>
+    Mais pour une propriété d’objet, il n’y a pas de telle restriction :
+</p>
+<textarea class="code-php" id="">
+    // Ces propriétés sont toutes correctes
+    let obj = {
+      for: 1,
+      let: 2,
+      return: 3
+    };
+    
+    alert( obj.for + obj.let + obj.return );  // 6
+</textarea>
+<p>
+    En bref, il n’y a aucune limitation sur les noms de propriété. Il peut s’agir de n’importe quelle chaîne de caractères ou symbole (un type spécial pour les identifiants, 
+    déjà abordé précédemment mais qui sera traité plus tard). <br>
+    Les autres types sont automatiquement convertis en chaînes de caractères. <br>
+    Par exemple, un nombre <b>0</b> devient une chaîne <b>"0"</b> lorsqu’il est utilisé comme clé de propriété :
+</p>
+<textarea class="code-php" id="">
+    let obj = {
+        0: "test" // identique à "0": "test"
+    };
+    
+    // les 2 alertes accèdent à la même propriété (le chiffre 0 est converti en string "0")
+    alert( obj["0"] ); // test
+    alert( obj[0] ); // test (same property)
+</textarea>
+<p class="mt-4">
+    Il y a un problème mineur avec une propriété spéciale nommée <b>__proto__</b>. Nous ne pouvons pas le définir sur une valeur non-objet :    
+</p>
+<textarea class="code-php" id="">
+    let obj = {};
+    obj.__proto__ = 5; // assignation d'un nombre
+    alert(obj.__proto__); // [object Object] - la valeur est un objet, n'a pas fonctionné comme prévu
+</textarea>
+<p class="mt-4">
+    Comme nous le voyons dans le code, l’affectation à une primitive 5 est ignorée. <br>
+    Nous couvrirons la nature particulière de <b>__proto__</b> dans les leçons suivantes, et nous suggèrerons une façon de corriger ce genre de comportement.
+</p>
+
+<h4>10. Tester l’existence de propriété avec l'opérateur “<b>in</b>”</h4>
+<p>
+    Une caractéristique notable des objets en JavaScript, par rapport à de nombreux autres langages, est qu’il est possible d’accéder à n’importe quelle propriété. 
+    Il n’y aura pas d’erreur si la propriété n’existe pas ! <br>
+    La lecture d’une propriété non existante renvoie simplement undefined. Nous pouvons donc facilement tester si la propriété existe :
+</p>
+<textarea class="code-php" id="">
+    let user = {};
+
+    alert( user.noSuchProperty === undefined ); // true signifie "la propriété n'existe pas"
+</textarea>
+<p class="mt-4">
+    Il existe également un opérateur spécial "in" pour cela. <br>
+    La syntaxe est :
+</p>
+<textarea class="code-php" id="">
+    "key" in object
+</textarea>
+<p>Par exemple :</p>
+<textarea class="code-php" id="">
+    let user = { name: "John", age: 30 };
+
+    alert( "age" in user ); // true, user.age existe
+    alert( "blabla" in user ); // false, user.blabla n'existe pas
+</textarea>
+<p>
+    Veuillez noter que sur le côté gauche de <b>in</b>, il doit y avoir un nom de propriété. C’est généralement une chaîne de caractères entre guillemets.
+    Si nous omettons les guillemets, cela signifie qu’une variable doit contenir le nom réel à tester. Par exemple :
+</p>
+<textarea class="code-php" id="">
+    let user = { age: 30 };
+
+    let key = "age";
+    alert( key in user ); // true, la propriété avec le nom contenu dans key existe
+</textarea>
+<p class="mt-4">
+    Pourquoi l’opérateur <b>in</b> existe-t-il ? N’est-ce pas suffisant de comparer avec undefined ? <br>
+    Eh bien, la plupart du temps, la comparaison avec <b>undefined</b> fonctionne bien. Mais il y a un cas particulier quand <b>undefined</b> échoue et que <b>in</b> fonctionne correctement.
+    C’est lorsque une propriété d’objet existe, mais qu’elle stocke undefined :
+</p>
+<textarea class="code-php" id="">
+    let obj = {
+        test: undefined
+    };
+    
+    alert( obj.test ); // c'est indéfini, donc - pas une telle propriété ?
+    
+    alert( "test" in obj ); // true, la propriété existe !
+</textarea>
+<p class="mt-4">Dans le code ci-dessus, la propriété obj.test existe techniquement. Donc, l’opérateur in fonctionne bien.
+    Des situations comme celle-ci se produisent très rarement, parce que <b>undefined</b> n’est généralement pas attribué. 
+    Nous utilisons principalement <b>null</b> pour les valeurs “inconnues” ou “vides”. Ainsi, l’opérateur <b>in</b> est un invité exotique dans le code.
+</p>
+
+<h3>3. La boucle "for..in"</h3>
+<p>
+    Pour parcourir toutes les clés d’un objet, il existe une forme spéciale de boucle : <b>for..in</b>. 
+    C’est une boucle complètement différente de la construction <b>for(;;)</b> que nous avons étudiée auparavant. <br>
+    La syntaxe :
+</p>
+<textarea class="code-php" id="">
+    for (key in object) {
+        // Exécute le corps pour chaque clé parmi les propriétés de l'objet
+    }
+</textarea>
+<p>
+    Par exemple, affichons toutes les propriétés de user :
+</p>
+<textarea class="code-php" id="">
+    let user = {
+        name: "John",
+        age: 30,
+        isAdmin: true
+    };
+      
+    for (let key in user) {
+        // keys
+        alert( key );  // name, age, isAdmin
+        // valeurs pour les clés
+        alert( user[key] ); // John, 30, true
+    }
+</textarea>
+<p class="mt-4">
+    Notez que toutes les constructions “<b>for</b>” nous permettent de déclarer la variable en boucle à l’intérieur de la boucle, comme <b>let key</b> ici.
+    En outre, nous pourrions utiliser un autre nom de variable ici au lieu de <b>key</b>. Par exemple, <b>for(let prop in obj)</b> est également largement utilisé.
+</p>
+
+<h4>1. Ordonné comme un objet</h4>
+<p>
+    Les objets sont-ils ordonnés ? En d’autres termes, si nous parcourons un objet en boucle, obtenons-nous toutes les propriétés dans le même ordre où elles ont été ajoutées ? 
+    Pouvons-nous compter sur cela ? <br>
+    La réponse courte est : “ordonné de manière spéciale” : les propriétés des entiers sont triées, les autres apparaissent dans l’ordre de création. Nous allons voir cela en détails. <br>
+    Par exemple, considérons un objet avec les indicatifs de téléphone par pays :
+</p>
+<textarea class="code-php" id="">
+    let codes = {
+        "49": "Allemagne",
+        "41": "Suisse",
+        "44": "Royaume-Uni",
+        // ..,
+        "1": "États-Unis"
+    };
+    
+    for (let code in codes) {
+        alert(code); // 1, 41, 44, 49
+    }
+</textarea>
+<p class="mt-4">
+    L’objet peut être utilisé pour suggérer une liste d’options à l’utilisateur. Si nous créons un site principalement pour le public allemand, nous voulons probablement que 49 soit le premier. <br>
+    <br>
+    Mais si nous exécutons ce code, nous voyons une image totalement différente : <br>
+        * USA (1) passe en premier <br>
+        * puis Switzerland (41) et ainsi de suite. <br>
+        <br>    
+    Les indicatifs de téléphone sont classés par ordre croissant, car ce sont des entiers. Donc on voit 1, 41, 44, 49.
+</p>
+<div class="alert alert-info mt-4">
+    <strong>Propriétés entier (integer properties) ? Qu’est-ce que c’est ?</strong> <hr>
+
+    Le terme “propriété entier” (integer properties) désigne ici une chaîne de caractères qui peut être convertie en un nombre entier ou inversement sans changement.
+    Ainsi, "49" est un nom de propriété entier, parce que lorsqu’il est transformé en nombre entier et inversement, il reste identique. Mais "<b>+49</b>" et "<b>1.2</b>" ne le sont pas : <br>
+    <textarea class="code-php" id="">
+        // Number(...) convertit explicitement en nombre
+        // Math.trunc est une fonction intégrée qui supprime la partie décimale
+        alert( String(Math.trunc(Number("49"))) ); // "49", identique, propriété entière
+        alert( String(Math.trunc(Number("+49"))) ); // "49", non identique "+49" ⇒ propriété non entière
+        alert( String(Math.trunc(Number("1.2"))) ); // "1", non identique "1.2" ⇒ propriété non entière
+    </textarea>
+</div>
+<p>
+    … Par contre, si les clés ne sont pas des entiers, elles sont listées dans l’ordre de création, par exemple :
+</p>
+<textarea class="code-php" id="">
+    let user = {
+        name: "John",
+        surname: "Smith"
+      };
+      user.age = 25; // Ajouter une clé de plus
+      
+      // les propriétés non-entiers sont listées dans l'ordre de création
+      for (let prop in user) {
+        alert( prop ); // name, surname, age
+      }
+</textarea>
+<p class="mt-4">
+    Donc, pour résoudre le problème avec les indicatifs de téléphone, nous pouvons “tricher” en rendant ces indicatifs non entiers. <br>
+    Ajouter un signe plus "+" avant chaque indicatif suffit.
+    Comme ceci :
+</p>
+<textarea class="code-php" id="">
+    let codes = {
+        "+49": "Germany",
+        "+41": "Switzerland",
+        "+44": "Great Britain",
+        // ..,
+        "+1": "USA"
+    };
+    
+    for(let code in codes) {
+        alert( +code ); // 49, 41, 44, 1
+    }
+</textarea>
+<p>
+    Maintenant, cela fonctionne comme prévu.
+</p>µ
+
+<h3>4. Résumé</h3>
+<p>
+    Les objets sont des tableaux associatifs dotés de plusieurs fonctionnalités spéciales. <br>
+
+    Ils stockent des propriétés (paires clé-valeur), où : <br>
+        <ul>
+            <li>La clé (nom de la propriété) est une chaîne de caractères ou un symbole (pour les propriétés spéciales).</li>
+            <li>La valeur peut être de n’importe quel type.</li>
+        </ul>
+       
+    Pour accéder à une propriété, nous pouvons utiliser : <br>
+        <ul>
+            <li>La notation par points : <b>obj.property</b>.</li>
+            <li>La notation entre crochets <b>obj["property"]</b>. Les crochets permettent de prendre la clé à partir d’une variable, comme <b>obj[varWithKey]</b>.</li>
+        </ul>
+
+    Opérateurs supplémentaires : <br>
+        <ul>
+            <li>Pour supprimer une propriété : <b>delete obj.prop</b>.</li>
+            <li>Pour vérifier si une propriété avec la clé donnée existe : <b>"key" in obj</b>. </li>
+            <li>Pour parcourir un objet : la boucle <b>for (let key in obj)</b>. </li>
+        </ul>
+        
+
+    Ce que nous avons étudié dans ce chapitre s’appelle un “objet simple” (plain object) ou juste Object. Il existe de nombreux autres types d’objets en JavaScript : <br>
+
+        <ul>
+            <li>Array pour stocker des collections de données ordonnées, </li>
+            <li>Date pour stocker des informations sur la date et l’heure, </li>
+            <li>Error pour stocker des informations sur une erreur. </li>
+            <li>Etc. </li>
+        </ul>
+
+    Ils ont leurs particularités que nous étudierons plus tard. Parfois, les développeurs disent :  comme un “type Tableau” ou “type Date”, mais dans les faits, ils appartiennent 
+    à un seul type de données “objet”. Et ils l’étendent de différentes manières. <br> <br>
+
+    Les objets en JavaScript sont très puissants. Nous venons de gratter la surface d’un sujet vraiment énorme. Nous allons travailler étroitement avec les objets et en apprendre davantage 
+    à leur sujet dans d’autres parties de la formation.
+</p>
 
 
