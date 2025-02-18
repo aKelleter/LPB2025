@@ -1,31 +1,12 @@
+/**
+ * Intialisation des Tooltips
+ */
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-/*
-$(document).ready(function(){
 
-    let codeEditorElement = $(".codemirror-textarea")[0];
-    let editor = CodeMirror.fromTextArea(codeEditorElement, {
-        //mode: "application/x-httpd-php",
-        mode: "javascript",
-        lineNumbers: true,
-        matchBrackets: true,
-        theme: "material",
-        lineWiseCopyCut: true,
-        styleActiveLine: true,
-        extraKeys: {
-            "F11": function(cm) {
-              cm.setOption("fullScreen", !cm.getOption("fullScreen"));
-            },
-            "Esc": function(cm) {
-              if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
-            }
-          },
-        undoDepth: 200            
-      });
-    editor.setSize("100%","100%") // Width, Height of editor 
-
-});
-*/
+/**
+ * Intialisation de CodeMirror
+ */
 function initCodeMirror(classes, modes)
 {
   //DEBUG// console.log(classes);
@@ -62,8 +43,10 @@ function initCodeMirror(classes, modes)
 initCodeMirror(document.getElementsByClassName("code-js"), "javascript");
 initCodeMirror(document.getElementsByClassName("code-php"), "javascript");
 
+/** *************************************************************************** */
+
 /**
- * Scroll to top button
+ * Initialisation et implémentation de la fonction "Scroll to top button"
  */
 function scrollToTop() {
   window.scrollTo({
@@ -80,3 +63,27 @@ window.onscroll = function() {
       scrollToTopBtn.style.display = "none";
   }
 };
+
+/** *************************************************************************** */
+
+/**
+ * Classe pour créer des balises personnalisées dédiée à un usage.
+ */
+
+class NewElement extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+    const wrapper = document.createElement('span');
+    wrapper.innerHTML = this.innerHTML;
+    this.shadowRoot.appendChild(wrapper);
+  }
+}
+
+// Pour les termes SQL
+customElements.define('sq-l', NewElement);
+// Pour les termes en gras (bold)
+customElements.define('st-r', NewElement);
+
+/** *************************************************************************** */
+

@@ -12,6 +12,7 @@
     --color-deep-blue: rgb(22, 48, 58);
     --color-deep-turquoise: rgb(12, 89, 104);
     --color-light-turquoise: rgb(30, 185, 190);
+    --color-background-code: rgb(229, 236, 212);
     --color-light-white: rgb(254, 255, 251);
     --color-medium-white: rgb(231, 235, 222);
     --color-light-red: rgb(218, 23, 23);
@@ -75,18 +76,26 @@ h3 {
 
 h4 {    
     font-size: 1.3em;
-    margin: 0.8em;
+    margin: 0.8em 0;
     padding: 0.3em;
+    color: var(--color-medium-violet);
+    font-weight: bold;
     text-decoration: underline;
 }
 
 h5 {
-    font-size: 1.0em;
+    font-size: 1.2em;
+    margin: 0.8em 0;
+    padding: 0.3em;
+    font-weight: bold;
+    text-decoration: underline;
+    color: var(--color-medium-blue);
 }
 
 h6 {
-    font-size: 0.9em;
+    font-size: 1.1em;
     font-weight: bold;
+    text-decoration: underline;
     color: var(--color-medium-blue);
 }
 
@@ -115,11 +124,12 @@ blockquote:before {
 
 code {
     font-size: 1.1em;
-    color: var(--color-light-lime);
-    background-color: var(--color-deep-turquoise);
-    border: 1px solid var(--color-light-lime);
+    color: var(--color-h1);
+    background-color: var(--color-background-code);
+    border: 1px solid var(--color-h1);
     border-radius: 5px;
-    padding: 0.1em;   
+    padding: 0.4em;  
+    margin: 0.4em 0; 
 }
 
 a {
@@ -158,6 +168,15 @@ cite {
     background-color: var(--color-light-grey);   
     border-radius: 5px;
     padding: 0.2em;
+}
+
+sq-l {
+    color: var(--color-medium-green);
+    font-weight: bold;
+}
+
+st-r {    
+    font-weight: bold;
 }
 
 

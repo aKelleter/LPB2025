@@ -1,0 +1,101 @@
+<h3 id="intro">1. Introduction</h3>
+<p>
+    L'algèbre relationnelle est un langage formel utilisé pour manipuler et interroger les bases de données relationnelles. 
+    Elle fournit un ensemble d'opérations permettant de définir des requêtes pour extraire ou transformer des données 
+    stockées sous forme de relations (tables).
+</p>
+
+<h3 id="concepts">2. Concepts Fondamentaux</h3>
+
+<h4>Relation et Schéma Relationnel</h4>
+
+<ul>
+    <li><b>Relation</b> : Une table contenant des tuples (lignes) et des attributs (colonnes).</li>
+    <li><b>Schéma relationnel</b> : La structure d'une relation, définie par un ensemble d'attributs et leur domaine</li>
+    <li><b>Instance d'une relation</b> : L'ensemble des tuples présents dans la table à un instant donné.</li>
+</ul>
+
+<h4>Les Opérations de l'Algèbre Relationnelle</h4>
+<p>
+    Les opérations de l'algèbre relationnelle se divisent en <b>deux</b> catégories : <b>les opérations de base</b> et <b>les opérations dérivées</b>.
+</p>
+
+<h5>Les Opérations de Base</h5>
+
+<ol>
+    <li>
+        <b>Sélection (σ - sigma)</b> : Filtre les lignes d'une relation selon une condition.
+        <ul>
+            <li><strong>Notation</strong> : σ condition (R)</li>
+            <li><strong>Exemple</strong> : σ age>30 (Employés) retourne les employés ayant plus de 30 ans.</li>
+        </ul>
+    </li>
+    <br>
+    <li>
+        <b>Projection (π - pi)</b> : Extrait des colonnes spécifiques d'une relation.
+        <ul>
+            <li><strong>Notation</strong> : π attributs (R)</li>
+            <li><strong>Exemple</strong> : π nom, salaire (Employés) retourne uniquement les noms et salaires des employés</li>
+        </ul>
+    </li>
+    <br>
+    <li>
+        <b>Union (∪)</b> : Combine les tuples de deux relations de même schéma.
+        <ul>
+            <li><strong>Notation</strong> : R ∪ S</li>
+            <li><strong>Exemple</strong> :  EmployésFrance ∪ EmployésAllemagne retourne la liste des employés en France et en Allemagne.</li>
+        </ul>
+    </li>
+    <br>
+    <li>
+        <b>Différence (−)</b> : Retourne les tuples de la première relation qui ne sont pas dans la seconde.
+        <ul>
+            <li><strong>Notation</strong> : R - S</li>
+            <li><strong>Exemple</strong> :  EmployésFrance - EmployésAllemagne retourne les employés en France qui ne sont pas en Allemagne.</li>
+        </ul>
+    </li>
+    <br>
+    <li>
+        <b>Produit Cartésien (×)</b> : Combine tous les tuples de deux relations.
+        <ul>
+            <li><strong>Notation</strong> : R × S</li>
+            <li><strong>Exemple</strong> :  Employés × Départements génère toutes les combinaisons possibles d'employés et de départements.</li>
+        </ul>
+    </li>
+    <br>
+    <li>
+        <b>Jointure (⋈)</b> : Combine des relations sur la base d'une condition commune.
+        <ul>
+            <li><strong>Notation</strong> :  R ⋈condition S</li>
+            <li><strong>Exemple</strong> :   Employés ⋈Employés.id = Départements.chef_id Départements</li>
+        </ul>
+    </li>
+</ol>
+
+<h5>Les Opérations Dérivées</h5>
+
+<ol>
+    <li>
+        <b>Intersection (∩)</b> : Retourne les tuples présents dans les deux relations.
+        <ul>
+            <li><strong>Notation</strong> : R ∩ S</li>
+            <li><strong>Exemple</strong> :  EmployésFrance ∩ EmployésAllemagne donne les employés travaillant en France et en Allemagne.</li>
+        </ul>
+    </li>
+    <br>
+    <li>
+        <b>Division (/)</b> : Identifie les éléments d'une relation qui sont associés à tous les éléments d'une autre relation.
+        <ul>
+            <li><strong>Notation</strong> : R / S</li>
+            <li><strong>Exemple</strong> :  Trouver les étudiants ayant suivi tous les cours d'un programme.</li>
+        </ul>
+    </li>
+    <br>
+</ol>
+
+<h3 id="conclusion">3. Conclusion</h3>
+<p>
+    L'algèbre relationnelle est essentielle pour comprendre le fonctionnement des SGBDR et optimiser les requêtes SQL. 
+    Elle sert de base théorique à SQL, qui implémente ces opérations sous forme de requêtes exploitables dans les 
+    bases de données relationnelles modernes.
+</p>

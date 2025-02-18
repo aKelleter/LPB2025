@@ -1,0 +1,355 @@
+<h3>Sommaire</h3>
+<ol>
+   
+</ol>
+
+<h3 id="intro">1. Introduction</h3>
+<p>
+    Une fois la modélisation du réel faite selon les besoins de l’utilisateur, et les relations prêtes,
+    nous pouvons passer à la création de notre base de données puis à sa manipulation. <br>
+    Pour cela, nous devons utiliser un système de gestion de base de données (SGBD).
+</p>
+<p>
+    Nous avons précédemment déjà abordé le sujet, un SGBD est un logiciel qui permet de créer une base de données et de la contrôler. Il
+    est basé sur un langage informatique qui exprime les requêtes/ordres de l’utilisateur/développeur/administrateur. <br>
+    Dans le module LDB, nous utiliserons le SGBD relationnel MariaDB/MySQL, ce dernier utilisant le langage SQL.
+</p>
+<p>
+    SQL est grandement basé sur le modèle relationnel théorique, mais il présente toutefois
+    quelques "déviations". Exemple : SQL permet la possibilité d’avoir des doublons dans une table.
+</p>
+<p>
+    SQL peut être décomposé en :
+</p>
+<ul>
+    <li>
+        Une partie <b>"Langage de définition de données " (LDD)</b> qui intervient au niveau du schéma
+        d’une BDD. Le <b>LDD</b> permet ainsi de créer, de modifier et de supprimer des BDDs ou des tables.
+    </li>
+    <br>
+    <li>
+        Une partie <b>"Langage de manipulation de données " (LMD)</b> qui intervient au niveau des
+        données elles-mêmes. Le <b>LMD</b> permet alors d’insérer, de mettre à jour et de supprimer
+        des données. Il permet aussi et surtout d’interroger les données 
+    </li>
+    <br>
+    <li>
+        Une partie <b>"Langage de contrôle de transaction " (LCT)</b> qui permet de commencer et de terminer 
+        des transactions (voir la section Terminologie) 
+    </li>
+    <br>
+    <li>
+        Une partie <b>"Langage de contrôle des données " (LCD)</b> qui permet d’autoriser ou d’interdire
+        l’accès à certaines données à certaines personnes.
+    </li>
+    <br>
+</ul>
+<p>
+    Dans le module LDB, nous nous intéresserons principalement aux deux parties : <b>"Langage de définition de données" (LDD)</b> et <b>"Langage de manipulation de données" (LMD)</b>.
+</p>
+
+<h3 id="symboles">2. Signification des symboles</h3>
+<p>
+    Mettons nous d'accord sur la signification des symboles utilisés dans les leçons sur le langage SQL lors de la présentation des syntaxes des requêtes :
+</p>
+<ul>
+    <li><sq-l>NOM</sq-l> signifie que "NOM" est <strong>un mot clé</strong> du langage SQL;</li>
+    <li><b>[nom]</b> : signifie que "nom" <strong>est optionnel</strong> (c.à.d. qu’il peut être utilisé ou non dans la requête). Les crochets (<b>[]</b>) ne devront pas apparaitre dans la requête.</li>
+    <li>
+        <b>&lt;nom&gt;</b> : signifie que "nom" est <strong>à remplacer</strong> par un terme indiqué dans la requête. Il pourra s’agir d’un nom de BDD, d’un nom d’attribut, d’une valeur numérique, d’une
+        constante de type chaîne de caractère à insérer ou bien à comparer, etc. Les chevrons (<b>&lt;&gt;</b>) ne devront pas apparaitre dans la requête.
+    </li>
+</ul>
+
+<h3 id="terminologie">3. Terminologie</h3>
+<p>
+    Les notions suivantes sont utilisées au fur et à mesure dans les leçons dédiées au langage SQL. Vous pourrez revenir à leur définition plus tard :
+</p>
+<ul>
+    <li>
+        <b>Requête</b> : ordre donné à la BDD et ayant comme résultat un changement d’état de la BDD
+        ou un affichage de résultats
+    </li>
+    <br>
+    <li>
+        <b>Transaction</b> : suite de requêtes qui font passer la base de données d’un état à un autre. Un exemple de transaction sur une BDD 
+        bancaire est un transfert d’argent d’un compte à un autre, où il y a notamment une requête de retrait d’argent sur le premier compte et une
+        autre requête de dépôt sur le second.
+    </li>
+    <br>
+    <li><b>Clause</b> : partie d’une requête.</li>
+    <br>
+    <li><b>Contrainte</b> : règle qui permet de limiter le type de données à insérer dans une table.</li>
+</ul>
+
+<h3 id="ld">4. Langage de définition (LD)</h3>
+<p>
+    Les requêtes de définition de données de SQL sont les suivantes :
+</p>
+<ul>
+    <li><sq-l>CREATE</sq-l> : permet la création de bases de données ou de tables.</li><br>
+    <li><sq-l>ALTER</sq-l> : permet la modification de bases de données ou de tables.</li><br>
+    <li><sq-l>DROP</sq-l> : permet la suppression de bases de données ou de tables.</li><br>
+</ul>
+
+<h4 id="creation-db">4.1 Création d’une base de données</h4>
+<p>
+    La syntaxe de création d’une base de données est la suivante :    
+</p>
+<p>
+    <sq-l>CREATE DATABASE</sq-l> <b>&lt; nom_bdd &gt<strong>;</strong></b>
+</p>
+<p>
+    avec : <br>
+    → nom_bdd : Nom de la base de données à créer. <br>
+    Cette requête permet de créer la base de données "nom_bdd" si aucune base de données
+    avec le même nom n’existe encore.
+</p>
+<p>
+    <strong>Remarques :</strong> <br>
+    1. SQL est sensible à la casse en ce qui concerne les noms des bases de données, des tables
+    et des attributs, mais ne l’est pas en ce qui concerne ses mots clés. (utilisation des ma-
+    juscules/minuscules). <br>
+    2. L’accès à la base de données "nom_bdd" se fait à travers la requête :
+    " <sq-l>USE</sq-l> <b>< nom_bdd ></b><strong>;</strong> ". <br>
+    3. Il est possible de consulter la liste des bases de données disponibles à travers la requête :
+    " <sq-l>SHOW</sq-l> <sq-l>DATABASES</sq-l><strong>;</strong> ". <br>
+</p>
+<p>
+    Exemple : Afin de créer la base données nommée "cursus", la requête est : <br>
+    <textarea class="code-php" id="">
+        CREATE DATABASE cursus;
+    </textarea>
+</p>
+<p>
+    Avant de pouvoir travailler dessus, il est nécessaire de la sélectionner à travers : <br>
+    <code><sq-l>USE</sq-l> <b>bac</b><strong>;</strong></code>
+</p>
+<p>
+    Ainsi, la requête <code>CREATE DATABASE bac</code> sera exécutée une seule fois. Par contre, la requête
+    <code>USE bac</code> devra être exécutée à chaque fois que l’on voudra travailler dessus.
+</p>
+
+<h4 id="sup-db">4.2 Suppression d’une base de données</h4>
+<p>
+    La syntaxe de suppression d’une base de données est la suivante :
+</p>
+<p>
+    <sq-l>DROP DATABASE</sq-l> <b>&lt; nom_bdd &gt;</b><strong>;</strong>
+</p>
+<p>Cette requête permet de supprimer la base de données <b>nom_bdd</b> si une telle base de données existe.</p>
+
+<h4 id="create-table">4.3 Création d'une table</h4>
+<p>
+    Avant de passer à la syntaxe, abordons quelques notions sur les types de données et les tailles d'entier et de chaîne avec MariaDB.
+</p>
+<h5 id="types-data">4.3.1 Types de données</h5>
+<p>
+    MariaDB prend en charge plusieurs types de données, répartis en différentes catégories :
+</p>
+<ul>
+    <li>Types de données numériques :</li>
+        <ul>
+            <li><st-r>TINYINT</st-r>, <st-r>SMALLINT</st-r>, <st-r>MEDIUMINT</st-r>, <st-r>INT</st-r>, <st-r>BIGINT</st-r> : Différentes tailles d'entiers.</li>
+            <li><st-r>DECIMAL</st-r>, <st-r>NUMERIC</st-r> : Nombres à virgule fixe.</li>
+            <li><st-r>FLOAT</st-r>, <st-r>DOUBLE</st-r> : Nombres à virgule flottante.</li>
+            <li><st-r>BIT</st-r> : Champ de bits.</li>
+        </ul>
+    <li>Types de données de chaîne :</li>
+        <ul>
+            <li><st-r>CHAR</st-r>, <st-r>VARCHAR</st-r> : Chaînes de caractères de longueur fixe et variable.</li>
+            <li><st-r>TEXT</st-r>, <st-r>TINYTEXT</st-r>, <st-r>MEDIUMTEXT</st-r>, <st-r>LONGTEXT</st-r> : Chaînes de texte de différentes tailles.</li>
+            <li><st-r>BINARY</st-r>, <st-r>VARBINARY</st-r> : Chaînes binaires de longueur fixe et variable.</li>
+            <li><st-r>BLOB</st-r>, <st-r>TINYBLOB</st-r>, <st-r>MEDIUMBLOB</st-r>, <st-r>LONGBLOB</st-r> : Objets binaires de différentes tailles.</li>
+            <li><st-r>ENUM</st-r>, <st-r>SET</st-r> : Types de données énumérés et ensembles.</li>
+        </ul>
+    <li>Types de données date/heure :</li>
+        <ul>
+            <li><st-r>DATE</st-r> : Date (AAAA-MM-JJ).</li>
+            <li><st-r>TIME</st-r> : Heure (HH:MM:SS).</li>
+            <li><st-r>DATETIME</st-r> : Combinaison de date et heure (AAAA-MM-JJ HH:MM:SS).</li>
+            <li><st-r>TIMESTAMP</st-r> : Date et heure avec fuseau horaire.</li>
+            <li><st-r>YEAR</st-r> : Année (AAAA).</li>
+        </ul>
+    <li>Types de données JSON :</li>
+        <ul>
+            <li><st-r>JSON</st-r> : Stockage de données au format JSON.</li>
+        </ul>
+</ul>
+
+<h6>Les différentes tailles d'entier avec MariaDB</h6>
+<p>
+    Les différentes tailles d'entier avec MariaDB se distinguent principalement par la plage de valeurs qu'elles peuvent représenter et la quantité de mémoire qu'elles utilisent.  <br>
+    Voici un aperçu des principales différences :
+</p>
+<p>
+    <st-r>TINYINT</st-r> : <br>
+        Plage : -128 à 127 (signé) ou 0 à 255 (non signé). <br>
+        Mémoire : 1 octet. <br>
+        <br>
+    <st-r>SMALLINT</st-r> : <br>
+        Plage : -32,768 à 32,767 (signé) ou 0 à 65,535 (non signé). <br>
+        Mémoire : 2 octets. <br>
+        <br>
+    <st-r>MEDIUMINT</st-r> : <br>
+        Plage : -8,388,608 à 8,388,607 (signé) ou 0 à 16,777,215 (non signé). <br>
+        Mémoire : 3 octets. <br>
+        <br>
+    <st-r>INT</st-r> : <br>
+        Plage : -2,147,483,648 à 2,147,483,647 (signé) ou 0 à 4,294,967,295 (non signé). <br>
+        Mémoire : 4 octets. <br>
+        <br>
+    <st-r>BIGINT</st-r> : <br>
+        Plage : -9,223,372,036,854,775,808 à 9,223,372,036,854,775,807 (signé) ou 0 à 18,446,744,073,709,551,615 (non signé). <br>
+        Mémoire : 8 octets. <br>
+</p>
+<p>
+    En résumé, plus la taille de l'entier est grande, plus la plage de valeurs qu'il peut représenter est large, mais cela nécessite également plus de mémoire. Le choix de la taille d'entier dépend de la plage de valeurs que vous prévoyez de stocker dans votre base de données.
+</p>
+
+<h6>Les différentes tailles pour les types de données chaîne avec MariaDB</h6>
+<p>
+    Les différentes tailles pour les types de données chaîne avec MariaDB permettent de stocker des quantités variables de texte ou de données binaires.  <br>
+    Voici un aperçu des principales différences :
+</p>
+<p>
+    <st-r>CHAR</st-r> et <st-r>VARCHAR</st-r> : <br>
+    <st-r>CHAR</st-r> : Longueur fixe. Si la chaîne est plus courte que la longueur définie, elle est complétée par des espaces. Utilisé pour des chaînes de longueur constante. <br>
+    <st-r>VARCHAR</st-r> : Longueur variable. La longueur maximale doit être spécifiée, mais l'espace de stockage utilisé dépend de la longueur réelle de la chaîne. <br>
+    <br>
+    <st-r>TEXT</st-r> et ses variantes :<br>
+        <st-r>TINYTEXT</st-r> : Jusqu'à 255 caractères.<br>
+        <st-r>TEXT</st-r> : Jusqu'à 65,535 caractères.<br>
+        <st-r>MEDIUMTEXT</st-r> : Jusqu'à 16,777,215 caractères.<br>
+        <st-r>LONGTEXT</st-r> : Jusqu'à 4,294,967,295 caractères. <br>
+        Utilisés pour stocker de grandes quantités de texte. La différence principale réside dans la taille maximale de données qu'ils peuvent contenir.<br>
+    <br>
+    <st-r>BINARY</st-r> et <st-r>VARBINARY</st-r> : <br>
+        <st-r>BINARY</st-r> : Longueur fixe pour les données binaires, similaire à CHAR. <br>
+        <st-r>VARBINARY</st-r> : Longueur variable pour les données binaires, similaire à VARCHAR. <br>
+    <br>
+    <st-r>BLOB</st-r> et ses variantes : <br>
+        <st-r>TINYBLOB</st-r> : Jusqu'à 255 octets.<br>
+        <st-r>BLOB</st-r> : Jusqu'à 65,535 octets.<br>
+        <st-r>MEDIUMBLOB</st-r> : Jusqu'à 16,777,215 octets.<br>
+        <st-r>LONGBLOB</st-r> : Jusqu'à 4,294,967,295 octets.<br>
+        Utilisés pour stocker de grandes quantités de données binaires. La différence principale réside dans la taille maximale de données qu'ils peuvent contenir.<br>
+</p>
+<p>
+    En résumé, le choix entre ces types de données dépend de la quantité de texte ou de données binaires que vous prévoyez de stocker. Les types de données à longueur fixe (CHAR, BINARY) sont plus efficaces pour des chaînes de longueur constante, tandis que les types à longueur variable (VARCHAR, VARBINARY, TEXT, BLOB) sont plus flexibles pour des données de taille variable.
+</p>
+
+<h5>4.3.2 Création d’une table</h5>
+<p>
+    La syntaxe de création d’une table est la suivante :
+</p>
+<p>
+    <sq-l>CREATE TABLE</sq-l> <b>&lt; nom_table &gt;</b>( <br>
+        &lt; attribut_1 &gt; &lt; type_att_1 &gt; , <br>
+        &lt; attribut_2 &gt; &lt; type_att_2 &gt; , <br>
+        ... <br>
+        &lt; attribut_n &gt; &lt; type_att_n &gt; , <br>
+        [ <sq-l>PRIMARY KEY</sq-l> ( &lt; cle_primaire &gt;) ,] <br>
+        [ <sq-l>FOREIGN KEY</sq-l> ( &lt; cle_etrangere_1 &gt;) <br>
+         <sq-l>REFERENCES</sq-l> < nom_autre_table_1 &gt;( &lt; att_autre_table_1 &gt;) ,] <br>
+        [ <sq-l>FOREIGN KEY</sq-l> ( &lt; cle_etrangere_2 &gt;) <br>
+        <sq-l>REFERENCES</sq-l> &lt; nom_autre_table_2 &gt;( &lt; att_autre_table_2 &gt;) ,] <br>
+        ... <br>
+        [ <sq-l>FOREIGN KEY</sq-l> ( &lt; cle_etrangere_n &gt;) <br>
+         <sq-l>REFERENCES</sq-l> &lt; nom_autre_table_n &gt;( &lt; att_autre_table_n &gt;)] <br>
+        
+        )<strong>;</strong>
+</p>
+<p>
+    avec :
+</p>
+<p>
+    → <b>nom_table</b> : Nom de la table à créer, <br>
+    → att_i : Attribut numéro i de la table, <br>
+    → type_att_i : Type de l’attribut numéro i, <br>
+    → cle_primaire : Clé primaire de la table. Elle peut être composée d’un seul attribut ou d’une liste d’attributs séparés par des virgules, <br>
+    → cle_etrangere_i : Clé étrangère numéro i, <br>
+    → nom_autre_table_i : Table d’origine de la clé étrangère numéro i, <br>
+    → att_autre_table_i : Nom de l’attribut dans la table d’origine de la clé étrangère numéro i.    
+</p>
+<p>
+    <strong>Remarques :</strong> <br>
+    1. Une fois une table crée, son schéma peut être consulté en utilisant la requête : <sq-l>DESCRIBE</sq-l> &lt; nom_table &gt;<strong>;</strong> <br>
+    2. Il est possible de consulter la liste de tables de la base de données actuelle à travers la requête : <sq-l>SHOW TABLES</sq-l><strong>;</strong> <br>
+    3. L’ajout d’une clé étrangère à une table est considérée comme une contrainte ayant un nom. Il est possible de consulter  
+    la liste des noms de toutes les contraintes d’une table à travers la requête : <br> <sq-l>SHOW CREATE TABLE</sq-l> &lt; nom_table &gt;<strong>;</strong>
+</p>
+<p>
+    Exemple : Les tables de la base de données "<b>cursus</b>" dont les schémas sont :
+</p>
+    — Etablissement(numEta, nomEta, ville) <br>
+    — Bachelier(numBach, nom, prenom, ville, moyenne) <br>
+    — Filière(numFilière, intitulé) <br>
+    — Postuler(numEta*, numBach*, numFiliere*) <br>
+</p>
+<p>peuvent être crées dans la base de données "<b>cursus</b>" à travers les requêtes :</p>
+
+<textarea class="code-php" id="">
+    CREATE TABLE Etablissement (
+        numEta INT ,
+        nomEta VARCHAR (20) ,
+        ville VARCHAR (10) ,
+        PRIMARY KEY ( numEta )
+    );
+    CREATE TABLE Bachelier (
+        numBach INT ,
+        nom VARCHAR (20) ,
+        prenom VARCHAR (20) ,
+        ville VARCHAR (10) ,
+        moyenne FLOAT ,
+        PRIMARY KEY ( numBach )
+    );
+    CREATE TABLE Filiere (
+        numFiliere INT ,
+        intitule VARCHAR (20) ,
+        PRIMARY KEY ( numFiliere )
+    );
+    CREATE TABLE Postuler (
+        numBach INT ,
+        numEta INT ,
+        numFiliere INT ,
+        PRIMARY KEY ( numEta , numBach , numFiliere ) ,
+        FOREIGN KEY ( numBach ) REFERENCES Bachelier ( numBach ) ,
+        FOREIGN KEY ( numEta ) REFERENCES Etablissement ( numEta ) ,
+        FOREIGN KEY ( numFiliere ) REFERENCES Filiere ( numFiliere )
+    );
+</textarea>
+
+
+<h5 id="modif-table">4.3.3 La modification d’une table</h5>
+<p>
+    La modification d’une table se fait à travers la clause <sq-l>ALTER</sq-l> à laquelle on associera d’autres clauses.
+</p>
+
+<h6>La modification du nom d’une table</h6>
+<p>
+    La modification du nom d’une table se fait en associant la clause <sq-l>RENAME TO</sq-l> à la clause <sq-l>ALTER</sq-l>, ce qui donne :
+</p>
+<p>
+    <sq-l>ALTER TABLE</sq-l> &lt; ancien_nom &gt; <sq-l>RENAME TO</sq-l> &lt; nouveau_nom &gt;<strong>;</strong>
+</p>
+
+<h6>La modification du nom d’un attribut</h6>
+<p>
+    La modification du nom d’un attribut d’une table se fait en associant la clause <sq-l>CHANGE</sq-l> à la clause <sq-l>ALTER</sq-l>, ce qui donne :
+</p>
+<p>
+    <sq-l>ALTER TABLE</sq-l> &lt; nom_table &gt; <sq-l>CHANGE</sq-l> &lt; ancien_nom &gt; &lt; nouveau_nom &gt; &lt; type_nouveau_nom &gt;<strong>;</strong>
+</p>
+
+<div class="alert alert-danger">
+    <strong>Remarque Le type de l’attribut renommé doit être précisé et rester inchangé.</strong>
+</div>
+
+<h6>La modification du type d’un attribut</h6>
+<p>
+    La modification du type d’un attribut d’une table se fait en associant la clause <sq-l>MODIFY COLUMN</sq-l> à la clause <sq-l>ALTER</sq-l>, ce qui donne :
+</p>
+<p>
+    <sq-l>ALTER TABLE</sq-l> &lt; nom_table &gt; <sq-l>MODIFY COLUMN</sq-l> &lt; nom_attribut &gt; &lt; nouveau_type_attribut &gt;<strong>;</strong>
+</p>
