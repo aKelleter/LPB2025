@@ -41,7 +41,7 @@
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="<?= $_SESSION['R'].MOD.DS.LPB.DS.JS.DS.'index.php' ?>">Présentation</a></li>
                             <li><a class="dropdown-item" href="<?= $_SESSION['R'].MOD.DS.LPB.DS.JS.DS.LESS.DS.'index.php' ?>">Les leçons</a></li>  
-                            <li><a class="dropdown-item" href="<?= $_SESSION['R'].MOD.DS.LDB.DS.JS.DS.EVALS.DS.'index.php' ?>">Les évaluations</a></li>       
+                            <li><a class="dropdown-item" href="<?= $_SESSION['R'].MOD.DS.LPB.DS.JS.DS.EVALS.DS.'index.php' ?>">Les évaluations</a></li>       
                             <li><a class="dropdown-item" href="<?= $_SESSION['R'].SANDBOX.DS.JS.DS.'index.php' ?>" target="_blank">Sandbox JS</a></li>                                                                                                                                                                                            
                         </ul>
                     </li>
