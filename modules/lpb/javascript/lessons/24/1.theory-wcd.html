@@ -1,7 +1,320 @@
 <p>
     
 </p>
-<h3></h3>
+<h3 id="intro">1. Introduction</h3>
 <p>
-    
+    Les objets sont généralement créés pour représenter des entités du monde réel, comme des utilisateurs, des commandes, etc. :
 </p>
+<textarea class="code-php" id="">
+    let user = {
+        name: "John",
+        age: 30
+    };
+</textarea>
+<p>
+    Et, dans le monde réel, un utilisateur peut agir : sélectionner un élément du panier, se connecter, se déconnecter, etc.
+</p>
+<p>
+    Les actions sont représentées en JavaScript par des fonctions dans les propriétés.
+</p>
+
+<h3 id="methodes">2. Exemples de méthodes</h3>
+<p>
+    Pour commencer, apprenons à user à dire bonjour :
+</p>
+<textarea class="code-php" id="">
+    let user = {
+        name: "John",
+        age: 30
+      };
+      
+      user.sayHi = function() {
+        alert("Hello!");
+      };
+      
+      user.sayHi(); // Hello!
+</textarea>
+<p>
+    Ici, nous venons d’utiliser une expression de fonction pour créer la fonction et l’affecter à la propriété <b>user.sayHi</b> de l’objet.
+</p>
+<p>
+    Ensuite, nous pouvons l’appeler comme <b>user.sayHi()</b>. L’utilisateur peut maintenant parler! <br>
+    Une fonction qui est la propriété d’un objet s’appelle sa méthode. <br>
+    Nous avons donc ici une méthode <b>sayHi</b> de l’objet user. <br>
+    Bien sûr, nous pourrions utiliser une fonction pré-déclarée comme méthode, comme ceci :
+</p>
+<textarea class="code-php" id="">
+    let user = {
+        // ...
+    };
+    
+    // d'abord, déclarer
+    function sayHi() {
+      alert("Hello!");
+    }
+    
+    // puis ajouter comme une méthode
+    user.sayHi = sayHi;
+    
+    user.sayHi(); // Hello!
+</textarea>
+
+<div class="alert alert-info mt-4">
+    <strong>Programmation orientée objet</strong> : <hr>
+    <p>        
+        Lorsque nous écrivons notre code en utilisant des objets pour représenter des entités, cela s’appelle une programmation orientée objet, en bref : “POO”.    
+    </p>
+    <p>
+        La programmation orientée objet est un élément important, une science intéressante en soi. Comment choisir les bonnes entités ? Comment organiser l’interaction 
+        entre elles ? C’est une architecture, et il existe d’excellents livres sur ce sujet tels que:
+    </p>
+    <p>
+        Livres en français :
+    </p>
+    <ul>
+        <li>
+            "<b>JavaScript : Le guide complet" par David Flanagan (traduction française)</b>
+            <p>Une référence exhaustive sur JavaScript, souvent surnommée "la Bible de JavaScript". Elle inclut une section détaillée sur la POO, les prototypes, et les classes modernes. Parfaite pour une compréhension approfondie.</p>
+        </li>
+        <li>
+            "<b>JavaScript : Les fondamentaux" par Thierry Groussard</b>            
+            <p>
+                Ce livre aborde les bases de JavaScript, y compris la POO avec les prototypes et les classes. Il est accessible et bien structuré pour les débutants.
+            </p>
+        </li>
+        <li>
+            "<b>Programmer avec JavaScript en s’amusant" par Éric Sarrion</b>
+            <p>
+                Un livre pratique et ludique qui explique la POO en JavaScript avec des exemples concrets, idéal pour les débutants qui veulent apprendre par la pratique.
+            </p>
+        </li>
+    </ul>
+    <p>        
+    Livres en anglais :
+    </p>
+    <ul>
+        <li>
+            "<b>You Don’t Know JS: this & Object Prototypes" par Kyle Simpson</b>
+            <p>Une partie de la célèbre série "You Don’t Know JS", ce livre se concentre spécifiquement sur la POO en JavaScript, les prototypes, et le mot-clé this. Court, précis et parfait pour maîtriser les subtilités de JavaScript.</p>
+        </li>
+        <li>
+            "<b>JavaScript: The Definitive Guide" par David Flanagan</b>
+            <p>La version originale en anglais du "Guide complet". Très détaillé, il couvre la POO avec les prototypes et les classes ES6, avec des exemples clairs.</p>
+        </li>
+        <li>
+            "<b>Eloquent JavaScript" par Marijn Haverbeke</b>
+                <p>Un livre moderne et gratuit en ligne (version papier disponible aussi), qui inclut un chapitre sur la POO avec JavaScript. Il est très apprécié pour son style clair et ses exercices pratiques.</p>
+        </li>
+        <li>
+            "<b>Object-Oriented JavaScript" par Stoyan Stefanov et Kumar Chetan Sharma</b>
+                <p>Spécifiquement dédié à la POO en JavaScript, ce livre explore les prototypes, les constructeurs, et les classes ES6. Idéal pour les
+                    intermédiaires qui veulent approfondir.</p>
+        </li>
+    </ul>   
+</div>
+<h3 id="meth-abreg">3. Méthode abrégée</h3>
+<p>
+    Il existe une syntaxe plus courte pour les méthodes dans un littéral d’objet :
+</p>
+<textarea class="code-php" id="">
+    // ces objets font la même chose
+
+    user = {
+    sayHi: function() {
+        alert("Hello");
+    }
+    };
+
+    // la méthode abrégée semble mieux, non ?
+    user = {
+    sayHi() { // identique à "sayHi: function(){...}"
+        alert("Hello");
+    }
+    };
+</textarea>
+<p>
+    Comme démontré, nous pouvons omettre "function" et simplement écrire sayHi().
+</p>
+<p>
+    A vrai dire, les notations ne sont pas totalement identiques. Il existe des différences subtiles liées à l’héritage d’objet (à couvrir plus tard), mais pour le moment, elles importent peu. 
+    Dans presque tous les cas, la syntaxe la plus courte est préférable.
+</p>
+
+<h3 id="this">4. “this” dans les méthodes</h3>
+<p>
+    Il est courant qu’une méthode d’objet ait besoin d’accéder aux informations stockées dans l’objet pour effectuer son travail. <br>
+    Par exemple, le code à l’intérieur de <b>user.sayHi()</b> peut nécessiter le <b>nom</b> de <b>user</b>. <br>
+    Pour accéder à l’objet, une méthode peut utiliser le mot-clé <b>this</b>. <br>
+    La valeur de <b>this</b> est <b>l’objet “avant le point”</b>, celui utilisé pour appeler la méthode. <br>
+    Par exemple :
+</p>
+<textarea class="code-php" id="">
+    let user = {
+      name: "John",
+      age: 30,
+    
+      sayHi() {
+        // "this" is the "current object"
+        alert(this.name);
+      }
+    
+    };
+    
+    user.sayHi(); // John
+</textarea>
+<p>
+    Ici, lors de l’exécution de <b>user.sayHi()</b>, la valeur de this sera <b>user</b>. <br>
+    Techniquement, il est également possible d’accéder à l’objet sans <b>this</b>, en le référençant via la variable externe :
+</p>
+<textarea class="code-php" id="">
+    let user = {
+      name: "John",
+      age: 30,
+    
+      sayHi() {
+        alert(user.name); // "user" au lieu de "this"
+      }
+    
+    };
+</textarea>
+<p>
+    … Mais un tel code n’est pas fiable. Si nous décidons de copier <b>user</b> dans une autre variable, par exemple <b>admin = user</b> et écraser user avec quelque chose d’autre, 
+    il accédera au mauvais objet. <br>
+    Cela est démontré ci-dessous :
+</p>
+<textarea class="code-php" id="">
+    let user = {
+      name: "John",
+      age: 30,
+    
+      sayHi() {
+        alert( user.name ); // conduit à une erreur
+      }
+    
+    };
+    
+    
+    let admin = user;
+    user = null; // écraser pour rendre les choses évidentes
+    
+    admin.sayHi(); // TypeError: Cannot read property 'name' of null
+</textarea>
+<p>
+    Si nous utilisions <b>this.name</b> au lieu de <b>user.name</b> dans l’alert, le code fonctionnerait.
+</p>
+
+<h3 id="nolink">5. “this” n’est pas lié</h3>
+<p>
+    En JavaScript, le mot clé <b>this</b> se comporte différemment de la plupart des autres langages de programmation. Il peut être utilisé dans n’importe quelle fonction, 
+    même si ce n’est pas la méthode d’un objet. <br>
+    Il n’y a pas d’erreur de syntaxe dans le code suivant :
+</p>
+<textarea class="code-php" id="">
+    function sayHi() {
+      alert(this.name);
+    }
+</textarea>
+<p>
+    La valeur de <b>this</b> est évaluée pendant l’exécution, en fonction du contexte. <br>
+    Par exemple, ici la même fonction est assignée à deux objets différents et a un “<b>this</b>” différent dans les appels :
+</p>
+<textarea class="code-php" id="">
+    let user = { name: "John" };
+    let admin = { name: "Admin" };
+
+    function sayHi() {
+        alert( this.name );
+    }
+
+    // Utiliser la même fonction dans deux objets
+    user.f = sayHi;
+    admin.f = sayHi;
+
+    // Ces appels ont un this différent
+    // "this" à l'intérieur de la fonction est l'objet "avant le point"
+    user.f(); // John  (this == user)
+    admin.f(); // Admin  (this == admin)
+
+    admin['f'](); // Admin (le point ou les crochets accèdent à la méthode - peu importe)
+</textarea>
+<p>
+    La règle est simple : si <b>objet.f()</b> est appelé, alors <b>this</b> est l'objet pendant l’appel de <b>f</b>. C’est donc l’<b>user ou l’admin</b> dans l’exemple ci-dessus.
+</p>
+
+<div class="alert alert-info mt-4">
+    <strong>Appel sans objet : <b>this</b> == undefined</strong> : <hr>
+    <p>
+        Nous pouvons même appeler la fonction sans objet du tout :
+    </p>
+    <textarea class="code-php" id="">
+        function sayHi() {
+            alert(this);
+        }
+        
+        sayHi(); // undefined
+    </textarea>
+    <p>Dans ce cas, <b>this</b> est <b>undefined</b> si le script est en mode strict. Si nous essayons d’accéder à <b>this.name</b>, il y aura une erreur.
+    En mode non strict (si on oublie <b>use strict</b>), la valeur de <b>this</b> dans ce cas sera l’objet global (la fenêtre d’un navigateur, nous y reviendrons plus tard). 
+    Ceci est un comportement historique que le mode strict corrige.</p>
+    <p>Ce genre d’appel est généralement une erreur de programmation. Si il y a un <b>this</b> dans une fonction, il s’attend à être appelée dans un contexte d’objet.</p>
+</div>
+
+<div class="alert alert-info mt-4">
+    <strong>Les conséquences d’un <b>this</b> non lié </strong> : <hr>
+    <p>
+        Si vous venez d’un autre langage de programmation, vous êtes probablement habitué à l’idée d’un “<strong>this lié</strong>”, où les méthodes définies dans un objet ont toujours 
+        <b>this</b> en référence à cet objet.
+    </p>
+    <p>
+        En JavaScript, <b>this</b> est “libre”, sa valeur est évaluée au moment de l’appel et ne dépend pas de l’endroit où la méthode a été déclarée, mais plutôt de l’objet “avant le point”.
+    </p>
+    <p>
+        Le concept de temps d’exécution évalué de <b>this</b> présente à la fois des avantages et des inconvénients. D’une part, une fonction peut être réutilisée pour différents objets. 
+        D’autre part, une plus grande flexibilité ouvre la place à des erreurs.
+    </p>
+    <p>
+        Ici, notre position n’est pas de juger si cette décision de conception linguistique est bonne ou mauvaise. Nous comprendrons comment travailler avec elle, comment obtenir des 
+        avantages et éviter les problèmes.
+    </p>  
+</div>
+
+<h3 id="fleche-no-this">6. Les fonctions fléchées n’ont pas de “<b>this</b>”</h3>
+<p>
+    Les fonctions fléchées sont spéciales : elles n’ont pas leur “propre” <b>this</b>. Si nous faisons référence à <b>this</b> à partir d’une telle fonction, cela provient de la fonction externe “normale”. <br>
+    Par exemple, ici <b>arrow()</b> utilise <b>this</b> depuis la méthode externe <b>user.sayHi()</b> :
+</p>
+<textarea class="code-php" id="">
+    let user = {
+      firstName: "Zelda",
+      sayHi() {
+        let arrow = () => alert(this.firstName);
+        arrow();
+      }
+    };
+    
+    user.sayHi(); // Zelda
+</textarea>
+<p class="mt-4">
+    C’est une particularité des fonctions fléchées. C’est utile lorsque nous ne voulons pas réellement avoir un <b>this</b> distinct, mais plutôt le prendre à partir du contexte extérieur. Plus tard dans le 
+    chapitre Les fonctions fléchées revisitées nous allons approfondir les fonctions fléchées.
+</p>
+
+<h3 id="resume">7. Résumé</h3>
+<ul>
+    <li>Les fonctions stockées dans les propriétés de l’objet s’appellent des “méthodes”.</li>
+    <li>Les méthodes permettent aux objets d’agir comme <b>object.doSomething()</b>.</li>
+    <li>Les méthodes peuvent référencer l’objet comme <b>this</b>.</li>
+</ul>
+<p>La valeur de <b>this</b> est définie au moment de l’exécution.</p>
+<ul>
+    <li>Lorsqu’une fonction est déclarée, elle peut utiliser <b>this</b>, mais ce <b>this</b> n’a aucune valeur jusqu’à ce que la fonction soit appelée.</li>
+    <li>Une fonction peut être copiée entre des objets.</li>
+    <li>Lorsqu’une fonction est appelée dans la syntaxe “méthode” : <b>object.method()</b>, la valeur de <b>this</b> lors de l’appel est objet.</li>
+</ul>
+<p>
+    Veuillez noter que les fonctions fléchées sont spéciales : elles n’ont pas this. Lorsque <b>this</b> est accédé dans une fonction fléchée, il est pris de l’extérieur.
+</p>
+
+
+
+        
