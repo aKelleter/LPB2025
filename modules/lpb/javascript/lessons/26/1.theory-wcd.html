@@ -1,0 +1,126 @@
+<p>
+    
+</p>
+<h3 id="intro">1. Introduction</h3>
+<p>
+    JavaScript nous permet de travailler avec des primitives (chaînes de caractères, nombres, etc.) comme s’il s’agissait d’objets. Ils prévoient également des méthodes pour les appeler en tant que tel. 
+    Nous étudierons cela très bientôt, mais nous verrons d’abord comment cela fonctionne car, bien entendu, les primitives ne sont pas des objets (et nous allons rendre cela plus clair).
+</p>
+<p>
+    Examinons les principales différences entre primitives et objets. <br>
+    Une primitive :
+</p>
+<ul>
+    <li>Est une valeur de type primitif.</li>
+    <li>Il existe 7 types primitifs : <b>string</b>, <b>number</b>, <b>bigint</b>, <b>boolean</b>, <b>symbol</b>, <b>null</b> et <b>undefined</b>.</li>
+</ul>
+<p>Un objet</p>
+<ul>
+    <li>Est capable de stocker plusieurs valeurs en tant que propriétés.</li>
+    <li>
+        Peut être créé avec <b>{}</b>, par exemple : <b>{name: "John", age: 30}</b>. Il existe d’autres types d’objets en JavaScript. Les fonctions, par exemple, sont des objets.
+    </li>
+</ul>
+<p>
+    L’une des meilleurs choses à propos des objets est que nous pouvons stocker une fonction en tant que l’une de ses propriétés.
+</p>
+<textarea class="code-php" id="">
+    let john = {
+      name: "John",
+      sayHi: function() {
+        alert("Hi buddy!");
+      }
+    };
+    
+    john.sayHi(); // Hi buddy!
+</textarea>
+<p class="mt-4">
+    Nous avons donc crée un <b>objet</b> <st-r>john</st-r> avec la méthode <b>sayHi</b>.
+    De nombreux objets intégrés existent déjà, tels que ceux qui fonctionnent avec des dates, des erreurs, des éléments HTML, etc.
+    Ils ont des propriétés et des méthodes différente.
+</p>
+<p>
+    Mais, ces fonctionnalités ont un coût ! <br>
+    Les objets sont “plus lourds” que les primitives. Ils ont besoin de ressources supplémentaires pour soutenir le mécanisme interne.
+</p>
+
+<h3 id="prim-obj">2. Une primitive en tant qu’objet</h3>
+<p>
+    Voici le paradoxe auquel est confronté le créateur de JavaScript : 
+</p>
+<ul>
+    <li>
+        Il y a beaucoup de choses que l’on voudrait faire avec une primitive telle qu’une chaîne de caractères ou un nombre. Ce serait génial d’y avoir accès avec des méthodes.
+    </li>
+    <li>
+        Les primitives doivent être aussi rapides et légères que possible.
+    </li>
+</ul>
+<p>
+    La solution semble peu commode, mais la voici :
+</p>
+<ol>
+    <li>Les primitives sont toujours primitives. Une seule valeur, au choix.</li>
+    <li>Le langage permet d’accéder aux méthodes et aux propriétés des chaînes de caractères, des nombres, des booléens et des symboles.</li>
+    <li>Pour que cela fonctionne, un “wrapper d’objet” (conteneur) spécial est crée pour fournir la fonctionnalité supplémentaire, puis il est détruit.</li>
+</ol>
+<p>
+    Les “wrapper d’objets” (conteneurs) sont différents pour chaque type de primitive et sont appelés <b>String</b>, <b>Number</b>, <b>Boolean</b> et <b>Symbol</b>. Ainsi, ils fournissent différents ensembles de méthodes. <br>
+    Par exemple, il existe une méthode de string <b>str.toUpperCase()</b> qui renvoie la chaîne de caractères <b>str</b> en majuscule.
+</p>
+<p>
+    Voici comment ça fonctionne:
+</p>
+<textarea class="code-php" id="">
+    let str = "Hello";
+    alert( str.toUpperCase() ); // HELLO
+</textarea>
+<p>
+    Simple, non? Voici ce qui se passe réellement dans <b>str.toUpperCase()</b>:
+</p>
+<ol>
+    <li>
+        La chaîne de caractères <b>str</b> est une primitive. Ainsi, au moment d’accéder à sa propriété, un objet spécial est crée, qui connaît la valeur de la chaîne de caractères et possède des méthodes utiles, 
+        comme <b>toUpperCase()</b>.
+    </li>
+    <li>Cette méthode s’exécute et retourne une nouvelle chaîne de caractères (indiquée par alert).</li>
+    <li>L’objet spécial est détruit, laissant le primitif <b>str</b> seul.</li>
+</ol>
+<p>
+    Les primitives peuvent donc fournir des méthodes, mais elles restent légères. <br>
+    Le moteur JavaScript optimise fortement ce processus. Il peut même ignorer la création de l’objet supplémentaire. Mais il doit toujours adhérer à la spécification et se comporter comme s’il en crée un.
+</p>
+<p>
+    Un nombre a ses propres méthodes, par exemple, <b>toFixed(n)</b> arrondit le nombre à la précision indiquée :
+</p>
+<textarea class="code-php" id="">
+    let n = 1.23456;
+    alert( n.toFixed(2) ); // 1.23
+</textarea>
+<p class="mt-4">Nous verrons des méthodes plus spécifiques dans les chapitres sur les Nombres et les Chaînes de caractères.</p>
+
+<div class="alert alert-danger">
+    <strong>/!\ Les constructeurs <b>String</b>, <b>Number</b> et <b>Boolean</b> sont réservés à un usage interne.</strong> <hr>
+    <textarea class="code-php" id="">
+        alert( typeof 0 ); // "number"
+        alert( typeof new Number(0) ); // "object"!
+    </textarea>
+    <p>
+        Il ne respecte pas le type de la primitive, ce sont des objets. En plus de cela, les objets sont toujours vrais dans les <b>if</b>. Par ailleurs, utiliser les mêmes fonctions <b>String</b>, <b>Number</b> et <b>Boolean</b> sans 
+        <b>new</b> est une chose totalement valide et même recommandée. Ils convertissent une valeur dans le type correspondant : une chaîne de caractères, un nombre ou un booléen (primitive).
+    </p>
+</div>
+
+<div class="alert alert-danger">
+    <strong>/!\ <b>null</b> / <b>undefined</b> n’ont pas de méthode.</strong> <hr>   
+    <p>
+        Les primitives spéciales <b>null</b> et <b>undefined</b> sont des exceptions. Elles n’ont pas de “wrapper d’objet” (conteneur) correspondants et ne fournissent aucune méthode. En un sens, 
+        elles sont “les plus primitives”.
+    </p>
+</div>
+
+<h3 id="resume">3. Résumé</h3>
+<ul>
+    <li>Les primitives sauf null et undefined fournissent de nombreuses méthodes utiles. Nous étudierons cela dans les prochains chapitres.</li>
+    <li>Officiellement, ces méthodes fonctionnent via des objets temporaires, mais les moteurs JavaScript sont bien ajustés pour optimiser cela en interne, elles ne sont donc pas coûteuses à appeler.</li>
+</ul>

@@ -1,0 +1,459 @@
+<p>
+    
+</p>
+<h3 id="intro">1. Introduction</h3>
+<p>
+    En JavaScript moderne, il existe deux types de nombres :
+</p>
+<ol>
+    <li>
+        Les nombres standards en JavaScript sont stockés au format 64 bits <b><a href="https://fr.wikipedia.org/wiki/IEEE_754" target="_blank" >IEEE-754</a></b>, également connu sous le nom de “nombres à virgule flottante double précision”.
+        Ce sont des chiffres que nous utilisons le plus souvent, et nous en parlerons dans ce chapitre.
+    </li>
+    <li>
+        Les nombres <st-r>BigInt</st-r> pour représenter des entiers de longueur arbitraire. Ils sont parfois nécessaires, car un nombre régulier ne peut pas dépasser de manière 
+        précise <b>2 exposant 53</b> ou être inférieur à <b>-2 exposant 53</b>. Comme les bigints sont utilisés dans quelques zones spéciales, nous leur consacrons un chapitre spécial <b>BigInt</b>.
+    </li>
+</ol>
+<p>
+    Nous allons donc parler ici des nombres réguliers. Développons nos connaissances à leur sujet.
+</p>
+<h3 id="plus">2. Plus de façons d’écrire un nombre</h3>
+<p>
+    Imaginez que nous ayons besoin d’écrire 1 milliard(billion). Le moyen évident est :
+</p>
+<textarea class="code-php" id="">
+    let milliard = 1000000000;
+</textarea>
+<p>Nous pouvons également utiliser l’underscore _ comme séparateur :</p>
+<textarea class="code-php" id="">
+    let milliard = 1_000_000_000; // le même nombre, mais plus lisible
+</textarea>
+<p>
+    Ici, l’underscore <b>_</b> joue le rôle de “<a href="https://fr.wikipedia.org/wiki/Sucre_syntaxique" target="_blank">sucre syntaxique</a>”, il rend le nombre plus lisible. Le moteur JavaScript ignore simplement <b>_</b> entre les chiffres, 
+    donc c’est exactement le même milliard que ci-dessus.
+</p>
+<p>
+    Dans la vraie vie cependant, nous essayons d’éviter d’écrire de longues séquences de zéros. Nous sommes trop paresseux pour ça. Nous essaierons d’écrire quelque chose comme “1 milliard” 
+    pour un milliard ou “7,3 milliards” pour 7 milliards 300 millions. La même chose est vraie pour la plupart des grands nombres.
+</p>
+<p>
+    En JavaScript, nous pouvons raccourcir un nombre en y ajoutant la lettre "e" et en spécifiant le nombre de zéros :
+</p>
+<textarea class="code-php" id="">
+    let milliard = 1e9;  // 1 milliard, littéralement : 1 suivi de 9 zéros
+    alert( 7.3e9 );  // 7.3 milliards (pareil que 7300000000 ou 7_300_000_000)
+</textarea>
+<p>
+    En d’autres termes, <b>e</b> multiplie le nombre par 1 suivi du nombre de zéros spécifié.
+</p>
+<textarea class="code-php" id="">
+    1e3 === 1 * 1000 // e3 signifie *1000
+    1.23e6 === 1.23 * 1000000 // e6 signifie *1000000
+</textarea>
+<p class="mt-4">
+    Maintenant, écrivons quelque chose de très petit. Disons, 1 microseconde (un millionième de seconde) :
+</p>
+<textarea class="code-php" id="">
+    let microseconde = 0.000001;
+</textarea>
+<p>
+    Comme avant, l’utilisation de "<b>e</b>" peut nous aider. Si nous voulons éviter d’écrire les zéros explicitement, nous pourrions dire la même chose comme :
+</p>
+<textarea class="code-php" id="">
+    let microseconde = 1e-6; // 1/1_000_000
+</textarea>
+<p>
+    Si nous comptons les zéros dans <b>0.000001</b>, il y en a 6. Donc logiquement, c’est 1e-6. <br>
+    En d’autres termes, <b class="red">un nombre négatif après "e" signifie une division par 1 suivi du nombre spécifié de zéros</b> :
+</p>
+<textarea class="code-php" id="">
+    // -3 divise par 1 avec 3 zéros
+    1e-3 === 1 / 1000; // 0.001
+
+    // -6 divise par 1 avec 6 zéros
+    1.23e-6 === 1.23 / 1000000; // 0.00000123
+
+    // un exemple avec un nombre plus important
+    1234e-2 === 1234 / 100; // 12.34, le point décimal est déplacé 2 fois
+</textarea>
+
+<h3 id="hbo">3. Nombres hexadécimaux, binaires et octaux</h3>
+<p>
+    Les nombres <a href="https://simple.wikipedia.org/wiki/Hexadecimal" target="_blank">Hexadécimaux</a> sont souvent utilisés en JavaScript pour représenter des couleurs, encoder des caractères et pour beaucoup d’autres choses. 
+    Alors, naturellement, il existe un moyen plus court de les écrire : <b>0x puis le nombre</b>.
+</p>
+<p>
+    Par exemple : 
+</p>
+<textarea class="code-php" id="">
+    alert( 0xff ); // 255
+    alert( 0xFF ); // 255 (même résultat car la casse n'a pas d'importance)
+</textarea>
+<p>
+    Les systèmes numériques binaires et octaux sont rarement utilisés, mais sont également supportés avec les préfixes <b>0b</b> et <b>0o</b> :
+</p>
+<textarea class="code-php" id="">
+    let a = 0b11111111; // forme binaire de 255
+    let b = 0o377; // forme octale de 255
+
+    alert( a == b ); // true, car a et b valent le même nombre, soit 255
+</textarea>
+<p>
+    Cependant ça ne fonctionne qu’avec ces 3 systèmes de numération. Pour les autres systèmes numérique, nous devrions utiliser la fonction <b>parseInt</b> (que nous verrons plus loin dans ce chapitre).
+</p>
+
+<h3 id="tostring">4. La méthode toString(base)</h3>
+<p>
+    La méthode <b>num.toString(base)</b> retourne une chaîne de caractères représentant <b>num</b> dans le système numérique de la <b>base</b> donnée. <br>
+    Par exemple :
+</p>
+<textarea class="code-php" id="">
+    let num = 255;
+
+    alert( num.toString(16) );  // ff
+    alert( num.toString(2) );   // 11111111
+</textarea>
+<p>
+    La base peut varier de <b>2</b> à <b>36</b>. Par défaut, il s’agit de la base <b>10</b>.
+</p>
+<p>Les cas d’utilisation courants sont :</p>
+<ul>
+    <li><st-r>base=16</st-r> est utilisé pour les couleurs hexadécimales, les encodages de caractères, etc. Les chiffres peuvent être <b>0..9</b> ou <b>A..F</b>.</li>
+    <li><st-r>base=2</st-r> est principalement utilisé pour le débogage d’opérations binaires, les chiffres pouvant être <b>0</b> ou <b>1</b>.</li>
+    <li><st-r>base=36</st-r> est le maximum, les chiffres peuvent être <b>0..9</b> ou <b>A..Z</b>. L’alphabet latin entier est utilisé pour représenter un nombre. Un cas amusant mais utile pour 
+        la base <b>36</b> consiste à transformer un identifiant numérique long en quelque chose de plus court, par exemple pour créer une URL courte. On peut simplement le représenter dans le système 
+        numérique avec base <b>36</b> :</li>
+</ul>
+<textarea class="code-php" id="">
+    alert( 123456..toString(36) ); // 2n9c
+</textarea>
+<div class="alert alert-danger mt-4">
+    <strong>/!\ Deux points pour appeler une méthode ?</strong> <hr>
+    <p>
+        Veuillez noter que deux points sur <b>123456..toString(36)</b> n’est pas une faute de frappe. Si nous voulons appeler une méthode directement sur un nombre, comme toString dans l’exemple ci-dessus, 
+        nous devons placer deux points <b>..</b> avant la méthode.
+    </p>
+    <p>
+        Si nous plaçions un seul point : <b>123456.toString(36)</b>, il y aurait une erreur, car la syntaxe JavaScript applique la partie décimale après le premier point et il lirait toString(36) comme étant la 
+        partie décimale de 123456 ce qui n’est pas le cas. Si nous plaçons un point de plus, alors JavaScript sait que la partie décimale est vide et peut maintenant appliquer la méthode.
+    </p>
+    <p>Il est aussi possible d’écrire (123456).toString(36).</p>
+</div>
+
+<h3 id="arrondi">5. Arrondir</h3>
+<p>
+    Arrondir est l’une des opérations les plus utilisées pour travailler avec des nombres. <br>
+    Il existe plusieurs fonctions intégrées pour arrondir :
+</p>
+<ul>
+    <li><b>Math.floor</b> : arrondit vers le bas : 3.1 devient 3, et -1.1 devient -2.</li>
+    <li><b>Math.ceil</b> : arrondit vers le haut : 3.1 devient 4, -1.1 devient -1.</li>
+    <li><b>Math.round</b> : arrondit vers le plus proche entier : 3.1 devient 3, 3.6 devient 4, -1.1 devient -1.</li>
+    <li><b>Math.trunc</b> (non-standard inconnu de IE (mais on s'en fou, il n'existe plus, sauf cas spécifique)) : supprime la partie décimale sans arrondir : 3.1 devient 3, -1.1 devient -1.</li>
+</ul>
+<p>Voici le tableau pour résumer les différences entre eux :</p>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Fonction</th>
+            <th>3.1</th>
+            <th>3.6</th>
+            <th>-1.1</th>
+            <th>-1.6</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Math.floor</td>
+            <td>3</td>
+            <td>3</td>
+            <td>-2</td>
+            <td>-2</td>
+        </tr>
+        <tr>
+            <td>Math.ceil</td>
+            <td>4</td>
+            <td>4</td>
+            <td>-1</td>
+            <td>-1</td>
+        </tr>
+        <tr>
+            <td>Math.round</td>
+            <td>3</td>
+            <td>4</td>
+            <td>-1</td>
+            <td>-2</td>
+        </tr>
+        <tr>
+            <td>Math.trunc</td>
+            <td>3</td>
+            <td>3</td>
+            <td>-1</td>
+            <td>-1</td>
+        </tr>
+    </tbody>
+</table>
+<p class="mt-4">
+    Ces fonctions couvrent toutes les manières possibles de traiter la partie décimale d’un nombre. Mais que se passe-t-il si nous voulons arrondir le nombre à un certain chiffre après la virgule ?
+    Par exemple, nous avons 1.2345 et voulons l’arrondir à 2 chiffres, pour obtenir seulement 1.23. <br>
+    Il y a deux façons de le faire:
+</p>
+
+<h4>1. Multiplier et diviser</h4>
+<p>
+    Par exemple, pour arrondir le nombre au 2ème chiffre après la décimale, nous pouvons multiplier le nombre par “100”, appeler la fonction d’arrondi puis le diviser.
+</p>
+<textarea class="code-php" id="">
+    let num = 1.23456;
+    alert( Math.round(num * 100) / 100 ); // 1.23
+</textarea>
+
+<h4>2. La méthode toFixed(n)</h4>
+<p>
+    La méthode <b>toFixed(n)</b> arrondit le nombre à n chiffres après le point et renvoie une chaîne de caractères du résultat.
+</p>
+<textarea class="code-php" id="">
+    let num = 12.34;
+    alert( num.toFixed(1) ); // "12.3"
+</textarea>
+<p>
+    Ceci arrondit à la valeur la plus proche, similaire à Math.round :
+</p>
+<textarea class="code-php" id="">
+    let num = 12.36;
+    alert( num.toFixed(1) ); // "12.4"
+</textarea>
+<p>
+    Veuillez noter que le résultat de <b>toFixed</b> est une chaîne de caractères. Si la partie décimale est plus courte qu’indiquée, des zéros sont ajoutés à la fin :
+</p>
+<textarea class="code-php" id="">
+    let num = 12.34;
+    alert( num.toFixed(5) ); // "12.34000", ajout de zéros pour atteindre 5 chiffres
+</textarea>
+<p>
+    Nous pouvons le convertir en un nombre en utilisant le plus unaire <b>+</b> ou un appel <bb>Number()</bb> : <b>+num.toFixed(5)</b>.
+</p>
+
+<h3 id="imprecis">6. Calculs imprécis</h3>
+<p>
+    En interne, un nombre est représenté au format 64 bits IEEE-754, il y a donc exactement 64 bits pour stocker un nombre : 52 d’entre eux sont utilisés pour stocker les chiffres, 11 d’entre eux stockent 
+    la position du point décimal (ils sont à zéro pour les nombres entiers), et 1 bit est pour le signe.    
+</p>
+<p>
+    Si un nombre est vraiment énorme, il peut déborder du stockage 64 bits et devenir une valeur numérique spéciale Infinity :
+</p>
+<textarea class="code-php" id="">
+    alert( 1e500 ); // Infinity
+</textarea>
+<p>
+    Ce qui est peut-être un peu moins évident, mais qui arrive souvent, est la perte de précision. <br>
+    Considérez ce (faux !) test d’égalité :
+</p>
+<textarea class="code-php" id="">
+    alert( 0.1 + 0.2 == 0.3 ); // false
+</textarea>
+<p>
+    Si on vérifie si la somme de 0.1 et 0.2 est égale à 0.3 on obtient faux. <br>
+    Étrange ! Qu’est-ce que c’est alors si ce n’est pas 0.3?
+</p>
+<textarea class="code-php" id="">
+    alert( 0.1 + 0.2 ); // 0.30000000000000004
+</textarea>
+<p>
+    Aie ! Imaginez que vous créiez un site d’e-commerce et que le visiteur mette des produits à 0,10 € et 0,20 € dans son panier. Le total de la commande sera de <b>0,30000000000000004</b> €. 
+    Cela surprendrait n’importe qui. Mais pourquoi cela se produit-il ?
+</p>
+<p>
+    Un nombre est stocké en mémoire sous sa forme binaire, une séquence de uns et de zéros. Mais les fractions telles que <b>0.1</b>, <b>0.2</b>, qui semblent simples dans le système numérique décimal, sont en réalité des fractions sans fin dans leur forme binaire.
+</p>
+<p>
+    En d’autres termes, qu’est-ce que <b>0.1</b> ? C’est un divisé par dix <b>1/10</b>, un dixième. Dans le système numérique décimal, ces nombres sont facilement représentables. 
+    Comparez-le à un tiers : <b>1/3</b>. Cela devient une fraction sans fin <b>0.33333(3)</b>.
+</p>
+<p>
+    Ainsi, la division par puissances <b>10</b> est garantie de bien fonctionner dans le système décimal, mais la division par <b>3</b> ne l’est pas. Pour la même raison, dans le système de numération binaire, 
+    la division par des puissances de <b>2</b> est garantie, mais <b>1/10</b> devient une fraction binaire sans fin.
+</p>
+<p>
+    Il n’existe aucun moyen de stocker <b class="red">exactement 0.1</b> ou <b class="red">exactement 0.2</b> à l’aide du système binaire, tout comme il n’existe aucun moyen de stocker un tiers sous forme de fraction décimale.
+</p>
+<p>
+    Le format numérique IEEE-754 résout ce problème en arrondissant au nombre le plus proche possible. Ces règles d’arrondissement ne nous permettent normalement pas de voir cette “petite perte de précision”, mais elle existe.
+</p>
+<p>
+    Nous pouvons voir cela en action :
+</p>
+<textarea class="code-php" id="">
+    alert( 0.1.toFixed(20) ); // 0.10000000000000000555
+</textarea>
+<p>
+    Et quand on additionne deux nombres, leurs “pertes de précision” s’additionnent.
+    C’est pourquoi 0.1 + 0.2 n’est pas exactement 0.3.
+</p>
+<div class="alert alert-info">
+    <strong>Pas seulement en JavaScript</strong> <hr> 
+    Le même problème existe dans de nombreux autres langages de programmation.
+    PHP, Java, C, Perl, Ruby donnent exactement le même résultat, car ils sont basés sur le même format numérique.
+</div>
+<p class="mt-4">
+    Pouvons-nous contourner le problème ? Bien sûr, la méthode la plus fiable est d’arrondir le résultat à l’aide d’une méthode <b>toFixed(n)</b> :
+</p>
+<textarea class="code-php" id="">
+    let sum = 0.1 + 0.2;
+    alert( sum.toFixed(2) ); // 0.30
+</textarea>
+<p>
+    Veuillez noter que <b>toFixed</b> renvoie toujours une chaîne de caractères. Il s’assure qu’il a <b>2</b> chiffres après le point décimal. C’est pratique si nous avons un magasin en ligne et devons montrer 
+    0.30 euros. Pour les autres cas, nous pouvons utiliser le plus unaire <b>+</b> pour le contraindre en un nombre :
+</p>
+<textarea class="code-php" id="">
+    let sum = 0.1 + 0.2;
+    alert( +sum.toFixed(2) ); // 0.3
+</textarea>
+
+<p class="red">
+    Attrention, L’approche multiplier/diviser réduit l’erreur, mais ne la supprime pas totalement.
+</p>
+
+<h3 id="tests">7. Tests : isFinite et isNaN</h3>
+<p>
+    Vous rappelez-vous de ces deux valeurs numériques spéciales ? <b>Infinity</b> et <b>NaN</b> ?
+</p>
+<ul>
+    <li>
+        <b>Infinite</b> (et <b>-Infinite</b>) sont des valeurs numériques spéciales qui sont supérieures (inférieure) à tout.
+    </li>
+    <li>
+        <b>NaN</b> représente une erreur de calcul. C’est un résultat d’une opération mathématique incorrecte ou indéfinie.
+    </li>    
+</ul>
+<p>
+    Ils appartiennent au type number, mais ne sont pas des numéros “normaux”. Il existe donc des fonctions spéciales pour les vérifier :
+</p>
+<ul>
+    <li><b>isNaN(valeur)</b> convertit son argument en un nombre et teste ensuite s’il est <b>NaN</b> :</li>
+    <textarea class="code-php" id="">
+        alert( isNaN(NaN) ); // true
+        alert( isNaN("str") ); // true
+    </textarea>    
+    <p>
+        Mais avons-nous besoin de cette fonction ? Ne pouvons-nous pas simplement utiliser la comparaison === <b>NaN</b> ? Malheureusement non. La valeur <b>NaN</b> est unique en ce sens qu’elle ne vaut rien, 
+        y compris elle-même :
+    </p>
+    <textarea class="code-php" id="">
+        alert( NaN === NaN ); // false
+    </textarea>
+    <li><b>isFinite(valeur)</b> convertit son argument en un nombre et renvoie <b>true</b> s’il s’agit d’un nombre régulier, pas de <b>NaN</b> / <b>Infinity</b> / <b>-Infinity</b> :</li>
+    <textarea class="code-php" id="">
+        alert( isFinite("15") ); // true
+        alert( isFinite("str") ); // false, car c'est une valeur non régulière: NaN
+        alert( isFinite(Infinity) ); // false, car c'est aussi une valeur non régulière: Infinity
+    </textarea>    
+</ul>
+<p>
+    Parfois, <b>isFinite</b> est utilisé pour valider si une valeur de chaîne de caractères est un nombre régulier :
+</p>
+<textarea class="code-php" id="">
+    let num = +prompt("Entrez un nombre", '');
+
+    // sera vrai, sauf si vous entrez Infinity, -Infinity ou NaN
+    alert( isFinite(num) );
+</textarea>
+<p class="mt-4"> 
+    Veuillez noter qu’une chaîne de caractères vide ou une chaîne de caractères contenant seulement des espaces est traitée comme <b>0</b> dans toutes les fonctions numérique,
+    y compris <b>isFinite</b>.
+</p>
+
+<h3 id="parse">8. parseInt et parseFloat</h3>
+<p>
+    La conversion numérique à l’aide d’un plus <b>+</b> ou <b>Number()</b> est strict. Si une valeur n’est pas exactement un nombre, elle échoue :
+</p>
+<textarea class="code-php" id="">
+    alert( +"100px" ); // NaN
+</textarea>
+<p>
+    La seule exception concerne les espaces au début ou à la fin de la chaîne de caractères, car ils sont ignorés.
+    Mais dans la vraie vie, nous avons souvent des valeurs en unités, comme "100px" ou "12pt" en CSS. En outre, dans de nombreux pays, le symbole monétaire se situe après le montant. 
+    Nous avons donc "19€" et souhaitons en extraire une valeur numérique.
+</p>
+<p>
+    C’est à quoi servent <b>parseInt</b> et <b>parseFloat</b>.
+    Ils “lisent” un nombre d’une chaîne jusqu’à ce qu’ils ne puissent plus. En cas d’erreur, le numéro rassemblé est renvoyé. La fonction <b>parseInt</b> renvoie un entier, 
+    tandis que <b>parseFloat</b> renvoie un nombre à virgule :
+</p>
+<textarea class="code-php" id="">
+    alert( parseInt('100px') ); // 100
+    alert( parseFloat('12.5em') ); // 12.5
+
+    alert( parseInt('12.3') ); // 12, seule la partie entière est renvoyée
+    alert( parseFloat('12.3.4') ); // 12.3, le deuxième point arrête la lecture
+</textarea>
+<p>
+    Il y a des situations où <b>parseInt</b> / <b>parseFloat</b> retournera NaN. Cela arrive quand on ne peut lire aucun chiffre :
+</p>
+<textarea class="code-php" id="">
+    alert( parseInt('a123') ); // NaN, le premier symbole arrête le processus
+</textarea>
+<p class="mt-4">
+    La fonction <b>parseInt()</b> a un second paramètre optionnel. Il spécifie la base du système numérique, ce qui permet à parseInt d’analyser également les chaînes de nombres 
+    hexadécimaux, binaires, etc. :
+</p>
+<textarea class="code-php" id="">
+    alert( parseInt('0xff', 16) ); // 255
+    alert( parseInt('ff', 16) ); // 255, sans 0x cela fonctionne également
+    alert( parseInt('2n9c', 36) ); // 123456
+</textarea>
+
+<h3 id="others">9. Autres fonctions mathématiques</h3>
+<p>
+    JavaScript a un objet <b>Math</b> intégré qui contient une petite bibliothèque de fonctions et de constantes mathématiques. <br>
+    Quelques exemples :
+</p>
+<textarea class="code-php" id="">
+    alert( Math.random() ); // un nombre aléatoire de 0 à 1
+    alert( Math.max(3, 5, -10, 0, 1) ); // 5
+    alert( Math.min(1, 2) ); // 1
+    alert( Math.pow(2, 10) ); // 2 à la puissance 10 = 1024
+</textarea>
+<ul>
+    <li><b>Math.random()</b> renvoie un nombre aléatoire de 0 à 1 (exclu 1).</li>
+    <li><b>Math.max</b> / <b>Math.min</b> renvoie le plus grand / le plus petit parmi les arguments.</li>
+    <li><b>Math.pow</b>(x, n) renvoie x élevé à la puissance n.</li>    
+</ul>
+<p>
+    Il y a plus de fonctions et de constantes dans l’objet <b>Math</b>, y compris la trigonométrie, que vous pouvez trouver 
+    dans la <a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/Math" target="_blank">documentation de l’objet Math</a>.
+</p>
+<h3 id="resume">10. Résumé</h3>
+<p>Pour écrire des nombres avec beaucoup de zéros :</p>
+<ul>
+    <li>Ajoutez "e" avec le nombre de zéros au nombre. Comme 123e6 est 123 avec 6 zéros soit 123000000.</li>
+    <li>Un nombre négatif après le "e" entraîne la division du nombre par 1 suivi par le nombre de zéros donnés. Comme 123-e6 est 123 divisé par 1 suivi de 6 zéros, soit 0.000123 (123 millionièmes).</li>
+</ul>
+<p>Pour différents systèmes de numération :</p>
+<ul>
+    <li>Il est possible d’écrire des nombres directement dans les systèmes hex (0x), octal (0o) et binaire (0b).</li>
+    <li>parseInt(str, base) passe la chaîne de caractères str vers un système numérique avec une base donnée : 2 ≤ base ≤ 36.</li>
+    <li>num.toString(base) convertit un nombre en chaîne de caractères dans le système numérique de la base donnée.</li>
+</ul>
+<p>Pour les tests de nombres réguliers :</p>
+<ul>
+    <li>isNaN(value) convertit son argument en nombre puis vérifie s’il s’agit de NaN.</li>
+    <li>Number.isNaN(value) vérifie si son argument appartient au type number et, si c’est le cas, vérifie s’il s’agit de NaN.</li>
+    <li>isFinite(value) convertit son argument en nombre puis vérifie s’il ne s’agit pas de NaN / Infinity / -Infinity.</li>
+    <li>Number.isFinite(value) vérifie si son argument appartient au type number et, si c’est le cas, vérifie s’il ne s’agit pas de NaN / Infinity / -Infinity.</li>
+</ul>
+<p>Pour convertir des valeurs telles que 12pt et 100px en nombres :</p>
+<ul>
+    <li>Utiliser parseInt / parseFloat pour la conversion “soft”, qui lit un nombre à partir d’une chaîne de caractères, puis renvoie la valeur qu’il pouvait lire avant de rencontrer une erreur.</li>
+</ul>
+<p>Pour les fractions :</p>
+<ul>
+    <li>Arrondissez en utilisant Math.floor, Math.ceil, Math.trunc, Math.round ou num.toFixed(précision).</li>
+    <li>Assurez-vous de ne pas perdre de précision lorsque vous travaillez avec des fractions.</li>
+</ul>
+<p>Plus de fonctions mathématiques :</p>
+<ul>
+    <li>Voir l’objet Math quand vous en avez besoin. La bibliothèque est très petite, mais peut couvrir les besoins de base.</li>
+</ul>

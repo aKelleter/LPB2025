@@ -1,0 +1,137 @@
+<p>
+    
+</p>
+<h3 id="intro">1. Introduction</h3>
+<p>
+    En JavaScript, les données de type texte sont stockées sous forme de chaînes de caractères. Il n’y a pas de type séparé pour un seul caractère.
+    Le format interne des chaînes de caractères est toujours <b><a href="https://fr.wikipedia.org/wiki/UTF-16" target="_blank">UTF-16</a></b>, il n’est pas lié au codage de la page.
+</p>
+<h3 id="delimiteur">2. Les délimiteurs</h3>
+<p>
+    Rappelons les types de quotes. <br>
+    Les chaînes de caractères peuvent être placées entre guillemets simples, doubles ou backticks :
+</p>
+<textarea class="code-php" id="">
+    let single = 'single-quoted';
+    let double = "double-quoted";
+
+    let backticks = `backticks`;
+</textarea>
+<p class="mt-4">
+    Les guillemets simples et doubles sont essentiellement les mêmes. Les backticks nous permettent toutefois d’incorporer n’importe quelle expression dans la chaîne de caractères, 
+    en l’enveloppant dans ${…} :
+</p>
+<textarea class="code-php" id="">
+    function sum(a, b) {
+        return a + b;
+    }
+   
+    alert(`1 + 2 = ${sum(1, 2)}.`); // 1 + 2 = 3.
+</textarea>
+<p>
+    L’utilisation des backticks présente également l’avantage de permettre à une chaîne de caractères de couvrir plusieurs lignes :
+</p>
+<textarea class="code-php" id="">
+    let guestList = `Guests:
+    * John
+    * Pete
+    * Mary
+    `;
+    
+    alert(guestList); // une liste de noms, chaque nom sur une ligne.
+</textarea>
+<p>
+    Ça a l’air naturel, non? Mais les guillemets simples ou doubles ne fonctionnent pas de cette façon. <br>
+    Si nous les utilisons et essayons d’utiliser plusieurs lignes, il y aura une erreur :
+</p>
+<textarea class="code-php" id="">
+    let guestList = "Guests: // Error: Unexpected token ILLEGAL
+    * John";
+</textarea>
+<p>
+    Les guillemets simples et doubles proviennent d’anciens temps de la création linguistique lorsque la nécessité de chaînes multilignes n’était pas prise en compte. Les <b>backticks</b> sont apparus 
+    beaucoup plus tard et sont donc plus polyvalents.
+</p>
+<p>
+    Les <b>backticks</b> nous permettent également de spécifier un “modèle de fonction” avant le premier backtick. La syntaxe est la suivante : func`string`. La fonction func est appelée automatiquement, 
+    elle reçoit la chaîne de caractères et les expressions incorporées et peut les traiter. Cette fonctionnalité est appelée “tagged templates”, elle est rarement vue, mais vous pouvez en savoir 
+    plus à ce sujet dans la doc MDN : <a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Template_literals#Tagged_templates" target="_blank">Template literals</a>.
+</p>
+
+<h3 id="carspec">3. Caractères spéciaux</h3>
+<p>
+    Il est encore possible de créer des chaînes de caractères multilignes avec des guillemets simples et doubles en utilisant un “caractère de nouvelle ligne”, écrit comme ceci <b>\n</b>, 
+    qui spécifie un saut de ligne :
+</p>
+<textarea class="code-php" id="">
+    let guestList = "Guests:\n * John\n * Pete\n * Mary";
+    
+    alert(guestList); // une liste de noms, chaque nom sur une ligne.
+</textarea>
+<p>
+    Comme exemple plus simple, ces deux lignes sont égales, juste écrites différemment :
+</p>
+<textarea class="code-php" id="">
+    let str1 = "Hello\nWorld"; // deux lignes utilisant un "symbole de nouvelle ligne"
+
+    // deux lignes utilisant une nouvelle ligne normale et des backticks
+    let str2 = `Hello
+    World`;
+
+    alert(str1 == str2); // true
+</textarea>
+<p class="mt-4">
+    Il existe d’autres caractères “spéciaux” moins courants. <br>
+    Voici la liste complète :
+</p>
+<ul>
+    <li><b>\n</b> – nouvelle ligne</li>
+    <li><b>\r</b> – retour chariot</li>
+    <li><b>\', \"</b> – guillemets simples et doubles</li>
+    <li><b>\\</b> – backslash</li>
+    <li><b>\t</b> – tabulation, etc.</li>    
+</ul>
+<p>
+    Comme vous pouvez le voir, tous les caractères spéciaux commencent par un <b>backslash</b> (barre oblique inversée) \. On l’appelle aussi “caractère d’échappement”.
+    Parce que c’est si spécial, si nous devons afficher une véritable barre oblique inverse <b>\</b> dans la chaîne, nous devons la doubler :
+</p>
+<textarea class="code-php" id="">
+    alert( `The backslash: \\` ); // The backslash: \
+</textarea>
+<p>
+    Les guillemets dits “échappés” <b>\'</b>, <b>\"</b>, <b>\`</b> sont utilisés pour insérer un guillemet dans la même chaîne entre guillemets. <br>
+    Par exemple :
+</p>
+<textarea class="code-php" id="">
+    alert( 'I\'m the Walrus!' ); // I'm the Walrus!
+</textarea>
+<p>
+    Comme vous pouvez le constater, nous devons précéder le simple quote intérieure du backslash \', sinon, cela indiquerait la fin de la chaîne de caractères. <br>
+    Bien sûr, il ne faut échapper que les guillemets identiques à ceux qui les entourent. Donc, comme solution plus élégante, nous pourrions passer aux guillemets doubles ou aux backticks :
+</p>
+<textarea class="code-php" id="">
+    alert( "I'm the Walrus!" ); // I'm the Walrus!
+</textarea>
+<p>
+    Outre ces caractères spéciaux, il existe également une notation spéciale pour les codes Unicode <b>\u…</b>, elle est rarement utilisée.
+</p>
+
+<h3 id="length">4. Longueur de chaîne de caractères</h3>
+<p>
+    La propriété <b>length</b> indique la longueur de la chaîne de caractères :    
+</p>
+<textarea class="code-php" id="">
+    alert( `My\n`.length ); // 3
+</textarea>
+<p>
+    Notez que <b>\n</b> est un seul caractère “spécial”, la longueur est donc bien 3.
+</p>
+
+<div class="alert alert-danger">
+    <strong>/!\ <b>length</b> est une propriété</strong> <hr>
+    <p>
+        Les personnes ayant des connaissances dans d’autres langages peuvent parfois commettre des erreurs en l’appelant <a>str.length()</a> au lieu de <b>str.length</b>. Cela ne fonctionne pas.
+        Veuillez noter que <b>str.length</b> est une propriété numérique et non une fonction. Il n’est pas nécessaire d’ajouter des parenthèses après. Pas <b>.length()</b>, mais <b>.length</b>.
+    </p>
+</div>
+

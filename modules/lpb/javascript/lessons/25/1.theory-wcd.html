@@ -1,7 +1,173 @@
 <p>
     
 </p>
-<h3></h3>
+<h3 id="intro">1. Introduction</h3>
 <p>
-    
+    La syntaxe normale <b>{...}</b> permet de créer un seul objet. Mais souvent, nous devons créer de nombreux objets similaires, tels que plusieurs utilisateurs ou éléments de menu, etc. <br>
+    Cela peut être fait en utilisant les fonctions constructeur et l’opérateur "<b>new</b>".
 </p>
+
+<h3 id="func-const">2. La fonction constructeur</h3>
+<p>
+    Les fonctions constructeur sont techniquement des fonctions habituelles. Il existe cependant deux conventions :
+</p>
+<ul>
+    <li>Elles sont nommées avec une lettre majuscule en premier.</li>
+    <li>Elles ne devraient être executées qu’avec l’opérateur "new".</li>
+</ul>
+<p>Par exemple :</p>
+<textarea class="code-php" id="">
+    function User(name) {
+      this.name = name;
+      this.isAdmin = false;
+    }
+    
+    let user = new User("Jack");
+    
+    alert(user.name); // Jack
+    alert(user.isAdmin); // false
+</textarea>
+<p>
+    Quand une fonction est exécutée avec new, elle effectue les étapes suivantes :
+</p>
+<ul>
+    <li>Un nouvel objet vide est créé et affecté à <b>this</b>.</li>
+    <li>Le corps de la fonction est exécuté. Habituellement, il modifie <b>this</b>, y ajoutant de nouvelles propriétés.</li>
+    <li>La valeur de <b>this</b> est retournée.</li>
+</ul>
+<p>
+    En d’autres termes, <b>new User(...)</b> fait quelque chose comme :
+</p>
+<textarea class="code-php" id="">
+    function User(name) {
+      // this = {};  (implicitement)
+    
+      // ajoute des propriétés à this
+      this.name = name;
+      this.isAdmin = false;
+    
+      // return this;  (implicitement)
+    }
+</textarea>
+<p>
+    Donc <b>let user = new User("Jack")</b> donne le même résultat que :
+</p>
+<textarea class="code-php" id="">
+    let user = {
+      name: "Jack",
+      isAdmin: false
+    };
+</textarea>
+<p class="mt-4">
+    Maintenant, si nous voulons créer d’autres utilisateurs, nous pouvons appeler <b>new User("Ann")</b>, <b>new User("Alice")</b> etc. Beaucoup plus court que d’écrire littéralement à chaque fois, 
+    et aussi facile à lire.
+</p>
+<p>
+    C’est l’objectif principal des constructeurs – implémenter du code de création d’objet réutilisable.
+    Notons encore une fois – techniquement, n’importe quelle fonction (à l’exception des fonctions fléchées, car elles n’ont pas de <b>this</b>) peut être utilisée comme constructeur. 
+    Elle peut être exécutée avec <b>new</b>, et elle exécutera l’algorithme ci-dessus. La “première lettre majuscule” est une convention, pour indiquer clairement qu’une fonction doit 
+    être exécutée avec <b>new</b>.
+</p>
+
+<div class="alert alert-info">
+    <strong>new function() { … }</strong> <hr>
+    <p>
+        Si nous avons beaucoup de lignes de code concernant la création d’un seul objet complexe, nous pouvons les envelopper dans une fonction constructeur, comme ceci :
+    </p>
+    <textarea class="code-php" id="">
+        // créer une fonction et l'appeler immédiatement avec new
+        let user = new function() {
+            this.name = "John";
+            this.isAdmin = false;
+
+        // ...autre code pour la création d'utilisateur
+        // peut-être une logique complexe et des déclarations
+        // de variables locales etc.
+        };
+    </textarea>
+    <p>
+        Ce constructeur ne peut pas être appelé à nouveau, car il n’est enregistré nulle part, juste créé et appelé. Cette astuce vise donc à encapsuler le code qui construit l’objet unique, 
+        sans réutilisation future.
+    </p>
+</div>
+
+<h3 id="retour-const">3. Retour des constructeurs</h3>
+<p>
+    Généralement, les constructeurs n’ont pas d’instruction return. Leur tâche consiste à écrire tous les éléments nécessaires dans this, qui devient automatiquement le résultat. <br>
+    Mais s’il y a une déclaration <b>return</b>, alors la règle est simple :
+</p>
+<ul>
+    <li>Si <b>return</b> est appelé avec un object, alors il est renvoyé à la place de <b>this</b>.</li>
+    <li>Si <b>return</b> est appelé avec une primitive, elle est ignorée.</li>
+</ul>
+<p>
+    En d’autres termes, <b>return</b> avec un objet renvoie cet objet, dans tous les autres cas, <b>this</b> est renvoyé. <br>
+    Par exemple, ici <b>return</b> remplace <b>this</b> en retournant un objet :
+</p>
+<textarea class="code-php" id="">
+    function BigUser() {
+        this.name = "John";      
+        return { name: "Godzilla" };  // <-- retourne cet objet
+    }      
+    alert( new BigUser().name );  // Godzilla, obtenu cet objet
+</textarea>
+<p class="mt-4">
+    Et voici un exemple avec un return vide (ou nous pourrions placer une primitive après, peu importe) :
+</p>
+<textarea class="code-php" id="">
+    function SmallUser() {
+      this.name = "John";      
+      return; // renvoie this
+    }
+    
+    alert( new SmallUser().name );  // John
+</textarea>
+<p>
+    Généralement, les constructeurs n’ont pas d’instruction return. Nous mentionnons ici le comportement spécial avec les objets renvoyés principalement dans un souci de complétude.
+</p>
+
+<h3 id="meth-const">4. Les méthodes dans les constructeurs</h3>
+<p>
+    L’utilisation de fonctions de constructeur pour créer des objets offre une grande flexibilité. La fonction constructeur peut avoir des paramètres qui définissent comment construire 
+    l’objet et ce qu’il doit y mettre. <br>
+    Bien sûr, nous pouvons ajouter à <b>this</b> non seulement des propriétés, mais également des méthodes.
+    Par exemple, <b>new User(name)</b> ci-dessous créer un objet avec le name donné et la méthode <b>sayHi</b> :
+</p>
+<textarea class="code-php" id="">
+    function User(name) {
+      this.name = name;
+    
+      this.sayHi = function() {
+        alert( "My name is: " + this.name );
+      };
+    }
+    
+    let john = new User("John");
+    
+    john.sayHi(); // My name is: John
+</textarea>
+<p>
+    Ici, <b>john</b> est un objet avec la méthode <b>sayHi</b. <br>
+    Chaque utilisateur a la même fonction <b>sayHi</b>. <br>
+    Il serait plus efficace de définir <b>sayHi</b dans <b>User.prototype</b> et de le partager entre tous les utilisateurs. <br>
+    Cette spécificité du langage sera abordée prochainement.
+</p>
+<p>
+    Pour créer des objets complexes, il existe une syntaxe plus avancée, les <b>classes</b>, que nous allons également aborder plus tard dans la formation.
+</p>
+
+<h3 id="resume">5. Résumé</h3>
+<ul>
+    <li>Les fonctions constructeur ou, plus brièvement, les constructeurs, sont des fonctions normales, mais il est généralement convenu de les nommer avec une première lettre en majuscule.</li>
+    <li>
+        Les fonctions constructeur ne doivent être appelées qu’avec mle mot clé <b>new</b>. Un tel appel implique la création d’un objet <b>this</b> vide au début de la fonction et le renvoi de 
+        l’objet complété à la fin.
+    </li>
+</ul>
+<p>
+    Nous pouvons utiliser des fonctions constructeurs pour créer plusieurs objets similaires. <br>
+
+    JavaScript fournit des fonctions constructeur pour de nombreux objets intégrés du langage : comme <b>Date</b> pour les dates, <b>Set</b> pour les ensembles et d’autres que nous prévoyons 
+    d’étudier.
+</p>
+<p>Dans ce chapitre, nous ne couvrons que les bases sur les objets et les constructeurs. Elles sont essentielles pour en savoir plus sur les types de données et les fonctions dans les chapitres suivants.</p>
