@@ -135,3 +135,401 @@
     </p>
 </div>
 
+<h3 id="car">5. Accéder aux caractères</h3>
+<p>
+    Pour obtenir un caractère à la position <b>pos</b>, utilisez des crochets <b>[pos]</b> ou appelez la méthode <b>str.at(pos)</b>. Le premier caractère commence à la position zéro :
+</p>
+<textarea class="code-php" id="">
+    let str = `Hello`;
+
+    // le premier caractère
+    alert( str[0] ); // H
+    alert( str.at(0) ); // H
+
+    // le dernier caractère
+    alert( str[str.length - 1] ); // o
+    alert( str.at(-1) ); // o
+</textarea>
+<p class="mt-4">
+    Comme vous pouvez le voir, la méthode <b>.at(pos)</b> a l’avantage de permettre une position négative. Si pos est négatif, alors il est compté à partir de la fin de la chaîne de caractères. <br>
+    Donc <b>.at(-1)</b> signifie le dernier caractère, et <b>.at(-2)</b> est celui qui le précède, etc. <br>
+    Les crochets renvoient toujours undefined pour les index négatifs, par exemple :
+</p>
+
+<textarea class="code-php" id="">
+    let str = `Hello`;
+
+    alert( str[-2] ); // undefined
+    alert( str.at(-2) ); // l
+</textarea>
+
+<p class="mt-4">
+    Nous pouvons également parcourir les caractères en utilisant un <b>for..of</b> :
+</p>
+<textarea class="code-php" id="">
+    for (let char of "Hello") {
+        alert(char); // H,e,l,l,o (char devient "H", ensuite "e", ensuite "l", etc.)
+    }
+</textarea>
+
+<h3 id="immuable">6. Les chaînes de caractères sont immuables</h3>
+<p>
+    Les chaînes de caractères ne peuvent pas être changées en JavaScript. Il est impossible de modifier un caractère. <br>
+    Essayons de démontrer que cela ne fonctionne pas :
+</p>
+<textarea class="code-php" id="">
+    let str = 'Hi';
+
+    str[0] = 'h'; // error
+    alert( str[0] ); // Affiche H
+</textarea>
+<p>
+    La solution habituelle consiste à créer une nouvelle chaîne et à l’affecter à str au lieu de l’ancienne.
+    Par exemple :
+</p>
+<textarea class="code-php" id="">
+    let str = 'Hi';
+
+    str = 'h' + str[1];  // remplace la haine de caractères
+    alert( str ); // Affiche hi
+</textarea>
+<p>
+    Nous verrons plus d’exemples dans les sections suivantes.
+</p>
+
+<h3 id="casse">7. Modifier la casse</h3>
+<p>
+    Les méthodes <b>toLowerCase()</b> et <b>toUpperCase()</b> modifient la casse :
+</p>
+<textarea class="code-php" id="">
+    alert( 'Interface'.toUpperCase() ); // INTERFACE
+    alert( 'Interface'.toLowerCase() ); // interface
+</textarea>
+<p>
+    Ou, si nous voulons un seul caractère minuscule :
+</p>
+<textarea class="code-php" id="">
+    alert( 'Interface'[0].toLowerCase() ); // 'i'
+</textarea>
+
+<h3 id="substring">8. Rechercher un substring (partie de la chaîne de caractères)</h3>
+<p>
+    Il existe plusieurs façons de rechercher une partie d’une chaîne de caractères.
+</p>
+
+<h4 id="strindexof">8.1 str.indexOf</h4>
+<p>
+    La première méthode est <b>str.indexOf(substr, pos)</b>.
+    Il cherche le <b>substr</b> dans <b>str</b>, en partant de la position donnée <b>pos</b>, et retourne la position où la correspondance a été trouvée ou <b>-1</b> si rien ne peut être trouvé.
+    Par exemple :
+</p>
+<textarea class="code-php" id="">
+    let str = 'Widget with id';
+
+    alert( str.indexOf('Widget') ); // 0, parce que 'Widget' est trouvé au début
+    alert( str.indexOf('widget') ); // -1, pas trouvé, la recherche est sensible à la casse
+    alert( str.indexOf("id") ); // 1, "id" est trouvé à la position 1 (..idget avec id)
+</textarea>
+<p class="mt-4">
+    Le second paramètre optionnel nous permet de rechercher à partir de la position donnée.
+    Par exemple, la première occurrence de "id" est à la position 1. Pour rechercher l’occurrence suivante, commençons la recherche à partir de la position 2 :
+</p>
+<textarea class="code-php" id="">
+    let str = 'Widget with id';
+    alert( str.indexOf('id', 2) ); // 12
+</textarea>
+<p>
+    Si toutes les occurrences nous intéressent, nous pouvons exécuter indexOf dans une boucle. Chaque nouvel appel est passé avec la position après le match précédent :
+</p>
+<textarea class="code-php" id="">
+    let str = 'As sly as a fox, as strong as an ox';
+
+    let target = 'as'; // cible à rechercher
+    let pos = 0;
+    while (true) {
+        let foundPos = str.indexOf(target, pos);
+        if (foundPos == -1) break;
+
+        alert( `Found at ${foundPos}` );
+        pos = foundPos + 1; // continuer la recherche à partir de la position suivante
+    }
+</textarea>
+
+<div class="alert alert-info mt-5">
+    <strong>str.lastIndexOf(pos)</strong> <hr>
+    <p>
+        Il y a aussi une méthode similaire <b>str.lastIndexOf(pos)</b> qui cherche de la fin d’une chaîne de caractères à son début. <br>
+        Elle liste les occurrences dans l’ordre inverse.
+    </p>
+</div>
+
+<p class="mt-4">
+    Il y a un léger inconvénient avec indexOf dans le test if. On ne peut pas le mettre dans le if comme ceci :
+</p>
+<textarea class="code-php" id="">
+    let str = "Widget with id";
+
+    if (str.indexOf("Widget")) {
+        alert("We found it"); // ne fonctionne pas !
+    }
+</textarea>
+<p>
+    L’alert dans l’exemple ci-dessus ne s’affiche pas parce que <b>str.indexOf("Widget")</b> retourne <b>0</b> (ce qui signifie qu’il a trouvé la correspondance à la position de départ). 
+    Oui, mais if considère que <b>0</b> est <b>false</b>. <br>
+    Nous devrions donc effectuer la vérification avec <b>-1</b>, comme ceci :
+</p>
+<textarea class="code-php" id="">
+    let str = "Widget with id";
+
+    if (str.indexOf("Widget") != -1) {
+        alert("We found it"); // fonctionne maintenant !
+    }
+</textarea>
+
+<h4 id="incstartends">8.2 includes, startsWith, endsWith</h4>
+<p>
+    La méthode plus moderne <b>str.includes(substr, pos)</b> retourne <b>true</b>/<b>false</b> en fonction de si <b>str</b> contient <b>substr</b>.
+    C’est le bon choix si nous devons tester la présence, mais n’avons pas besoin de sa position :
+</p>
+<textarea class="code-php" id="">
+    alert( "Widget with id".includes("Widget") ); // true
+    alert( "Hello".includes("Bye") ); // false
+</textarea>
+<p>
+    Le deuxième argument optionnel de str.includes est la position de départ de la recherche :
+</p>
+<textarea class="code-php" id="">
+    alert( "Widget".includes("id") ); // true
+    alert( "Widget".includes("id", 3) ); // false, à partir de la position 3, il n'y a pas de "id"
+</textarea>
+<p class="mt-4">
+    Les méthodes <b>str.startsWith</b> et <b>str.endsWith</b> font exactement ce qu’elle disent :
+</p>
+<textarea class="code-php" id="">
+    alert( "Widget".startsWith("Wid") ); // true, "Widget" démarre avec "Wid"
+    alert( "Widget".endsWith("get") ); // true, "Widget" fini avec "get"
+</textarea>
+
+<h4 id="">8.3 Obtenir un substring (sous-chaîne de caractères)</h4>
+<p>
+    Il existe 3 méthodes en JavaScript pour obtenir un substring : <b>substring</b>, <b>substr</b> et <b>slice</b>.
+</p>
+
+<h5 id="slice">str.slice(start [, end])</h5>
+<p>
+    Renvoie la partie de la chaîne de caractères de <b>start</b> jusqu’à (sans l’inclure) <b>end</b>. <br>
+    Par exemple :
+</p>
+<textarea class="code-php" id="">
+    let str = "stringify";
+    alert( str.slice(0, 5) ); // 'strin', le substring de 0 à 5 (sans inclure 5)
+    alert( str.slice(0, 1) ); // 's', de 0 à 1, mais sans inclure 1, donc uniquement le caractère à l'index 0
+</textarea>
+<p class="mt-4">
+    S’il n’y a pas de second argument, slice va jusqu’à la fin de la chaîne de caractères :
+</p>
+<textarea class="code-php" id="">
+    let str = "stringify";
+    alert( str.slice(2) ); // 'ringify', à partir de la 2e position jusqu'à la fin
+</textarea>
+<p>
+    Des valeurs négatives pour <b>start</b>/<b>end</b> sont également possibles. Elles veulent dire que la position est comptée à partir de la fin de la chaîne de caractères :
+</p>
+<textarea class="code-php" id="">
+    let str = "stringify";
+
+    // commence à la 4ème position à partir de la droite, se termine au 1er à partir de la droite
+    alert( str.slice(-4, -1) ); // 'gif'
+</textarea>
+
+<h5 id="substring">str.substring(start [, end])</h5>
+<p>
+    Renvoie la partie de la chaîne de caractères entre <b>start</b> et <b>end</b> (end non inclus). <br>
+    C’est presque la même chose que slice, mais cela permet à <b>start</b> d’être supérieur à <b>end</b> (dans ce cas, il échange simplement les valeurs <b>start</b> et <b>end</b>). <br>
+    Par exemple :
+</p>
+<textarea class="code-php" id="">
+    let str = "stringify";
+
+    // ce sont les mêmes pour substring
+    alert( str.substring(2, 6) ); // "ring"
+    alert( str.substring(6, 2) ); // "ring"
+
+    // ...mais pas pour slice :
+    alert( str.slice(2, 6) ); // "ring" (le même résultat)
+    alert( str.slice(6, 2) ); // "" (une chaîne de caractères vide)
+</textarea>
+<p>
+    Les arguments négatifs ne sont pas supportés (contrairement à slice), ils sont traités comme 0.
+</p>
+
+<h5 id="substr">str.substr(start [, length])</h5>
+<p>
+    Renvoie la partie de la chaîne de caractères à partir de la position <b>start</b> avec la longueur <b>length</b>. <br>
+    Par exemple :
+</p>
+<p>
+    Contrairement aux méthodes précédentes, celle-ci nous permet de spécifier la longueur length au lieu de la position finale :
+</p>
+<textarea class="code-php" id="">
+    let str = "stringify";
+    alert( str.substr(2, 4) ); // "ring", de la 2ème position obtenir 4 caractères
+</textarea>
+<p>
+    Le premier argument peut être négatif, pour compter à partir de la fin :
+</p>
+<textarea class="code-php" id="">
+    let str = "stringify";
+    alert( str.substr(-4, 2) ); // 'gi', à partir de la 4ème position on obtient 2 caractères
+</textarea>
+<p>
+    Cette méthode réside dans l’Annexe B de la spécification du langage. Cela signifie que seuls les moteurs JavaScript hébergés par un navigateur doivent le prendre en charge 
+    et qu’il n’est pas recommandé de l’utiliser. En pratique, il est supporté partout.
+    Récapitulons ces méthodes pour éviter toute confusion :
+</p>
+<ul>
+    <li><b>str.slice(start, end)</b> – renvoie la partie de la chaîne de caractères entre les positions <b>start</b> et <b>end</b> (end non inclus).</li>
+    <li><b>str.substring(start, end)</b> – est similaire, mais ne supporte pas les valeurs négatives de <b>start</b>/<b>end</b>.</li>
+    <li><b>str.substr(start, length)</b> – renvoie la partie de la chaîne de caractères à partir de la position <b>start</b> avec la longueur <b>length</b>.</li>
+</ul>
+
+<div class="alert alert-info">
+    <strong>Quelle méthode choisir ?</strong> <hr>
+    <p>
+        Toutes peuvent faire le travail. Formellement, <b>substr</b> présente un inconvénient mineur : il n’est pas décrit dans la spécification JavaScript principale, mais dans l’Annexe B, 
+        qui couvre les fonctionnalités réservées au navigateur qui existent principalement pour des raisons historiques. Ainsi, les environnements autres que les navigateurs peuvent ne pas 
+        le prendre en charge. Mais dans la pratique, cela fonctionne partout.
+    </p>
+    <p>
+        Parmi les deux autres variantes, <b>slice</b> est un peu plus flexible, il permet des arguments négatifs et une écriture plus courte.
+        Donc, pour une utilisation pratique, il suffit de ne retenir que “<b class="red">slice</b>”.   
+    </p>
+</div>
+
+<h3 id="compare">9. Comparer les strings (les chaînes)</h3>
+<p>
+    Les strings sont comparées caractère par caractère dans l’ordre alphabétique.
+    Bien que, il y a quelques bizarreries.
+</p>
+
+<div class="alert alert-info">
+    <strong>1. Une lettre minuscule est toujours plus grande qu’une majuscule</strong> :
+    <textarea class="code-php" id="">
+        alert( 'a' > 'Z' ); // true
+    </textarea>
+</div>
+
+<div class="alert alert-info">
+    <strong>2. Les lettres avec des signes diacritiques sont “hors d’usage”</strong> :
+    <textarea class="code-php" id="">
+        alert( 'Österreich' > 'Zealand' ); // true
+    </textarea>
+    <p>Cela peut conduire à des résultats étranges si nous trions ces noms de pays. Habituellement, les gens s’attendent à trouver Zealand après Österreich dans la liste.</p>
+</div>
+
+<p>
+    Pour comprendre ce qui se passe, nous devons être conscients que les chaînes de caractères en JavaScript sont encodées en utilisant <b>UTF-16</b>. C’est-à-dire que chaque caractère 
+    a un code numérique correspondant. Il existe des méthodes spéciales qui permettent d’obtenir le caractère pour le code et inversement :
+</p>
+<p>
+    Avec la méthode <b>str.charCodeAt(pos)</b>, nous pouvons obtenir le code pour le caractère à la position donnée :
+</p>
+<textarea class="code-php" id="">
+    alert( 'Ö'.charCodeAt(0) ); // 214    
+</textarea>
+<p>
+    Avec la méthode codePointAt, nous pouvons obtenir un code pour un caractère de code Unicode :
+</p>
+<textarea class="code-php" id="">
+    alert( 'Ö'.codePointAt(0) ); // 214
+</textarea>
+<p>
+    Le code pour <b>Ö</b> est <b>214</b>. <br>
+    Les lettres avec des signes diacritiques sont simplement des caractères avec des codes plus grands.
+</p>
+<p>
+    Pour comparer les chaînes de caractères en tenant compte des signes diacritiques, il existe une méthode <b>str.localeCompare</b> :
+</p>
+<textarea class="code-php" id="">
+    alert( 'Österreich'.localeCompare('Zealand') ); // -1
+</textarea>
+<p>
+    La méthode <b>str.localeCompare</b> compare les chaînes de caractères en tenant compte de la localisation actuelle. Elle renvoie <b>-1</b> si str est plus petit que la chaîne de caractères donnée, 
+    <b>1</b> si str est plus grand, et <b>0</b> si elles sont égales. Mais nous allons y revenir.
+</p>
+
+<p class="mt-4">
+    A l'inverse, pour obtenir un caractère au départ d'un code, nous pouvons utiliser la méthode <b>String.fromCodePoint(code)</b> :
+</p>
+<textarea class="code-php" id="">
+    alert( String.fromCodePoint(90) ); // Z 
+    alert( String.fromCodePoint(0x5a) ); // Z (nous pouvons également utiliser une valeur hexadécimale comme argument)
+</textarea>
+
+<p class="mt-4">
+    Voyons maintenant les caractères avec les codes 65..220 (l’alphabet latin et un peu plus) en créant une chaîne de caractères de ceux-ci :
+</p>
+<textarea class="code-php" id="">
+    let str = '';
+
+    for (let i = 65; i <= 220; i++) {
+        str += String.fromCodePoint(i);
+    }
+    alert( str );
+    // Output:
+    // ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~
+    // ¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜ
+</textarea>
+<p class="mt-4">
+    Vous pouvez observer que les caractères majuscules sont les premiers, puis quelques spéciaux, puis les minuscules, et Ö vers la fin de la sortie.
+    Maintenant, cela devient évident pourquoi <b>a > Z</b>. <br>
+    Les caractères sont comparés par leur code numérique. Le plus grand code signifie que le caractère est plus grand. Le code pour a (97) est supérieur au code pour Z (90).
+    <ul>
+        <li>Les lettres majuscules vont avant les lettres minuscules car leurs codes sont plus petits.</li>
+        <li>Toutes les lettres minuscules vont après les lettres majuscules car leurs codes sont plus grands.</li>
+        <li>Certaines lettres comme Ö se distinguent de l’alphabet principal. Ici, le code est supérieur à tout ce qui va de a à z.</li>
+    </ul>
+</p>
+
+<h3 id="comp-correct">10. Les comparaisons correctes</h3>
+<p>
+    L’algorithme “approprié” pour effectuer des comparaisons de chaînes est plus complexe qu’il n’y paraît, car les alphabets diffèrent d’une langue à l’autre.
+    Le navigateur doit donc connaître la langue à comparer.
+</p>
+<p>    
+    Heureusement, les navigateurs modernes prennent en charge la norme d’internationalisation <b>ECMA-402</b>. 
+    Elle fournit une méthode spéciale pour comparer des chaînes de caractères dans différentes langues, en respectant leurs règles.
+</p>
+<p>
+    L’appel <b>str.localeCompare(str2)</b> renvoie un entier indiquant si <b>str</b> est inférieur, égal ou supérieur à <b>str2</b> selon les règles du langage :
+</p>
+<ul>    
+    <li>Renvoie un <b>nombre négatif</b> si str est <b>inférieur</b> à str2</li>
+    <li>Renvoie un <b>nombre positif</b> si str est <b>supérieur</b> à str2</li>
+    <li>Renvoie <b>0</b> s’ils sont <b>équivalents</b>.</li>
+</ul>
+<p>
+    Par exemple :
+</p>
+<textarea class="code-php" id="">
+    alert( 'Österreich'.localeCompare('Zealand') ); // -1
+    alert( 'Zealand'.localeCompare('Österreich') ); // 1
+    alert( 'Zealand'.localeCompare('Zealand') ); // 0
+</textarea>
+<p>
+    La méthode <b>str.localeCompare</b> est la bonne façon de comparer les chaînes de caractères en tenant compte des règles de la langue.
+</p>
+<p>
+    Cette méthode a en fait deux arguments supplémentaires spécifiés dans la documentation, ce qui lui permet de spécifier la langue (par défaut, pris dans l’environnement, 
+    l’ordre des lettres dépend de la langue) et de définir des règles supplémentaires telles que la sensibilité à la casse ou doit-on traiter "a" et "á" de la même manière, etc.
+</p>
+
+
+
+
+
+
+
+
+
+
