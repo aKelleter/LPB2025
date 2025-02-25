@@ -94,9 +94,9 @@ h5 {
 
 h6 {
     font-size: 1.1em;
-    font-weight: bold;
+    font-weight: bold;   
     text-decoration: underline;
-    color: var(--color-medium-blue);
+    color: var(--color-medium-green);
 }
 
 p {

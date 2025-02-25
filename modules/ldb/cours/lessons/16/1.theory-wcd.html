@@ -1,0 +1,207 @@
+<h3 id="intro">1. Introduction</h3>
+<p>
+    Nous allons aborder les <b>sous-requêtes</b>, les opérateurs <b>LIKE</b> et <b>IN</b>, ainsi que les <b>index</b> pour optimiser 
+    les performances dans un SGBDR comme MariaDB. Nous allons nous appuyer sur la table <b>employes</b> de notre leçon précédente pour les exemples.
+</p>
+
+<h3 id="sous-req">1. Les sous-requêtes</h3>
+<p>
+    Une <b>sous-requête</b> est une requête <b>SQL imbriquée dans une autre requête</b> (souvent dans une clause <b>WHERE</b>, <b>SELECT</b> ou <b>FROM</b>). 
+    Elle permet de récupérer des données intermédiaires pour répondre à une question plus complexe.
+</p>
+
+<h5 id="syntaxe">Syntaxe générale</h5>
+<textarea class="code-php" id="">
+    SELECT colonne 
+    FROM table 
+    WHERE colonne = (SELECT colonne FROM autre_table WHERE condition);
+</textarea>
+
+<h6 id="sr-where" class="mt-4">Sous-requête dans WHERE</h6>
+<p>
+    Trouvons les employés qui gagnent plus que le salaire moyen de la table :
+</p>
+<textarea class="code-php" id="">
+    SELECT nom, prenom, salaire 
+    FROM employes 
+    WHERE salaire > (SELECT AVG(salaire) FROM employes);
+
+    nom    | prenom | salaire
+    Martin | Sophie | 4200.75
+    Durand | Marie  | 3800.25
+</textarea>
+<p class="mt-4">
+    <b>Explication</b> : Le salaire moyen ≈ 3625.38, seuls Martin et Durand sont inclus.
+</p>
+
+<h6 id="sr-multi" class="mt-4">Sous-requête avec plusieurs lignes</h6>
+<p>
+    Trouvons les employés du même département que Jean Dupont :
+</p>
+<textarea class="code-php" id="">
+    SELECT nom, prenom, departement 
+    FROM employes 
+    WHERE departement = (SELECT departement FROM employes WHERE nom = 'Dupont' AND prenom = 'Jean');
+
+    nom     | prenom | departement
+    Dupont  | Jean   | Informatique
+    Lefèvre | Paul   | Informatique
+</textarea>
+<p class="mt-4">
+    <strong>Astuces</strong> : 
+    <ul>
+        <li>
+            Une sous-requête dans <b>WHERE</b> doit souvent retourner une seule valeur si utilisée avec <b>=</b>. Pour plusieurs valeurs, utilisez <b>IN</b> (voir plus bas).           
+        </li>
+        <li>
+            Les sous-requêtes peuvent ralentir les performances sur de grandes tables ; dans certains cas, une jointure (<b>JOIN</b>) est plus efficace.
+        </li>
+    </ul>
+</p>
+
+<h3 id="like-in">Les opérateurs LIKE et IN</h3>
+
+<h5 id="like">1. L'opérateur <b>LIKE</b> : recherche par motif</h5>
+<p>
+    L’opérateur <b>LIKE</b> permet de chercher des correspondances partielles dans du texte avec des caractères spéciaux :    
+</p>
+<ul>
+    <li><b>%</b> : Représente zéro ou plusieurs caractères.</li>
+    <li><b>_</b> : Représente un seul caractère.</li>
+</ul>
+
+<h6 id="ex1">Exemple : Les noms commençant par "D"</h6>
+<textarea class="code-php" id="">
+    SELECT nom, prenom 
+    FROM employes 
+    WHERE nom LIKE 'D%';
+
+    nom    | prenom
+    Dupont | Jean
+    Durand | Marie
+</textarea>
+
+<h6 id="ex2" class="mt-5">Exemple : Les noms avec "r" au milieu</h6>
+<textarea class="code-php" id="">
+    SELECT nom, prenom 
+    FROM employes 
+    WHERE nom LIKE '%r%';
+
+    nom     | prenom
+    Martin  | Sophie
+    Lefèvre | Paul
+    Durand  | Marie
+</textarea>
+
+<h5 id="in">2. L'opérateur <b>IN</b> : Liste de valeurs</h5>
+<p>
+    L’opérateur <b>IN</b> vérifie si une valeur appartient à une liste ou à un ensemble de résultats.
+</p>
+
+<h6 id="ex3" class="mt-5">Exemple : Employés de certains départements</h6>
+<textarea class="code-php" id="">
+    SELECT nom, prenom, departement 
+    FROM employes 
+    WHERE departement IN ('Informatique', 'Comptabilité');
+
+    nom     | prenom | departement
+    Dupont  | Jean   | Informatique
+    Lefèvre | Paul   | Informatique
+    Durand  | Marie  | Comptabilité
+</textarea>
+
+<h6 id="ex4" class="mt-5">Exemple : <b>IN</b> avec des sous-requêtes</h6>
+<p>Employés embauchés les mêmes années que Sophie Martin :</p>
+<textarea class="code-php" id="">
+    SELECT nom, prenom, date_embauche 
+    FROM employes 
+    WHERE YEAR(date_embauche) IN (SELECT YEAR(date_embauche) FROM employes WHERE prenom = 'Sophie');
+
+    nom    | prenom | date_embauche
+    Martin | Sophie | 2021-09-10
+</textarea>
+
+<h3 id="index">3. Les index pour optimiser les performances</h3>
+
+<h4>Qu’est-ce qu’un index ?</h4>
+<p>
+    Un <b>index</b> est une structure de données qui accélère les recherches dans une table, un peu comme un index dans un livre. 
+    Sans index, MariaDB doit scanner chaque ligne (full table scan), ce qui est lent sur de grandes tables.
+</p>
+
+<h4 id="reate-index">Création d'index</h4>
+<p><strong>Syntaxe</strong></p>
+
+<textarea class="code-php" id="">
+    CREATE INDEX nom_index ON table(colonne);
+</textarea>
+
+<h6 id="ex-dep" class="mt-5">Exemple  : Index sur le département</h6>
+<p>Si on filtre (<b>WHERE</b>) souvent par departement :</p>
+<textarea class="code-php" id="">
+    CREATE INDEX idx_departement ON employes(departement);
+</textarea>
+
+<h4 id="type-index">Types d'index</h4>
+<ul>
+    <li><strong>Index simple</strong> : Sur une seule colonne (comme ci-dessus).</li>
+    <li><strong>Index composé</strong> : Sur plusieurs colonnes :</li>
+</ul>
+<textarea class="code-php" id="">
+    CREATE INDEX idx_dep_salaire ON employes(departement, salaire);
+</textarea>
+
+<ul class="mt-4">
+    <li><strong>Index unique</strong> : Empêche les doublons :</li>    
+</ul>
+<textarea class="code-php" id="">
+    CREATE UNIQUE INDEX idx_nom_prenom ON employes(nom, prenom);
+</textarea>
+
+<ul class="mt-4">
+    <li><strong>Clé primaire</strong> : Automatiquement indexée (ex. id dans employes).</li>    
+</ul>
+
+<h4 id="quand-index">Quand utiliser un index</h4>
+<ul>
+    <li>Sur les colonnes utilisées dans <b>WHERE</b>, <b>JOIN</b>, <b>ORDER BY</b> ou <b>GROUP BY</b>.</li>
+    <li>Exemple de requête optimisée :</li>
+</ul>
+<textarea class="code-php" id="">
+    SELECT nom, prenom 
+    FROM employes 
+    WHERE departement = 'Informatique' AND salaire > 3500;
+</textarea>
+
+<p class="red mt-4">Un <b>index</b> sur departement et/ou salaire accélère cette recherche.</p>
+
+<h4 id="index-verif">Vérifier l’utilisation des index</h4>
+<p>
+    Utilisez <b>EXPLAIN</b> pour vérifier si MariaDB exploite vos index :
+</p>
+<textarea class="code-php" id="">
+    EXPLAIN SELECT nom, prenom 
+    FROM employes 
+    WHERE departement = 'Informatique';
+</textarea>
+
+<h4 id="index-precaution">Précautions</h4>
+<ul>
+    <li>Les index accélèrent les lectures, mais ralentissent les écritures (<b>INSERT</b>, <b>UPDATE</b>, <b>DELETE</b>) car ils doivent être mis à jour.</li>
+    <li>Trop d’index occupent de l’espace disque et peuvent compliquer l’optimisation.</li>
+</ul>
+
+<h3 id="exos">4. Exercice pratique</h3>
+<ol>
+    <li>Écrivez une requête avec <b>LIKE</b> pour trouver les employés dont le nom contient "an".</li>
+    <li>Utilisez une sous-requête avec <b>IN</b> pour trouver les employés embauchés dans les mêmes départements que ceux ayant un salaire > 4000.</li>
+    <li>Créez un <b>index</b> sur <b>date_embauche</b> et expliquez pourquoi cela pourrait être utile.</li>
+</ol>
+
+<h4 id="conclusion">Conclusion</h4>
+<ul>
+    <li><b>Sous-requêtes</b> : Puissantes pour des filtres complexes, mais à utiliser avec modération.</li>
+    <li><b>LIKE</b> et <b>IN</b> : Pratiques pour des recherches flexibles sur du texte ou des ensembles.</li>
+    <li><b>Index</b> : Essentiels pour optimiser les performances, mais à gérer stratégiquement.</li>
+</ul>
+

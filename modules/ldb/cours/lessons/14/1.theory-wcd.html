@@ -1,0 +1,214 @@
+<h3>Sommaire</h3>
+<ul>
+    <li><a href="#intro">1. Introduction</a></li>
+    <li><a href="#syntaxe">2. Syntaxe de base de INSERT</a></li>
+    <li><a href="#insert-simple">3. Insertion simple (toutes les colonnes)</a></li>
+    <li><a href="#insert-col-spec">4. Insertion avec colonnes spécifiques</a></li>
+    <li><a href="#insert-multi">5. Insertion multiple (plusieurs lignes en une commande)</a></li>
+    <li><a href="#insert-from-other">6. Insertion à partir d’une autre table</a></li>
+    <li><a href="#error">7. Gestion des erreurs et contraintes</a></li>
+    <li><a href="#replace">8. Remplacement avec REPLACE</a></li>
+    <li><a href="#verif">9. Vérification des données insérées</a></li>
+    <li><a href="#bestpractice">10. Bonnes pratiques</a></li>
+    <li><a href="#exos">11. Exercices Pratiques</a></li>
+    <li><a href="#concl">12. Conclusion</a></li>
+</ul>
+<h3 id="intro">1. Introduction</h3>
+<p>
+    Dans un système de gestion de bases de données relationnelles comme MariaDB, l'insertion de données est une opération fondamentale qui permet d'ajouter de nouvelles lignes 
+    (ou enregistrements) dans une table. La commande SQL utilisée pour cela est <sq-l>INSERT</sq-l>. Cette leçon vous guidera à travers les différentes façons d'utiliser <sq-l>INSERT</sq-l>, 
+    avec des exemples concrets basés sur une table simple.
+</p>
+<p>
+    <strong>Prérequis</strong> : <br>
+    Pour suivre cette leçon, supposons que nous avons une table appelée <b>etudiants</b> avec la structure suivante :
+</p>
+<textarea class="code-php" id="">
+    CREATE TABLE etudiants (
+        id INT PRIMARY KEY AUTO_INCREMENT,
+        nom VARCHAR(50) NOT NULL,
+        prenom VARCHAR(50) NOT NULL,
+        age INT,
+        email VARCHAR(100) UNIQUE
+    );
+</textarea>
+<ul class="mt-4">
+    <li><b>id</b> : Clé primaire qui s'incrémente automatiquement.</li>
+    <li><b>nom</b> et <b>prenom</b> : Champs obligatoires (NOT NULL).</li>
+    <li><b>age</b> : Champ optionnel (peut être NULL).</li>
+    <li><b>email</b> : Doit être unique.</li>
+</ul>
+
+<h3 id="syntaxe">2. Syntaxe de base de INSERT</h3>
+<p>
+    La commande <sq-l>INSERT INTO</sq-l> permet d'ajouter des données dans une table. La syntaxe générale est :
+</p>
+<textarea class="code-php" id="">
+    INSERT INTO nom_table (colonne1, colonne2, colonne3, ...)
+    VALUES (valeur1, valeur2, valeur3, ...);
+</textarea>
+<ul class="mt-4">
+    <li><b>nom_table</b> : Nom de la table dans laquelle vous souhaitez insérer des données.</li>
+    <li><b>colonne1, colonne2, colonne3, ...</b> : Liste des colonnes où insérer les données (optionnel si toutes les colonnes sont remplies dans l'ordre).</li>
+    <li><b>valeur1, valeur2, valeur3, ...</b> : Les valeurs à insérer, dans le même ordre que les colonnes spécifiées.</li>
+</ul>
+
+<h3 id="insert-simple">3. Insertion simple (toutes les colonnes)</h3>
+<p>
+    Si vous souhaitez insérer des valeurs pour toutes les colonnes dans l'ordre de leur définition, vous pouvez omettre la liste des colonnes. <br>
+    Exemple :
+</p>
+<textarea class="code-php" id="">
+    INSERT INTO etudiants
+    VALUES (NULL, 'Dupont', 'Jean', 20, 'jean.dupont@example.com');
+</textarea>
+<ul class="mt-4">
+    <li><b>NULL</b> pour <b>id</b> : Comme <b>id</b> est <b>AUTO_INCREMENT</b>, MariaDB génère automatiquement une valeur unique (par exemple, 1).</li>
+    <li>Résultat : Une nouvelle ligne est ajoutée avec <b>id = 1</b>.</li>
+</ul>
+
+<h3 id="insert-col-spec">4. Insertion avec colonnes spécifiques</h3>
+<p>
+    Vous pouvez spécifier uniquement certaines colonnes si les autres acceptent <b>NULL</b> ou ont des valeurs par défaut. <br>
+    Exemple :
+</p>
+<textarea class="code-php" id="">
+    INSERT INTO etudiants (nom, prenom, email)
+    VALUES ('Martin', 'Sophie', 'sophie.martin@example.com');
+</textarea>
+<ul class="mt-4">
+    <li>Ici, <b>id</b> est généré automatiquement, et <b>age</b> reste <b>NULL</b>.</li>
+    <li>Résultat : Une ligne avec <b>id = 2</b>, <b>nom = 'Martin'</b>, <b>prenom = 'Sophie'</b>, <b>age = NULL</b>, <b>email = 'sophie.martin@example.com'</b>.</li>
+</ul>
+
+<h3 id="insert-multi">5. Insertion multiple (plusieurs lignes en une commande)</h3>
+<p>
+    MariaDB permet d'insérer plusieurs lignes en une seule requête en ajoutant des tuples après <b>VALUES</b>.
+    Exemple :
+</p>
+<textarea class="code-php" id="">
+
+    INSERT INTO etudiants (nom, prenom, age, email)
+    VALUES 
+        ('Lefèvre', 'Paul', 22, 'paul.lefevre@example.com'),
+        ('Durand', 'Marie', 19, 'marie.durand@example.com');
+</textarea>
+<ul class="mt-4">
+    <li>Résultat : Deux lignes sont ajoutées avec <b>id = 3</b> et <b>id = 4</b>.</li>
+</ul>
+
+<h3 id="insert-from-other">6. Insertion à partir d’une autre table</h3>
+<p>
+    Vous pouvez insérer des données en les sélectionnant depuis une autre table avec <b>INSERT INTO</b> ... <b>SELECT</b>.
+</p>
+<p>
+    Supposons une table <b>anciens_etudiants</b> avec une structure similaire :
+</p>
+<textarea class="code-php" id="">
+    CREATE TABLE anciens_etudiants (
+        id INT PRIMARY KEY AUTO_INCREMENT,
+        nom VARCHAR(50) NOT NULL,
+        prenom VARCHAR(50) NOT NULL,
+        age INT,
+        email VARCHAR(100) UNIQUE
+    );
+</textarea>
+<p>
+    Exemple :
+</p>
+<textarea class="code-php" id="">
+    INSERT INTO etudiants (nom, prenom, age, email)
+    SELECT nom, prenom, age, email
+    FROM anciens_etudiants
+    WHERE age > 18;
+</textarea>
+<ul class="mt-4">
+    <li>Cela copie les lignes de <b>anciens_etudiants</b> où l’âge est supérieur à 18 dans <b>etudiants</b>.</li>
+</ul>
+
+<h3 id="error">7. Gestion des erreurs et contraintes</h3>
+<p>
+    MariaDB applique les contraintes définies dans la table (comme <b>NOT NULL</b>, <b>UNIQUE</b>, ou <b>PRIMARY KEY</b>). Si une insertion viole une contrainte, une erreur sera levée. <br>
+    Exemple d’erreur :
+</p>
+<textarea class="code-php" id="">
+    INSERT INTO etudiants (nom, prenom, email)
+    VALUES ('Dupont', 'Jean', 'jean.dupont@example.com');
+</textarea>
+<ul>
+    <li>
+        Si <b>jean.dupont@example.com</b> existe déjà, MariaDB renverra une erreur de violation de la contrainte <b>UNIQUE</b>.
+    </li>
+</ul>
+<p>
+    Pour ignorer les erreurs et continuer (par exemple, en cas de doublons), utilisez <b>INSERT IGNORE</b> :
+</p>
+<textarea class="code-php" id="">
+    INSERT IGNORE INTO etudiants (nom, prenom, email)
+    VALUES ('Dupont', 'Jean', 'jean.dupont@example.com');
+</textarea>
+<ul class="mt-4">
+    <li>
+        Si l’email existe, la ligne est ignorée sans erreur.
+    </li>
+</ul>
+
+<h3 id="replace">Remplacement avec <b>REPLACE</b></h3>
+<p>
+    Similaire à <b>INSERT</b>, <b>REPLACE</b> insère une ligne ou remplace une ligne existante si une clé primaire ou contrainte <b>UNIQUE</b> est violée.
+    Exemple :
+</p>
+<textarea class="code-php" id="">
+    REPLACE INTO etudiants (id, nom, prenom, age, email)
+    VALUES (1, 'Dupont', 'Jean-Paul', 21, 'jean.dupont@example.com');
+</textarea>
+<ul class="mt-4">
+    <li>
+        Si <b>id = 1</b> existe, il est remplacé ; sinon, une nouvelle ligne est créée.
+    </li>
+</ul>
+
+<h3 id="verif">9. Vérification des données insérées</h3>
+<p>
+    Après une insertion, vous pouvez vérifier les données avec une requête <b>SELECT</b> :
+</p>
+<textarea class="code-php" id="">
+    SELECT * FROM etudiants;
+</textarea>
+<p>
+    Résultat attendu (par exemple) :
+</p>
+<textarea class="code-php" id="">
+    +----+---------+---------+-----+---------------------------+
+    | id | nom     | prenom  | age | email                     |
+    +----+---------+---------+-----+---------------------------+
+    |  1 | Dupont  | Jean    |  21 | jean.dupont@example.com   | 
+    |  2 | Martin  | Sophie  | NULL| sophie.martin@example.com |
+    |  3 | Lefèvre | Paul    |  22 | paul.lefevre@example.com  |
+    |  4 | Durand  | Marie   |  19 | marie.durand@example.com  |
+    +----+---------+---------+-----+---------------------------+
+</textarea>
+
+<h3 id="bestpractice">10. Bonnes pratiques</h3>
+<ul>
+    <li><b>Spécifie les colonnes</b> : Cela rend le code plus clair et robuste face aux modifications de structure.</li>
+    <li><b>Valide les données</b> : Assurez-vous que les valeurs respectent les contraintes avant l’insertion.</li>
+    <li><b>Utilisez des transactions</b> : Pour des insertions multiples, encapsulez-les dans une transaction (<b>START TRANSACTION;</b> ... <b>COMMIT;</b>) pour garantir la cohérence.</li>    
+</ul>
+
+<h3 id="exos">11. Exercices Pratiques</h3>
+<ol>
+    <li>Créez une table <b>cours</b> avec les colonnes <b>id</b> (AUTO_INCREMENT), <b>nom</b> (VARCHAR), et <b>credits</b> (INT). Insèrez 3 cours de votre choix.</li>
+    <li>Ajoutez une ligne dans <b>etudiants</b> avec seulement <b>nom</b> et <b>prenom</b>.</li>
+    <li>Insèrez deux lignes dans <b>etudiants</b> en une seule requête.</li>
+</ol>
+
+<h3 id="concl">12. Conclusion</h3>
+<p>
+    La commande <b>INSERT</b> est essentielle pour peupler une base de données relationnelle comme MariaDB. Avec ses différentes variantes 
+    (<b>INSERT IGNORE</b>, <b>REPLACE</b>, <b>INSERT ... SELECT</b>), elle offre une grande flexibilité. 
+    En pratiquant avec des exemples, vous maîtriserez rapidement cette opération clé du SQL.
+</p>
+
+
+

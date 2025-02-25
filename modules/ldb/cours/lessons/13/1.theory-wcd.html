@@ -1,7 +1,31 @@
 <h3>Sommaire</h3>
-<ol>
-   
-</ol>
+<ul>
+    <li><a href="#intro">1. Introduction</a></li>
+    <li><a href="#symboles">2. Signification des symboles</a></li>
+    <li><a href="#terminologie">3. Terminologie</a></li>
+    <li><a href="#ld">4. Langage de définition (LD)</a>
+        <ul>
+            <li><a href="#creation-db">4.1 Création d’une base de données</a></li>
+            <li><a href="#sup-db">4.2 Suppression d’une base de données</a></li>
+            <li><a href="#create-table">4.3 Création d'une table</a>
+                <ul>
+                    <li><a href="#types-data">4.3.1 Types de données</a></li>
+                    <li><a href="#create-table">4.3.2 Création d’une table</a></li>
+                    <li><a href="#modif-table">4.3.3 La modification d’une table</a>
+                        <ul>
+                            <li><a href="#mod-nomtable">La modification du nom d’une table</a></li>
+                            <li><a href="#mod-attrtable">La modification du nom d’un attribut</a></li>
+                            <li><a href="#mod-typeattr">La modification du type d’un attribut</a></li>
+                            <li><a href="#add-attrorkey">Ajout d’un attribut ou d’une clé à une table</a></li>
+                            <li><a href="#del-attr">Suppression d’un attribut ou d’une clé à une table</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#del-table">4.3.4 La suppression d’une table</a></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+</ul>
 
 <h3 id="intro">1. Introduction</h3>
 <p>
@@ -137,6 +161,10 @@
 <p>
     <sq-l>DROP DATABASE</sq-l> <b>&lt; nom_bdd &gt;</b><strong>;</strong>
 </p>
+<textarea class="code-php" id="">
+    DROP DATABASE nom_bdd;
+</textarea>
+
 <p>Cette requête permet de supprimer la base de données <b>nom_bdd</b> si une telle base de données existe.</p>
 
 <h4 id="create-table">4.3 Création d'une table</h4>
@@ -177,7 +205,7 @@
         </ul>
 </ul>
 
-<h6>Les différentes tailles d'entier avec MariaDB</h6>
+<h6 id="size-int">Les différentes tailles d'entier avec MariaDB</h6>
 <p>
     Les différentes tailles d'entier avec MariaDB se distinguent principalement par la plage de valeurs qu'elles peuvent représenter et la quantité de mémoire qu'elles utilisent.  <br>
     Voici un aperçu des principales différences :
@@ -207,7 +235,7 @@
     En résumé, plus la taille de l'entier est grande, plus la plage de valeurs qu'il peut représenter est large, mais cela nécessite également plus de mémoire. Le choix de la taille d'entier dépend de la plage de valeurs que vous prévoyez de stocker dans votre base de données.
 </p>
 
-<h6>Les différentes tailles pour les types de données chaîne avec MariaDB</h6>
+<h6 id="size-string">Les différentes tailles pour les types de données chaîne avec MariaDB</h6>
 <p>
     Les différentes tailles pour les types de données chaîne avec MariaDB permettent de stocker des quantités variables de texte ou de données binaires.  <br>
     Voici un aperçu des principales différences :
@@ -239,7 +267,7 @@
     En résumé, le choix entre ces types de données dépend de la quantité de texte ou de données binaires que vous prévoyez de stocker. Les types de données à longueur fixe (CHAR, BINARY) sont plus efficaces pour des chaînes de longueur constante, tandis que les types à longueur variable (VARCHAR, VARBINARY, TEXT, BLOB) sont plus flexibles pour des données de taille variable.
 </p>
 
-<h5>4.3.2 Création d’une table</h5>
+<h5 id="create-table">4.3.2 Création d’une table</h5>
 <p>
     La syntaxe de création d’une table est la suivante :
 </p>
@@ -326,30 +354,124 @@
     La modification d’une table se fait à travers la clause <sq-l>ALTER</sq-l> à laquelle on associera d’autres clauses.
 </p>
 
-<h6>La modification du nom d’une table</h6>
+<h6 id="mod-nomtable">La modification du nom d’une table</h6>
 <p>
     La modification du nom d’une table se fait en associant la clause <sq-l>RENAME TO</sq-l> à la clause <sq-l>ALTER</sq-l>, ce qui donne :
 </p>
 <p>
     <sq-l>ALTER TABLE</sq-l> &lt; ancien_nom &gt; <sq-l>RENAME TO</sq-l> &lt; nouveau_nom &gt;<strong>;</strong>
 </p>
+<textarea class="code-php" id="">
+    ALTER TABLE ancien_nom RENAME TO nouveau_nom;
+</textarea>
 
-<h6>La modification du nom d’un attribut</h6>
+<h6 id="mod-attrtable" class="mt-4">La modification du nom d’un attribut</h6>
 <p>
     La modification du nom d’un attribut d’une table se fait en associant la clause <sq-l>CHANGE</sq-l> à la clause <sq-l>ALTER</sq-l>, ce qui donne :
 </p>
 <p>
     <sq-l>ALTER TABLE</sq-l> &lt; nom_table &gt; <sq-l>CHANGE</sq-l> &lt; ancien_nom &gt; &lt; nouveau_nom &gt; &lt; type_nouveau_nom &gt;<strong>;</strong>
 </p>
+<textarea class="code-php" id="">
+    ALTER TABLE nom_table CHANGE ancien_nom nouveau_nom type_nouveau_nom;
+</textarea>
 
-<div class="alert alert-danger">
+<div class="alert alert-danger mt-4">
     <strong>Remarque Le type de l’attribut renommé doit être précisé et rester inchangé.</strong>
 </div>
 
-<h6>La modification du type d’un attribut</h6>
+<h6 id="mod-typeattr">La modification du type d’un attribut</h6>
 <p>
     La modification du type d’un attribut d’une table se fait en associant la clause <sq-l>MODIFY COLUMN</sq-l> à la clause <sq-l>ALTER</sq-l>, ce qui donne :
 </p>
 <p>
     <sq-l>ALTER TABLE</sq-l> &lt; nom_table &gt; <sq-l>MODIFY COLUMN</sq-l> &lt; nom_attribut &gt; &lt; nouveau_type_attribut &gt;<strong>;</strong>
 </p>
+<textarea class="code-php" id="">
+    ALTER TABLE nom_table MODIFY COLUMN nom_attribut nouveau_type_attribut;
+</textarea>
+
+<h6 id="add-attrorkey" class="mt-4">Ajout d’un attribut ou d’une clé à une table</h6>
+<p>
+    L’ajout d’un nouvel attribut ou d’une nouvelle clé se fait en associant la clause ADD à la clause <sq-l>ALTER</sq-l>. 
+</p>
+<p>
+    — L’<b>ajout d’un attribut</b> à une table se fait à travers la requête :
+</p>
+<p>
+    <sq-l>ALTER TABLE</sq-l> &lt; nom_table &gt; <sq-l>ADD</sq-l> &lt; nouvel_attribut &gt; &lt; type_nouvel_attribut &gt;<strong>;</strong>
+</p>
+<p>
+    — L’<b>ajout d’une clé primaire</b> à une table se fait à travers la requête :
+</p>
+<p>
+    <sq-l>ALTER TABLE</sq-l> &lt; nom_table &gt; <sq-l>ADD PRIMARY KEY</sq-l> ( &lt; cle_primaire &gt; )<strong>;</strong>
+</p>
+<p>
+    — L’<b>ajout d’une clé étrangère</b> à une table se fait à travers la requête :
+</p>
+<p>
+    <sq-l>ALTER TABLE</sq-l> &lt; nom_table &gt; <sq-l>ADD FOREIGN KEY</sq-l> ( &lt; cle_etrangere &gt; ) <sq-l>REFERENCES</sq-l> &lt; nom_autre_table &gt; ( &lt; att_autre_table &gt; )<strong>;</strong>
+</p>
+
+<p>
+    <b>Exemple</b> : L’ajout de l’attribut dateNaissance de type DATE à la table Bachelier, peut se faire comme suit :
+</p>
+<textarea class="code-php" id="">
+    ALTER TABLE Bachelier ADD dateNaissance DATE;
+</textarea>
+
+<h6 id="del-attr" class="mt-5">Suppression d’un attribut ou d’une clé à une table</h6>
+<p>
+    Suppression d’un attribut ou d’une clé d’une table
+</p>
+<p>
+    La suppression d’un attribut d’une table se fait en associant la clause <sq-l>DROP</sq-l> à la clause <sq-l>ALTER</sq-l>.
+</p>
+<p>
+    — La <b>suppression d’un attribut</b> d’une table se fait à travers la requête :
+</p>
+<p>
+    <sq-l>ALTER TABLE</sq-l> &lt; nom_table &gt; <sq-l>DROP COLUMN</sq-l> &lt; nom_attribut &gt;<strong>;</strong>
+</p>
+<textarea class="code-php" id="">
+    ALTER TABLE nom_table DROP COLUMN nom_attribut;
+</textarea>
+
+<p>
+    — La <b>suppression d’une clé primaire</b> d’une table se fait à travers la requête :
+</p>
+<p>
+    <sq-l>ALTER TABLE</sq-l> &lt; nom_table &gt; <sq-l>DROP PRIMARY KEY</sq-l><strong>;</strong>
+</p>
+<textarea class="code-php" id="">
+    ALTER TABLE nom_table DROP PRIMARY KEY;
+</textarea>
+
+<p>
+    — La <b>suppression d’une clé étrangère</b> d’une table se fait à travers la requête :
+</p>
+<p>
+    <sq-l>ALTER TABLE</sq-l> &lt; nom_table &gt; <sq-l>DROP FOREIGN KEY</sq-l> &lt; nom_cle_etrangere &gt;<strong>;</strong>
+</p>
+<textarea class="code-php" id="">
+    ALTER TABLE nom_table DROP FOREIGN KEY nom_cle_etrangere;
+</textarea>
+
+
+<h5 id="del-table">4.3.4 La suppression d’une table</h5>
+<p>
+    La suppression d’une table se fait à travers la requête :
+</p>
+<p>
+    <sq-l>DROP TABLE</sq-l> &lt; nom_table &gt;<strong>;</strong>
+</p>
+<textarea class="code-php" id="">
+    DROP TABLE nom_table;
+</textarea>
+<p>
+    Cette requête permet de supprimer la table <b>nom_table</b> si une telle table existe.
+</p>
+
+
+

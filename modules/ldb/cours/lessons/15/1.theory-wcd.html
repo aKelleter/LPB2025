@@ -1,0 +1,447 @@
+<h3>Sommaire</h3>
+<ul>
+    <li><a href="#intro">1. Introduction</a></li>
+    <li><a href="#prepa">2. Préparation de la table de test</a></li>
+    <li><a href="#base">3. Syntaxe de base de SELECT</a>
+        <ul>
+            <li><a href="#all">3.1 Récupérer toutes les colonnes</a></li>
+            <li><a href="#spec">3.2 Sélectionner des colonnes spécifiques</a></li>
+        </ul>
+    </li>
+    <li><a href="#where">4. Filtrer les données avec WHERE</a>
+        <ul>
+            <li><a href="#w-salary">4.1 Employés d'un département précis</a></li>
+            <li><a href="#w-salary">4.2 Filtrer avec une condition numérique</a></li>
+            <li><a href="#combinaisons">4.3 Combiner des conditions avec AND, OR et NOT</a></li>
+        </ul>
+    </li>
+    <li><a href="#orderby">5. Trier les résultats avec ORDER BY</a>
+        <ul>
+            <li><a href="#order-asc">5.1 Trier par salaire (croissant)</a></li>
+            <li><a href="#order-desc">5.2 Trier par salaire (décroissant)</a></li>
+        </ul>
+    </li>
+    <li><a href="#limit">6. Limiter les résultats avec LIMIT</a>
+        <ul>
+            <li><a href="#limit-most">6.1 Les 2 employés les mieux payés</a></li>
+        </ul>
+    </li>
+    <li><a href="#agreg">7. Fonctions d’agrégation</a>
+        <ul>
+            <li><a href="#agreg-most">7.1 Compter les employés</a></li>
+            <li><a href="#agreg-most">7.2 Salaire moyen</a></li>
+        </ul>
+    </li>
+    <li><a href="#groupby">8. Regrouper les données avec GROUP BY</a>
+        <ul>
+            <li><a href="#salaires-dept">8.1 Salaire total par département</a></li>
+        </ul>
+    </li>
+    <li><a href="#join">9. Combiner les tables avec JOIN</a>
+        <ul>
+            <li><a href="#join-table">9.1 Joindre les tables</a></li>
+        </ul>
+    </li>
+    <li><a href="#cvonclusion">10. Conclusion</a></li>
+    <li><a href="#exercices">11. Exercices pratiques</a></li>
+</ul>
+<h3 id="intro">1. Introduction</h3>
+<p>
+    La commande <b>SELECT</b> est l'une des instructions fondamentales en SQL (Structured Query Language). Elle permet de récupérer des données à partir d'une ou plusieurs tables dans 
+    une base de données relationnelle. Que vous souhaitiez consulter toutes les données d'une table ou extraire des informations spécifiques en fonction de critères, <b>SELECT</b> est l'outil clé. 
+    Dans cette leçon, nous explorerons ses bases, ses clauses principales et des exemples concrets avec MariaDB. <br>
+</p>
+<p>
+    <strong>Prérequis</strong> : Une base de données MariaDB installée et une table de test (nous en créerons une ci-dessous).
+</p>
+
+<h3 id="prepa">2. Préparation de la table de test</h3>
+<p>
+    Pour illustrer les exemples, créons une table simple appelée <b>employes</b> :
+</p>
+<textarea class="code-php" id="">
+    CREATE TABLE employes (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nom VARCHAR(50),
+    prenom VARCHAR(50),
+    salaire DECIMAL(10, 2),
+    departement VARCHAR(30),
+    date_embauche DATE
+);
+
+INSERT INTO employes (nom, prenom, salaire, departement, date_embauche) VALUES
+    ('Dupont', 'Jean', 3500.50, 'Informatique', '2022-03-15'),
+    ('Martin', 'Sophie', 4200.75, 'Ressources Humaines', '2021-09-10'),
+    ('Lefèvre', 'Paul', 3000.00, 'Informatique', '2023-01-20'),
+    ('Durand', 'Marie', 3800.25, 'Comptabilité', '2020-11-05');    
+</textarea>
+<p>
+    Cette table contient des informations sur des employés : leur ID, nom, prénom, salaire, département et date d'embauche.
+</p>
+
+<div class="alert alert-info">
+    <strong>Bon à savoir : Le type DECIMAL</strong> <hr>
+    Avec MariaDB, le séparateur décimal pour le type DECIMAL est un point (<b>.</b>) par défaut. <br>
+    Cependant, vous pouvez utiliser la fonction <b>FORMAT()</b> pour afficher les nombres avec des séparateurs de milliers et des virgules comme séparateurs décimaux, 
+    selon les paramètres régionaux que vous spécifiez.
+
+    <textarea class="code-php" id="">
+        SELECT id, nom, prenom, FORMAT(salaire, 2, 'fr_FR') AS salaire FROM employes;
+
+        +----+---------+---------+---------+
+        | id | nom     | prenom  | salaire |
+        +----+---------+---------+---------+
+        |  1 | Dupont  | Jean    | 3500,50 |
+        |  2 | Martin  | Sophie  | 4200,75 |
+        |  3 | Lefèvre | Paul    | 3000,00 |
+        |  4 | Durand  | Marie   | 3800,25 |
+        +----+---------+---------+---------+
+    </textarea>
+
+</div>
+
+<h3 id="base">2. Syntaxe de base de SELECT</h3>
+<p>
+    La syntaxe minimale de <b>SELECT</b> est :
+</p>
+<textarea class="code-php" id="">
+    SELECT colonne1, colonne2, ... FROM nom_table;
+</textarea>
+<ul class="mt-4">
+    <li><b>SELECT</b> : Indique les colonnes à récupérer.</li>
+    <li><b>FROM</b> : Spécifie la table source.</li>
+</ul>
+<h5 id="all">
+    <strong class="red">2.1 Récupérer toutes les colonnes</strong>
+</h5>
+<p>
+    Pour voir toutes les données de la table <b>employes</b> :
+</p>
+<textarea class="code-php" id="">
+    SELECT * FROM employes;
+
+    id | nom     | prenom | salaire | departement         | date_embauche
+    1  | Dupont  | Jean   | 3500.50 | Informatique        | 2022-03-15
+    2  | Martin  | Sophie | 4200.75 | Ressources Humaines | 2021-09-10
+    3  | Lefèvre | Paul   | 3000.00 | Informatique        | 2023-01-20
+    4  | Durand  | Marie  | 3800.25 | Comptabilité        | 2020-11-05
+</textarea>
+<p class="mt-4">
+    Le caractère <b>*</b> est un raccourci pour sélectionner toutes les colonnes.
+</p>
+
+<h5 id="spec">
+    <strong class="red">2.2 Sélectionner des colonnes spécifiques</strong>
+</h5>
+<p>
+    Pour ne récupérer que le <b>nom</b> et le <b>salaire</b> :
+</p>
+<textarea class="code-php" id="">
+    SELECT nom, salaire FROM employes;
+
+    nom     | salaire
+    Dupont  | 3500.50
+    Martin  | 4200.75
+    Lefèvre | 3000.00
+    Durand  | 3800.25
+</textarea>
+
+<h3 id="where">3. Filtrer les données avec WHERE</h3>
+<p>
+    La clause <b>WHERE</b> permet de filtrer les lignes selon une condition.
+</p>
+
+<h5 id="w-salary">
+    <strong class="red">3.1 Employés d'un département précis</strong>
+</h5>
+<p>
+    Pour ne voir que les employés du département "Informatique" :
+</p>
+<textarea class="code-php" id="">
+    SELECT nom, prenom, departement FROM employes WHERE departement = 'Informatique';
+
+    nom     | prenom | departement
+    Dupont  | Jean   | Informatique
+    Lefèvre | Paul   | Informatique
+</textarea>
+
+<h5 id="w-salary">
+    <strong class="red">3.2 Filtrer avec une condition numérique</strong>
+</h5>
+<p>
+    Pour afficher les employés avec un salaire supérieur à 3500 : 
+</p>
+<textarea class="code-php" id="">
+    SELECT nom, prenom, salaire FROM employes WHERE salaire > 3500;
+
+    nom     | prenom | salaire
+    Martin  | Sophie | 4200.75
+    Durand  | Marie  | 3800.25
+</textarea>
+
+<h5 id="combinaisons" class="mt-4">
+    <strong class="red">3.3 Combiner des conditions avec <b>AND</b>, <b>OR</b> et <b>NOT</b>.</strong>
+</h5>
+
+<h6>Rappels sur les opérateurs</h6>
+<ul>
+    <li><b>AND</b> : Combine deux conditions, toutes doivent être vraies pour qu'une ligne soit sélectionnée.</li>
+    <li><b>OR</b> : Combine deux conditions, au moins une doit être vraie pour qu'une ligne soit sélectionnée.</li>
+    <li><b>NOT</b> : Inverse une condition (exclut les lignes qui répondent à la condition).</li>
+</ul>
+
+<h6>Exemples pratiques</h6>
+
+<p><strong>1. Utilisation de <b>AND</b></strong></p>
+<p>
+    Imaginons que l'on souahite obtenir les employés du département "Informatique" <b>ET</b> qui ont un salaire supérieur à 3200 :
+</p>
+<textarea class="code-php" id="">
+    SELECT nom, prenom, salaire, departement 
+    FROM employes 
+    WHERE departement = 'Informatique' AND salaire > 3200;
+
+    nom    | prenom | salaire | departement
+    Dupont | Jean   | 3500.50 | Informatique
+</textarea>
+<p class="mt-4">
+    <b>Explication</b> : Seuls les employés qui satisfont les deux conditions (département = "Informatique" et salaire > 3200) sont affichés. Paul Lefèvre (salaire 3000) est exclu.
+</p>
+
+<p><strong>2. Utilisation de <b>OR</b></strong></p>
+<p>
+    Maintenant, cherchons les employés qui sont soit dans "Informatique", soit ont un salaire supérieur à 4000 :
+</p>
+<textarea class="code-php" id="">
+    SELECT nom, prenom, salaire, departement 
+    FROM employes 
+    WHERE departement = 'Informatique' OR salaire > 4000;
+
+    nom     | prenom | salaire | departement
+    Dupont  | Jean   | 3500.50 | Informatique
+    Martin  | Sophie | 4200.75 | Ressources Humaines
+    Lefèvre | Paul   | 3000.00 | Informatique
+</textarea>
+<p class="mt-4">
+    <b>Explication</b> : Les employés du département "Informatique" (Dupont et Lefèvre) ou ceux avec un salaire > 4000 (Martin) sont inclus.
+</p>
+
+<p><strong>3. Utilisation de <b>NOT</b></strong></p>
+<p>
+    rouvons les employés qui ne sont pas dans le département "Informatique" :
+</p>
+<textarea class="code-php" id="">
+    SELECT nom, prenom, departement 
+    FROM employes 
+    WHERE departement NOT LIKE 'Informatique';
+
+    nom    | prenom | departement
+    Martin | Sophie | Ressources Humaines
+    Durand | Marie  | Comptabilité
+</textarea>
+<p class="mt-4">
+    <b>Explication</b> : <b>NOT LIKE</b> (ou simplement <b>!=</b> ou <b>&lt;&gt;</b> selon le SGBDR) exclut les lignes où le département est "Informatique".
+</p>
+
+<p><strong>4. Combinaison de <b>AND</b> et <b>OR</b></strong></p>
+<p>
+    Cherchons les employés qui sont dans "Informatique" et ont un salaire > 3200, ou ceux embauchés après 2022 :
+</p>
+<textarea class="code-php" id="">
+    SELECT nom, prenom, salaire, date_embauche, departement 
+    FROM employes 
+    WHERE (departement = 'Informatique' AND salaire > 3200) OR date_embauche > '2022-12-31';
+
+    nom     | prenom | salaire | date_embauche | departement
+    Dupont  | Jean   | 3500.50 | 2022-03-15    | Informatique
+    Lefèvre | Paul   | 3000.00 | 2023-01-20    | Informatique
+</textarea>
+<p class="mt-4">
+    <b>Explication</b> : <br>
+    <ul>
+        <li>Dupont est inclus car il est dans "Informatique" et son salaire est > 3200.</li>
+        <li>Lefèvre est inclus car il a été embauché après 2022, même si son salaire est < 3200.</li>
+        <li>Les parenthèses sont importantes pour éviter toute ambiguïté dans l’ordre des opérations.</li>
+    </ul>
+</p>
+
+<p><strong>5. Combinaison de <b>AND</b>, <b>OR</b> et <b>NOT</b></strong></p>
+<p>
+    Trouvons les employés qui ont un salaire entre 3000 et 4000, mais qui ne sont pas dans "Ressources Humaines" ou qui ont été embauchés avant 2021 :
+</p>
+<textarea class="code-php" id="">
+    SELECT nom, prenom, salaire, departement, date_embauche 
+    FROM employes 
+    WHERE (salaire BETWEEN 3000 AND 4000 AND departement != 'Ressources Humaines') 
+       OR date_embauche < '2021-01-01';
+
+    nom     | prenom | salaire | departement  | date_embauche
+    Dupont  | Jean   | 3500.50 | Informatique | 2022-03-15
+    Lefèvre | Paul   | 3000.00 | Informatique | 2023-01-20
+    Durand  | Marie  | 3800.25 | Comptabilité | 2020-11-05
+</textarea>
+<p class="mt-4">
+    <b>Explication</b> : <br>
+    <ul>
+        <li>Dupont et Lefèvre : Salaire entre 3000 et 4000 et pas dans "Ressources Humaines".</li>
+        <li>Durand : Embauché avant 2021, donc inclus grâce au OR.</li>
+    </ul>    
+</p>
+
+<p>
+    <strong>Astuces</strong> <br>
+    <ul>
+        <li>Utilisez des parenthèses pour clarifier l’ordre des conditions, surtout avec <b>AND</b> et <b>OR</b>.</li>
+        <li>Testez vos requêtes étape par étape pour vérifier les résultats intermédiaires.</li>
+        <li>Les opérateurs de comparaison (<b>=</b>, <b>!=</b>, <b>&gt;</b>, <b>&lt;</b>, etc.) se combinent parfaitement avec <b>AND</b>, <b>OR</b> et <b>NOT</b>.</li>
+    </ul>
+</p>
+
+<h3 id="orderby">4. Trier les résultats avec ORDER BY</h3>
+<p>
+    La clause <b>ORDER BY</b> trie les résultats selon une ou plusieurs colonnes.
+</p>
+
+<h5 id="order-asc">
+    <strong class="red">4.1 Trier par salaire (croissant)</strong>
+</h5>
+<textarea class="code-php" id="">
+    SELECT nom, salaire FROM employes ORDER BY salaire ASC;
+
+    nom     | salaire
+    Lefèvre | 3000.00
+    Dupont  | 3500.50
+    Durand  | 3800.25
+    Martin  | 4200.75
+</textarea>
+
+<h5 id="order-desc">
+    <strong class="red">4.2 Trier par salaire (décroissant)</strong>
+</h5>
+<textarea class="code-php" id="">
+    SELECT nom, salaire FROM employes ORDER BY salaire DESC;
+
+    nom     | salaire
+    Martin  | 4200.75
+    Durand  | 3800.25
+    Dupont  | 3500.50
+    Lefèvre | 3000.00   
+</textarea>
+
+<h3 id="limit">5. Limiter les résultats avec LIMIT</h3>
+<p>
+    La clause <b>LIMIT</b> restreint le nombre de lignes retournées.
+</p>
+
+<h5 id="limit-most">
+    <strong class="red">5.1 Les 2 employés les mieux payés</strong>
+</h5>
+<textarea class="code-php" id="">
+    SELECT nom, salaire FROM employes ORDER BY salaire DESC LIMIT 2;
+
+    nom    | salaire
+    Martin | 4200.75
+    Durand | 3800.25
+</textarea>
+
+<h3 id="agreg">6. Fonctions d’agrégation</h3>
+<p>
+    Les fonctions d’agrégation permettent de calculer des valeurs résumées sur un ensemble de lignes.
+    Des fonctions comme <b>COUNT</b>, <b>SUM</b>, <b>AVG</b>, <b>MIN</b> et <b>MAX</b> pour effectuer des calculs.
+</p>
+
+<h5 id="agreg-most">
+    <strong class="red">6.1 Compter les employés</strong>
+</h5>
+<textarea class="code-php" id="">
+    SELECT COUNT(*) AS total_employes FROM employes;
+
+    total_employes
+    4
+</textarea>
+
+<h5 id="agreg-most">
+    <strong class="red">6.2 Salaire moyen</strong>
+</h5>
+<textarea class="code-php" id="">
+    SELECT AVG(salaire) AS salaire_moyen FROM employes;
+
+    salaire_moyen
+    3625.3750
+</textarea>
+
+<h3 id="groupby">7. Regrouper les données avec GROUP BY</h3>
+<p>
+    La clause <b>GROUP BY</b> regroupe les lignes selon une colonne et est souvent utilisée avec des fonctions d’agrégation.
+</p>
+
+<h5 id="salaires-dept">
+    <strong class="red">7.1 Salaire total par département</strong>
+</h5>
+<textarea class="code-php" id="">
+    SELECT departement, SUM(salaire) AS total_salaire 
+    FROM employes 
+    GROUP BY departement;
+
+    departement         | total_salaire
+    Comptabilité        | 3800.25
+    Informatique        | 6500.50
+    Ressources Humaines | 4200.75
+</textarea>
+
+<h3 id="join">8. Combiner les tables avec JOIN</h3>
+<p>
+    Si vous avez plusieurs tables, <b>JOIN</b> permet de les lier. <br>
+    Imaginons une table <b>departements</b> :
+</p>
+<textarea class="code-php" id="">
+    CREATE TABLE departements (
+        nom_dept VARCHAR(30) PRIMARY KEY,
+        localisation VARCHAR(50)
+    );
+    
+    INSERT INTO departements (nom_dept, localisation) VALUES
+        ('Informatique', 'Bâtiment A'),
+        ('Ressources Humaines', 'Bâtiment B'),
+        ('Comptabilité', 'Bâtiment C');
+</textarea>
+
+
+<h5 id="join-table">
+    <strong class="red">8.1 Joindre les tables</strong>
+</h5>
+<textarea class="code-php" id="">
+    SELECT e.nom, e.prenom, d.localisation
+    FROM employes e
+    JOIN departements d ON e.departement = d.nom_dept;
+
+    nom     | prenom | localisation
+    Dupont  | Jean   | Bâtiment A
+    Martin  | Sophie | Bâtiment B
+    Lefèvre | Paul   | Bâtiment A
+    Durand  | Marie  | Bâtiment C
+</textarea>
+
+
+<h3 id="cvonclusion">9. Conclusion</h3>
+<p>
+    La commande SELECT est extrêmement puissante et flexible. Elle permet de :
+</p>
+<ul>
+    <li>Récupérer des données spécifiques avec des colonnes choisies,</li>
+    <li>Filtrer avec <b>WHERE</b>,</li>
+    <li>Trier avec <b>ORDER BY</b>,</li>
+    <li>Limiter avec <b>LIMIT</b>,</li>
+    <li>Calculer avec des <b>fonctions d’agrégation</b>,</li>
+    <li>Regrouper avec <b>GROUP BY</b>,</li>
+    <li>Combiner des tables avec <b>JOIN</b>.</li>
+</ul>
+
+<h3 id="exercices">10. Exercices pratiques</h3>
+<ol>
+    <li>Écrivez une requête pour trouver les employés embauchés après 2021 (nom, prenom, date embauche), triés par date d’embauche..</li>
+    <li>Calculez le salaire moyen par département pour les salaires supérieurs à 3500.</li>    
+</ol>
+
+
+
