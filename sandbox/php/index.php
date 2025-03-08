@@ -6,7 +6,7 @@ function listDirectories($dir) {
             echo "<ul>";
             while (($file = readdir($dh)) !== false) {
                 if ($file != "." && $file != ".." && is_dir($dir . DIRECTORY_SEPARATOR . $file)) {
-                    echo '<li><a href="'.$file.'">'.$file.'</a></li>';
+                    echo '<li><a target="_blank" href="'.$file.'">'.$file.'</a></li>';
                 }
             }
             echo "</ul>";
