@@ -34,15 +34,49 @@ function initCodeMirror(classes, modes)
         //console.log("id : " + id + " not found");
         //console.log("mode : " + modes + " not found");
       }
+
   } else {
-      //DEBUG// 
-      
+      //DEBUG//       
   }
 }
 
-initCodeMirror(document.getElementsByClassName("code-js"), "javascript");
-initCodeMirror(document.getElementsByClassName("code-php"), "javascript");
 
+// Initialisation de CodeMirror
+initCodeMirror(document.getElementsByClassName("code-php"), "javascript");
+initCodeMirror(document.getElementsByClassName("code-js"), "javascript");
+/** *************************************************************************** */
+
+// Fonction pour copier le texte des textarea dans le presse-papiers
+function copyToClipboard(event) {
+  let targetId = event.target.getAttribute('data-target');
+  let textToCopy = document.getElementById(targetId).value;
+  navigator.clipboard.writeText(textToCopy).then(
+    () => {
+      console.log('Texte copié dans le presse-papiers');
+    }
+  ).catch(err => {
+    console.error('Erreur lors de la copie dans le presse-papiers : ', err);
+  });
+}
+
+// Ajoutez l'événement de clic à tous les boutons de copie
+document.querySelectorAll('button[data-target]').forEach(button => {
+  button.addEventListener('click', copyToClipboard);
+});
+
+/** *************************************************************************** */
+
+document.addEventListener('keydown', function(event) {
+  // Vérifiez si la combinaison de touches Ctrl + Shift + S est pressée
+  if (event.ctrlKey && event.shiftKey && event.key === 'S') {
+    // Sélectionnez le lien avec la classe "hidden-link"
+    let hiddenLink = document.querySelector('.hidden-link');
+    if (hiddenLink) {
+      // Changez le style pour afficher le lien
+      hiddenLink.style.display = 'block';
+    }
+  }
+});
 /** *************************************************************************** */
 
 /**
@@ -86,4 +120,3 @@ customElements.define('sq-l', NewElement);
 customElements.define('st-r', NewElement);
 
 /** *************************************************************************** */
-

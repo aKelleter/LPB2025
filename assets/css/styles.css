@@ -26,6 +26,7 @@
     --color-medium-blue: rgb(8, 99, 155);
     --color-medium-violet: rgb(91, 66, 170);
     --color-light-violet: rgb(208, 196, 250);
+    --color-extralight-violet: rgb(232, 227, 251);
     --color-light-grey: rgb(241, 239, 239);
     --color-light-green: rgb(15, 219, 107);
     --color-elem-cite: rgb(101, 25, 193);
@@ -147,8 +148,9 @@ p {
 }
 
 b {
-    background-color: var( --color-light-grey);
-    border: 1px solid var( --color-light-grey);
+    background-color: var(--color-extralight-violet);
+    border: 1px solid var(--color-extralight-violet);
+    color : var(--color-medium-violet);
     border-radius: 3px;
     padding: 0.2em;
 }

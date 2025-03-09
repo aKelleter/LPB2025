@@ -1,0 +1,472 @@
+<h3>Sommaire</h3>
+<ul>
+    <li><a href="#intro">1. Qu'est-ce qu'une jointure ?</a></li>
+    <li><a href="#why">2. Pourquoi utiliser des jointures ?</a></li>
+    <li><a href="#syntaxe">3. Syntaxe de base d'une jointure</a></li>
+    <li><a href="#types">4. Types de jointures dans MariaDB</a></li>
+    <li><a href="#exemple">5. Exemple pratique complet</a></li>
+    <li><a href="#bestpractices">6. Bonnes pratiques</a></li>
+    <li><a href="#more-samples">7. Des exemples spécifiques</a></li>
+    <li><a href="#conclusion">8. Conclusion</a></li>
+</ul>
+
+<h3 id="intro">1. Qu'est-ce qu'une jointure ?</h3>
+<p>
+    Une jointure (ou <b>JOIN</b> en anglais) est une opération dans une base de données relationnelle qui permet de combiner des données provenant 
+    de deux tables (ou plus) en fonction d'une condition commune, généralement une clé partagée (comme une clé primaire ou étrangère). Les jointures 
+    sont essentielles pour extraire des informations significatives dans une base de données relationnelle.
+</p>
+
+<h3 id="why">2. Pourquoi utiliser des jointures ?</h3>
+<p>
+    Dans une base de données relationnelle, les données sont souvent réparties entre plusieurs tables pour éviter la redondance. Par exemple :
+</p>
+<ul>
+    <li>Une table <b>clients</b> contient les informations des clients (id, nom, email).</li>
+    <li>Une table <b>commandes</b> contient les commandes passées (id, client_id, date).</li>
+</ul>
+<p>
+    Pour obtenir une liste des clients avec leurs commandes associées, une jointure est nécessaire.
+</p>
+
+<h3 id="syntaxe">3. Syntaxe de base d'une jointure</h3>
+<p>
+    En SQL (et donc dans MariaDB), la syntaxe générale d'une jointure est :
+</p>
+<textarea class="code-php" id="ta-1">
+    SELECT colonnes
+    FROM table1
+    JOIN table2
+    ON condition_de_jointure;
+</textarea>
+<button id="copy-1" class="btn btn-secondary btn-sm" data-target="ta-1" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<ul class="mt-4">
+    <li><b>SELECT</b> : Liste les colonnes que vous voulez récupérer.</li>
+    <li><b>FROM table1</b> : La première table.</li>
+    <li><b>JOIN table2</b> : La deuxième table à joindre.</li>
+    <li><b>ON condition_de_jointure</b> : La condition qui relie les deux tables (ex. <b>table1.id = table2.table1_id</b>).</li>
+</ul>
+
+<h3 id="types">4. Types de jointures dans MariaDB</h3>
+<p>
+    MariaDB supporte plusieurs types de jointures. Voici les plus courantes :
+</p>
+<p>
+    <strong>a) INNER JOIN (Jointure interne)</strong>    
+</p>
+<ul class="ml-4">
+    <li><strong>Définition</strong> : Retourne uniquement les lignes où il y a une correspondance dans les deux tables.</li>
+    <li>
+        <strong>Exemple</strong> :
+        <p>Supposons deux tables :</p>
+        <ul class="mb-4">
+            <li><b>clients</b> (id, nom)</li>
+            <li><b>commandes</b> (id, client_id, montant)</li>
+        </ul>
+        <textarea class="code-php" id="ta-2">
+            SELECT clients.nom, commandes.montant
+            FROM clients
+            INNER JOIN commandes
+            ON clients.id = commandes.client_id;
+        </textarea>
+        <button id="copy-2" class="btn btn-secondary btn-sm" data-target="ta-2" data-toggle="tooltip" title="Copy code">Copy</button>
+        <p>
+            Résultat : Seuls les clients ayant passé une commande apparaissent.
+        </p>
+    </li>
+</ul>
+
+<p>
+    <strong>b) LEFT JOIN (Jointure à gauche)</strong>    
+</p>
+<ul class="ml-4">
+    <li>
+        <strong>Définition</strong> : Retourne toutes les lignes de la table de gauche (<b>table1</b>), et les lignes correspondantes de la table de 
+        droite (<b>table2</b>). Si aucune correspondance n’existe, des <b>NULL</b> sont retournés pour les colonnes de la table de droite.
+    </li>
+    <li>
+        <p><strong>Exemple</strong> :</p>
+        <textarea class="code-php" id="ta-3">
+            SELECT clients.nom, commandes.montant
+            FROM clients
+            LEFT JOIN commandes
+            ON clients.id = commandes.client_id;   
+        </textarea>
+        <button id="copy-3" class="btn btn-secondary btn-sm" data-target="ta-3" data-toggle="tooltip" title="Copy code">Copy</button>
+        <p>
+            Résultat : Tous les clients sont listés, même ceux sans commande (avec <b>montant = NULL</b>).
+        </p>
+    </li>
+</ul>
+
+<p>
+    <strong>c) RIGHT JOIN (Jointure à droite)</strong>    
+</p>
+<ul class="ml-4">
+    <li>
+        <strong>Définition</strong> : 
+        Inverse de <b>LEFT JOIN</b>. Retourne toutes les lignes de la table de droite, avec les correspondances de la table de gauche ou <b>NULL</b> si aucune correspondance.
+    </li>
+    <li>
+        <p><strong>Exemple</strong> :</p>
+        <textarea class="code-php" id="ta-4">
+            SELECT clients.nom, commandes.montant
+            FROM clients
+            RIGHT JOIN commandes
+            ON clients.id = commandes.client_id;
+        </textarea>
+        <button id="copy-4" class="btn btn-secondary btn-sm" data-target="ta-4" data-toggle="tooltip" title="Copy code">Copy</button>
+        <p>
+            Résultat : Toutes les commandes sont listées, même celles sans client associé (peu fréquent dans la pratique).
+        </p>
+    </li>
+</ul>
+
+<p>
+    <strong>d) FULL JOIN (Jointure complète)</strong>    
+</p>
+<ul class="ml-4">
+    <li>
+        <strong>Définition</strong> : 
+        Retourne toutes les lignes des deux tables, avec des <b>NULL</b> là où il n’y a pas de correspondance. Note : MariaDB ne supporte pas nativement 
+        <b>FULL JOIN</b>, mais on peut le simuler avec <b>LEFT JOIN</b> et <b>RIGHT JOIN</b> combinés via <b>UNION</b>.
+    </li>
+    <li>
+        <p><strong>Exemple</strong> :</p>
+        <textarea class="code-php" id="ta-5">
+            SELECT clients.nom, commandes.montant
+            FROM clients
+            LEFT JOIN commandes
+            ON clients.id = commandes.client_id
+            UNION
+            SELECT clients.nom, commandes.montant
+            FROM clients
+            RIGHT JOIN commandes
+            ON clients.id = commandes.client_id;
+        </textarea>
+        <button id="copy-5" class="btn btn-secondary btn-sm" data-target="ta-5" data-toggle="tooltip" title="Copy code">Copy</button>        
+    </li>
+</ul>
+
+<p>
+    <strong>e) CROSS JOIN (Produit cartésien)</strong>    
+</p>
+<ul class="ml-4">
+    <li>
+        <strong>Définition</strong> : 
+        Combine chaque ligne de la première table avec chaque ligne de la deuxième table. Pas besoin de condition (<b>ON</b>).
+    </li>
+    <li>
+        <p><strong>Exemple</strong> :</p>
+        <textarea class="code-php" id="ta-6">
+            SELECT clients.nom, produits.nom_produit
+            FROM clients
+            CROSS JOIN produits;
+        </textarea>
+        <button id="copy-6" class="btn btn-secondary btn-sm" data-target="ta-6" data-toggle="tooltip" title="Copy code">Copy</button>
+        <p>
+            Résultat : Toutes les combinaisons possibles entre clients et produits. 
+        </p>
+    </li>
+</ul>
+
+<h3 id="exemple">5. Exemple pratique complet</h3>
+<p>
+    Créons deux tables et utilisons des jointures pour illustrer leur fonctionnement.
+</p>
+<textarea class="code-php" id="ta-7">
+    -- Création des tables
+    CREATE TABLE clients (
+        id INT PRIMARY KEY,
+        nom VARCHAR(50)
+    );
+
+    CREATE TABLE commandes (
+        id INT PRIMARY KEY,
+        client_id INT,
+        montant DECIMAL(10,2),
+        FOREIGN KEY (client_id) REFERENCES clients(id)
+    );
+
+    -- Insertion de données
+    INSERT INTO clients (id, nom) VALUES (1, 'Alice'), (2, 'Bob'), (3, 'Charlie');
+    INSERT INTO commandes (id, client_id, montant) VALUES (1, 1, 100.50), (2, 2, 75.00);
+
+    -- INNER JOIN
+    SELECT clients.nom, commandes.montant
+    FROM clients
+    INNER JOIN commandes
+    ON clients.id = commandes.client_id;
+    -- Résultat : Alice (100.50), Bob (75.00)
+
+    -- LEFT JOIN
+    SELECT clients.nom, commandes.montant
+    FROM clients
+    LEFT JOIN commandes
+    ON clients.id = commandes.client_id;
+    -- Résultat : Alice (100.50), Bob (75.00), Charlie (NULL)
+</textarea>
+<button id="copy-7" class="btn btn-secondary btn-sm" data-target="ta-7" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h3 id="bestpractices">6. Bonnes pratiques</h3>
+<ul>
+    <li>
+        <strong>Utilisez des alias</strong> pour rendre le code plus lisible : <br>
+        <textarea class="code-php" id="ta-8">
+            SELECT c.nom, cmd.montant
+            FROM clients AS c
+            INNER JOIN commandes AS cmd
+            ON c.id = cmd.client_id;
+        </textarea>
+        <button id="copy-8" class="btn btn-secondary btn-sm" data-target="ta-8" data-toggle="tooltip" title="Copy code">Copy</button>
+    </li>
+    <li><strong>Ajoutez des index</strong> sur les colonnes utilisées dans les jointures (ex. <b>id</b>, <b>client_id</b>) pour améliorer les performances.</li>
+    <li><strong>Testez vos requêtes</strong> avec peu de données avant de les appliquer à une grande base.</li>
+</ul>
+
+<h3 id="more-samples">7. Des exemples spécifiques</h3>
+
+<h4>Exemple 1 : INNER JOIN - Liste des employés et leurs départements</h4>
+<p>
+    <st-r>Contexte</st-r> : Une entreprise veut lister les employés avec le nom de leur département.
+</p>
+<textarea class="code-php" id="ta-9">
+    -- Création des tables
+    CREATE TABLE departements (
+        id INT PRIMARY KEY,
+        nom_dept VARCHAR(50)
+    );
+
+    CREATE TABLE employes (
+        id INT PRIMARY KEY,
+        nom VARCHAR(50),
+        dept_id INT,
+        FOREIGN KEY (dept_id) REFERENCES departements(id)
+    );
+
+    -- Insertion des données
+    INSERT INTO departements (id, nom_dept) VALUES (1, 'RH'), (2, 'Informatique'), (3, 'Ventes');
+    INSERT INTO employes (id, nom, dept_id) VALUES (1, 'Marie', 1), (2, 'Paul', 2), (3, 'Luc', NULL);
+
+    -- Requête INNER JOIN
+    SELECT e.nom, d.nom_dept
+    FROM employes e
+    INNER JOIN departements d
+    ON e.dept_id = d.id;
+</textarea>
+<button id="copy-9" class="btn btn-secondary btn-sm" data-target="ta-9" data-toggle="tooltip" title="Copy code">Copy</button>
+<p>
+    <st-r>Résultat</st-r> : 
+</p>
+<textarea class="code-php" id="">
+    nom   | nom_dept
+    ------+-----------
+    Marie | RH
+    Paul  | Informatique
+</textarea>
+<p>
+    <st-r>Explication</st-r> : Seuls Marie et Paul apparaissent car ils ont un département associé. Luc, avec <b>dept_id = NULL</b>, est exclu car <b>INNER JOIN</b> 
+    exige une correspondance.
+</p>
+
+<h4>Exemple 2 : LEFT JOIN - Produits et leurs ventes</h4>
+<p>
+    <st-r>Contexte</st-r> : Une boutique veut lister tous les produits, même ceux qui n’ont pas été vendus.    
+</p>
+<textarea class="code-php" id="ta-10">
+    -- Création des tables
+    CREATE TABLE produits (
+        id INT PRIMARY KEY,
+        nom_produit VARCHAR(50)
+    );
+
+    CREATE TABLE ventes (
+        id INT PRIMARY KEY,
+        produit_id INT,
+        quantite INT,
+        FOREIGN KEY (produit_id) REFERENCES produits(id)
+    );
+
+    -- Insertion des données
+    INSERT INTO produits (id, nom_produit) VALUES (1, 'Chaise'), (2, 'Table'), (3, 'Lampe');
+    INSERT INTO ventes (id, produit_id, quantite) VALUES (1, 1, 5), (2, 2, 3);
+
+    -- Requête LEFT JOIN
+    SELECT p.nom_produit, v.quantite
+    FROM produits p
+    LEFT JOIN ventes v
+    ON p.id = v.produit_id;
+</textarea>
+<button id="copy-10" class="btn btn-secondary btn-sm" data-target="ta-10" data-toggle="tooltip" title="Copy code">Copy</button>
+<p>
+    <st-r>Résultat</st-r> :
+</p>
+<textarea class="code-php" id="">
+    nom_produit | quantite
+    ------------+---------
+    Chaise      | 5
+    Table       | 3
+    Lampe       | NULL
+</textarea>
+<p>
+    <st-r>Explication</st-r> : Tous les produits sont listés. La <b>Lampe</b> n’a pas de vente, donc <b>quantite</b> est <b>NULL</b>.
+</p>
+
+<h4>Exemple 3 : RIGHT JOIN - Commandes et clients</h4>
+<p>
+    <st-r>Contexte</st-r> : On veut lister toutes les commandes, même celles sans client identifiable (cas rare mais possible).
+</p>
+<textarea class="code-php" id="ta-11">
+    -- Création des tables (réutilisation du précédent exemple simplifié)
+    CREATE TABLE clients (
+        id INT PRIMARY KEY,
+        nom VARCHAR(50)
+    );
+    
+    CREATE TABLE commandes (
+        id INT PRIMARY KEY,
+        client_id INT,
+        montant DECIMAL(10,2),
+        FOREIGN KEY (client_id) REFERENCES clients(id)
+    );
+    
+    -- Insertion des données
+    INSERT INTO clients (id, nom) VALUES (1, 'Alice'), (2, 'Bob');
+    INSERT INTO commandes (id, client_id, montant) VALUES (1, 1, 100.50), (2, NULL, 50.00);
+    
+    -- Requête RIGHT JOIN
+    SELECT c.nom, cmd.montant
+    FROM clients c
+    RIGHT JOIN commandes cmd
+    ON c.id = cmd.client_id;
+</textarea>
+<button id="copy-11" class="btn btn-secondary btn-sm" data-target="ta-11" data-toggle="tooltip" title="Copy code">Copy</button>
+<p>
+    <st-r>Résultat</st-r> :
+</p>
+<textarea class="code-php" id="">
+    nom   | montant
+    ------+---------
+    Alice | 100.50
+    NULL  | 50.00
+</textarea>
+<p>
+    <st-r>Explication</st-r> : Toutes les commandes sont incluses. La commande avec <b>client_id = NULL</b> n’a pas de client associé, donc <b>nom</b> est <b>NULL</b>.
+</p>
+
+<h4>Exemple 4 : Simulation de FULL JOIN - Étudiants et cours</h4>
+<p>
+    <st-r>Contexte</st-r> : Lister tous les étudiants et tous les cours, même ceux sans correspondance.
+</p>
+<textarea class="code-php" id="ta-12">
+    -- Création des tables
+    CREATE TABLE etudiants (
+        id INT PRIMARY KEY,
+        nom VARCHAR(50)
+    );
+
+    CREATE TABLE cours (
+        id INT PRIMARY KEY,
+        nom_cours VARCHAR(50)
+    );
+
+    CREATE TABLE inscriptions (
+        etudiant_id INT,
+        cours_id INT,
+        FOREIGN KEY (etudiant_id) REFERENCES etudiants(id),
+        FOREIGN KEY (cours_id) REFERENCES cours(id)
+    );
+
+    -- Insertion des données
+    INSERT INTO etudiants (id, nom) VALUES (1, 'Sophie'), (2, 'Marc');
+    INSERT INTO cours (id, nom_cours) VALUES (1, 'Maths'), (2, 'Histoire');
+    INSERT INTO inscriptions (etudiant_id, cours_id) VALUES (1, 1);
+
+    -- Simulation de FULL JOIN avec UNION
+    SELECT e.nom, c.nom_cours
+    FROM etudiants e
+    LEFT JOIN inscriptions i ON e.id = i.etudiant_id
+    LEFT JOIN cours c ON i.cours_id = c.id
+    UNION
+    SELECT e.nom, c.nom_cours
+    FROM etudiants e
+    RIGHT JOIN inscriptions i ON e.id = i.etudiant_id
+    RIGHT JOIN cours c ON i.cours_id = c.id;
+</textarea>
+<button id="copy-12" class="btn btn-secondary btn-sm" data-target="ta-12" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p>
+    <st-r>Résultat</st-r> :
+</p>
+<textarea class="code-php" id="">
+    nom   | nom_cours
+    ------+-----------
+    Sophie| Maths
+    Marc  | NULL
+    NULL  | Histoire
+</textarea>
+<p>
+    <st-r>Explication</st-r> : Sophie est inscrite en Maths, Marc n’a pas de cours, et Histoire n’a pas d’étudiant inscrit. Cette combinaison montre toutes les possibilités.
+</p>
+
+<h4>Exemple 5 : Jointure multiple - Employés, projets et départements</h4>
+<p>
+    <st-r>Contexte</st-r> : Une entreprise veut lister les employés, leurs projets et départements.
+</p>
+<textarea class="code-php" id="ta-13">
+    -- Création des tables
+    CREATE TABLE departements (
+        id INT PRIMARY KEY,
+        nom_dept VARCHAR(50)
+    );
+    
+    CREATE TABLE employes (
+        id INT PRIMARY KEY,
+        nom VARCHAR(50),
+        dept_id INT,
+        FOREIGN KEY (dept_id) REFERENCES departements(id)
+    );
+    
+    CREATE TABLE projets (
+        id INT PRIMARY KEY,
+        nom_projet VARCHAR(50),
+        employe_id INT,
+        FOREIGN KEY (employe_id) REFERENCES employes(id)
+    );
+    
+    -- Insertion des données
+    INSERT INTO departements (id, nom_dept) VALUES (1, 'RH'), (2, 'Informatique');
+    INSERT INTO employes (id, nom, dept_id) VALUES (1, 'Marie', 1), (2, 'Paul', 2);
+    INSERT INTO projets (id, nom_projet, employe_id) VALUES (1, 'Recrutement', 1);
+    
+    -- Requête avec jointures multiples
+    SELECT e.nom, d.nom_dept, p.nom_projet
+    FROM employes e
+    INNER JOIN departements d ON e.dept_id = d.id
+    LEFT JOIN projets p ON e.id = p.employe_id;
+</textarea>
+<button id="copy-13" class="btn btn-secondary btn-sm" data-target="ta-13" data-toggle="tooltip" title="Copy code">Copy</button>
+<p>
+    <st-r>Résultat</st-r> :
+</p>
+<textarea class="code-php" id="">
+    nom   | nom_dept    | nom_projet
+    ------+-------------+------------
+    Marie | RH          | Recrutement
+    Paul  | Informatique| NULL
+</textarea>
+<p>
+    <st-r>Explication</st-r> : Marie a un projet, Paul n’en a pas. <b>INNER JOIN</b> assure que seuls les employés avec département valide sont inclus, et <b>LEFT JOIN</b> inclut Paul sans projet.
+</p>
+
+<p>
+    Ces exemples couvrent des cas pratiques courants.
+</p>
+
+<h3 id="conclusion">8. Conclusion</h3>
+<p>
+    Les jointures sont un outil puissant pour exploiter les relations entre les tables dans MariaDB. <b>INNER JOIN</b> est le plus utilisé pour les 
+    correspondances exactes, tandis que <b>LEFT JOIN</b> est idéal pour inclure des données partielles. Comprendre leur fonctionnement vous permettra 
+    de construire des requêtes SQL efficaces et adaptées à vos besoins.
+</p>

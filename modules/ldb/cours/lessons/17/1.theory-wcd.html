@@ -1,0 +1,227 @@
+<h3>Sommaire</h3>
+<ol>
+   
+</ol>
+
+<h3 id="intro">1. Qu’est-ce qu’une clé étrangère ?</h3>
+<p>
+    Une clé étrangère (ou foreign key en anglais) est une colonne (ou un ensemble de colonnes) dans une table qui établit et maintient une relation avec 
+    une autre table en référençant une clé primaire ou une clé unique de cette autre table. Elle sert à :
+</p>
+<ul>
+    <li>Garantir l’intégrité référentielle : les valeurs de la clé étrangère doivent correspondre à des valeurs existantes dans la colonne référencée.</li>
+    <li>Modéliser des relations entre entités dans une base de données relationnelle.</li>
+    <li>Faciliter les jointures entre les tables</li>
+</ul>
+<p>
+    Exemple simple :
+</p>
+<ul>
+    <li>Une table <b>utilisateurs</b> avec une clé primaire <b>id</b>.</li>
+    <li>Une table <b>commandes</b> avec une colonne <b>utilisateur_id</b> qui référence <b>id</b> dans <b>utilisateurs</b>. Ici, <b>utilisateur_id</b> est la clé étrangère.</li>
+</ul>
+
+<h3 id="why">2. Pourquoi utiliser des clés étrangères ?</h3>
+<p>
+    Les clés étrangères jouent un rôle crucial dans les bases de données relationnelles pour :
+</p>
+<ul>
+    <li><strong>Maintenir la cohérence des données</strong> : Empêche l’insertion de données orphelines (ex. une commande sans utilisateur existant).</li>
+    <li><strong>Faciliter les relations</strong> : Structure les liens logiques entre les tables, rendant les jointures plus fiables.</li>
+    <li><strong>Automatiser certaines actions</strong> : Grâce à des options comme <b>ON DELETE</b> ou <b>ON UPDATE</b>, elles permettent de définir des comportements en cas de modification ou suppression dans la table parent.</li>
+</ul>
+
+<h3 id="syntaxe">3. Syntaxe de base dans MariaDB</h3>
+<p>
+    Pour définir une clé étrangère lors de la création d’une table :
+</p>
+<textarea class="code-php" id="ta-1">
+    CREATE TABLE table_enfant (
+        colonne1 TYPE,
+        colonne_etrangere TYPE,
+        FOREIGN KEY (colonne_etrangere) REFERENCES table_parent(colonne_reference)
+    );
+</textarea>
+<button id="copy-1" class="btn btn-secondary btn-sm" data-target="ta-1" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<ul class="mt-4">
+    <li><b>colonne_etrangere</b> : la colonne dans la table enfant qui agit comme clé étrangère.</li>
+    <li><b>table_parent(colonne_reference)</b> : la table et la colonne référencée (généralement une clé primaire).</li>
+</ul>
+
+<p>Exemple concret :</p>
+<textarea class="code-php" id="ta-2">
+    CREATE TABLE utilisateurs (
+        id INT PRIMARY KEY,
+        nom VARCHAR(100)
+    );
+
+    CREATE TABLE commandes (
+        id INT PRIMARY KEY,
+        utilisateur_id INT,
+        montant DECIMAL(10,2),
+        FOREIGN KEY (utilisateur_id) REFERENCES utilisateurs(id)
+    );
+</textarea>
+<button id="copy-2" class="btn btn-secondary btn-sm" data-target="ta-2" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h3 id="advanced">4. Options avancées des clés étrangères</h3>
+<p>
+    <b>MariaDB</b> permet de personnaliser le comportement des clés étrangères avec deux clauses importantes :
+</p>
+<ul class="mt-4">
+    <li><b>ON DELETE</b> : Définit ce qui se passe dans la table enfant si une ligne de la table parent est supprimée.</li>
+    <li><b>ON UPDATE</b> : Définit ce qui se passe dans la table enfant si la colonne référencée dans la table parent est modifiée.</li>
+</ul>
+<p>
+    Les options possibles sont :
+</p>
+<ul>
+    <li><b>RESTRICT</b> : Empêche la suppression ou la mise à jour dans la table parent si des lignes dépendantes existent dans la table enfant (comportement par défaut).</li>
+    <li><b>CASCADE</b> : Propage l’action (suppression ou mise à jour) de la table parent à la table enfant.</li>
+    <li><b>SET NULL</b> : Définit la clé étrangère à <b>NULL</b> dans la table enfant si la ligne parent est supprimée ou modifiée (la colonne doit accepter <b>NULL</b>).</li>
+    <li><b>NO ACTION</b> : Similaire à <b>RESTRICT</b> dans MariaDB.</li>
+</ul>
+<p>
+    Exemple avec options :
+</p>
+<textarea class="code-php" id="ta-3">
+    CREATE TABLE commandes (
+        id INT PRIMARY KEY,
+        utilisateur_id INT,
+        montant DECIMAL(10,2),
+        FOREIGN KEY (utilisateur_id) REFERENCES utilisateurs(id)
+            ON DELETE CASCADE
+            ON UPDATE RESTRICT
+    );
+</textarea>
+<button id="copy-3" class="btn btn-secondary btn-sm" data-target="ta-3" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<ul class="mt-4">
+    <li><b>ON DELETE CASCADE</b> : Si un utilisateur est supprimé, toutes ses commandes le seront aussi.</li>
+    <li><b>ON UPDATE RESTRICT</b> : Empêche la modification de l’<b>id</b> dans <b>utilisateurs</b> si des commandes y sont liées.</li>
+</ul>
+
+<h3 id="addafter">5. Ajouter ou supprimer une clé étrangère après création</h3>
+<p>
+    <b>- Ajouter une clé étrangère</b> :
+</p>
+<textarea class="code-php" id="ta-4">
+    ALTER TABLE commandes
+    ADD FOREIGN KEY (utilisateur_id) REFERENCES utilisateurs(id); 
+</textarea>
+<button id="copy-4" class="btn btn-secondary btn-sm" data-target="ta-4" data-toggle="tooltip" title="Copy code">Copy</button>
+<p class="mt-4">
+    <b>- Supprimer une clé étrangère</b> :  <br>
+    Les clés étrangères ont un nom interne généré par MariaDB (ex. <b>commandes_ibfk_1</b>). Pour la supprimer, il faut connaître ce nom (via <b>SHOW CREATE TABLE commandes</b>)
+    ou le spécifier lors de la création avec <b>CONSTRAINT</b>.
+</p>
+<textarea class="code-php" id="ta-5">
+    ALTER TABLE commandes
+    DROP FOREIGN KEY nom_de_la_contrainte;
+</textarea>
+<button id="copy-5" class="btn btn-secondary btn-sm" data-target="ta-5" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p>
+    Exemple avec un nom explicite :
+</p>
+<textarea class="code-php" id="ta-6">
+    CREATE TABLE commandes (
+        id INT PRIMARY KEY,
+        utilisateur_id INT,
+        FOREIGN KEY nom_contrainte (utilisateur_id) REFERENCES utilisateurs(id)
+    );
+
+    ALTER TABLE commandes
+    DROP FOREIGN KEY nom_contrainte;
+</textarea>
+<button id="copy-6" class="btn btn-secondary btn-sm" data-target="ta-6" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h3 id="prerequis">6. Prérequis et limitations</h3>
+<ul class="mt-4">
+    <li>Les colonnes impliquées doivent avoir des <b>types de données compatibles</b> (ex. <b>INT</b> avec <b>INT</b>).</li>
+    <li>La colonne référencée dans la table parent doit être une <b>clé primaire</b> ou avoir une contrainte <b>UNIQUE</b>.</li>
+    <li>Les clés étrangères ne fonctionnent qu’avec les moteurs de stockage supportant les contraintes (comme <b>InnoDB</b>, le moteur par défaut de MariaDB). MyISAM, par exemple, ne les prend pas en charge.</li>
+    <li>La colonne de la clé étrangère peut accepter <b>NULL</b> (sauf si spécifié <b>NOT NULL</b>), ce qui signifie qu’une relation peut être facultative.</li>
+</ul>
+
+<h3 id="exemples">7. Exemples pratiques</h3>
+<p>
+    <strong>Exemple 1</strong> : <b>Création et insertion</b>
+</p>
+<textarea class="code-php" id="ta-7">
+    CREATE TABLE utilisateurs (
+        id INT PRIMARY KEY,
+        nom VARCHAR(100)
+    );
+
+    CREATE TABLE commandes (
+        id INT PRIMARY KEY,
+        utilisateur_id INT,
+        FOREIGN KEY (utilisateur_id) REFERENCES utilisateurs(id)
+    );
+
+    INSERT INTO utilisateurs (id, nom) VALUES (1, 'Alice');
+    INSERT INTO commandes (id, utilisateur_id) VALUES (1, 1); -- OK
+    INSERT INTO commandes (id, utilisateur_id) VALUES (2, 2); -- Erreur : utilisateur_id 2 n’existe pas
+</textarea>
+<button id="copy-7" class="btn btn-secondary btn-sm" data-target="ta-7" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    <strong>Exemple 2</strong> : <b>Effet de ON DELETE CASCADE</b>
+</p>
+<textarea class="code-php" id="ta-8">
+    CREATE TABLE commandes (
+        id INT PRIMARY KEY,
+        utilisateur_id INT,
+        FOREIGN KEY (utilisateur_id) REFERENCES utilisateurs(id) ON DELETE CASCADE
+    );
+
+    INSERT INTO utilisateurs (id, nom) VALUES (1, 'Bob');
+    INSERT INTO commandes (id, utilisateur_id) VALUES (1, 1);
+    DELETE FROM utilisateurs WHERE id = 1; -- Supprime Bob et sa commande automatiquement
+</textarea>
+<button id="copy-8" class="btn btn-secondary btn-sm" data-target="ta-8" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p>
+    <strong>Exemple 3</strong> : <b>Jointure avec clé étrangère</b>
+</p>
+<textarea class="code-php" id="ta-9">
+    SELECT utilisateurs.nom, commandes.id
+    FROM utilisateurs
+    INNER JOIN commandes ON utilisateurs.id = commandes.utilisateur_id;
+</textarea>
+<button id="copy-9" class="btn btn-secondary btn-sm" data-target="ta-9" data-toggle="tooltip" title="Copy code">Copy</button>
+<p class="mt-4">
+    Ici, la clé étrangère <b>utilisateur_id</b> sert de pont pour associer les données des deux tables.
+</p>
+
+<h3 id="procons">8. Avantages et inconvénients</h3>
+<h4>Avantages</h4>
+<ul>
+    <li>Intégrité des données garantie.</li>
+    <li>Simplifie la gestion des relations complexes.</li>
+    <li>Automatisation via <b>CASCADE</b>, etc.</li>
+</ul>
+
+<h4>Inconvénients</h4>
+<ul>
+    <li>Peut ralentir les opérations (INSERT, UPDATE, DELETE) à cause des vérifications.</li>
+    <li>Complexifie la conception si mal utilisé.</li>    
+</ul>
+
+<h3 id="conclusion">9. Conclusion</h3>
+<p>
+    Les clés étrangères sont un outil fondamental pour structurer une base de données relationnelle. Elles assurent que les relations entre les tables 
+    restent cohérentes et permettent aux développeurs de s’appuyer sur ces liens pour des requêtes comme les jointures. Dans MariaDB, leur flexibilité 
+    (via <b>ON DELETE</b> et <b>ON UPDATE</b>) les rend particulièrement puissantes pour gérer des scénarios variés.
+</p>
+
+<h3 id="exercices">10. Exercice pour pratiquer</h3>
+<ol>
+    <li>Créez deux tables : <b>pays</b> (avec <b>id</b> et <b>nom</b>) et <b>villes</b> (avec <b>id</b>, <b>nom</b> et <b>pays_id</b> comme clé étrangère).</li>
+    <li>Ajoutez une contrainte <b>ON DELETE RESTRICT</b>.</li>
+    <li>Insérez des données et testez ce qui se passe si vous essayez de supprimer un pays avec des villes associées.</li>
+</ol>
+
+<a href="soluce/soluce.md" class="hidden-link" style="display: none;">Soluce</a>
