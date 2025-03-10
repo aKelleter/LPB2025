@@ -33,10 +33,11 @@ function loginWithArray(array $users, string $email, string $pwd): bool {
  * @param string $pwd 
  * @return bool 
  */
-function loginWithDataBase(object $pdo, string $email, string $pwd): bool {
+function loginWithDataBase(string $email, string $pwd): bool {
     
     //$passwd_hashed = password_hash($pwd, PASSWORD_DEFAULT);
     
+    $pdo = connectPDO();
     $sql = "SELECT * FROM users WHERE email = :email";
     $stmt = $pdo->prepare($sql);
     $stmt->execute(['email' => $email]);

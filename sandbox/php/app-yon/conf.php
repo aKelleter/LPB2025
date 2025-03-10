@@ -7,12 +7,14 @@ const APP_VERSION = 'v0.1.0';
 
 const PR = 'PR';        // print_r
 const VD = 'VARDUMP';   // var_dump 
+const DATABASE = 'database';
+const ARR = 'array';
 
-const TYPE_CONNECT = 'database'; // or array
+const TYPE_CONNECT = DATABASE; // database or array
  
 const USER_LIST = [
     ['email' => 'tom@tom.be', 'pwd' => '1234'],
-    ['email' => 'al@al.be', 'pwd' => '5678']
+    ['email' => 'ak@ak.be', 'pwd' => 'TYUPOI']
    ];
 
 const DB_HOST = 'localhost';

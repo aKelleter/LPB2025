@@ -12,13 +12,12 @@
         {   
             switch(TYPE_CONNECT) {
                 
-                case 'database':
-                    $pdo = connectPDO();
-                    if(loginWithDataBase($pdo, $_POST['login'], $_POST['password'])) {                        
+                case 'database':                    
+                    if(loginWithDataBase($_POST['login'], $_POST['password'])) {                        
                         header('Location: admin.php');
                         exit;
                     }else{
-                        $message = '<div class="alert alert-danger text-center">Identifiants incorrects</div>';
+                        $message = '<div id="message" class="alert alert-danger text-center">Identifiants incorrects</div>';
                     }
                     break;
 
@@ -27,11 +26,11 @@
                         header('Location: admin.php');
                         exit;
                     }else{
-                        $message = '<div class="alert alert-danger text-center">Identifiants incorrects</div>';
+                        $message = '<div id="message" class="alert alert-danger text-center">Identifiants incorrects</div>';
                     }
                     break;
                 default:
-                    $message = '<div class="alert alert-danger text-center">Type de connexion non défini</div>';
+                    $message = '<div id="message" class="alert alert-danger text-center">Type de connexion non défini</div>';
                     break;                
             }
         }    
@@ -72,5 +71,6 @@
         </div>        
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>  
+    <script src="assets/js/yon.js"></script>
 </body>
 </html>

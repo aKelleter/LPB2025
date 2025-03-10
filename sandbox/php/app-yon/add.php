@@ -23,31 +23,32 @@
             header('Location: admin.php?message=Un nouvel article a été ajouté');
             exit;
         } else {
-            $message = '<div class="alert alert-danger text-center">Erreur lors de l\'ajout</div>';
+            $message = '<div id="message" class="alert alert-danger text-center">Erreur lors de l\'ajout</div>';
         }
     }
     
 ?>
 <?= HTMLHead('Admin')?>
 <body>
-<div class="container">
-    <h1 class="mt-5 mb-5 text-center text-danger">YON : Administration</h1>  
-    <?= HTMLMenu('admin')?>
-    <hr>
-    <?php echo $message; ?>        
-    <h1 class="text-center">Ajouter un article</h1>
-    <form method="post">
-        <div class="mb-3">
-            <label class="form-label">Titre</label>
-            <input class="form-control" type="text" name="titre" required>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Contenu</label>
-            <textarea class="form-control" name="contenu" rows="5" required></textarea>
-        </div>
-        <button class="btn btn-primary" type="submit">Ajouter</button>
-        <a class="btn btn-secondary"  href="admin.php">Annuler</a>
-    </form>
-</div>  
+    <div class="container">
+        <h1 class="mt-5 mb-5 text-center text-danger">YON : Administration</h1>  
+        <?= HTMLMenu('admin')?>
+        <hr>
+        <?php echo $message; ?>        
+        <h1 class="text-center">Ajouter un article</h1>
+        <form method="post">
+            <div class="mb-3">
+                <label class="form-label">Titre</label>
+                <input class="form-control" type="text" name="titre" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Contenu</label>
+                <textarea class="form-control" name="contenu" rows="5" required></textarea>
+            </div>
+            <button class="btn btn-primary" type="submit">Ajouter</button>
+            <a class="btn btn-secondary"  href="admin.php">Annuler</a>
+        </form>
+    </div>  
+    <script src="assets/js/yon.js"></script>
 </body>
 </html>

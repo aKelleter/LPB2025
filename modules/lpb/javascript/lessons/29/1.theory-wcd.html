@@ -1,7 +1,485 @@
+<h3>Sommaire</h3>
+<ul>
+    <li><a href="#intro">Introduction</a></li>
+    <li><a href="#declare">Déclaration</a></li>
+    <li><a href="#at">Récupérer les derniers éléments avec “at”</a></li>
+    <li><a href="#pop">Les méthodes pop/push, shift/unshift</a></li>
+    <li><a href="#endtab">Méthodes qui fonctionnent avec la fin du tableau</a></li>
+    <li><a href="#starttab">Méthodes qui fonctionnent avec le début du tableau</a></li>
+    <li><a href="#fctint">Fonctionnement interne</a></li>
+    <li><a href="#perf">Performances</a></li>
+    <li><a href="#boucle">Les boucles</a></li>
+    <li><a href="#lengthplus">Un mot à propos de “length”</a></li>
+    <li><a href="#new">new Array()</a></li>
+    <li><a href="#multi">Tableaux multidimensionnels</a></li>
+    <li><a href="#tostring">toString</a></li>
+    <li><a href="#notcompare">Ne comparez pas les tableaux avec ==</a></li>
+</ul>
+<h3 id="intro">Introduction</h3>
 <p>
-    
+    Les objets vous permettent de stocker des collections de valeurs à clé. C’est très bien.
+    Mais assez souvent, nous trouvons qu’il nous faut une collection ordonnée, où nous avons un 1er, un 2ème, un 3ème élément, etc. Par exemple, nous avons besoin de 
+    cela pour stocker une liste de quelque chose : utilisateurs, trucs, éléments HTML, etc.
 </p>
-<h3></h3>
 <p>
-    ... en cours ...
+    Il n’est pas pratique d’utiliser un objet ici, car il ne fournit aucune méthode pour gérer l’ordre des éléments. Nous ne pouvons pas insérer une nouvelle propriété “entre” celles existantes. Les objets ne sont tout simplement pas destinés à un tel usage.
+    Il existe une structure de données spéciale appelée Array (tableau), pour stocker les collections ordonnées.
 </p>
+
+<h3 id="declare">Déclaration</h3>
+<p>
+    Il existe deux syntaxes pour créer un tableau vide :
+</p>
+<textarea class="code-php" id="ta-1">
+    let arr = new Array();
+    let arr = [];
+</textarea>
+<button id="copy-1" class="btn btn-secondary btn-sm" data-target="ta-1" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p>
+    La plupart du temps c’est la deuxième syntaxe qui est utilisée. Nous pouvons fournir des éléments initiaux entre parenthèses :
+</p>
+<textarea class="code-php" id="ta-2">
+    let fruits = ["Pomme", "Orange", "Poire"];
+</textarea>
+<button id="copy-2" class="btn btn-secondary btn-sm" data-target="ta-2" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    Les éléments de tableau sont numérotés en commençant par zéro. <br>
+    On peut obtenir un élément par son numéro grace aux crochets :
+</p>
+<textarea class="code-php" id="ta-3">
+    let fruits = ["Pomme", "Orange", "Poire"];
+
+    alert( fruits[0] ); // Pomme
+    alert( fruits[1] ); // Orange
+    alert( fruits[2] ); // Poire
+</textarea>
+<button id="copy-3" class="btn btn-secondary btn-sm" data-target="ta-3" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p>
+    Nous pouvons remplacer un élément :
+</p>
+<textarea class="code-php" id="ta-4">
+    let fruits = ["Pomme", "Orange", "Poire"];
+    fruits[2] = 'Banane';
+    alert( fruits ); // Pomme, Orange, Banane
+</textarea>
+<button id="copy-4" class="btn btn-secondary btn-sm" data-target="ta-4" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p>
+    …Ou en ajouter un nouveau au tableau :
+</p>
+<textarea class="code-php" id="ta-5">
+    let fruits = ["Pomme", "Orange"];
+    fruits[2] = 'Poire';
+    alert( fruits ); // Pomme, Orange, Poire
+</textarea>
+<button id="copy-5" class="btn btn-secondary btn-sm" data-target="ta-5" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p>
+    Le nombre total d’éléments dans le tableau est sa length (longueur) :
+</p>
+<textarea class="code-php" id="ta-6">
+    let fruits = ["Pomme", "Orange", "Poire"];
+    alert( fruits.length ); // 3
+</textarea>
+<button id="copy-6" class="btn btn-secondary btn-sm" data-target="ta-6" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p>
+    Nous l'avons déjà fait précédemment, mais nous pouvons également utiliser un <b>alert()</b> pour afficher l’ensemble du tableau :
+</p>
+<textarea class="code-php" id="ta-7">
+    let fruits = ["Pomme", "Orange", "Poire"];
+    alert( fruits ); // Pomme, Orange, Poire
+</textarea>
+<button id="copy-7" class="btn btn-secondary btn-sm" data-target="ta-7" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p>
+    Un tableau peut stocker des éléments de tout type. <br>
+    Par exemple :
+</p>
+<textarea class="code-php" id="ta-8">
+    // mélange de valeurs
+    let arr = [ 'Apple', { name: 'John' }, true, function() { alert('hello'); } ];
+
+    // récupère l'objet à l'index 1 et montre ensuite son nom
+    alert( arr[1].name ); // John
+
+    // affiche la fonction à l'index 3 et l'exécute la
+    rr[3](); // hello
+</textarea>
+<button id="copy-8" class="btn btn-secondary btn-sm" data-target="ta-8" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<div class="alert alert-info mt-4">
+    <p>
+        <st-r>Trailing comma (virgule de fin) :</str> <hr>
+        <p>Un tableau, comme pour un objet, peut se terminer par une virgule :</p>
+        <textarea class="code-php" id="">
+            let fruits = [
+                "Apple",
+                "Orange",
+                "Lemon",
+            ];
+        </textarea>
+        <p>
+            Le style “virgule de fin” facilite l’insertion et la suppression d’éléments, car toutes les lignes se ressemblent.
+        </p>
+    </p>
+</div>
+
+<h3 id="at">Récupérer les derniers éléments avec “at”</h3>
+<p>
+    Disons que nous voulons le dernier élément du tableau.
+    Certains langages de programmation permettent l’utilisation d’index négatifs pour ça, comme <b>fruits[-1]</b>. <br>
+    Tandis qu’en JavaScript ça ne fonctionnera pas. Le résultat sera <b>undefined</b>, parce que l’index dans les crochets est traité littéralement.
+    Nous pouvons calculer explicitement l’index du dernier élément et donc y accéder: <b>fruits[fruits.length - 1]</b>.
+</p>
+<textarea class="code-php" id="ta-9">
+    let fruits = ["Apple", "Orange", "Lemon"];
+    alert( fruits[fruits.length-1] ); // Lemon
+</textarea>
+<button id="copy-9" class="btn btn-secondary btn-sm" data-target="ta-9" data-toggle="tooltip" title="Copy code">Copy</button>
+<p class="mt-4">
+    Un peu lourd, n’est-ce pas ? Nous devons écrire le même nom de variable deux fois. <br>
+    Heureusement, il y a une syntaxe plus courte : <b>fruits.at(-1)</b> :    
+</p>
+<textarea class="code-php" id="ta-10">
+    let fruits = ["Apple", "Orange", "Lemon"];
+    alert( fruits.at(-1) ); // Lemon
+</textarea>
+<button id="copy-10" class="btn btn-secondary btn-sm" data-target="ta-10" data-toggle="tooltip" title="Copy code">Copy</button>
+<p class="mt-4">
+    En d’autres termes, <b>arr.at(i)</b>
+    <ul>
+        <li>est exactement identique à <b>arr[i]</b>, si <b>i >= 0</b>.</li>
+        <li>pour les valeurs négatives de <b>i</b>, ça recule depuis la fin du tableau.</li>
+    </ul>
+</p>
+
+<h3 id="pop">Les méthodes pop/push, shift/unshift</h3>
+<p>
+    Une queue (file d’attente) est l’une des utilisations les plus courantes pour les tableaux. En informatique, cela signifie une collection ordonnée d’éléments qui supporte deux opérations :
+    <ul>
+        <li><b>push</b> ajoute un élément à la fin.</li>
+        <li><b>shift</b> enlève un élément depuis le début, en faisant avancer la file d’attente, de sorte que le deuxième élément devienne le premier.</li>
+    </ul>
+</p>
+<img src="img/queue.svg" alt="queue" class="img-fluid">
+
+<p>
+    Les tableaux prennent en charge les deux opérations.
+    En pratique, nous en avons besoin très souvent. Par exemple, une file d’attente de messages devant être affichés à l’écran.
+    Il y a un autre cas d’utilisation pour les tableaux – la structure de données nommée <b>stack</b> (pile verticale).
+</p>
+<p>
+    Il supporte deux opérations :
+    <ul>
+        <li><b>push</b> ajoute un élément à la fin.</li>
+        <li><b>pop</b> enlève un élément de la fin.</li>
+    </ul>
+
+    Ainsi, de nouveaux éléments sont ajoutés ou enlevés toujours à partir de la “fin”. <br>
+    Une <b>stack</b> (pile) est généralement illustrée par un jeu de cartes. De nouvelles cartes sont ajoutées ou enlevées par le haut.
+</p>
+<img src="img/stack.svg" alt="stack" class="img-fluid">
+
+<p>
+    Pour les stacks (piles), le dernier élément envoyé est reçu en premier, c’est le principe LIFO (Last-In-First-Out, dernier entré, premier sorti). Pour les files d’attente, 
+    nous avons FIFO (First-In-First-Out, premier entré, premier sorti). <br>
+    Les tableaux en JavaScript peuvent fonctionner à la fois en queue et en stack. Ils vous permettent d’ajouter ou supprimer des éléments à la fois par le début ou par la fin.
+    En informatique, la structure de données qui permet cela s’appelle "<a target="_blank" href="https://en.wikipedia.org/wiki/Double-ended_queue">Double-ended queue</a>".
+</p>
+
+<h4 id="endtab">Méthodes qui fonctionnent avec la fin du tableau :</h4>
+
+<h5>pop</h5>
+<p>
+    Extrait le dernier élément du tableau et le renvoie :
+</p>
+<textarea class="code-php" id="ta-11">
+    let fruits = ["Apple", "Orange", "Lemon"];
+    alert( fruits.pop() ); // supprime "Lemon" et l'alerte
+    alert( fruits ); // Apple, Orange
+</textarea>
+<button id="copy-11" class="btn btn-secondary btn-sm" data-target="ta-11" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    Les deux méthodes <b>fruits.pop()</b> et <b>fruits.at(-1)</b> renvoient le dernier élément du tableau, mais <b>fruits.pop()</b> modifie également le tableau en supprimant l’élément.
+</p>
+
+<h5>push</h5>
+<p>
+    Ajoute l’élément à la fin du tableau :
+</p>
+<textarea class="code-php" id="ta-12">
+    let fruits = ["Apple", "Orange"];
+    fruits.push("Lemon");
+    alert( fruits ); // Apple, Orange, Lemon
+</textarea>
+<button id="copy-12" class="btn btn-secondary btn-sm" data-target="ta-12" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    L’appel de fruits.push(...) est égal à fruits[fruits.length] = ....
+</p>
+
+<h4 id="starttab">Méthodes qui fonctionnent avec le début du tableau :</h4>
+
+<h5>shift</h5>
+<p>
+    Extrait le premier élément du tableau et le renvoie :
+</p>
+<textarea class="code-php" id="ta-13">
+    let fruits = ["Apple", "Orange", "Lemon"];
+    alert( fruits.shift() ); // supprime "Apple" et l'alerte
+    alert( fruits ); // Orange, Lemon
+</textarea>
+<button id="copy-13" class="btn btn-secondary btn-sm" data-target="ta-13" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h5>unshift</h5>
+<p>
+    Ajoute l’élément au début du tableau :
+</p>
+<textarea class="code-php" id="ta-14">
+    let fruits = ["Orange", "Lemon"];
+    fruits.unshift('Apple');
+    alert( fruits ); // Apple, Orange, Lemon
+</textarea>
+<button id="copy-14" class="btn btn-secondary btn-sm" data-target="ta-14" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p>
+    Les méthodes <b>push</b> et <b>unshift</b> peuvent ajouter plusieurs éléments à la fois :
+</p>
+<textarea class="code-php" id="ta-15">
+    let fruits = ["Apple"];
+
+    fruits.push("Orange", "Peach");
+    fruits.unshift("Pineapple", "Lemon");
+
+    // ["Pineapple", "Lemon", "Apple", "Orange", "Peach"]
+    alert( fruits );
+</textarea>
+<button id="copy-15" class="btn btn-secondary btn-sm" data-target="ta-15" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h3 id="fctint">Fonctionnement interne</h3>
+<p>
+    Ce qui rend les tableaux vraiment spéciaux, c’est leur représentation interne. Le moteur tente de stocker ses éléments dans une zone de mémoire contiguë, l’un après l’autre, 
+    exactement comme le montrent les illustrations de ce chapitre. 
+</p>
+<p>
+    Mais ils se cassent tous si nous arrêtons de travailler avec un tableau comme avec une “collection ordonnée” et commençons à le travailler comme s’il s’agissait d’un objet normal. <br>
+    Par exemple, techniquement, nous pouvons faire ceci :
+</p>
+<textarea class="code-php" id="ta-16">
+    let fruits = []; // créer un tableau
+    fruits[99999] = 5; // assigne une propriété avec un index beaucoup plus grand que sa longueur
+    fruits.age = 25; // créer une propriété avec un nom arbitraire
+</textarea>
+<button id="copy-16" class="btn btn-secondary btn-sm" data-target="ta-16" data-toggle="tooltip" title="Copy code">Copy</button>
+<p class="mt-4">
+    C’est possible, car les tableaux sont des objets à leur base. Nous pouvons leur ajouter des propriétés.
+    Mais le moteur verra que nous travaillons avec le tableau comme avec un objet normal. Les optimisations spécifiques à un tableau ne sont pas adaptées à ce type de situation et seront désactivées. Leurs avantages disparaissent.
+</p>
+<p>
+Les moyens de casser un tableau :
+
+<ul>
+    <li>Ajouter une propriété non numérique comme <b>arr.test = 5</b>.</li>
+    <li>Faire des trous, comme ajouter <b>arr[0]</b> et ensuite <b>arr[1000]</b> (et rien entre eux).</li>
+    <li>Remplire le tableau dans l’ordre inverse, comme <b>arr[1000]</b>, <b>arr[999]</b> etc.</li>
+</ul>
+
+Veuillez considérer les tableaux comme des structures spéciales pour travailler avec les données ordonées. 
+Ils fournissent des méthodes spéciales pour cela. Les tableaux sont soigneusement réglés dans les moteurs JavaScript pour fonctionner avec des données ordonnées contiguës, 
+veuillez les utiliser de cette manière. Et si vous avez besoin de clés arbitraires, il y a de fortes chances pour que vous ayez réellement besoin d’un objet régulier <b>{}</b>.   
+</p>
+
+<h3 id="perf">Performances</h3>
+<p>
+    Les méthodes <b>push/pop</b> vont vite, alors que <b>shift/unshift</b> sont lentes.
+</p>
+<p>
+    Pourquoi est-il plus rapide de travailler avec la fin d’un tableau qu’avec son début ? Voyons ce qui se passe pendant l’exécution :
+    <code>fruits.shift(); // prends 1 élément du début</code>
+</p>
+<p>
+    Il ne suffit pas de prendre l’élément avec le nombre 0. D’autres éléments doivent également être renumérotés. <br>
+    L’opération shift doit faire 3 choses :
+    <ul>
+        <li>Supprimer l’élément avec l’index 0.</li>
+        <li>Déplacer tous les éléments à gauche, les renuméroter de l’index 1 à 0, de 2 à 1, etc.</li>
+        <li>Mettre à jour la propriété <b>length</b>.</li>
+    </ul>
+
+    <st-r>Plus il y a d’éléments dans le tableau, plus il y faut de temps pour les déplacer, plus il y a d’opérations en mémoire.</st-r> <br> <br>
+    La même chose se produit avec <b>unshift</b>. Pour ajouter un élément au début du tableau, nous devons d’abord déplacer les éléments existants 
+    vers la droite, en augmentant leur index.    
+</p>
+<p>
+    <st-r>La méthode <b>pop</b> n’a pas besoin de déplacer quoi que ce soit, car les autres éléments conservent leurs index. C’est pourquoi c’est extrêmement rapide.</st-r> <br>
+    La même chose avec la méthode <b>push</b>.
+</p>
+
+<h3 id="boucle">Les boucles</h3>
+<p>
+    L’une des méthodes les plus anciennes pour cycler des éléments de tableau est la boucle <b>for</b> sur les index :
+</p>
+<textarea class="code-php" id="ta-17">
+    let arr = ["Apple", "Orange", "Pear"];
+
+    for (let i = 0; i < arr.length; i++) {
+      alert( arr[i] );
+    }
+</textarea>
+<button id="copy-17" class="btn btn-secondary btn-sm" data-target="ta-17" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p>
+    Mais pour les tableaux, il existe une autre forme de boucle, <b>for..of</b> :
+</p>
+<textarea class="code-php" id="ta-18">
+    let fruits = ["Apple", "Orange", "Pear"];
+
+    for (let fruit of fruits) {
+      alert( fruit );
+    }
+</textarea>
+<button id="copy-18" class="btn btn-secondary btn-sm" data-target="ta-18" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    Le <b>for..of</b> ne donne pas accès au numéro de l’élément actuel (index), mais à sa valeur, mais dans la plupart des cas, cela suffit. Et c’est plus court. <br>
+    Techniquement, comme les tableaux sont des objets, il est également possible d’utiliser <b>for..in</b> :
+</p>
+<textarea class="code-php" id="ta-19">
+    let arr = ["Apple", "Orange", "Pear"];
+
+    for (let key in arr) {
+      alert( arr[key] ); // Apple, Orange, Pear
+    }
+</textarea>
+<button id="copy-19" class="btn btn-secondary btn-sm" data-target="ta-19" data-toggle="tooltip" title="Copy code">Copy</button>
+<p class="mt-4">
+    Mais c’est en fait une mauvaise idée. Il y a des problèmes potentiels avec cela :
+
+    <ol>
+        <li>La boucle <b>for..in</b> itère sur toutes les propriétés, pas seulement les propriétés numériques.</li>
+        <li>La boucle <b>for..in</b> est optimisée pour les objets génériques, pas pour les tableaux, elle est 10-100 fois plus lente. </li>
+    </ol>
+
+    <st-r>En règle générale, nous ne devrions pas utiliser <b>for..in</b> pour les tableaux.</st-r>
+</p>
+
+<h3 id="lengthplus">Un mot à propos de “length”</h3>
+<p>
+    La propriété <b>length</b> est automatiquement mise à jour lorsque nous modifions le tableau. Pour être précis, il ne s’agit pas du nombre de valeurs du tableau, 
+    mais du plus grand index numérique plus un. <br>
+    Par exemple, un seul élément avec un grand index donne une grande longueur :
+</p>
+<textarea class="code-php" id="ta-20">
+    let fruits = [];
+    fruits[123] = "Apple";
+
+    alert( fruits.length ); // 124
+</textarea>
+<button id="copy-20" class="btn btn-secondary btn-sm" data-target="ta-20" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p>
+    Notez que nous n’utilisons généralement pas de tableaux de ce type. <br>
+    Une autre chose intéressante à propos de la propriété length est qu’elle est accessible en écriture. <br>
+    Si nous l’augmentons manuellement, rien d’intéressant ne se produit. Mais si nous le diminuons, le tableau est tronqué. Le processus est irréversible, voici l’exemple :
+</p>
+<textarea class="code-php" id="ta-21">
+    let arr = [1, 2, 3, 4, 5];
+
+    arr.length = 2; // tronque à 2 éléments
+    alert( arr ); // [1, 2]
+
+    arr.length = 5; // retourne la length d'origine
+    alert( arr[3] ); // undefined: les valeurs ne reviennent pas
+</textarea>
+<button id="copy-21" class="btn btn-secondary btn-sm" data-target="ta-21" data-toggle="tooltip" title="Copy code">Copy</button>
+<p>
+    Ainsi, le moyen le plus simple pour effacer le tableau est d'initialiser sa longeur à 0 : <b>arr.length = 0</b>;.
+</p>
+
+<h3 id="new">new Array()</h3>
+<p>
+    Il y a une syntaxe supplémentaire pour créer un tableau :
+</p>
+<textarea class="code-php" id="ta-22">
+    let arr = new Array("Apple", "Pear", "etc");
+</textarea>
+<button id="copy-22" class="btn btn-secondary btn-sm" data-target="ta-22" data-toggle="tooltip" title="Copy code">Copy</button>
+<p class="mt-4">
+    Il est rarement utilisé, car les crochets <b>[]</b> sont plus courts. En outre, il comporte une caractéristique délicate.
+    Si <b>new Array</b> est appelé avec un seul argument qui est un nombre, il crée un tableau sans éléments, mais avec la longueur donnée.
+    Voyons comment on peut se tirer une balle dans le pied :
+</p>
+<textarea class="code-php" id="ta-23">
+    let arr = new Array(2); // va-t-il créer un tableau de [2] ?
+    alert( arr[0] ); // undefined! pas d'éléments.    
+    alert( arr.length ); // length 2
+</textarea>
+<button id="copy-23" class="btn btn-secondary btn-sm" data-target="ta-23" data-toggle="tooltip" title="Copy code">Copy</button>
+<p>
+    Pour éviter de telles surprises, nous utilisons généralement des crochets, sauf si nous savons vraiment ce que nous faisons.
+</p>
+
+<h3 id="multi">Tableaux multidimensionnels</h3>
+<p>
+    Les tableaux peuvent avoir des éléments qui sont aussi des tableaux. On peut l’utiliser pour des tableaux multidimensionnels, pour stocker des matrices :
+</p>
+<textarea class="code-php" id="ta-24">
+    let matrix = [
+        [1, 2, 3],
+        [4, 5, 6],
+        [7, 8, 9]
+    ];
+
+    alert( matrix[1][1] ); // 5, le centre
+</textarea>
+<button id="copy-24" class="btn btn-secondary btn-sm" data-target="ta-24" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h3 id="tostring">toString</h3>
+<p>
+    Les tableaux ont leur propre implémentation de la méthode toString qui renvoie une liste d’éléments séparés par des virgules. <br>
+    Par exemple :
+</p>
+<textarea class="code-php" id="ta-25">
+    let arr = [1, 2, 3];
+
+    alert( arr ); // 1,2,3
+    alert( String(arr) === '1,2,3' ); // true
+</textarea>
+<button id="copy-25" class="btn btn-secondary btn-sm" data-target="ta-25" data-toggle="tooltip" title="Copy code">Copy</button>
+
+
+<h3 id="notcompare">Ne comparez pas les tableaux avec ==</h3>
+<p>
+    Les tableaux en JavaScript, contrairement à certains autres langages de programmation, ne doivent pas être comparés avec l’opérateur <b>==</b>. <br>
+    Cet opérateur n’a pas de traitement spécial pour les tableaux, il fonctionne avec eux comme avec n’importe quel objet.
+    <br>
+    Rappelons les règles : <br>
+    <ul>
+        <li>Deux objets sont égaux <b>==</b> uniquement s’ils font référence au même objet.</li>
+        <li>Si l’un des arguments de <b>==</b> est un objet, et l’autre est une primitive, alors l’objet est converti en primitif, comme expliqué dans le chapitre Conversion d'objet en primitive.</li>
+        <li>…À l’exception de <b>null</b> et <b>undefined</b> qui s’égalent <b>==</b> l’un l’autre et rien d’autre.</li>
+    </ul>
+
+    La comparaison stricte <b>===</b> est encore plus simple, car elle ne convertit pas les types. <br>
+    Donc, si nous comparons des tableaux avec <b>==</b>, ils ne sont jamais les mêmes, sauf si nous comparons deux variables qui référencent exactement le même tableau.
+    Par exemple :
+</p>
+<textarea class="code-php" id="ta-26">
+    alert( [] == [] ); // false
+    alert( [0] == [0] ); // false
+</textarea>
+<button id="copy-26" class="btn btn-secondary btn-sm" data-target="ta-26" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p>
+    Ces tableaux sont des objets techniquement différents. Donc, ils ne sont pas égaux. L’opérateur <b>==</b> ne fait pas de comparaison élément par élément.    
+</p>
+<p>
+    Alors, comment comparer des tableaux ? <br>
+    C’est simple, n’utilisez pas l’opérateur <b>==</b>. Au lieu de cela, <st-r>comparez-les élément par élément dans une boucle</st-r> ou en utilisant les <st-r>méthodes d’itération</st-r> expliquées dans la prochaine leçon.
+</p>
+
