@@ -15,11 +15,12 @@
     if(isset($_GET['id'])) {
         $id = $_GET['id'];
         $article = SQLLoadArticleByID($id);
-        //DEBUG// Aprint($article);
+        //DEBUG// 
+        Aprint($article);
 
         // Si l'article n'existe pas
         if(empty($article)) {
-             $message = '<div id="message" class="alert alert-danger text-center">Article non trouvé</div>';
+            $message = '<div id="message" class="alert alert-danger text-center">Article non trouvé</div>';
             $article['titre'] = '';
             $article['contenu'] = '';
         }       

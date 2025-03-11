@@ -3,6 +3,7 @@
  
     $message = '';
     $articles = SQLSelectAll('articles');
+    //DEBUG//Aprint($articles);
     
 ?>
 <?= HTMLHead('Accueil')?>

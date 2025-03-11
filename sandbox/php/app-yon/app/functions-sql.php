@@ -27,6 +27,7 @@ function connectPDO(): mixed {
  */
 function SQLSelectAll(string $table, array $fields = ['*']): array {
     $pdo = connectPDO();
+    //$sql = "SELECT * FROM $table";
     $sql = "SELECT ".implode(', ', $fields)." FROM $table ORDER BY id DESC";
     $req = $pdo->prepare($sql);
     $req->execute();
