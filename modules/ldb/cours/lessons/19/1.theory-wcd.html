@@ -1,0 +1,134 @@
+<h3 id="intro">1. Introduction</h3>
+<p>
+    Les cardinalités dans les relations entre tables sont mises en place à l'aide de contraintes d'intégrité référentielle, principalement via les <b>clés primaires</b> et les <b>clés étrangères</b>. <br>
+    Les cardinalités définissent le nombre d'occurrences d'une entité qui peuvent être associées à une autre dans une relation (par exemple, 1:1, 1:N, ou N:M). <br>
+    Voici comment les implémenter étape par étape :
+</p>
+
+<h3 id="comprendre">2. Comprendre les types de cardinalités</h3>
+<ul>
+    <li><st-r>1:1 (un à un)</st-r> : Une occurrence d'une table A est liée à une seule occurrence d'une table B, et vice versa.</li>
+    <li><st-r>1:N (un à plusieurs)</st-r> : Une occurrence d'une table A peut être liée à plusieurs occurrences d'une table B, mais une occurrence de B est liée à une seule occurrence de A.</li>
+    <li><st-r>N:M (plusieurs à plusieurs)</st-r> : Plusieurs occurrences de A peuvent être liées à plusieurs occurrences de B, nécessitant une table d'association.</li>
+</ul>
+
+<h3 id="outils">3. Les outils SQL pour gérer les cardinalités</h3>
+<ul>
+    <li><st-r>Clé primaire (PRIMARY KEY)</st-r> : Identifie de manière unique chaque ligne d'une table.</li>
+    <li><st-r>Clé étrangère (FOREIGN KEY)</st-r> : Établit une relation entre deux tables en référençant la clé primaire d'une autre table.</li>
+    <li><st-r>Contraintes</st-r> : comme <b>NOT NULL</b>, <b>UNIQUE</b>, ou <b>ON DELETE/ON UPDATE</b> pour préciser le comportement des relations.</li>
+</ul>
+
+<h3 id="exemples">4. Mise en place des cardinalités avec exemples</h3>
+<h4>a) Relation 1:1 (un à un)</h4>
+<p>
+    <u>Exemple</u> : Une table <b>Personnes</b> et une table <b>Passeports</b>, où chaque personne a un seul passeport et chaque passeport appartient à une seule personne.
+</p>
+
+<textarea class="code-php" id="ta-1">
+    CREATE TABLE Personnes (
+    id_personne INT AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(100) NOT NULL
+    );
+
+    CREATE TABLE Passeports (
+        id_passeport INT AUTO_INCREMENT PRIMARY KEY,
+        numero VARCHAR(20) NOT NULL UNIQUE,
+        id_personne INT UNIQUE, -- UNIQUE garantit la cardinalité 1:1
+        FOREIGN KEY (id_personne) REFERENCES Personnes(id_personne)
+    );
+</textarea>
+<button id="copy-1" class="btn btn-secondary btn-sm" data-target="ta-1" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p>
+    La contrainte <b>UNIQUE</b> sur <b>id_personne</b> dans <b>Passeports</b> garantit qu’une personne ne peut être associée qu’à un seul passeport.
+</p>
+
+<h4>b) Relation 1:N (un à plusieurs)</h4>
+<p>
+    <u>Exemple</u> : Une table <b>Clients</b> et une table <b>Commandes</b>, où un client peut avoir plusieurs commandes, mais une commande appartient à un seul client.
+</p>
+<textarea class="code-php" id="ta-2">
+    CREATE TABLE Clients (
+    id_client INT AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(100) NOT NULL
+    );
+
+    CREATE TABLE Commandes (
+        id_commande INT AUTO_INCREMENT PRIMARY KEY,
+        date_commande DATE,
+        id_client INT,
+        FOREIGN KEY (id_client) REFERENCES Clients(id_client)
+    );
+</textarea>
+<button id="copy-2" class="btn btn-secondary btn-sm" data-target="ta-2" data-toggle="tooltip" title="Copy code">Copy</button>
+<p>
+    Ici, <b>id_client</b> dans <b>Commandes</b> peut apparaître plusieurs fois (plusieurs commandes par client), mais il référence un seul <b>id_client</b> dans Clients.
+</p>
+
+<h4>c) Relation N:M (plusieurs à plusieurs)</h4>
+<p>
+    <u>Exemple</u> : Une table <b>Etudiants</b> et une table <b>Cours</b>, où un étudiant peut suivre plusieurs cours et un cours peut être suivi par plusieurs étudiants. 
+    Cela nécessite une table d'association.
+</p>
+<textarea class="code-php" id="ta-3">
+    CREATE TABLE Etudiants (
+    id_etudiant INT AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(100) NOT NULL
+    );
+
+    CREATE TABLE Cours (
+        id_cours INT AUTO_INCREMENT PRIMARY KEY,
+        titre VARCHAR(100) NOT NULL
+    );
+
+    CREATE TABLE Inscriptions (
+        id_etudiant INT,
+        id_cours INT,
+        PRIMARY KEY (id_etudiant, id_cours), -- Clé composite
+        FOREIGN KEY (id_etudiant) REFERENCES Etudiants(id_etudiant),
+        FOREIGN KEY (id_cours) REFERENCES Cours(id_cours)
+    );
+</textarea>
+<button id="copy-3" class="btn btn-secondary btn-sm" data-target="ta-3" data-toggle="tooltip" title="Copy code">Copy</button>
+<p>
+    La table <b>Inscriptions</b> lie les deux tables avec une clé primaire composite (<b>id_etudiant</b>, <b>id_cours</b>), permettant de gérer la cardinalité <b>N:M</b>.
+</p>
+
+<h3 id="supp">5. Contraintes supplémentaires</h3>
+<ul>
+    <li>
+        <st-r>ON DELETE et ON UPDATE</st-r> : Vous pouvez spécifier des actions comme <b>CASCADE</b>, <b>RESTRICT</b>, ou <b>SET NULL</b> pour gérer ce qui se passe lorsqu’une ligne 
+        liée est supprimée ou mise à jour. Exemple :
+        <textarea class="code-php" id="ta-4">
+            FOREIGN KEY (id_client) REFERENCES Clients(id_client) ON DELETE CASCADE
+        </textarea>
+        <button id="copy-4" class="btn btn-secondary btn-sm" data-target="ta-4" data-toggle="tooltip" title="Copy code">Copy</button>
+        <p>
+            (Si un client est supprimé, toutes ses commandes le sont aussi.)
+        </p>
+    </li>
+    <li>
+        <st-r>NOT NULL</st-r> : Pour s'assurer qu'une relation est obligatoire (par exemple, une commande doit toujours avoir un client).
+    </li>
+</ul>
+
+<h3 id="vérif">6. Vérification des cardinalités</h3>
+<p>
+    Pour tester vos relations :
+</p>
+<ul>
+    <li>Insérez des données et vérifiez si les contraintes fonctionnent (par exemple, essayer d’ajouter deux passeports à une personne en 1:1 devrait échouer).</li>
+    <li>Utilisez des requêtes comme <b>SELECT</b> avec <b>JOIN</b> pour voir les relations en action.</li>
+</ul>
+
+
+<h3 id="conclusion">7. Conclusion</h3>
+<p>
+    Avec un SGBDR tel que MariaDB avec SQL, les cardinalités sont implémentées via :
+</p>
+<ul>
+    <li><st-r>1:1</st-r> : Clé étrangère + contrainte <b>UNIQUE</b>.</li>
+    <li><st-r>1:N</st-r> : Clé étrangère simple sans unicité.</li>
+    <li><st-r>N:M</st-r> : Table d’association avec deux clés étrangères.</li>
+</ul>

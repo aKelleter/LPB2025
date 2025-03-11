@@ -24,17 +24,26 @@
                             Contexte : 
                         </p>
                         <p>
-                            Une bibliothèque scolaire souhaite informatiser la gestion de ses prêts de livres. Chaque élève peut emprunter des livres et doit les rendre dans un délai de 15 jours. Le bibliothécaire doit pouvoir suivre les emprunts et savoir quels livres sont disponibles. <br>
-                            Travail demandé : 
+                            Vous êtes chargé(e) de créer une base de données pour gérer une bibliothèque scolaire. La bibliothèque contient des livres, des emprunteurs (élèves ou professeurs), et suit les emprunts. Voici les règles :
                         </p>                            
-                            <h6>Analyse du contexte</h6>
+                            <h4>Contexte</h4>
                             <ul>
-                                <li>Identifier les entités principales (ex : livre, élève, emprunt…).</li>
-                                <li>Déterminer les relations entre ces entités (ex : un élève peut emprunter plusieurs livres…).</li>
-                                <li>Définir les cardinalités.</li>
+                                <li>Un livre peut être emprunté par un seul emprunteur à la fois (relation 1:1 entre un livre et son emprunt actuel).</li>
+                                <li>Un emprunteur peut emprunter plusieurs livres au fil du temps (relation 1:N entre emprunteurs et emprunts).</li>
+                                <li>Certains livres appartiennent à des catégories (comme "Science", "Littérature"), et une catégorie peut contenir plusieurs livres (relation 1:N entre catégories et livres).</li>
                             </ul>
 
-                            <h6>Création du modèle conceptuel de données (MCD)</h6>
+                            <h4>Objectif</h4>
+                            <p>
+                                Vous devrez concevoir un modèle de données pour gérer cette bibliothèque. Pour cela, vous devrez :
+                            </p>
+                            <ul>
+                                <li>Créer les tables avec les bonnes cardinalités.</li>
+                                <li>Ajouter des contraintes (clés primaires, clés étrangères).</li>
+                                <li>Insérer des données pour tester les relations.</li>
+                            </ul>
+
+                            <h4>Création du modèle conceptuel de données (MCD)</h4>
                             <ul>
                                 <li>Représenter les entités, leurs attributs et les relations entre elles sous forme d’un diagramme entité-association.</li>
                                 <li>Indiquer les contraintes (clé primaire, cardinalités…).</li>
@@ -52,16 +61,27 @@
 
                             <h6>Exemples d’attributs :</h6>
                             <ul>
-                                <li>Élève : id_eleve, nom, prénom, classe</li>
-                                <li>Livre : id_livre, titre, auteur, année_publication</li>
-                                <li>Emprunt : id_emprunt, date_emprunt, date_retour, id_eleve (FK), id_livre (FK)</li>
-                            </ul>
+                                <li>
+                                    <st-r>Categories</st-r> : contient les catégories de livres. <br>
+                                    Colonnes : id_categorie (clé primaire), nom_categorie.
+                                </li>
 
-                            <h6>Exemple de relations :</h6>
-                            <ul>
-                                <li>Un élève peut emprunter plusieurs livres, mais un livre ne peut être emprunté que par un seul élève à la fois.</li>
-                                <li>Un livre appartient à une catégorie.</li>
+                                <li>
+                                    <st-r>Livres</st-r> : contient les livres de la bibliothèque. <br>
+                                    Colonnes : id_livre (clé primaire), titre, id_categorie (clé étrangère vers Categories).
+                                </li>
+
+                                <li>
+                                    <st-r>Emprunteurs</st-r> : contient les personnes qui empruntent. <br>
+                                    Colonnes : id_emprunteur (clé primaire), nom.
+                                </li>
+                                <li>
+                                    <st-r>Emprunts</st-r> : suit les emprunts actuels. <br>
+                                    Colonnes : id_emprunt (clé primaire), id_livre (clé étrangère vers Livres, unique pour garantir 1:1), id_emprunteur (clé étrangère vers Emprunteurs), date_emprunt.
+                                </li>
+                                
                             </ul>
+                            
                             
                         <h5>3. Livrables attendus :</h5>
                         <ul>
