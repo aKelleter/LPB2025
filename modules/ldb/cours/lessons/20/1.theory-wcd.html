@@ -1,0 +1,227 @@
+<h3 id="intro">1. Contexte</h3>
+<p>
+    Vous devez créer une base de données pour gérer un club de sport scolaire. Le club organise des <b>équipes</b>, recrute des <b>membres</b> (élèves), et attribue des <b>entraîneurs</b>et des <b>participations</b>.
+    Voici les règles :
+</p>
+<ol>
+    <li>Chaque équipe a un seul entraîneur (relation 1:1 entre Equipes et Entraîneurs).</li>
+    <li>Un membre peut participer à plusieurs équipes au fil du temps (relation 1:N entre Membres et Participations).</li>
+    <li>Chaque équipe appartient à une catégorie de sport (comme "Football", "Basket"), et une catégorie regroupe plusieurs équipes (relation 1:N entre Categories et Equipes).</li>
+</ol>
+
+<h3 id="objkectif">2. Objectif</h3>
+<p>
+    Vous devrez :
+</p>
+<ul>
+    <li>Créer les tables avec les cardinalités appropriées.</li>
+    <li>Ajouter des contraintes (clés primaires, clés étrangères).</li>
+    <li>Insérer des données pour tester les relations.</li>
+</ul>
+
+<h3 id="instructions">3. Vos instructions</h3>
+
+<h4>Étape 1 : Création des tables</h4>
+Créez les tables suivantes dans MariaDB avec les colonnes et contraintes nécessaires :
+<ol>
+    <li>
+        <st-r>Categories</st-r> : contient les catégories de sport.
+        <ul>
+            <li>Colonnes : <b>id_categorie</b> (clé primaire), <b>nom_categorie</b>.</li>            
+        </ul>
+    </li>
+    <li>
+        <st-r>Entraîneurs</st-r> : entraîneurs du club.
+        <ul>
+            <li>Colonnes : <b>id_entraineur</b> (clé primaire), <b>nom</b>.</li>            
+        </ul>
+    </li>
+    <li>
+        <st-r>Equipes</st-r> : contient les équipes du club.
+        <ul>
+            <li>Colonnes : <b>id_equipe</b> (clé primaire), <b>nom_equipe</b>, <b>id_categorie</b> (clé étrangère vers Categories), <b>id_entraineur</b> (clé étrangère vers Entraîneurs, unique pour 1:1)..</li>
+        </ul>
+    </li>
+    <li>
+        <st-r>Membres</st-r> : contient les membres du club.
+        <ul>
+            <li>Colonnes : <b>id_membre</b> (clé primaire), <b>nom</b>.</li>
+        </ul>
+    </li>
+    <li>
+        <st-r>Participations</st-r> : suit les participations des membres aux équipes.
+        <ul>
+            <li>Colonnes : <b>id_participation</b> (clé primaire), <b>id_equipe</b> (clé étrangère vers Equipes), <b>id_membre</b> (clé étrangère vers Membres), <b>date_debut.</b>.</li>
+        </ul>
+    </li>
+</ol>
+
+<h4>Étape 2 : Écriture du code SQL</h4>
+<p>
+    Voici une solution possible :
+</p>
+<textarea class="code-php" id="ta-1">
+    -- Table Categories
+    CREATE TABLE Categories (
+        id_categorie INT AUTO_INCREMENT PRIMARY KEY,
+        nom_categorie VARCHAR(50) NOT NULL
+    );
+
+    -- Table Entraîneurs
+    CREATE TABLE Entraîneurs (
+        id_entraineur INT AUTO_INCREMENT PRIMARY KEY,
+        nom VARCHAR(100) NOT NULL
+    );
+
+    -- Table Equipes
+    CREATE TABLE Equipes (
+        id_equipe INT AUTO_INCREMENT PRIMARY KEY,
+        nom_equipe VARCHAR(100) NOT NULL,
+        id_categorie INT,
+        id_entraineur INT UNIQUE, -- UNIQUE pour garantir qu’un entraîneur dirige une seule équipe (1:1)
+        FOREIGN KEY (id_categorie) REFERENCES Categories(id_categorie),
+        FOREIGN KEY (id_entraineur) REFERENCES Entraîneurs(id_entraineur)
+    );
+
+    -- Table Membres
+    CREATE TABLE Membres (
+        id_membre INT AUTO_INCREMENT PRIMARY KEY,
+        nom VARCHAR(100) NOT NULL
+    );
+
+    -- Table Participations
+    CREATE TABLE Participations (
+        id_participation INT AUTO_INCREMENT PRIMARY KEY,
+        id_equipe INT,
+        id_membre INT,
+        date_debut DATE,
+        FOREIGN KEY (id_equipe) REFERENCES Equipes(id_equipe),
+        FOREIGN KEY (id_membre) REFERENCES Membres(id_membre)
+    );
+</textarea>
+<button id="copy-1" class="btn btn-secondary btn-sm" data-target="ta-1" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4>Étape 3 : Insertion de données</h4>
+<p>
+    Exemple de données pour tester :
+</p>
+<textarea class="code-php" id="ta-2">
+    -- Insertion dans Categories
+    INSERT INTO Categories (nom_categorie) VALUES ('Football'), ('Basket');
+
+    -- Insertion dans Entraîneurs
+    INSERT INTO Entraîneurs (nom) VALUES ('Coach Martin'), ('Coach Léa');
+
+    -- Insertion dans Equipes
+    INSERT INTO Equipes (nom_equipe, id_categorie, id_entraineur) VALUES 
+        ('Les Aigles', 1, 1), 
+        ('Les Panthères', 2, 2);
+
+    -- Insertion dans Membres
+    INSERT INTO Membres (nom) VALUES ('Paul'), ('Sophie');
+
+    -- Insertion dans Participations
+    INSERT INTO Participations (id_equipe, id_membre, date_debut) VALUES 
+        (1, 1, '2025-01-15'), 
+        (2, 2, '2025-02-01'),
+        (1, 2, '2025-03-01'); -- Sophie participe aussi aux Aigles
+</textarea>
+<button id="copy-2" class="btn btn-secondary btn-sm" data-target="ta-2" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4>Étape 4 : Tests et questions</h4>
+<ol>
+    <li><st-r>Testez la contrainte 1:1</st-r> : Essayez d’ajouter une nouvelle équipe avec un <b>id_entraineur</b> déjà utilisé (par exemple, <b>id_entraineur = 1</b>). Que se passe-t-il ? (Erreur à cause de UNIQUE.)</li>
+    <li><st-r>Testez la contrainte 1:N</st-r> : Ajoutez une autre participation pour Sophie dans une autre équipe. Est-ce possible ? (Oui.)</li>
+    <li><b>Requête</b> : Affichez les équipes avec leur entraîneur, leurs membres et leur catégorie :</li>
+    <textarea class="code-php" id="ta-3">
+        SELECT Equipes.nom_equipe, Entraîneurs.nom AS entraineur, Membres.nom AS membre, Categories.nom_categorie
+        FROM Participations
+        JOIN Equipes ON Participations.id_equipe = Equipes.id_equipe
+        JOIN Entraîneurs ON Equipes.id_entraineur = Entraîneurs.id_entraineur
+        JOIN Membres ON Participations.id_membre = Membres.id_membre
+        JOIN Categories ON Equipes.id_categorie = Categories.id_categorie;
+    </textarea>
+    <button id="copy-3" class="btn btn-secondary btn-sm" data-target="ta-3" data-toggle="tooltip" title="Copy code">Copy</button>
+</ol>
+
+<h3 id="support">4. Support visuel : schéma textuel</h3>
+<p>
+    Voici un schéma textuel de la base de données :
+</p>
+<ul>
+    <li><b>Categories</b> (id_categorie, nom_categorie) → <st-r>1:N</st-r> → <b>Equipes</b> (id_equipe, nom_equipe, id_categorie, id_entraineur).</li>
+    <li><b>Entraîneurs</b> (id_entraineur, nom) → <st-r>1:1</st-r> → <b>Equipes</b> (via id_entraineur avec UNIQUE).</li>
+    <li><b>Membres</b> (id_membre, nom) → <st-r>1:N</st-r> → <b>Participations</b> (id_participation, id_equipe, id_membre, date_debut).</li>
+    <li><b>Equipes</b> (id_equipe, nom_equipe, id_categorie, id_entraineur) → <st-r>1:N</st-r> → <b>Participations</b> (id_participation, id_equipe, id_membre, date_debut).</li>
+</ul>
+
+<p>
+    Voici le diagramme entité-relation (ER) correspondant :
+</p>
+<img src="img/Diagram-club.jpg" alt="diagramme DB CLub">
+
+<h3 id="mcd">5. Modèle Conceptuel de Données (MCD)</h3>
+<p>
+    Voici le MCD correspondant au format textuel :
+</p>
+
+<ul>
+    <li class="mb-4">
+        <st-r>Entités</st-r> :
+        <ul>
+            <li><b>Catégorie</b> (id_categorie, nom_categorie)</li>
+            <li><b>Entraîneur</b> (id_entraineur, nom)</li>
+            <li><b>Équipe</b> (id_equipe, nom_equipe)</li>
+            <li><b>Membre</b> (id_membre, nom)</li>
+            <li><b>Participation</b> (id_participation, date_debut)</li>
+        </ul>
+    </li>
+    <li class="mb-4">
+        <st-r>Associations :</st-r>
+        <ul>
+            <li><b>Regroupe</b> : Catégorie (1,N) → Équipe (0,1)</li>
+            <li><b>Dirige</b> : Entraîneur (0,1) → Équipe (0,1)</li>
+            <li><b>Participe</b> : Membre (1,N) → Participation (0,1)</li>
+            <li><b>Concerne</b> : Équipe (1,N) → Participation (0,1)</li>
+        </ul>
+    </li>
+    <li class="mb-4">
+        <st-r>Explication des cardinalités:</st-r>
+        <ul>
+            <li><st-r>Catégorie → Équipe (1,N → 0,1)</st-r> : Une catégorie peut regrouper plusieurs équipes (1,N), mais une équipe est associée à une seule catégorie (0,1, car une équipe doit avoir une catégorie, mais techniquement, une catégorie peut exister sans équipe).</li>
+            <li><st-r>Entraîneur → Équipe (0,1 → 0,1)</st-r> : Un entraîneur peut diriger au plus une équipe (0,1), et une équipe peut avoir au plus un entraîneur (0,1). Les deux peuvent exister indépendamment.</li>
+            <li><st-r>Membre → Participation (1,N → 0,1)</st-r> : Un membre peut participer à plusieurs équipes (1,N), mais une participation est liée à un seul membre (0,1).</li>
+            <li><st-r>Équipe → Participation (1,N → 0,1)</st-r> : Une équipe peut avoir plusieurs participations (1,N), mais une participation concerne une seule équipe (0,1).</li>
+        </ul>
+    </li>
+
+<h3 id="mcd-graph">6. Représentation graphique du MCD</h3>  
+
+<p>Si vous souhaitez dessiner le MCD voici comment il pourrait être structuré :</p>
+<ul>
+    <li><st-r>Boîtes (entités)</st-r> : Rectangles pour chaque entité (Catégorie, Entraîneur, Équipe, Membre, Participation) avec leurs attributs à l’intérieur.</li>
+    <li>
+        <st-r>Liens (associations)</st-r> : Lignes entre les entités avec les cardinalités indiquées :
+        <ul>
+            <li>Catégorie → Équipe : "Regroupe" (1,N → 0,1)</li>
+            <li>Entraîneur → Équipe : "Dirige" (0,1 → 0,1)</li>
+            <li>Membre → Participation : "Participe" (1,N → 0,1)</li>
+            <li>Équipe → Participation : "Concerne" (1,N → 0,1)</li>
+        </ul>
+    </li>
+</ul>
+<p>Exemple de disposition graphique :</p>
+<ul>
+    <li>Place Équipe au centre.</li>
+    <li>Catégorie et Entraîneur se connectent à Équipe (en haut ou à gauche/droite).</li>
+    <li>Membre et Participation se connectent à Équipe (en bas ou à gauche/droite).</li>
+    <li>Ajoute les cardinalités près des lignes.</li>
+</ul>
+<hr>
+<p>
+    <st-r>... C'était sympa...non :)</st-r>
+</p>
+    
+    
+   
+   
