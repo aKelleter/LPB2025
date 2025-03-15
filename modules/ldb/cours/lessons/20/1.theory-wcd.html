@@ -68,7 +68,7 @@ Créez les tables suivantes dans MariaDB avec les colonnes et contraintes néces
     );
 
     -- Table Entraîneurs
-    CREATE TABLE Entraîneurs (
+    CREATE TABLE Entraineurs (
         id_entraineur INT AUTO_INCREMENT PRIMARY KEY,
         nom VARCHAR(100) NOT NULL
     );
@@ -80,7 +80,7 @@ Créez les tables suivantes dans MariaDB avec les colonnes et contraintes néces
         id_categorie INT,
         id_entraineur INT UNIQUE, -- UNIQUE pour garantir qu’un entraîneur dirige une seule équipe (1:1)
         FOREIGN KEY (id_categorie) REFERENCES Categories(id_categorie),
-        FOREIGN KEY (id_entraineur) REFERENCES Entraîneurs(id_entraineur)
+        FOREIGN KEY (id_entraineur) REFERENCES Entraineurs(id_entraineur)
     );
 
     -- Table Membres
@@ -110,7 +110,7 @@ Créez les tables suivantes dans MariaDB avec les colonnes et contraintes néces
     INSERT INTO Categories (nom_categorie) VALUES ('Football'), ('Basket');
 
     -- Insertion dans Entraîneurs
-    INSERT INTO Entraîneurs (nom) VALUES ('Coach Martin'), ('Coach Léa');
+    INSERT INTO Entraineurs (nom) VALUES ('Coach Martin'), ('Coach Léa');
 
     -- Insertion dans Equipes
     INSERT INTO Equipes (nom_equipe, id_categorie, id_entraineur) VALUES 
@@ -134,10 +134,10 @@ Créez les tables suivantes dans MariaDB avec les colonnes et contraintes néces
     <li><st-r>Testez la contrainte 1:N</st-r> : Ajoutez une autre participation pour Sophie dans une autre équipe. Est-ce possible ? (Oui.)</li>
     <li><b>Requête</b> : Affichez les équipes avec leur entraîneur, leurs membres et leur catégorie :</li>
     <textarea class="code-php" id="ta-3">
-        SELECT Equipes.nom_equipe, Entraîneurs.nom AS entraineur, Membres.nom AS membre, Categories.nom_categorie
+        SELECT Equipes.nom_equipe, Entraineurs.nom AS entraineur, Membres.nom AS membre, Categories.nom_categorie
         FROM Participations
         JOIN Equipes ON Participations.id_equipe = Equipes.id_equipe
-        JOIN Entraîneurs ON Equipes.id_entraineur = Entraîneurs.id_entraineur
+        JOIN Entraineurs ON Equipes.id_entraineur = Entraineurs.id_entraineur
         JOIN Membres ON Participations.id_membre = Membres.id_membre
         JOIN Categories ON Equipes.id_categorie = Categories.id_categorie;
     </textarea>
