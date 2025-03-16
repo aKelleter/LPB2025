@@ -1,0 +1,161 @@
+<!--
+<textarea class="code-php" id="ta-x">
+    
+</textarea>
+<button id="copy-x" class="btn btn-secondary btn-sm" data-target="ta-x" data-toggle="tooltip" title="Copy code">Copy</button>
+-->
+<h3 id="intro">1. Qu'est-ce que le type Date ?</h3>
+<p>
+    En JavaScript, le type <b>Date</b> est un objet intégré qui permet de travailler avec des dates et des heures. Il représente un instant précis dans 
+    le temps, mesuré en millisecondes depuis le <st-r>1er janvier 1970 00:00:00 UTC</st-r> (époque Unix). Cet objet offre des méthodes pour créer, 
+    manipuler et formater des dates.
+</p>
+
+<h3>2. Création d'un Objet Date</h3>
+<p>
+    Il existe plusieurs façons de créer une instance de <b>Date</b> :
+</p>
+
+<h4>Date actuelle :</h4>
+<textarea class="code-php" id="ta-1">
+    const maintenant = new Date();
+    console.log(maintenant); // Ex. : Sun Mar 16 2025 19:36:25 GMT+0100 (heure normale d’Europe centrale)
+</textarea>
+<button id="copy-1" class="btn btn-secondary btn-sm" data-target="ta-1" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4>Date spécifique (année, mois, jour, etc.) :</h4>
+<p>
+    Les mois sont indexés à partir de 0 (janvier = 0, décembre = 11).
+</p>
+<textarea class="code-php" id="ta-2">
+    const dateSpecifique = new Date(2025, 0, 15); // 15 janvier 2023
+    console.log(dateSpecifique); // Wed Jan 15 2025 00:00:00 GMT+0100 (heure normale d’Europe centrale)
+</textarea>
+<button id="copy-2" class="btn btn-secondary btn-sm" data-target="ta-2" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4>À partir d'une chaîne de caractères :</h4>
+<textarea class="code-php" id="ta-3">
+    const dateString = new Date("2023-01-15");
+    console.log(dateString); // Sun Jan 15 2023 01:00:00 GMT+0100 (heure normale d’Europe centrale)
+</textarea>
+<button id="copy-3" class="btn btn-secondary btn-sm" data-target="ta-3" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4>À partir d'un timestamp (millisecondes depuis 1970) :</h4>
+<textarea class="code-php" id="ta-4">
+    const timestamp = new Date(1673731200000);
+    console.log(timestamp); // Sat Jan 14 2023 22:20:00 GMT+0100 (heure normale d’Europe centrale)
+</textarea>
+<button id="copy-4" class="btn btn-secondary btn-sm" data-target="ta-4" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h3 id="methodes">3. Méthodes Utiles</h3>
+<p>
+    L'objet <b>Date</b> propose de nombreuses méthodes pour extraire ou modifier des composantes d'une date.
+</p>
+
+<h4>a) Extraction d'informations</h4>
+
+<ul>
+    <li>getFullYear() : Récupère l'année (ex. : 2025).</li>
+    <li>getMonth() : Récupère le mois (0-11).</li>
+    <li>getDate() : Récupère le jour du mois (1-31).</li>
+    <li>getDay() : Récupère le jour de la semaine (0-6, 0 = dimanche).</li>
+    <li>getHours(), getMinutes(), getSeconds() : Heure, minutes, secondes.</li>
+    <li>getTime() : Timestamp en millisecondes depuis 1970.</li>
+</ul>
+<p>
+    Exemple :
+</p>
+<textarea class="code-php" id="ta-5">
+    const date = new Date("2025-03-16");
+    console.log(date.getFullYear()); // 2025
+    console.log(date.getMonth());    // 2 (mars)
+    console.log(date.getDate());     // 16
+    console.log(date.getDay());      // 0 (dimanche)
+</textarea>
+<button id="copy-5" class="btn btn-secondary btn-sm" data-target="ta-5" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4>b) Modification d'une date</h4>
+<p>
+    Les méthodes suivantes permettent de modifier une date : <b>setFullYear()</b>, <b>setMonth()</b>, <b>setDate()</b>, etc.
+</p>
+<textarea class="code-php" id="ta-6">
+    const date = new Date();
+    date.setFullYear(2026);
+    console.log(date); // Année mise à 2026
+</textarea>
+
+<h4>c) Formatage</h4>
+<ul>
+    <li><b>toLocaleString()</b> : Affiche la date dans un format localisé.</li>
+    <li><b>toISOString()</b> : Format ISO (ex. : "2025-03-16T00:00:00.000Z").</li>
+</ul>
+<textarea class="code-php" id="ta-7">
+    const date = new Date("2025-03-16");
+    console.log(date.toLocaleString("fr-FR")); // 16/03/2025 00:00:00
+    console.log(date.toISOString());           // 2025-03-16T00:00:00.000Z
+</textarea>
+<button id="copy-7" class="btn btn-secondary btn-sm" data-target="ta-7" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h3 id="calculs">4. Calculs avec les Dates</h3>
+<p>
+    Les objets Date permettent de faire des calculs grâce aux timestamps :
+</p>
+
+<h4>Différence entre deux dates :</h4>
+<textarea class="code-php" id="ta-8">
+    const debut = new Date("2025-01-01");
+    const fin = new Date("2025-03-16");
+    const differenceMs = fin - debut;
+    const differenceJours = differenceMs / (1000 * 60 * 60 * 24);
+    console.log(differenceJours); // 74 jours
+</textarea>
+<button id="copy-8" class="btn btn-secondary btn-sm" data-target="ta-8" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4>Ajouter ou soustraire du temps :</h4>
+<textarea class="code-php" id="ta-9">
+    const date = new Date("2025-03-16");
+    date.setDate(date.getDate() + 7); // Ajoute 7 jours
+    console.log(date); // Sun Mar 23 2025
+</textarea>
+<button id="copy-9" class="btn btn-secondary btn-sm" data-target="ta-9" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h3 id="limites">5. Limites et Précautions</h3>
+<ul>
+    <li><st-r>Fuseau horaire</st-r> : Les méthodes comme <b>getHours()</b> renvoient l’heure locale, tandis que <b>getUTCHours()</b> renvoie l’heure UTC.</li>
+    <li><st-r>Validité</st-r> : Si une date invalide est fournie, JavaScript retourne Invalid Date.</li>
+</ul>
+
+<textarea class="code-php" id="ta-10">
+    const dateInvalide = new Date("ceci n'est pas une date");
+    console.log(dateInvalide); // Invalid Date
+</textarea>
+<button id="copy-10" class="btn btn-secondary btn-sm" data-target="ta-10" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h3>6. Bibliothèques Alternatives</h3>
+<p>
+    Pour des manipulations plus complexes (ex. : formater des dates ou gérer des calendriers), des bibliothèques comme <b>Moment.js</b>, 
+    <b>date-fns</b>, ou <b>Day.js</b> sont souvent utilisées, car l’objet Date natif peut être limité ou verbeux.
+</p>
+
+<h3 id="exos">7. Exemple Pratique</h3>
+<p>
+    Créons une fonction qui vérifie si une date est dans le futur :
+</p>
+<textarea class="code-php" id="ta-11">
+    function estDansLeFutur(date) {
+        const maintenant = new Date();
+        return date > maintenant;
+    }
+    
+    const testDate = new Date("2025-12-31");
+    console.log(estDansLeFutur(testDate)); // true (le 16 mars 2025)
+</textarea>
+<button id="copy-11" class="btn btn-secondary btn-sm" data-target="ta-11" data-toggle="tooltip" title="Copy code">Copy</button>
+
+
+
+
+
+
+
+

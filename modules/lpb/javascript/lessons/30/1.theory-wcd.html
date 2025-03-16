@@ -1,5 +1,358 @@
-
-<h3 id="">Introduction</h3>
+<h4>x) <b>xxx</b></h4>
 <p>
-    .. en cours    
+    <st-r>xxx</st-r> <br>
+
+    xxx
+    <ul><li>Syntaxe : <b>xxx</b></li></ul>
 </p>
+<textarea class="code-php" id="ta-x">
+    
+</textarea>
+<button id="copy-x" class="btn btn-secondary btn-sm" data-target="ta-x" data-toggle="tooltip" title="Copy code">Copy</button>
+
+
+
+<h3 id="intro">1. Introduction</h3>
+<p>
+    En JavaScript, les tableaux (arrays) sont des outils puissants pour stocker et manipuler des données. Nous allons explorer des méthodes plus avancées pour modifier, 
+    rechercher, transformer et analyser les tableaux. Chaque méthode a un rôle spécifique, et les comprendre te permettra de programmer de manière plus efficace.
+    Voici les méthodes que nous allons découvrir : <b>splice</b>, <b>slice</b>, <b>concat</b>, <b>forEach</b>, <b>indexOf</b>, <b>lastIndexOf</b>, <b>includes</b>, <b>find</b>, <b>findIndex</b>, <b>findLastIndex</b>, <b>filter</b>, <b>map</b>, <b>sort</b>, <b>reverse</b>, <b>split</b>, 
+    <b>join</b>, <b>reduce</b>, <b>reduceRight</b>, et <b>isArray</b>.  
+</p>
+
+<h3 id="met-for-tab">1. Méthodes pour modifier les tableaux</h3>
+
+<h4>a) <b>splice</b></h4>
+<p>
+    <st-r>Ajouter ou supprimer des éléments à une position précise</st-r> <br>
+
+    La méthode <b>splice</b> modifie un tableau en supprimant ou en ajoutant des éléments à partir d’un index donné.
+    <ul><li>Syntaxe : <b>tableau.splice(indexDébut, nombreASupprimer, élémentsÀAjouter...)</b></li></ul>
+</p>
+<textarea class="code-php" id="ta-1">
+    let fruits = ["pomme", "banane", "orange"];
+    fruits.splice(1, 1, "mangue"); // Supprime 1 élément à l’index 1 et ajoute "mangue"
+    console.log(fruits); // ["pomme", "mangue", "orange"]
+</textarea>
+<button id="copy-1" class="btn btn-secondary btn-sm" data-target="ta-1" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4>b) <b>slice</b></h4>
+<p>
+    <st-r>Extraire une partie du tableau</st-r> <br>
+
+    La méthode <b>slice</b> crée un nouveau tableau avec une portion du tableau original, sans le modifier.
+    <ul><li>Syntaxe : <b>tableau.slice(indexDébut, indexFin)</b></li></ul>
+</p>
+<textarea class="code-php" id="ta-2">
+    let nombres = [1, 2, 3, 4, 5];
+    let partie = nombres.slice(1, 4); // Extrait de l’index 1 à 3 (exclus)
+    console.log(partie); // [2, 3, 4]
+    console.log(nombres); // [1, 2, 3, 4, 5] (inchangé)
+</textarea>
+<button id="copy-2" class="btn btn-secondary btn-sm" data-target="ta-2" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4>c) <b>concat</b></h4>
+<p>
+    <st-r>Fusionner des tableaux</st-r> <br>
+
+    La méthode <b>concat</b> combine deux tableaux ou plus en un nouveau tableau.
+    <ul><li>Syntaxe : <b>tableau.concat(tableau2, tableau3, ...)</b></li></ul>
+</p>
+<textarea class="code-php" id="ta-3">
+    let tab1 = [1, 2];
+    let tab2 = [3, 4];
+    let fusion = tab1.concat(tab2);
+    console.log(fusion); // [1, 2, 3, 4]
+</textarea>
+<button id="copy-3" class="btn btn-secondary btn-sm" data-target="ta-3" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4>d) <b>reverse</b></h4>
+<p>
+    <st-r>Inverser l’ordre des éléments</st-r> <br>
+
+    La méthode reverse inverse l’ordre des éléments dans le tableau (modifie le tableau original).
+    <ul><li>Syntaxe : <b>tableau.reverse()</b></li></ul>
+</p>
+<textarea class="code-php" id="ta-4">
+    let lettres = ["a", "b", "c"];
+    lettres.reverse();
+    console.log(lettres); // ["c", "b", "a"]
+</textarea>
+<button id="copy-4" class="btn btn-secondary btn-sm" data-target="ta-4" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h3 id="met-search-tab">2. Méthodes pour parcourir et chercher dans les tableaux</h3>
+
+<h4>e) <b>forEach</b></h4>
+<p>
+    <st-r>Parcourir chaque élément</st-r> <br>
+
+    La méthode <b>forEach</b> exécute une fonction pour chaque élément du tableau.
+    <ul><li>Syntaxe : <b>tableau.forEach((élément, index) => { ... })</b></li></ul>
+</p>
+<textarea class="code-php" id="ta-5">
+    let couleurs = ["rouge", "bleu", "vert"];
+    couleurs.forEach((couleur, index) => {
+        console.log(`Couleur ${index + 1} : ${couleur}`);
+    });
+    // Résultat :
+    // Couleur 1 : rouge
+    // Couleur 2 : bleu
+    // Couleur 3 : vert
+</textarea>
+<button id="copy-5" class="btn btn-secondary btn-sm" data-target="ta-5" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4>f) <b>indexOf</b></h4>
+<p>
+    <st-r>Trouver l’index d’un élément</st-r> <br>
+
+    La méthode <b>indexOf</b> renvoie le premier index où un élément est trouvé, ou <b>-1</b> s’il n’existe pas.
+    <ul><li>Syntaxe : <b>tableau.indexOf(élément)</b></li></ul>
+</p>
+<textarea class="code-php" id="ta-6">
+    let animaux = ["chat", "chien", "chat"];
+    console.log(animaux.indexOf("chat")); // 0 (index de la première occurrence)
+    console.log(animaux.indexOf("oiseau")); // -1 (non trouvé)
+</textarea>
+<button id="copy-6" class="btn btn-secondary btn-sm" data-target="ta-6" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4>g) <b>lastIndexOf</b></h4>
+<p>
+    <st-r>Trouver la dernière occurrence</st-r> <br>
+
+    La méthode <b>lastIndexOf</b> renvoie le dernier index d’un élément.
+    <ul><li>Syntaxe : <b>tableau.lastIndexOf(élément)</b></li></ul>
+</p>
+<textarea class="code-php" id="ta-7">
+    let animaux = ["chat", "chien", "chat"];
+    console.log(animaux.lastIndexOf("chat")); // 2 (dernière occurrence)
+</textarea>
+<button id="copy-7" class="btn btn-secondary btn-sm" data-target="ta-7" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4>h) <b>includes</b></h4>
+<p>
+    <st-r>Vérifier si un élément existe</st-r> <br>
+
+    La méthode <b>includes</b> renvoie <b>true</b> si l’élément est dans le tableau, sinon <b>false</b>.
+    <ul><li>Syntaxe : <b>tableau.includes(élément)</b></li></ul>
+</p>
+<textarea class="code-php" id="ta-8">
+    let animaux = ["chat", "chien", "chat"];
+    console.log(animaux.includes("chien")); // true
+    console.log(animaux.includes("poisson")); // false
+</textarea>
+<button id="copy-8" class="btn btn-secondary btn-sm" data-target="ta-8" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4>i) <b>find</b></h4>
+<p>
+    <st-r>Trouver un élément selon une condition</st-r> <br>
+
+    La méthode <b>find</b> renvoie le premier élément qui satisfait une condition.
+    <ul><li>Syntaxe : <b>tableau.find((élément) => condition)</b></li></ul>
+</p>
+<textarea class="code-php" id="ta-9">
+    let nombres = [5, 12, 8, 130, 44];
+    let grand = nombres.find((nombre) => nombre > 10);
+    console.log(grand); // 12
+</textarea>
+<button id="copy-9" class="btn btn-secondary btn-sm" data-target="ta-9" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4>j) <b>findIndex</b></h4>
+<p>
+    <st-r>Trouver l’index d’un élément selon une condition</st-r> <br>
+
+    La méthode <b>findIndex</b> renvoie l’index du premier élément qui satisfait une condition.
+    <ul><li>Syntaxe : <b>tableau.findIndex((élément) => condition)</b></li></ul>
+</p>
+<textarea class="code-php" id="ta-10">
+    let nombres = [5, 12, 8, 130, 44];
+    let index = nombres.findIndex((nombre) => nombre > 10);
+    console.log(index); // 1
+</textarea>
+<button id="copy-10" class="btn btn-secondary btn-sm" data-target="ta-10" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4>k) <b>findLastIndex</b></h4>
+<p>
+    <st-r>Trouver le dernier index selon une condition</st-r> <br>
+
+    La méthode <b>findLastIndex</b> renvoie le dernier index qui satisfait une condition (nouveau depuis ES2022).
+    <ul><li>Syntaxe : <b>tableau.findLastIndex((élément) => condition)</b></li></ul>
+</p>
+<textarea class="code-php" id="ta-11">
+    let nombres = [5, 12, 8, 130, 44];
+    let dernierIndex = nombres.findLastIndex((nombre) => nombre > 10);
+    console.log(dernierIndex); // 4 (index de 44)
+</textarea>
+<button id="copy-11" class="btn btn-secondary btn-sm" data-target="ta-11" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h3 id="filter">3. Méthodes pour filtrer et transformer les tableaux</h3>
+
+<h4>l) <b>filter</b></h4>
+<p>
+    <st-r>Filtrer les éléments</st-r> <br>
+
+    La méthode <b>filter</b> crée un nouveau tableau avec les éléments qui passent un test.
+    <ul><li>Syntaxe : <b>tableau.filter((élément) => condition)</b></li></ul>
+</p>
+<textarea class="code-php" id="ta-12">
+    let nombres = [5, 12, 8, 130, 44];
+    let pairs = nombres.filter((nombre) => nombre % 2 === 0);
+    console.log(pairs); // [12, 8, 130, 44]
+</textarea>
+<button id="copy-12" class="btn btn-secondary btn-sm" data-target="ta-12" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4>m) <b>map</b></h4>
+<p>
+    <st-r>Transformer chaque élément</st-r> <br>
+
+    La méthode <b>map</b> crée un nouveau tableau en appliquant une transformation à chaque élément.
+    <ul><li>Syntaxe : <b>tableau.map((élément) => transformation)</b></li></ul>
+</p>
+<textarea class="code-php" id="ta-13">
+    let nombres = [5, 12, 8, 130, 44];
+    let doubles = nombres.map((nombre) => nombre * 2);
+    console.log(doubles); // [10, 24, 16, 260, 88]
+</textarea>
+<button id="copy-13" class="btn btn-secondary btn-sm" data-target="ta-13" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4>n) <b>sort</b></h4>
+<p>
+    <st-r>Trier les éléments</st-r> <br>
+
+    La méthode <b>sort</b> trie les éléments du tableau (modifie le tableau original).
+    <ul><li>Syntaxe : <b>tableau.sort((a, b) => comparaison)</b></li></ul>
+</p>
+<textarea class="code-php" id="ta-14">
+    let lettres = ["c", "a", "b"];
+    lettres.sort();
+    console.log(lettres); // ["a", "b", "c"]
+
+    let chiffres = [10, 5, 100];
+    chiffres.sort((a, b) => a - b); // Tri numérique
+    console.log(chiffres); // [5, 10, 100]
+</textarea>
+<button id="copy-14" class="btn btn-secondary btn-sm" data-target="ta-14" data-toggle="tooltip" title="Copy code">Copy</button>
+<div class="alert alert-info mt-4">
+    <st-r>Explications</st-r> <hr>
+    Explication de la fonction de comparaison <b>(a, b) => a - b</b>, celle-ci est utilisée pour trier les nombres correctement : <br>
+    <ul>
+        <li>Si a - b est négatif, a est placé avant b.</li>
+        <li>Si a - b est positif, b est placé avant a.</li>
+        <li>Si a - b est 0, l'ordre reste inchangé.</li>
+    </ul>   
+
+    Exécution pas à pas du tri : <br>
+    Avant le tri : [10, 5, 100]. <br>
+    <br>
+    Compare 10 et 5 → 10 - 5 = 5 → 5 est placé avant 10. <br>
+    Compare 10 et 100 → 10 - 100 = -90 → 10 reste avant 100. <br>
+    <br>
+    Résultat après le tri : [5, 10, 100]. <br>
+</div>
+
+<h3 id="manip">4. Méthodes pour manipuler des chaînes et des tableaux</h3>
+
+<h4>o) <b>split</b></h4>
+<p>
+    <st-r>Convertir une chaîne en tableau</st-r> <br>
+
+    La méthode <b>split</b> divise une chaîne en un tableau selon un séparateur.
+    <ul><li>Syntaxe : <b>chaîne.split(séparateur)</b></li></ul>
+</p>
+<textarea class="code-php" id="ta-15">
+    let phrase = "chat,chien,oiseau";
+    let mots = phrase.split(",");
+    console.log(mots); // ["chat", "chien", "oiseau"]
+</textarea>
+<button id="copy-15" class="btn btn-secondary btn-sm" data-target="ta-15" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4>p) <b>join</b></h4>
+<p>
+    <st-r>Convertir un tableau en chaîne</st-r> <br>
+
+    La méthode <b>join</b> combine les éléments d’un tableau en une chaîne avec un séparateur.
+    <ul><li>Syntaxe : <b>tableau.join(séparateur)</b></li></ul>
+</p>
+<textarea class="code-php" id="ta-16">
+    let mots = ["chat", "chien", "oiseau"];
+    let texte = mots.join(" - ");
+    console.log(texte); // "chat - chien - oiseau"
+</textarea>
+<button id="copy-16" class="btn btn-secondary btn-sm" data-target="ta-16" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h3 id="reduce">5. Méthodes pour réduire les tableaux</h3>
+
+<h4>q) <b>reduce</b></h4>
+<p>
+    <st-r>Réduire à une seule valeur</st-r> <br>
+
+    La méthode <b>reduce</b> applique une fonction pour réduire le tableau à une seule valeur (de gauche à droite).
+    <ul><li>Syntaxe : <b>tableau.reduce((accumulateur, élément) => opération, valeurInitiale)</b></li></ul>
+</p>
+<textarea class="code-php" id="ta-17">
+    let nombres = [5, 12, 8, 130, 44];
+    let somme = nombres.reduce((total, nombre) => total + nombre, 0);
+    console.log(somme); // 199 (5 + 12 + 8 + 130 + 44)
+</textarea>
+<button id="copy-17" class="btn btn-secondary btn-sm" data-target="ta-17" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4>r) <b>reduceRight</b></h4>
+<p>
+    <st-r>Réduire de droite à gauche</st-r> <br>
+
+    La méthode <b>reduceRight</b> fonctionne comme <b>reduce</b>, mais de droite à gauche.
+    <ul><li>Syntaxe : <b>tableau.reduceRight((accumulateur, élément) => opération, valeurInitiale)</b></li></ul>
+</p>
+<textarea class="code-php" id="ta-18">
+    let nombres = [5, 12, 8, 130, 44];
+    let droite = nombres.reduceRight((total, nombre) => total + nombre, 0);
+    console.log(droite); // 199 (même résultat, mais ordre inversé)
+</textarea>
+<button id="copy-18" class="btn btn-secondary btn-sm" data-target="ta-18" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h3 id="verif">6. Méthode pour vérifier un tableau</h3>
+
+<h4>s) <b>isArray</b></h4>
+<p>
+    <st-r>Vérifier si une variable est un tableau</st-r> <br>
+
+    La méthode <b>Array.isArray</b> renvoie <b>true</b> si la variable est un tableau, sinon <b>false</b>.
+    <ul><li>Syntaxe : <b>Array.isArray(variable)</b></li></ul>
+</p>
+<textarea class="code-php" id="ta-19">
+    let nombres = [5, 12, 8, 130, 44];    
+    console.log(Array.isArray(nombres)); // true
+    console.log(Array.isArray("texte")); // false
+</textarea>
+<button id="copy-19" class="btn btn-secondary btn-sm" data-target="ta-19" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h3 id="exo">7. Exercice pratique</h3>
+<ol>
+    <li>Crée un tableau avec 5 nombres.</li>
+    <li>Utilise <b>filter</b> pour garder les nombres supérieurs à 10.</li>
+    <li>Utilise <b>map</b> pour doubler ces nombres.</li>
+    <li>Utilise <b>reduce</b> pour calculer leur somme.</li>
+    <li>Affiche le résultat avec <b>console.log</b>.</li>
+</ol>
+
+<details>
+    <summary>Afficher la réponse</summary>
+    <textarea class="code-php" id="ta-20">
+        let nombres = [5, 12, 8, 130, 44];
+        let sup10 = nombres.filter((nombre) => nombre > 10);
+        console.log(sup10); // [12, 130, 44]
+        let doubles = sup10.map((nombre) => nombre * 2);
+        console.log(doubles); // [24, 260, 88]
+        let somme = doubles.reduce((total, nombre) => total + nombre, 0);
+        console.log(somme); // 372
+    </textarea>
+    <button id="copy-20" class="btn btn-secondary btn-sm" data-target="ta-20" data-toggle="tooltip" title="Copy code">Copy</button>
+</details>
+
+<h3 id="conclusion">8. Conclusion</h3>
+<p>
+    Ces méthodes te permettent de manipuler les tableaux de manière précise et puissante. Certaines modifient le tableau original 
+    (splice, sort, reverse), d’autres créent de nouveaux tableaux (slice, filter, map), et d’autres encore te donnent des informations 
+    (indexOf, includes). Pratique-les pour devenir à l’aise avec !
+</p>
+
+

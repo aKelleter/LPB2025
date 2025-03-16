@@ -1,0 +1,196 @@
+<!--
+<textarea class="code-php" id="ta-x">
+    
+</textarea>
+<button id="copy-x" class="btn btn-secondary btn-sm" data-target="ta-x" data-toggle="tooltip" title="Copy code">Copy</button>
+-->
+<h3 id="intro">1. Qu'est-ce qu'un objet itérable ?</h3>
+<p>
+    En JavaScript, un <st-r>objet itérable</st-r> est un objet qui peut être parcouru élément par élément, généralement à l'aide d'une boucle comme <b>for...of</b> 
+    ou de méthodes comme <b>forEach</b>. Pour qu'un objet soit considéré comme itérable, il doit implémenter le protocole itérable, c'est-à-dire qu'il 
+    doit posséder une méthode spéciale accessible via la clé <b>Symbol.iterator</b>. Cette méthode renvoie un itérateur, qui définit comment parcourir 
+    les éléments. <br>
+    Exemples d'objets itérables natifs :
+</p>
+<ul>
+    <li>Les tableaux (Array)</li>
+    <li>Les chaînes de caractères (String)</li>
+    <li>Les ensembles (Set)</li>
+    <li>Les maps (Map)</li>
+    <li>Les arguments d'une fonction (objet arguments)</li>
+</ul>
+
+<h3 id="protocole">2. Le Protocole Itérable</h3>
+<p>
+    Pour qu'un objet soit itérable, il doit avoir une propriété <b>[Symbol.iterator]</b> qui est une fonction. Cette fonction doit renvoyer 
+    un objet itérateur possédant une méthode <b>next()</b>. La méthode <b>next()</b> renvoie un objet avec deux propriétés :
+</p>
+<ul>
+    <li><b>value</b> : la valeur de l'élément courant</li>
+    <li><b>done</b> : un booléen indiquant si l'itération est terminée (<b>true</b>) ou non (<b>false</b>).</li>
+</ul>
+<p>Exemple simple avec un tableau :</p>
+
+<textarea class="code-php" id="ta-1">
+    const tableau = [1, 2, 3];
+    const iterateur = tableau[Symbol.iterator](); 
+        
+    console.log(iterateur.next()); // { value: 1, done: false }
+    console.log(iterateur.next()); // { value: 2, done: false }
+    console.log(iterateur.next()); // { value: 3, done: false }
+    console.log(iterateur.next()); // { value: undefined, done: true }
+</textarea>
+<button id="copy-1" class="btn btn-secondary btn-sm" data-target="ta-1" data-toggle="tooltip" title="Copy code">Copy</button>
+<div class="alert alert-info mt-4">
+    <st-r>Explications</st-r> <hr>
+    <p>
+         1. Création d'un itérateur :  <code>const iterateur = tableau[Symbol.iterator]();</code> <br>
+         tableau[Symbol.iterator]() renvoie un itérateur, un objet permettant de parcourir le tableau élément par élément.
+    </p>
+    <p>
+        2. Utilisation de <b>next()</b> pour parcourir l'itérateur <br>
+        L'itérateur possède une méthode .next() qui permet d'obtenir le prochain élément du tableau sous la forme d'un objet { value, done }        
+    </p>
+    <p>
+        3. Au début, l'itérateur pointe sur 1, donc value: 1. <br>
+        Il reste des éléments à parcourir, donc done: false. <br>
+        Après avoir appelé next() 3 fois, l'itérateur pointe sur undefined, donc value: undefined. <br>
+        Il n'y a plus d'éléments à parcourir, donc done: true.
+    </p>
+    <p>
+        4. Quand done devient <b>true</b>, l'itérateur est épuisé.
+    </p>
+</div>
+
+<h3 id="utilisation">3. Utilisation des Itérables</h3>
+<p>
+    Les itérables sont particulièrement utiles avec certaines constructions JavaScript :
+</p>
+
+<h4>Les boucle <b>for...of</b> : Parcourt directement les valeurs d'un objet itérable.</h4>
+<textarea class="code-php" id="ta-2">
+    const texte = "Bonjour";
+    for (const lettre of texte) {
+        console.log(lettre); // Affiche chaque caractère : B, o, n, j, o, u, r
+    }
+</textarea>
+<button id="copy-2" class="btn btn-secondary btn-sm" data-target="ta-2" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4>L' opérateur de déstructuration (<b>...</b>) : Transforme un itérable en liste de valeurs.</h4>
+<textarea class="code-php" id="ta-3">
+    const tableau = [1, 2, 3];
+    console.log(...tableau); // 1 2 3
+</textarea>
+<button id="copy-3" class="btn btn-secondary btn-sm" data-target="ta-3" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4>Les méthodes comme <b>Array.from</b> : Convertit un itérable en tableau.</h4>
+<textarea class="code-php" id="ta-4">
+    const chaine = "abc";
+    const tableau = Array.from(chaine);
+    console.log(tableau); // ["a", "b", "c"]
+</textarea>
+<button id="copy-4" class="btn btn-secondary btn-sm" data-target="ta-4" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h3 id="create">4. Créer un Objet Itérable Personnalisé</h3>
+<p>
+    Vous pouvez rendre vos propres objets itérables en définissant la méthode <b>[Symbol.iterator]</b>.  <br>
+    Voici un exemple :
+</p>
+<textarea class="code-php" id="ta-5">
+    const monObjet = {
+        debut: 1,
+        fin: 5,
+        [Symbol.iterator]() {
+            let courant = this.debut;
+            return {
+                next() {
+                    if (courant <= monObjet.fin) {
+                        return { value: courant++, done: false };
+                    }
+                    return { value: undefined, done: true };
+                }
+            };
+        }
+    };
+    
+    for (const nombre of monObjet) {
+        console.log(nombre); // Affiche 1, 2, 3, 4, 5
+    }
+</textarea>
+<button id="copy-5" class="btn btn-secondary btn-sm" data-target="ta-5" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<div class="alert alert-info mt-4">
+    <st-r>Explications</st-r> <hr>
+    <p>
+        1. L'objet <b>monObjet</b> possède deux propriétés : <b>debut</b> et <b>fin</b>. <br>
+        Il possède également une méthode <b>[Symbol.iterator]</b> qui renvoie un itérateur.
+    </p>
+    <p>
+        2. L'itérateur renvoie un objet avec une méthode <b>next()</b> qui renvoie un objet { value, done }.
+    </p>
+    <p>
+        3. La méthode <b>next()</b> incrémente la valeur jusqu'à ce qu'elle atteigne la fin.
+    </p>
+    <p>
+        4. La boucle <b>for...of</b> parcourt les valeurs de l'objet.
+    </p>
+</div>
+
+<h3 id="diff">5. Différence avec les Objets Non Itérables</h3>
+<p>
+    Les objets JavaScript classiques (comme <b>{ a: 1, b: 2 }</b>) ne sont pas itérables par défaut. 
+    Pour parcourir leurs propriétés, on utilise <b>for...in</b> (pour les clés) ou des méthodes comme <b>Object.keys()</b>, <b>Object.values()</b>, 
+    ou <b>Object.entries()</b>.
+    Exemple :
+</p>
+<textarea class="code-php" id="ta-6">
+    const obj = { a: 1, b: 2 };
+    // for (const val of obj) { // Erreur : obj n'est pas itérable
+    //     console.log(val);
+    // }
+    Object.keys(obj).forEach(key => console.log(key)); // a, b
+    Object.values(obj).forEach(val => console.log(val)); // 1, 2
+</textarea>
+<button id="copy-6" class="btn btn-secondary btn-sm" data-target="ta-6" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h3 id="gen">6. Itérateurs et Générateurs</h3>
+<p>
+    Les générateurs sont une manière simplifiée de créer des itérateurs. Une fonction génératrice (définie avec <b>function*</b>) 
+    renvoie automatiquement un itérateur.
+    Exemple :
+</p>
+<textarea class="code-php" id="ta-7">
+    function* generateur() {
+        yield 1;
+        yield 2;
+        yield 3;
+    }
+    
+    const iter = generateur();
+    for (const val of iter) {
+        console.log(val); // 1, 2, 3
+    }
+</textarea>
+<button id="copy-7" class="btn btn-secondary btn-sm" data-target="ta-7" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<div class="alert alert-info mt-4">
+    <st-r>Explications</st-r> <hr>
+    <p>
+        1. La fonction génératrice <b>generateur</b> renvoie un itérateur. <br>
+        Elle utilise l'instruction <b>yield</b> pour renvoyer des valeurs.
+    </p>
+    <p>
+        2. L'itérateur renvoie un objet avec une méthode <b>next()</b> qui renvoie un objet { value, done }.
+    </p>
+    <p>
+        3. L'itérateur est épuisé après avoir renvoyé toutes les valeurs.
+    </p>
+</div>
+
+<h3 id="pratique">7. Applications Pratiques</h3>
+<ul>
+    <li>Parcourir des données dynamiques (ex. : API paginée).</li>
+    <li>Manipuler des structures complexes (ex. : arbres, graphes).</li>
+    <li>Simplifier le traitement des collections personnalisées.</li>
+</ul>
+
