@@ -1,0 +1,210 @@
+
+<h3 id="intro">1. Introduction</h3>
+<p>
+    La commande <b>DELETE</b> en <b>SQL</b> est utilisée pour supprimer des lignes (enregistrements) d'une table dans une base de données. Elle est particulièrement puissante 
+    car elle permet de supprimer des données de manière sélective ou totale, selon les conditions spécifiées. Dans MariaDB, qui est une base de données relationnelle 
+    open-source compatible avec MySQL, la syntaxe et le fonctionnement de <b>DELETE</b> sont standards, mais il existe aussi des extensions spécifiques que nous aborderons.
+</p>
+
+<h3 id="syntaxe">2. Syntaxe de base</h3>
+<p>
+    La syntaxe générale de la commande <b>DELETE</b> est la suivante :
+</p>
+<textarea class="code-php" id="">
+    DELETE FROM nom_table
+    WHERE condition;
+</textarea>
+
+<ul class="mt-4">
+    <li><b>DELETE FROM</b> : Indique que vous voulez supprimer des données d'une table spécifique.</li>
+    <li><b>nom_table</b> : Le nom de la table concernée.</li>
+    <li><b>WHERE</b> : Une clause optionnelle qui spécifie quelles lignes doivent être supprimées. Sans cette clause, toutes les lignes de la table seront supprimées.</li>
+</ul>
+
+<h4>
+    <st-r>Exemple simple</st-r>
+</h4>
+
+<h4>Créer la table employes et ajouter des données</h4>
+<textarea class="code-php" id="ta-1">
+    CREATE TABLE employes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(50),
+    prenom VARCHAR(50),
+    salaire DECIMAL(10, 2),
+    id_dept INT
+    );
+
+    INSERT INTO employes (nom, prenom, salaire, id_dept) VALUES
+        ('Dupont', 'Jean', 3000.00, 1),
+        ('Martin', 'Sophie', 3500.00, 2),
+        ('Durand', 'Paul', 2800.00, 1);
+
+    CREATE TABLE departements (
+        id_dept INT AUTO_INCREMENT PRIMARY KEY,
+        nom_dept VARCHAR(50)
+    );
+    
+    INSERT INTO departements (nom_dept) VALUES
+        ('Ressources Humaines'),
+        ('Ventes'),
+        ('Marketing');    
+</textarea>
+<button id="copy-1" class="btn btn-secondary btn-sm" data-target="ta-1" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p>
+    Supposons une table employes avec les colonnes suivantes : id, nom, prenom, salaire et id_dept . Voici un exemple de données :
+</p>
+<textarea class="code-php" id="">
+    id  	nom	    prenom	salaire     id_dept
+    -------------------------------------------
+    1	    Dupont	Jean	3000        1
+    2	    Martin	Sophie	3500        2
+    3	    Durand	Paul	2800        1
+</textarea>
+
+<h4>Si nous voulons supprimer l'employé avec l'id 2 :</h4>
+<textarea class="code-php" id="ta-2">
+    DELETE FROM employes
+    WHERE id = 2;
+</textarea>
+<button id="copy-2" class="btn btn-secondary btn-sm" data-target="ta-2" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    Résultat après exécution :
+</p>
+<textarea class="code-php" id="">
+    id  	nom	    prenom	salaire     id_dept
+    -------------------------------------------
+    1	    Dupont	Jean	3000        1
+    3	    Durand	Paul	2800        1
+</textarea>
+
+<h4>Suppression de toutes les lignes</h4>
+<p>
+    Pour supprimer toutes les données d'une table (sans supprimer la structure de la table elle-même) :
+</p>
+<textarea class="code-php" id="ta-3">
+    DELETE FROM employes;
+</textarea>
+<button id="copy-3" class="btn btn-secondary btn-sm" data-target="ta-3" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    <st-r>Après cette commande, la table <b>employes</b> sera vide, mais elle existera toujours dans la base de données.</st-r>
+</p>
+
+<h3 id="advanced">3. Utilisation avancée</h3>
+
+<h5>1. Avec plusieurs conditions dans <b>WHERE</b> : Supprimons les employés dont le salaire est inférieur à 3000 :</h5>
+<textarea class="code-php" id="ta-4">
+    DELETE FROM employes
+    WHERE salaire < 3000;
+</textarea>
+<button id="copy-4" class="btn btn-secondary btn-sm" data-target="ta-4" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h5>2. Avec des sous-requêtes : Supposons une table departements avec une colonne id_dept et que nous voulons supprimer les employés d’un département spécifique :</h5>
+<textarea class="code-php" id="ta-5">
+    DELETE employes, departements
+    FROM employes
+    JOIN departements ON employes.id_dept = departements.id_dept
+    WHERE departements.nom_dept = 'Marketing';
+</textarea>
+<button id="copy-5" class="btn btn-secondary btn-sm" data-target="ta-5" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h5>
+    3. Suppression multi-tables (spécifique à MariaDB/MySQL) : MariaDB permet de supprimer des données de plusieurs tables en une seule requête en utilisant une jointure. 
+    Exemple avec deux tables, employes et departements :
+</h5>
+<textarea class="code-php" id="ta-6">
+    DELETE employes, departements
+    FROM employes
+    JOIN departements ON employes.id_dept = departements.id_dept
+    WHERE departements.nom_dept = 'Marketing';
+</textarea>
+<button id="copy-6" class="btn btn-secondary btn-sm" data-target="ta-6" data-toggle="tooltip" title="Copy code">Copy</button>
+<p class="mt-4">
+    Cela supprime les lignes correspondantes dans les deux tables où le département est "Marketing".
+</p>
+
+<h3 id="bestpractices">4. Précautions et bonnes pratiques</h3>
+
+<h4>1. Tester avec <b>SELECT</b> avant <b>DELETE</b></h4>
+<p>
+    Vérifier les lignes affectées avant de supprimer :
+</p>
+<textarea class="code-php" id="ta-7">
+    SELECT * FROM employes 
+    WHERE salaire < 3000;
+</textarea>
+<button id="copy-7" class="btn btn-secondary btn-sm" data-target="ta-7" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4>2. Utilisation des transactions</h4>
+<p>
+    Supprimer un employé dans une transaction (avec possibilité d’annuler) :
+</p>
+<textarea class="code-php" id="ta-8">
+    START TRANSACTION;
+    DELETE FROM employes WHERE id = 1;
+    -- Vérifiez le résultat
+    ROLLBACK; -- Annule la suppression
+    -- ou COMMIT; pour confirmer
+</textarea>
+<button id="copy-8" class="btn btn-secondary btn-sm" data-target="ta-8" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4>3. Avec LIMIT</h4>
+<p>
+    Supprimer une seule ligne parmi celles où le salaire est inférieur à 3000 :
+</p>
+<textarea class="code-php" id="ta-9">
+    DELETE FROM employes
+    WHERE salaire < 3000
+    LIMIT 1;
+</textarea>
+<button id="copy-9" class="btn btn-secondary btn-sm" data-target="ta-9" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h3 id="exos">Exercices pratiques</h3>
+<h4>1. Création de la table et insertion de données</h4>
+<p>
+    Créer une table clients et ajouter des données :
+</p>
+<textarea class="code-php" id="ta-10">
+    CREATE TABLE clients (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        nom VARCHAR(50),
+        ville VARCHAR(50)
+    );
+    INSERT INTO clients (nom, ville) VALUES
+        ('Alice', 'Paris'),
+        ('Bob', 'Lyon'),
+        ('Claire', 'Paris'),
+        ('David', 'Marseille');
+</textarea>
+<button id="copy-10" class="btn btn-secondary btn-sm" data-target="ta-10" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4>2. Supprimer les clients de Paris :</h4>
+<details>
+    <summary>Afficher la réponse</summary>
+    <textarea class="code-php" id="ta-11">
+        DELETE FROM clients
+        WHERE ville = 'Paris';
+    </textarea>
+    <button id="copy-11" class="btn btn-secondary btn-sm" data-target="ta-11" data-toggle="tooltip" title="Copy code">Copy</button>
+</details>
+
+<h4>3. Supprimer les 2 premiers clients (par ordre d’id) :</h4>
+<details>
+    <summary>Afficher la réponse</summary>
+    <textarea class="code-php" id="ta-12">
+        DELETE FROM clients
+        ORDER BY id
+        LIMIT 2;
+    </textarea>
+    <button id="copy-12" class="btn btn-secondary btn-sm" data-target="ta-12" data-toggle="tooltip" title="Copy code">Copy</button>
+</details>
+
+
+
+
+
+
+

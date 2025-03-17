@@ -1,0 +1,352 @@
+<h3>Sommaire</h3>
+<ol>
+   
+</ol>
+
+<h3 id="intro">1. Introduction à la commande UPDATE</h3>
+<p>
+    La commande <b>UPDATE</b> est utilisée pour modifier des données existantes dans une ou plusieurs tables d’une base de données relationnelle. Elle est essentielle pour mettre à jour 
+    des informations sans avoir à supprimer et réinsérer des lignes. <br>
+    Syntaxe de base :
+</p>
+<textarea class="code-php" id="ta-1">
+    UPDATE nom_table
+    SET colonne1 = nouvelle_valeur1, colonne2 = nouvelle_valeur2, ...
+    [WHERE condition];
+</textarea>
+<button id="copy-1" class="btn btn-secondary btn-sm" data-target="ta-1" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<ul class="mt-4">
+    <li><b>UPDATE</b> nom_table : Indique la table à modifier.</li>
+    <li><b>SET</b> : Définit les colonnes à mettre à jour et leurs nouvelles valeurs.</li>    
+    <li><b>WHERE</b> (optionnel) : Spécifie quelles lignes doivent être modifiées. Sans cette clause, toutes les lignes de la table seront mises à jour !</li>
+</ul>
+
+<h3 id="exosimple">2. Exemple simple</h3>
+<h4>
+    <st-r>Création de la table et insertion des données</p><st-r>
+</h4>
+<textarea class="code-php" id="ta-2">
+    -- Création de la table etudiants
+    CREATE TABLE etudiants (
+        id INT PRIMARY KEY AUTO_INCREMENT,
+        nom VARCHAR(50),
+        age INT,
+        ville VARCHAR(50)
+    );
+
+    -- Insertion des données initiales
+    INSERT INTO etudiants (nom, age, ville) VALUES
+    ('Alice', 20, 'Paris'),
+    ('Bob', 22, 'Lyon'),
+    ('Claire', 19, 'Marseille');
+</textarea>
+<button id="copy-2" class="btn btn-secondary btn-sm" data-target="ta-2" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4 class="mt-4">
+    Données de départ :
+</h4>
+<textarea class="code-php" id="">
+    id	nom     age	    ville
+    -----------------------------
+    1	Alice	20	    Paris
+    2	Bob	    22	    Lyon
+    3	Claire	19	    Marseille
+</textarea>
+
+<h4 class="mt-4">
+    <st-r>Mettre à jour une seule colonne</st-r>
+</h4>
+<p>
+    Pour changer l’âge d’Alice de 20 à 21 :
+</p>
+<textarea class="code-php" id="ta-3">
+    UPDATE etudiants
+    SET age = 21
+    WHERE nom = 'Alice';
+</textarea>
+<button id="copy-3" class="btn btn-secondary btn-sm" data-target="ta-3" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    Résultat :
+</p>
+<textarea class="code-php" id="">
+    id	nom     age	    ville
+    -----------------------------
+    1	Alice	21	    Paris
+    2	Bob	    22	    Lyon
+    3	Claire	19	    Marseille
+</textarea>
+
+<h4>
+    <st-r>Mettre à jour plusieurs colonnes</st-r>
+</h4>
+<p>
+    Pour changer la ville et l’âge de Bob :
+</p>
+<textarea class="code-php" id="ta-4">
+    UPDATE etudiants
+    SET ville = 'Nice', age = 23
+    WHERE nom = 'Bob';
+</textarea>
+<button id="copy-4" class="btn btn-secondary btn-sm" data-target="ta-4" data-toggle="tooltip" title="Copy code">Copy</button>
+<p class="mt-4">
+    Résultat :
+</p>
+<textarea class="code-php" id="">
+    id	nom     age	    ville
+    -----------------------------
+    1	Alice	21	    Paris
+    2	Bob	    23	    Nice
+    3	Claire	19	    Marseille
+</textarea>
+
+<h4>
+    <st-r>Sans <b>WHERE</b> (<span class="red">attention !</span>)</st-r>    
+</h4>
+
+<textarea class="code-php" id="">
+    UPDATE etudiants
+    SET ville = 'Toulouse';
+</textarea>
+
+<div class="alert alert-danger mt-4">
+    <st-r>Cela mettra à jour toutes les lignes de la table <b>étudiants</b> !</st-r>
+</div>
+
+<h3 id="advanced">3. Utilisation avancée de UPDATE</h3>
+<h4>
+    <st-r>Avec des expressions</st-r>
+</h4>
+<p>
+    Vous pouvez utiliser des calculs ou des fonctions dans <b>SET</b>. Par exemple, augmenter l’âge de tous les étudiants de 1 an :
+</p>
+<textarea class="code-php" id="ta-5">
+    UPDATE etudiants
+    SET age = age + 1;
+</textarea>
+<button id="copy-5" class="btn btn-secondary btn-sm" data-target="ta-5" data-toggle="tooltip" title="Copy code">Copy</button>
+<p class="mt-4">
+    Résultat :
+</p>
+<textarea class="code-php" id="">
+    id	nom     age	    ville
+    -----------------------------
+    1	Alice	22	    Paris
+    2	Bob	    24	    Nice
+    3	Claire	20	    Marseille
+</textarea>
+
+<h4>
+    <st-r>Avec des conditions complexes</st-r>
+</h4>
+<p>
+    Pour mettre à jour uniquement les étudiants de 22 ans ou moins et vivant à Paris :
+</p>
+<textarea class="code-php" id="ta-6">
+    UPDATE etudiants
+    SET ville = 'Bordeaux'
+    WHERE age <= 22 AND ville = 'Paris';
+</textarea>
+<button id="copy-6" class="btn btn-secondary btn-sm" data-target="ta-6" data-toggle="tooltip" title="Copy code">Copy</button>
+<p class="mt-4">
+    Résultat :
+</p>
+<textarea class="code-php" id="">
+    id	nom	    age	    ville
+    1	Alice	22	    Bordeaux
+    2	Bob	    24	    Nice
+    3	Claire	20	    Marseille
+</textarea>
+
+<h3 id="upd-join">4. UPDATE avec jointures</h3>
+<p>
+    Dans <b>MariaDB</b>, vous pouvez combiner <b>UPDATE</b> avec des jointures pour modifier des données en fonction de relations entre tables.
+</p>
+
+<h4>
+    Exemple avec deux tables
+</h4>
+<p>
+    Les tables :
+</p>
+<ul>
+    <li><b>etudiants</b> : Informations sur les étudiants.</li>
+    <li><b>cours</b> : Informations sur les cours suivis.</li>
+</ul>
+<p>
+    <st-r>Création des tables et insertion des données</st-r>
+</p>
+<textarea class="code-php" id="ta-7">
+    -- Création de la table etudiants
+    CREATE TABLE etudiants (
+        id INT PRIMARY KEY AUTO_INCREMENT,
+        nom VARCHAR(50),
+        cours_id INT
+    );
+
+    -- Création de la table cours
+    CREATE TABLE cours (
+        cours_id INT PRIMARY KEY,
+        nom_cours VARCHAR(50),
+        credits INT
+    );
+
+    -- Insertion des données
+    INSERT INTO etudiants (nom, cours_id) VALUES
+    ('Alice', 101),
+    ('Bob', 102);
+
+    INSERT INTO cours (cours_id, nom_cours, credits) VALUES
+    (101, 'Maths', 3),
+    (102, 'Physique', 4);
+</textarea>
+<button id="copy-7" class="btn btn-secondary btn-sm" data-target="ta-7" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4>Mise à jour avec jointure</h4>
+<p>
+    <st-r>Pour augmenter les crédits des cours suivis par Bob :</st-r>
+</p>
+<textarea class="code-php" id="ta-8">
+    UPDATE cours
+    JOIN etudiants ON cours.cours_id = etudiants.cours_id
+    SET cours.credits = cours.credits + 1
+    WHERE etudiants.nom = 'Bob';
+</textarea>
+<button id="copy-8" class="btn btn-secondary btn-sm" data-target="ta-8" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    Résultat dans <b>cours</b> :    
+</p>
+<textarea class="code-php" id="">
+    cours_id	nom_cours	credits
+    -----------------------------
+    101	        Maths	    3
+    102	        Physique	5
+</textarea>
+
+<h3 id="bestpractices">5. Bonnes pratiques et précautions</h3>
+<p>
+    <st-r>1. Testez avec <b>SELECT</b>.</st-r>
+</p>
+<p>
+    Avant de lancer une commande <b>UPDATE</b>, testez-la avec une requête <b>SELECT</b> pour vérifier les lignes affectées.
+</p>
+<textarea class="code-php" id="ta-9">
+    SELECT * FROM etudiants WHERE age <= 22 AND ville = 'Paris';
+</textarea>
+<button id="copy-9" class="btn btn-secondary btn-sm" data-target="ta-9" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    <st-r>2. Utilisez des transactions :</st-r>
+</p>
+<p>
+    Pour éviter les erreurs, entourez vos commandes <b>UPDATE</b> dans une transaction :
+</p>
+<textarea class="code-php" id="ta-10">
+    START TRANSACTION;
+    UPDATE etudiants SET age = 25 WHERE nom = 'Alice';
+    ROLLBACK; -- ou COMMIT;
+</textarea>
+<button id="copy-10" class="btn btn-secondary btn-sm" data-target="ta-10" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    <st-r>3. Sauvegardez vos données avant des modifications massives.</st-r>
+</p>
+<p class="mt-4">
+    <st-r>4. Limitez les modifications :</st-r>
+</p>
+<textarea class="code-php" id="">
+    UPDATE etudiants SET age = 30 LIMIT 1;
+</textarea>
+<p>
+    Explications :
+</p>
+<ol>  
+    <li><st-r>Table ciblée</st-r> : etudiants - La table dans laquelle la mise à jour sera effectuée.</li>
+    <li><st-r>Colonne mise à jour</st-r> : age - La colonne dont la valeur sera modifiée.</li>
+    <li><st-r>Nouvelle valeur</st-r> : 30 - La nouvelle valeur qui sera attribuée à la colonne age.</li>
+    <li><st-r>Limitation</st-r> : LIMIT 1 - Cette clause limite la mise à jour à une seule ligne de la table.</li>
+</ol>
+
+<h3 id="exo-pratiques">6. Exercices pratiques</h3>
+
+<h4>Création des tables pour les exercices</h4>
+<textarea class="code-php" id="ta-11">
+    -- Création de la table employes
+    CREATE TABLE employes (
+        id INT PRIMARY KEY AUTO_INCREMENT,
+        nom VARCHAR(50),
+        salaire DECIMAL(10, 2)
+    );
+
+    -- Création de la table departements
+    CREATE TABLE departements (
+        dept_id INT PRIMARY KEY,
+        nom_dept VARCHAR(50),
+        employe_id INT
+    );
+
+    -- Insertion des données
+    INSERT INTO employes (nom, salaire) VALUES
+    ('Jean', 1800.00),
+    ('Marie', 2500.00),
+    ('Paul', 1900.00);
+
+    INSERT INTO departements (dept_id, nom_dept, employe_id) VALUES
+    (1, 'RH', 1),
+    (2, 'IT', 2),
+    (3, 'Finance', 3);
+</textarea>
+<button id="copy-11" class="btn btn-secondary btn-sm" data-target="ta-11" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4>Exercices</h4>
+
+<p>
+    <st-r>1. Augmentez le salaire de 10 % pour les employés ayant un salaire inférieur à 2000 :</st-r>
+</p>
+<details>
+    <summary>Afficher la réponse</summary>
+    <textarea class="code-php" id="ta-12">
+        UPDATE employes
+        SET salaire = salaire * 1.10
+        WHERE salaire < 2000;
+    </textarea>
+    <button id="copy-12" class="btn btn-secondary btn-sm" data-target="ta-12" data-toggle="tooltip" title="Copy code">Copy</button>
+</details>
+
+<p>
+    <st-r>2. Changez le nom de "Jean" en "John" :</st-r>
+</p>
+<details>
+    <summary>Afficher la réponse</summary>
+    <textarea class="code-php" id="ta-13">
+        UPDATE employes
+        SET nom = 'John'
+        WHERE id = 1;
+    </textarea>
+    <button id="copy-13" class="btn btn-secondary btn-sm" data-target="ta-13" data-toggle="tooltip" title="Copy code">Copy</button>
+</details>
+
+<p>
+    <st-r>3. Testez un <b>UPDATE</b> avec une jointure pour augmenter le salaire des employés du département "IT" :</st-r>
+</p>
+<details>
+    <summary>Afficher la réponse</summary>
+    <textarea class="code-php" id="ta-14">
+        UPDATE employes
+        JOIN departements ON employes.id = departements.employe_id
+        SET employes.salaire = employes.salaire + 500
+        WHERE departements.nom_dept = 'IT';
+    </textarea>
+    <button id="copy-14" class="btn btn-secondary btn-sm" data-target="ta-14" data-toggle="tooltip" title="Copy code">Copy</button>
+</details>
+
+
+
+
+
+
+
+
+

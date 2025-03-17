@@ -1,0 +1,46 @@
+<h3 id="intro">1. Introduction</h3>
+<p>
+    Dans <b>MariaDB</b> (et plus largement dans les bases de données SQL), les fonctions de manipulation de chaînes de caractères permettent de travailler avec du texte : 
+    extraire des sous-chaînes, modifier leur casse, les concaténer, etc. Ces fonctions sont essentielles pour traiter des données textuelles dans une base de données. 
+    Voici une présentation des principales fonctions, accompagnée d'exemples pratiques.
+</p>
+
+<h3 id="concat">2. <b>CONCAT</b> : Concaténer des chaînes</h3>
+<p>
+    La fonction <b>CONCAT()</b> permet de combiner plusieurs chaînes de caractères ou colonnes en une seule. <br>
+    Syntaxe :
+</p>
+<textarea class="code-php" id="">
+    CONCAT(str1, str2, ...)
+</textarea>
+
+<h4>Exemple: </h4>
+<p>Supposons une table employes avec les colonnes prenom et nom :</p>
+<textarea class="code-php" id="ta-1">
+    CREATE TABLE employes (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        prenom VARCHAR(50),
+        nom VARCHAR(50)
+    );
+
+    -- Insertion de données d'exemple
+    INSERT INTO employes (prenom, nom) VALUES
+    ('Jean', 'Dupont'),
+    ('Marie', 'Curie');
+</textarea>
+<button id="copy-1" class="btn btn-secondary btn-sm" data-target="ta-1" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p>Voici comment concaténer les colonnes prenom et nom :</p>
+<textarea class="code-php" id="ta-2">
+    SELECT CONCAT(prenom, ' ', nom) AS nom_complet
+    FROM employes;
+</textarea>
+<button id="copy-2" class="btn btn-secondary btn-sm" data-target="ta-2" data-toggle="tooltip" title="Copy code">Copy</button>
+<p class="mt-4">Résultat (exemple) :</p>
+<textarea class="code-php" id="">
+    nom_complet
+    -----------
+    Jean Dupont
+    Marie Curie
+</textarea>
+
