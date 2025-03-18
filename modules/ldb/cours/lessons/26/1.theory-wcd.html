@@ -1,0 +1,224 @@
+<h3>Sommaire</h3>
+<ul>
+    <li><a href="#intro">1. Introduction</a></li>
+    <li><a href="#vuemod">2. Vues modifiables (Updatable Views)</a></li>
+    <li><a href="#check">3. Vues avec WITH CHECK OPTION</a></li>
+    <li><a href="#material">4. Vues matérialisées (Materialized Views)</a></li>
+    <li><a href="#privilege">5. Gestion des privilèges sur les vues</a></li>
+    <li><a href="#perf">6. Performances des vues</a></li>
+    <li><a href="#debug">8. Debugging et inspection des vues</a></li>
+    <li><a href="#conclusion">9. Conclusion</a></li>
+</ul>
+<h3 id="intro">1. Introduction</h3>
+<p>
+    Dans cette leçon, nous aborderons une liste de concepts et fonctionnalités avancés, accompagnés d'explications et d'exemples concrets basés sur les tables <b>employes</b> et <b>departements</b> 
+    déjà établies.
+</p>
+
+<h3 id="vuemod">2. Vues modifiables (Updatable Views)</h3>
+<p>
+    Certaines vues peuvent être utilisées pour modifier les données des tables sous-jacentes (via <b>INSERT</b>, <b>UPDATE</b>, ou <b>DELETE</b>), mais cela dépend de leur structure.
+</p>
+
+<h4>Conditions pour qu'une vue soit modifiable :</h4>
+<ul>
+    <li>Elle doit être basée sur une seule table (pas de jointures complexes).</li>
+    <li>Elle ne doit pas contenir de fonctions d'agrégation (<b>SUM</b>, <b>COUNT</b>, etc.), de <b>GROUP BY</b>, <b>DISTINCT</b>, ou de sous-requêtes dans le <b>SELECT</b>.</li>
+    <li>Les colonnes non incluses dans la vue doivent avoir des valeurs par défaut ou accepter <b>NULL</b> si elles sont obligatoires.</li>
+</ul>
+
+<h5>Exemple :</h5>
+<p>Reprenons la vue simple <b>vue_it</b> :</p>
+<textarea class="code-php" id="ta-1">
+    CREATE OR REPLACE VIEW vue_it AS
+    SELECT nom, salaire
+    FROM employes
+    WHERE departement = 'IT';
+</textarea>
+<button id="copy-1" class="btn btn-secondary btn-sm" data-target="ta-1" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4"><st-r>Mise à jour via la vue</st-r> :</p>
+<textarea class="code-php" id="ta-2">
+    UPDATE vue_it
+    SET salaire = salaire + 500
+    WHERE nom = 'Bob';
+</textarea>
+<button id="copy-2" class="btn btn-secondary btn-sm" data-target="ta-2" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4"><st-r>Vérifions la table <b>employes</b></st-r> :</p>
+<textarea class="code-php" id="ta-3">
+     SELECT * FROM employes WHERE nom = 'Bob';
+</textarea>
+<button id="copy-3" class="btn btn-secondary btn-sm" data-target="ta-3" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4"><st-r>Résultat</st-r>:</p>
+<p>Le salaire de bob est passé de 3500 à 4000</p>
+<textarea class="code-php" id="">
+   id| nom | departement | salaire
+   --|-----|-------------|--------
+   2 | Bob | IT          | 4000
+</textarea>
+
+<p class="mt-4">
+    <st-r>Limitation</st-r> : Si la vue incluait une jointure (comme <b>vue_employes_departements</b>), elle ne serait pas modifiable directement.
+</p>
+
+
+<h3 id="check">3. Vues avec WITH CHECK OPTION</h3>
+<p>
+    L'option <b>WITH CHECK OPTION</b> garantit que toute modification (via <b>INSERT</b> ou <b>UPDATE</b>) respecte la condition <b>WHERE</b> de la vue.
+</p>
+
+<h4>Exemple :</h4>
+
+<textarea class="code-php" id="ta-4">
+    CREATE OR REPLACE VIEW vue_it AS
+    SELECT id, nom, salaire, departement
+    FROM employes
+    WHERE departement = 'IT'
+    WITH CHECK OPTION;
+</textarea>
+<button id="copy-4" class="btn btn-secondary btn-sm" data-target="ta-4" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4"><st-r>Tentons d'insérer un employé dans un autre département</st-r> :</p>
+<textarea class="code-php" id="ta-5">
+    INSERT INTO vue_it (nom, salaire) VALUES ('Eve', 4500);
+</textarea>
+<button id="copy-5" class="btn btn-secondary btn-sm" data-target="ta-5" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4"><st-r>Erreur</st-r> : <br>
+    MariaDB refusera cette insertion car departement n'est pas spécifié dans la vue, il manque des noms de champs et il manque surtout 'IT' dans le département.
+</p>
+
+<p class="mt-4"><st-r>Insertion valide</st-r> :</p>
+<textarea class="code-php" id="ta-6">
+    UPDATE employes SET departement = 'IT' WHERE nom = 'Diana'; -- Changement préalable
+    INSERT INTO vue_it (id, nom, salaire, departement) VALUES (5, 'Mike', 8000, 'IT');
+</textarea>
+<button id="copy-6" class="btn btn-secondary btn-sm" data-target="ta-6" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h3 id="material">4. Vues matérialisées (Materialized Views)</h3>
+<p>
+    MariaDB ne prend pas en charge les vues matérialisées nativement (contrairement à PostgreSQL ou Oracle), mais on peut simuler ce comportement avec une table temporaire ou une table 
+    physique mise à jour périodiquement.
+</p>
+
+<h4>Simulation :</h4>
+
+<p>Créons une table pour stocker les données de vue_salaire_annuel :</p>
+<textarea class="code-php" id="ta-7">
+    CREATE TABLE salaire_annuel_mat AS
+    SELECT nom, salaire, salaire * 12 AS salaire_annuel
+    FROM employes;
+</textarea>
+<button id="copy-7" class="btn btn-secondary btn-sm" data-target="ta-7" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4"><st-r>Mise à jour manuelle</st-r> :</p>
+<textarea class="code-php" id="ta-8"> 
+    TRUNCATE TABLE salaire_annuel_mat; -- Effacer les données
+    INSERT INTO salaire_annuel_mat
+    SELECT nom, salaire, salaire * 12
+    FROM employes;
+</textarea>
+<button id="copy-8" class="btn btn-secondary btn-sm" data-target="ta-8" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4"><st-r>Note</st-r> : Pour une vraie vue matérialisée, il faudrait un déclencheur ou une tâche planifiée, mais cela dépasse les capacités natives des vues dans MariaDB.</p>
+
+<h3>5. Vues avec sous-requêtes</h3>
+<p>
+    Les vues peuvent inclure des sous-requêtes pour des cas plus complexes.
+</p>
+
+<h4>Exemple :</h4>
+<p>Créons une vue pour les employés ayant un salaire supérieur à la moyenne de leur département :</p>
+<textarea class="code-php" id="ta-9">
+    CREATE VIEW vue_salaire_sup_moyenne AS
+    SELECT e.nom, e.salaire, e.departement
+    FROM employes e
+    WHERE e.salaire > (
+        SELECT AVG(salaire)
+        FROM employes e2
+        WHERE e2.departement = e.departement
+    );
+</textarea>
+<button id="copy-9" class="btn btn-secondary btn-sm" data-target="ta-9" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">Résultat :</p>
+<textarea class="code-php" id="ta-10">
+    SELECT * FROM vue_salaire_sup_moyenne;
+</textarea>
+<button id="copy-10" class="btn btn-secondary btn-sm" data-target="ta-10" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h3 id="privilege">6. Gestion des privilèges sur les vues</h3>
+<p>Les vues peuvent être utilisées pour restreindre l'accès aux données. Un utilisateur peut avoir accès à une vue sans voir la table complète.</p>
+
+<h4>Exemple :</h4>
+<p>Accordons un accès limité à un utilisateur :</p>
+<textarea class="code-php" id="ta-11">
+    CREATE USER 'lecteur'@'localhost' IDENTIFIED BY 'mdp';
+    GRANT SELECT ON vue_it TO 'lecteur'@'localhost';
+    FLUSH PRIVILEGES;
+</textarea>
+<button id="copy-11" class="btn btn-secondary btn-sm" data-target="ta-11" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">Cet utilisateur ne verra que les employés du département IT, pas la table entière.</p>
+
+<h3 id="perf">6. Performances des vues</h3>
+<ul>
+    <li>Les vues sont recalculées à chaque appel, ce qui peut ralentir les performances pour des requêtes complexes ou sur de grandes tables.</li>
+    <li>Pour optimiser, on peut indexer les tables sous-jacentes ou, si possible, utiliser des tables matérialisées simulées.</li>
+</ul>
+
+<h4>Exemple d'index :</h4>
+<textarea class="code-php" id="ta-12">
+    CREATE INDEX idx_dept ON employes(departement);
+</textarea>
+<button id="copy-12" class="btn btn-secondary btn-sm" data-target="ta-12" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<!--
+<h3 id="vue-temp">7. Vues temporaires</h3>
+<p>
+    MariaDB ne supporte pas directement les vues temporaires, mais on peut utiliser une table temporaire avec une vue :
+</p>
+<textarea class="code-php" id="ta-13">
+    CREATE TEMPORARY TABLE temp_employes AS
+    SELECT * FROM employes WHERE salaire > 3500;
+    
+    CREATE VIEW vue_temp AS
+    SELECT nom, salaire FROM temp_employes;
+</textarea>
+<button id="copy-13" class="btn btn-secondary btn-sm" data-target="ta-13" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">Résultat :</p>
+<textarea class="code-php" id="ta-14">
+    SELECT * FROM vue_temp;
+</textarea>
+<button id="copy-14" class="btn btn-secondary btn-sm" data-target="ta-14" data-toggle="tooltip" title="Copy code">Copy</button>
+-->
+
+<h3 id="debug">8. Debugging et inspection des vues</h3>
+<h4>Pour voir la définition d'une vue :</h4>
+<textarea class="code-php" id="ta-15">
+    SHOW CREATE VIEW vue_it;
+</textarea>
+<button id="copy-15" class="btn btn-secondary btn-sm" data-target="ta-15" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4>Pour lister toutes les vues :</h4>
+<textarea class="code-php" id="ta-16">
+    SELECT TABLE_NAME
+    FROM INFORMATION_SCHEMA.VIEWS
+    WHERE TABLE_SCHEMA = 'test'; -- nom de ta base
+</textarea>
+<button id="copy-16" class="btn btn-secondary btn-sm" data-target="ta-16" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h3 id="conclusion">9. Conclusion</h3>
+<p>
+    Ces concepts supplémentaires (<b>vues modifiables</b>, <b>WITH CHECK OPTION</b>, <b>sous-requêtes</b>, <b>privilèges</b>, <b>performances</b>, etc.) permettent d'exploiter pleinement les vues dans MariaDB.     
+</p>
+
+
+
+
+
+
+

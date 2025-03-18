@@ -1,3 +1,16 @@
+<h3>Sommaire</h3>
+<ul>
+    <li><a href="#intro">1. Introduction</a></li>
+    <li><a href="#concat">2. CONCAT : Concaténer des chaînes</a></li>
+    <li><a href="#length">3. LENGTH : Calculer la longueur d'une chaîne</a></li>
+    <li><a href="#char_len">4. CHAR_LENGTH : Compter les caractères</a></li>
+    <li><a href="#uplow">5. UPPER et LOWER : Modifier la casse</a></li>
+    <li><a href="#substr">6. SUBSTRING : Extraire une sous-chaîne</a></li>
+    <li><a href="#trim">7. TRIM : Supprimer les espaces</a></li>
+    <li><a href="#replace">8. REPLACE : Remplacer du texte</a></li>
+    <li><a href="#left-right">9. LEFT et RIGHT : Extraire depuis les extrémités</a></li>
+    <li><a href="#exo">10. Un exercice pour pratiquer</a></li>
+</ul>
 <h3 id="intro">1. Introduction</h3>
 <p>
     Dans <b>MariaDB</b> (et plus largement dans les bases de données SQL), les fonctions de manipulation de chaînes de caractères permettent de travailler avec du texte : 
@@ -43,4 +56,230 @@
     Jean Dupont
     Marie Curie
 </textarea>
+
+<h3 dir="length">3. <b>LENGTH</b> : Calculer la longueur d'une chaîne</h3>
+<p>
+    Dans le langage SQL la fonction <b>LENGTH()</b> permet de calculer la longueur d’une chaîne de caractères.<br>
+    A noter : <st-r>la fonction se base sur le nombre d’octets</st-r>. Un caractère multi-octet compte comme un seul caractère. <br>
+    Autrement dit, un caractère tel que “œ” compte comme un seul caractère. <br>
+    Syntaxe :
+</p>
+<textarea class="code-php" id="">
+    LENGTH(str)
+</textarea>
+
+<h4>Exemple: </h4>
+<textarea class="code-php" id="ta-3">
+    SELECT LENGTH('Bonjour') AS longueur;
+</textarea>
+<button id="copy-3" class="btn btn-secondary btn-sm" data-target="ta-3" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p>Résultat :</p>
+<textarea class="code-php" id="">
+    longueur
+    --------
+    7
+</textarea>
+
+<h3 id="char_len">4. <b>CHAR_LENGTH</b> : Compter les caractères</h3>
+<p>
+    La fonction <b>CHAR_LENGTH()</b> renvoie la longueur d'une chaîne de caractères (en caractères).
+</p>
+<textarea class="code-php" id="">
+    CHAR_LENGTH(str)
+</textarea>
+
+<h4>Exemple :</h4>
+<textarea class="code-php" id="ta-4">
+    SELECT CHAR_LENGTH('Bonjoûr') AS longueur;
+    -- Pour démontrer la différence avec LENGTH()
+    SELECT LENGTH('Bonjoûr') AS longueur;    
+</textarea>
+<button id="copy-4" class="btn btn-secondary btn-sm" data-target="ta-4" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">Résultats :</p>
+<textarea class="code-php" id="">
+    longueur
+    --------
+    7
+
+    longueur
+    --------
+    8
+</textarea>
+
+<h3 id="uplow">5. <b>UPPER</b> et <b>LOWER</b> : Modifier la casse</h3>
+<ul>
+    <li><b>UPPER()</b> convertit une chaîne en majuscules.</li>
+    <li><b>LOWER()</b> convertit une chaîne en minuscules.</li>
+</ul>
+<p>Syntaxe :</p>
+<textarea class="code-php" id="">
+    UPPER(str)
+    LOWER(str)
+</textarea>
+
+<h4>Exemples :</h4>
+<textarea class="code-php" id="ta-5">
+    SELECT UPPER('bonjour') AS majuscules;
+    SELECT LOWER('BONJOUR') AS minuscules;
+</textarea>
+<button id="copy-5" class="btn btn-secondary btn-sm" data-target="ta-5" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">Résultats :</p>
+<textarea class="code-php" id="">
+    majuscules
+    ----------
+    BONJOUR
+
+    minuscules
+    ----------
+    bonjour
+</textarea>
+
+<h3 id="substr">6. <b>SUBSTRING</b> : Extraire une sous-chaîne</h3>
+<p>
+    La fonction <b>SUBSTRING()</b> permet d'extraire une partie d'une chaîne en fonction d'une position de départ et d'une longueur, le nombre de caractères (optionnelle). <br>
+    Si elle est omise, la chaîne entière sera renvoyée (à partir de la position de départ). <br>
+    Syntaxe :
+</p>
+<textarea class="code-php" id="">
+    SUBSTRING(str, position, longueur)
+</textarea>
+
+<h4>Exemple :</h4>
+<textarea class="code-php" id="ta-6">
+    SELECT SUBSTRING('MariaDB est génial', 1, 7) AS extrait;
+</textarea>
+<button id="copy-6" class="btn btn-secondary btn-sm" data-target="ta-6" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">Résultat :</p>
+<textarea class="code-php" id="">
+    extrait
+    --------
+    MariaDB
+</textarea>
+
+<h3 id="trim">7. <b>TRIM</b> : Supprimer les espaces</h3>
+<p>
+    La fonction <b>TRIM()</b> supprime les espaces de début et de fin d'une chaîne de caractères. <br>
+    Syntaxe :
+</p>
+<textarea class="code-php" id="">
+    TRIM([BOTH | LEADING | TRAILING] [caractère FROM] str)
+</textarea>
+
+<h4>Exemple :</h4>
+<textarea class="code-php" id="ta-7">
+    SELECT TRIM('  Bonjour  ') AS resultat;
+</textarea>
+<button id="copy-7" class="btn btn-secondary btn-sm" data-target="ta-7" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">Résultat :</p>
+<textarea class="code-php" id="">
+    resultat
+    --------
+    Bonjour
+</textarea>
+
+<h3 id="replace">8. <b>REPLACE</b> : Remplacer du texte</h3>
+<p>
+    La fonction <b>REPLACE()</b> remplace toutes les occurrences d'une sous-chaîne par une autre. <br>
+    Syntaxe :
+</p>
+<textarea class="code-php" id="">
+    REPLACE(str, recherche, remplacement)
+</textarea>
+
+<h4>Exemple :</h4>
+<textarea class="code-php" id="ta-8">
+    SELECT REPLACE('Bonjour le monde', 'le monde', ' à tous') AS resultat;
+</textarea>
+<button id="copy-8" class="btn btn-secondary btn-sm" data-target="ta-8" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">Résultat :</p>
+<textarea class="code-php" id="">
+    resultat
+    --------------
+    Bonjour à tous
+</textarea>
+
+<h3 id="left-right">9. <b>LEFT</b> et <b>RIGHT</b> : Extraire depuis les extrémités</h3>
+<ul>
+    <li><b>LEFT()</b> extrait un nombre donné de caractères depuis le début.</li>
+    <li><b>RIGHT()</b> extrait un nombre donné de caractères depuis la fin.</li>
+</ul>
+
+<p>Syntaxe :</p>
+<textarea class="code-php" id="">
+    LEFT(str, longueur)
+    RIGHT(str, longueur)
+</textarea>
+
+<h4>Exemple :</h4>
+<textarea class="code-php" id="ta-9">
+    SELECT LEFT('Bonjour', 3) AS debut;
+    SELECT RIGHT('Bonjour', 3) AS fin;
+</textarea>
+<button id="copy-9" class="btn btn-secondary btn-sm" data-target="ta-9" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">Résultats :</p>
+<textarea class="code-php" id="">
+    debut
+    ------
+    Bon
+
+    fin
+    ----
+    our
+</textarea>
+
+<h3 id="exo">Un exercice pour pratiquer</h3>
+<ol>
+    <li>Créez une table <b>produits</b> avec une colonne description (<b>VARCHAR</b>).</li>
+    <li>Insérez quelques descriptions (ex. : "Chaise en bois", "Table ronde").</li>
+    <li>Écrivez UNE requête qui :</li>
+    <ul>
+        <li>Concaténez la chaîne "Produit : " avec la description.</li>
+        <li>Convertissez la description en majuscules.</li>
+        <li>Extrayez les 5 premiers caractères.</li>
+    </ul>
+</ol>
+
+<details>
+    <summary>Afficher une solution possible</summary>
+    <textarea class="code-php" id="ta-12">
+        CREATE TABLE produits (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        description VARCHAR(50)
+        );
+
+        INSERT INTO produits (description) VALUES
+        ('Chaise en bois'),
+        ('Table ronde');
+
+        SELECT 
+        CONCAT('Produit : ', description) AS nom_produit,
+        UPPER(description) AS majuscules,
+        LEFT(description, 5) AS debut
+        FROM produits;
+    </textarea>
+    <button id="copy-12" class="btn btn-secondary btn-sm" data-target="ta-12" data-toggle="tooltip" title="Copy code">Copy</button>
+    <p>Résultat :</p>
+    <textarea class="code-php" id="">
+        nom_produit                 majuscules       debut
+        -----------------------     --------------   -----
+        Produit : Chaise en bois    CHAISE EN BOIS   Chais
+        Produit : Table ronde       TABLE RONDE      Table
+    </textarea>
+</details>
+
+
+
+
+
+
+
+
+
 

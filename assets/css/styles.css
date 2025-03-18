@@ -23,7 +23,7 @@
     --color-medium-jade: rgb(20, 93, 96);
     --color-lime-jade: rgba(26, 168, 173, 0.702);
     --color-medium-green: rgb(8, 155, 74);
-    --color-medium-blue: rgb(8, 99, 155);
+    --color-medium-blue: rgb(26, 136, 204);
     --color-medium-violet: rgb(91, 66, 170);
     --color-light-violet: rgb(208, 196, 250);
     --color-extralight-violet: rgb(232, 227, 251);
@@ -69,23 +69,23 @@ h3 {
     font-size: 1.5em;
     font-weight: bold;
     color: var(--color-light-turquoise);
-    margin: 0.8em 0.8em  0.8em 0;
+    margin: 1.2em 0.8em  1.0em 0;
     padding: 0.3em;
     border-bottom: 1px solid var(--color-light-turquoise);
     border-radius: .2em;    
 }
 
 h4 {    
-    font-size: 1.3em;
+    font-size: 1.2em;
     margin: 0.8em 0;
     padding: 0.3em;
     color: var(--color-medium-violet);
     font-weight: bold;
-    text-decoration: underline;
+    text-decoration: none;
 }
 
 h5 {
-    font-size: 1.2em;
+    font-size: 1.1em;
     margin: 0.8em 0;
     padding: 0.3em;
     font-weight: bold;
@@ -94,7 +94,7 @@ h5 {
 }
 
 h6 {
-    font-size: 1.1em;
+    font-size: 1.0em;
     font-weight: bold;   
     text-decoration: underline;
     color: var(--color-medium-green);

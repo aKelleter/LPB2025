@@ -1,0 +1,219 @@
+<h3 id="intro">1. Qu'est-ce qu'une vue ?</h3>
+<p>
+    Une <b>vue</b> (<st-r>view</st-r>) dans un système de gestion de bases de données relationnelles (SGBDR) comme MariaDB est une <st-r>table virtuelle basée sur le résultat d'une requête SQL</st-r>. 
+    Elle ne stocke pas physiquement les données, mais agit comme une "fenêtre" sur les données des tables sous-jacentes. Les vues sont utiles pour :
+</p>
+<ul>
+    <li>Simplifier des requêtes complexes.</li>
+    <li>Restreindre l'accès à certaines données.</li>
+    <li>Présenter les données sous une forme spécifique sans modifier les tables de base.</li>
+</ul>
+
+<h3 id="syntaxe">2. Syntaxe de base pour créer une vue</h3>
+<p>
+    Voici la syntaxe générale pour créer une vue dans MariaDB :
+</p>
+<textarea class="code-php" id="ta-1">
+    CREATE [OR REPLACE] VIEW nom_de_la_vue AS
+    SELECT colonne1, colonne2, ...
+    FROM table
+    [WHERE condition]
+    [GROUP BY colonne]
+    [ORDER BY colonne];
+</textarea>
+<button id="copy-1" class="btn btn-secondary btn-sm" data-target="ta-1" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<ul class="mt-4">
+    <li><b>CREATE VIEW</b> : Crée une nouvelle vue.</li>
+    <li><b>OR REPLACE</b> : Remplace une vue existante avec le même nom, si elle existe.</li>
+    <li><b>AS</b> : Définit la requête qui génère la vue.</li>
+</ul>
+
+<h3 id="exo-1">3. Exemple 1 : Création d'une vue simple</h3>
+
+<h4>Créons la table employés et départements avec des données</h4>
+<textarea class="code-php" id="ta-2">
+    CREATE TABLE employes (
+        id INT PRIMARY KEY,
+        nom VARCHAR(50),
+        salaire DECIMAL(10,2),
+        departement VARCHAR(50)
+    );
+
+    INSERT INTO employes (id, nom, salaire, departement) VALUES
+    (1, 'Alice', 3000.00, 'RH'),
+    (2, 'Bob', 3500.00, 'IT'),
+    (3, 'Charlie', 4000.00, 'IT'),
+    (4, 'Diana', 3200.00, 'RH');
+
+    CREATE TABLE departements (
+        id_dep INT PRIMARY KEY,
+        nom_departement VARCHAR(50),
+        budget DECIMAL(10,2)
+    );
+
+    INSERT INTO departements (id_dep, nom_departement, budget) VALUES
+    (1, 'RH', 50000.00),
+    (2, 'IT', 80000.00);
+</textarea>
+<button id="copy-2" class="btn btn-secondary btn-sm" data-target="ta-2" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4>Créons une vue qui affiche uniquement les employés du département IT :</h4>
+<textarea class="code-php" id="ta-3">
+    CREATE VIEW vue_it AS
+    SELECT nom, salaire
+    FROM employes
+    WHERE departement = 'IT';
+</textarea>
+<button id="copy-3" class="btn btn-secondary btn-sm" data-target="ta-3" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">Pour consulter la vue :</p>
+<textarea class="code-php" id="ta-4">
+    SELECT * FROM vue_it;
+</textarea>
+<button id="copy-4" class="btn btn-secondary btn-sm" data-target="ta-4" data-toggle="tooltip" title="Copy code">Copy</button>
+
+
+<h3 id="exo-2">4. Exemple 2 : Vue avec calculs</h3>
+<p>Créons une vue qui calcule le salaire annuel (salaire mensuel × 12) pour tous les employés :</p>
+<textarea class="code-php" id="ta-5">
+    CREATE VIEW vue_salaire_annuel AS
+    SELECT nom, salaire, salaire * 12 AS salaire_annuel
+    FROM employes;
+</textarea>
+<button id="copy-5" class="btn btn-secondary btn-sm" data-target="ta-5" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">Consultons la vue :</p>
+<textarea class="code-php" id="ta-6">
+    SELECT * FROM vue_salaire_annuel;
+</textarea>
+<button id="copy-6" class="btn btn-secondary btn-sm" data-target="ta-6" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p>Résultat :</p>
+<textarea class="code-php" id="">
+    +---------+---------+----------------+
+    | nom     | salaire | salaire_annuel |
+    +---------+---------+----------------+
+    | Alice   | 3000.00 | 36000.00       |
+    | Bob     | 3500.00 | 42000.00       |
+    | Charlie | 4000.00 | 48000.00       |
+    | Diana   | 3200.00 | 38400.00       |
+    +---------+---------+----------------+     
+</textarea>
+
+
+<h3 id="exo-3">5. Exemple 3 : Vue avec jointure</h3>
+<p>Créons une vue qui combine les employés et leurs départements :</p>
+<textarea class="code-php" id="ta-7">
+    CREATE VIEW vue_employes_departements AS
+    SELECT e.nom, e.salaire, d.nom_departement, d.budget
+    FROM employes e
+    JOIN departements d ON e.departement = d.nom_departement;
+</textarea>
+<button id="copy-7" class="btn btn-secondary btn-sm" data-target="ta-7" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">Consultons la vue :</p>
+<textarea class="code-php" id="ta-8">
+    SELECT * FROM vue_employes_departements;
+</textarea>
+<button id="copy-8" class="btn btn-secondary btn-sm" data-target="ta-8" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p>Résultat :</p>
+<textarea class="code-php" id="">
+    +---------+---------+-----------------+----------+
+    | nom     | salaire | nom_departement | budget   |
+    +---------+---------+-----------------+----------+
+    | Alice   | 3000.00 | RH              | 50000.00 |
+    | Bob     | 3500.00 | IT              | 80000.00 |
+    | Charlie | 4000.00 | IT              | 80000.00 |
+    | Diana   | 3200.00 | RH              | 50000.00 |
+    +---------+---------+-----------------+----------+
+</textarea>
+
+<h3 id="modif">6. Modifier une vue</h3>
+<p>
+    Pour modifier une vue existante, utilisez <b>CREATE OR REPLACE VIEW</b>. Par exemple, ajoutons une condition à vue_it :
+</p>
+<textarea class="code-php" id="ta-9">
+    CREATE OR REPLACE VIEW vue_it AS
+    SELECT nom, salaire
+    FROM employes
+    WHERE departement = 'IT' AND salaire > 3700;
+</textarea>
+<button id="copy-9" class="btn btn-secondary btn-sm" data-target="ta-9" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    Résultat après modification :
+</p>
+<textarea class="code-php" id="">
+    +---------+---------+
+    | nom     | salaire |
+    +---------+---------+
+    | Charlie | 4000.00 |
+    +---------+---------+
+</textarea>
+
+<h3 id="del">7. Supprimer une vue</h3>
+<p>Pour supprimer une vue :</p>
+<textarea class="code-php" id="ta-10">
+    DROP VIEW vue_it;
+</textarea>
+<button id="copy-10" class="btn btn-secondary btn-sm" data-target="ta-10" data-toggle="tooltip" title="Copy code">Copy</button>
+
+
+<h3 id="avant">8. Avantages et limites</h3>
+<h4>Avantages :</h4>
+<ul>
+    <li>Simplifie les requêtes fréquentes.</li>
+    <li>Améliore la sécurité en limitant l'accès aux colonnes ou lignes sensibles.</li>
+    <li>Facilite la maintenance en centralisant la logique.</li>
+</ul>
+<h4>Inconvénients :</h4>
+<ul>
+    <li>Les vues ne stockent pas les données, donc les performances dépendent des tables sous-jacentes.</li>
+    <li>Certaines vues complexes ne sont pas modifiables directement (INSERT, UPDATE, DELETE).</li>
+</ul>
+
+<h3 id="exercices">9. Exercice pratique</h3>
+<h4>Créez une table produit et insérez les données suivantes</h4>
+<textarea class="code-php" id="ta-11">
+    CREATE TABLE produits (
+        id INT,
+        nom VARCHAR(50),
+        prix DECIMAL(10,2),
+        categorie VARCHAR(50)
+    );
+    
+    INSERT INTO produits VALUES
+    (1, 'Chaise', 25, 'Mobilier'),
+    (2, 'Table', 80, 'Mobilier'),
+    (3, 'Stylo', 2, 'Bureau');    
+</textarea>
+<button id="copy-11" class="btn btn-secondary btn-sm" data-target="ta-11" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h5>Créez une vue <b>vue_mobilier</b> qui affiche les produits de la catégorie "<b>Mobilier</b>" avec un <b>prix supérieur à 50</b></h5>
+
+<details>
+    <summary>Afficher la réponse</summary>
+    <textarea class="code-php" id="ta-12">        
+        CREATE VIEW vue_mobilier AS
+        SELECT nom, prix
+        FROM produits
+        WHERE categorie = 'Mobilier' AND prix > 50;
+        
+        SELECT * FROM vue_mobilier;
+    </textarea>
+    <button id="copy-12" class="btn btn-secondary btn-sm" data-target="ta-12" data-toggle="tooltip" title="Copy code">Copy</button>
+
+    <p class="mt-4">Résultat :</p>
+    <textarea class="code-php" id="">
+        +-------+------+
+        | nom   | prix |
+        +-------+------+
+        | Table | 80.00|
+        +-------+------+
+    </textarea>
+</details>
+
+ 
+

@@ -1,0 +1,363 @@
+<h3>Sommaire</h3>
+<ul>
+    <li><a href="#intro">1. Introduction</a></li>
+    <li><a href="#concept">2. Concepts de base</a></li>
+    <li><a href="#fonctions">3. Fonctions principales</a>
+        <ul>
+            <li><a href="#obtenir">a) Obtenir la date et l'heure actuelles</a></li>
+            <li><a href="#extraire">b) Extraire des parties d'une date</a></li>
+            <li><a href="#calculs">c) Calculs avec les dates</a></li>
+            <li><a href="#formater">d) Formater les dates</a></li>
+            <li><a href="#convertir">e) Convertir des chaînes en dates</a></li>
+        </ul>
+    </li>
+    <li><a href="#exemple">4. Exemple pratique avec une table</a></li>
+    <li><a href="#conseils">5. Conseils pratiques</a></li>
+    <li><a href="#exos">6. Exercices pour pratiquer</a></li>
+</ul>
+<h3 id="intro">1. Introduction</h3>
+<p>
+    MariaDB propose un ensemble riche de fonctions pour manipuler les dates et les heures. Ces fonctions sont essentielles pour travailler avec des données temporelles, 
+    comme calculer des durées, extraire des parties spécifiques d'une date ou formater des timestamps. Dans cette leçon, nous explorerons les principales fonctions, 
+    leurs usages à l'aide d'exemples pratiques.
+</p>
+
+<h3 id="concept">2. Concepts de base</h3>
+<p>
+    MariaDB stocke les dates et heures dans différents formats :
+</p>
+<ul>
+    <li><st-r>DATE</st-r> : Format <b>YYYY-MM-DD</b> (ex. <b>2025-03-18</b>).</li>
+    <li><st-r>DATETIME</st-r> : Format <b>YYYY-MM-DD HH:MM:SS</b> (ex. <b>2025-03-18 14:30:00</b>).</li>
+    <li><st-r>TIMESTAMP</st-r> : Similaire à <b>DATETIME</b>, mais utilisé pour les horodatages avec prise en charge des fuseaux horaires.</li>
+</ul>
+
+<p>Les fonctions de date permettent de manipuler ces types de données.</p>
+
+<h3 id="fonctions">3. Fonctions principales</h3>
+
+<h4 id="obtenir">a) Obtenir la date et l'heure actuelles</h4>
+<ul>
+    <li><b>NOW()</b> : Retourne la date et l'heure actuelles.</li>
+    <li><b>CURDATE()</b> ou <b>CURRENT_DATE()</b> : Retourne la date actuelle.</li>
+    <li><b>CURTIME()</b> ou <b>CURRENT_TIME()</b> : Retourne l'heure actuelle.</li>
+</ul>
+
+<h4>Exemple :</h4>
+<textarea class="code-php" id="ta-1">
+    SELECT NOW(), CURDATE(), CURTIME();
+</textarea>
+<button id="copy-1" class="btn btn-secondary btn-sm" data-target="ta-1" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p>Résultat :</p>
+<textarea class="code-php" id="">
+    NOW()                   | CURDATE()   | CURTIME()
+    ----------------------- | ----------- | ---------
+    2025-03-16 10:42:38.000 | 2025-03-16  | 10:42:38
+</textarea>
+
+<h4 id="extraire">b) Extraire des parties d'une date</h4>
+<ul>
+    <li><b>YEAR(date)</b> : Extrait l'année.</li>
+    <li><b>MONTH(date)</b> : Extrait le mois (1-12).</li>
+    <li><b>DAY(date)</b> : Extrait le jour du mois (1-31).</li>
+    <li><b>HOUR(time)</b> : Extrait l'heure (0-23).</li>
+    <li><b>MINUTE(time)</b> : Extrait les minutes (0-59).</li>
+    <li><b>SECOND(time)</b> : Extrait les secondes (0-59).</li>µ
+    <li><b>DAYOFWEEK(date)</b> : Retourne le jour de la semaine (1 = dimanche, 7 = samedi).</li>
+</ul>
+
+<h4>Exemple :</h4>
+<textarea class="code-php" id="ta-2">
+    SELECT 
+        YEAR('2025-03-16') AS annee,
+        MONTH('2025-03-16') AS mois,
+        DAY('2025-03-16') AS jour,
+        HOUR('14:30:00') AS heure,
+        MINUTE('14:30:00') AS minute,
+        SECOND('14:30:15') AS seconde,
+        DAYOFWEEK('2025-03-16') AS jour_semaine;
+</textarea>
+<button id="copy-2" class="btn btn-secondary btn-sm" data-target="ta-2" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p>Résultat :</p>
+<textarea class="code-php" id="">
+    annee | mois | jour | heure | minute | seconde | jour_semaine
+    ------|------|------|-------|--------|---------|-------------
+    2025  | 3    | 16   | 14    | 30     | 15      | 3
+</textarea>
+
+<h4 id="calculs">c) Calculs avec les dates</h4>
+<ul>
+    <li><b>DATE_ADD(date, INTERVAL valeur unité)</b> : Ajoute un intervalle à une date.</li>
+    <li><b>DATE_SUB(date, INTERVAL valeur unité)</b> : Soustrait un intervalle.</li>
+    <li>Unités possibles : <b>DAY</b>, <b>MONTH</b>, <b>YEAR</b>, <b>HOUR</b>, <b>MINUTE</b>, <b>SECOND</b>, etc.</li>
+    <li><b>DATEDIFF(date1, date2)</b> : Calcule la différence en jours entre deux dates.</li>
+</ul>
+
+<h4>Exemple :</h4>
+<textarea class="code-php" id="ta-3">
+    SELECT DATE_ADD('2025-03-16', INTERVAL 10 DAY) AS date_plus_10,
+       DATE_SUB('2025-03-16', INTERVAL 1 MONTH) AS date_moins_1_mois,
+       DATEDIFF('2025-03-16', '2025-03-01') AS difference_jours;
+</textarea>
+<button id="copy-3" class="btn btn-secondary btn-sm" data-target="ta-3" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p>Résultat :</p>
+<textarea class="code-php" id="">
+    date_plus_10 | date_moins_1_mois | difference_jours
+    ------------ | ------------------ | ----------------
+    2025-03-26   | 2025-02-16         | 15
+</textarea>
+
+<h4 id="formater">d) Formater les dates</h4>
+<ul>
+    <li><b>DATE_FORMAT(date, format)</b> : Formate une date selon un motif spécifique.</li>
+    <li>
+        Motifs courants :
+        <ul>
+            <li><b>%Y</b> : Année sur 4 chiffres.</li>
+            <li><b>%m</b> : Mois sur 2 chiffres.</li>
+            <li><b>%d</b> : Jour sur 2 chiffres.</li>
+            <li><b>%H</b> : Heure (00-23).</li>
+            <li><b>%i</b> : Minutes.</li>
+            <li><b>%s</b> : Secondes.</li>
+        </ul>
+    </li>
+</ul>
+
+<h4>Exemple :</h4>
+<textarea class="code-php" id="ta-4">
+    SELECT DATE_FORMAT(NOW(), '%d/%m/%Y %H:%i:%s') AS date_formatee;
+</textarea>
+<button id="copy-4" class="btn btn-secondary btn-sm" data-target="ta-4" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p>Résultat :</p>
+<textarea class="code-php" id="">
+    date_formatee
+    -------------------
+    16/03/2025 10:45:45
+</textarea>
+
+<h4 id="convertir">e) Convertir des chaînes en dates</h4>
+<p>
+    <b>STR_TO_DATE(chaine, format)</b> : Convertit une chaîne en date selon un format spécifié. <br>
+    <a href="https://mariadb.com/kb/en/str_to_date/" target="_blank">Doc MariaDB</a>
+
+</p>
+
+<h4>Exemple :</h4>
+<textarea class="code-php" id="ta-5">
+    --                     -date-     -format-
+    SELECT STR_TO_DATE('16/03/2025', '%d/%m/%Y') AS date_convertie;
+</textarea>
+<button id="copy-5" class="btn btn-secondary btn-sm" data-target="ta-5" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p>Résultat :</p>
+<textarea class="code-php" id="">
+    date_convertie
+    --------------
+    2025-03-16
+</textarea>
+
+<h3 id="exemple">4. Exemple pratique avec une table</h3>
+<p>
+    Créons une table pour illustrer l’utilisation des fonctions dans un contexte réel.
+</p>
+<textarea class="code-php" id="ta-6">
+    -- Création d'une table pour des événements
+    CREATE TABLE evenements (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        nom VARCHAR(50),
+        date_debut DATETIME
+    );
+
+    -- Insertion de données
+    INSERT INTO evenements (nom, date_debut) VALUES
+        ('Réunion', '2025-03-18 22:00:00'),
+        ('Conférence', '2025-04-01 14:30:00'),
+        ('Atelier', '2025-03-20 10:15:00');
+</textarea>
+<button id="copy-6" class="btn btn-secondary btn-sm" data-target="ta-6" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4>Requêtes d’exemple :</h4>
+
+<h5>1. Extraire le mois et le jour des événements :</h5>
+<textarea class="code-php" id="ta-7">
+    SELECT 
+        nom, 
+        MONTH(date_debut) AS mois, 
+        DAY(date_debut) AS jour
+    FROM evenements;
+</textarea>
+<button id="copy-7" class="btn btn-secondary btn-sm" data-target="ta-7" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p>Résultat</p>
+<textarea class="code-php" id="">
+    nom        | mois | jour
+    -----------|------|-----
+    Réunion    | 3    | 18
+    Conférence | 4    | 1
+    Atelier    | 3    | 20
+</textarea>
+
+<h5>2. Trouver les événements dans les 7 prochains jours à partir d’aujourd’hui :</h5>
+<textarea class="code-php" id="ta-8">
+    SELECT nom, date_debut
+    FROM evenements
+    WHERE date_debut BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 7 DAY);
+</textarea>
+<button id="copy-8" class="btn btn-secondary btn-sm" data-target="ta-8" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p>Résultat (si aujourd’hui == 18 mars 2025)</p>
+<textarea class="code-php" id="">
+    nom        | date_debut
+    -----------|-------------------
+    Réunion    | 2025-03-18 22:00:00
+    Atelier    | 2025-03-20 10:15:00
+</textarea>
+
+<h5>3. Afficher la date formatée :</h5>
+<textarea class="code-php" id="ta-9">
+    SELECT nom, DATE_FORMAT(date_debut, '%d/%m/%Y à %H:%i') AS date_lisible
+    FROM evenements;
+</textarea>
+<button id="copy-9" class="btn btn-secondary btn-sm" data-target="ta-9" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p>Résultat</p>
+<textarea class="code-php" id="">
+    nom        | date_lisible
+    -----------|-------------------
+    Réunion    | 18/03/2025 à 22:00
+    Conférence | 01/04/2025 à 14:30
+    Atelier    | 20/03/2025 à 10:15
+</textarea>
+
+<h3 id="conseils">5. Conseils pratiques</h3>
+<ul>
+    <li>Vérifiez toujours le format des dates dans vos données pour éviter des erreurs avec <b>STR_TO_DATE</b>.</li>
+    <li>Utilisez <b>DATETIME</b> ou <b>TIMESTAMP</b> selon vos besoins : <b>TIMESTAMP</b> est plus adapté pour suivre des modifications avec fuseau horaire.</li>
+    <li>Testez vos requêtes avec des données réelles pour valider les résultats.</li>
+</ul>
+
+<h3 id="exos">6. Exercices pour pratiquer</h3>
+
+<ul>
+    <li>Écrivez une requête pour afficher la différence en jours entre la date actuelle et le <b>date_debut</b> de chaque événement.</li>
+    <li>Affichez les événements qui ont lieu un mardi (utilisez <b>DAYOFWEEK</b>).</li>
+    <li>Formatez la date des événements au format <b>Jour: JJ, Mois: MM, Année: AAAA</b>.</li>
+</ul>
+
+<h4>Solutions</h4>
+
+<h5>Exercice 1 : Afficher la différence en jours entre la date actuelle et le date_debut de chaque événement</h5>
+<p>
+    Objectif : Utiliser <b>DATEDIFF</b> pour calculer le nombre de jours entre la date actuelle (NOW()) et la colonne date_debut. <br>
+    Requête : <br>
+</p>
+<details>
+    <summary>Afficher la réponse</summary>
+    <textarea class="code-php" id="ta-10">
+        SELECT nom, date_debut, DATEDIFF(date_debut, NOW()) AS difference_jours
+        FROM evenements;
+    </textarea>
+    <button id="copy-10" class="btn btn-secondary btn-sm" data-target="ta-10" data-toggle="tooltip" title="Copy code">Copy</button>
+
+    <p>Résultat</p>
+    <textarea class="code-php" id="">
+        nom        | date_debut           | difference_jours
+        -----------|----------------------|-----------------
+        Réunion    | 2025-03-18 22:00:00  | 0
+        Conférence | 2025-04-01 14:30:00  | 14
+        Atelier    | 2025-03-20 10:15:00  | 2
+    </textarea>
+    <p class="mt-4">
+        <st-r>Explication</st-r> : <br>
+
+        <b>DATEDIFF(date1, date2)</b> calcule la différence en jours entre <b>date1</b> et <b>date2</b>.
+        Ici, <b>date_debut</b> est la première date et <b>NOW()</b> la seconde, donc un résultat positif signifie que l'événement est dans le futur, un résultat négatif qu'il est passé.
+    </p>
+</details>
+
+<h5>Exercice 2 : Afficher les événements qui ont lieu un mardi</h5>
+<p>
+    Objectif : Utiliser <b>DAYOFWEEK</b> pour identifier les événements se déroulant un mardi (où mardi = 3).
+</p>
+<details>
+    <summary>Afficher la réponse</summary>
+    <textarea class="code-php" id="ta-11">
+        SELECT nom, date_debut
+        FROM evenements
+        WHERE DAYOFWEEK(date_debut) = 3;
+    </textarea>
+    <button id="copy-11" class="btn btn-secondary btn-sm" data-target="ta-11" data-toggle="tooltip" title="Copy code">Copy</button>
+
+    <p>Résultat</p>
+    <textarea class="code-php" id="">
+        nom        | date_debut
+        -----------|-------------------
+        Réunion    | 2025-03-18 22:00:00
+        Conférence | 2025-04-01 14:30:00
+    </textarea>
+    <p class="mt-4">
+        <st-r>Explication</st-r> : <br>
+        <ul>
+            <li><b>DAYOFWEEK(date)</b> retourne un nombre de 1 (dimanche) à 7 (samedi). Mardi correspond à 3. </li>
+            <li>La condition <b>WHERE DAYOFWEEK(date_debut) = 3</b> filtre les événements ayant lieu un mardi.</li>
+        </ul>
+        
+    </p>
+</details>
+
+<h5>Exercice 3 : Formater la date des événements au format Jour: JJ, Mois: MM, Année: AAAA</h5>
+<p>
+    Objectif : Utiliser <b>DATE_FORMAT</b> pour personnaliser l’affichage de la date.
+</p>
+<details>
+    <summary>Afficher la réponse</summary>
+    <textarea class="code-php" id="ta-12">
+        SELECT nom, 
+        DATE_FORMAT(date_debut, 'Jour: %d, Mois: %m, Année: %Y') AS date_formatee
+        FROM evenements;
+    </textarea>
+    <button id="copy-12" class="btn btn-secondary btn-sm" data-target="ta-12" data-toggle="tooltip" title="Copy code">Copy</button>
+
+    <p>Résultat</p>
+    <textarea class="code-php" id="">
+        nom        | date_formatee
+        -----------|-------------------
+        Réunion    | Jour: 18, Mois: 03, Année: 2025
+        Conférence | Jour: 01, Mois: 04, Année: 2025
+        Atelier    | Jour: 20, Mois: 03, Année: 2025       
+    </textarea>
+    <p class="mt-4">
+        <st-r>Explication</st-r> : <br>
+        <ul>
+            <li><b>%d</b> : Jour sur 2 chiffres.</li>
+            <li><b>%m</b> : Mois sur 2 chiffres.</li>
+            <li><b>%Y</b> : Année sur 4 chiffres.</li>
+            <li>Le texte littéral (Jour:, Mois:, Année:) est inclus dans la chaîne de formatage.</li>
+        </ul>
+        
+    </p>
+</details>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
