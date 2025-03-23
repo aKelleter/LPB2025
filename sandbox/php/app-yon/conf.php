@@ -20,6 +20,6 @@ const USER_LIST = [
 const DB_HOST = 'localhost';
 const DB_NAME = 'yon';
 const DB_USER = 'root';
-const DB_PASSWORD = '';
+const DB_PASSWORD = 'TYUPOI';
    
 require_once('app/loader.php');

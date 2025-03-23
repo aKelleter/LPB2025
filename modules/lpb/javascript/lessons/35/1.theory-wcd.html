@@ -1,0 +1,308 @@
+<!--
+<textarea class="code-php" id="ta-x">
+    
+</textarea>
+<button id="copy-x" class="btn btn-secondary btn-sm" data-target="ta-x" data-toggle="tooltip" title="Copy code">Copy</button>
+-->
+<h3 id="intro">1. Introduction</h3>
+<p>
+    Revenons aux fonctions et étudions-les plus en profondeur.
+    Notre premier sujet sera la <st-r class="red">récursion</st-r>.    
+    Si vous n’êtes pas novice en programmation, ce concept vous est probablement familier et vous aurez des facilités de compréhension.
+</p>
+<p>
+    La <b>récursion</b> est un modèle de programmation utile dans les situations où une tâche peut être naturellement divisée en plusieurs tâches du même type, mais plus simple. 
+    Ou lorsqu’une tâche peut être simplifiée en une action facile plus une variante plus simple de la même tâche. Lorsqu’une fonction résout une tâche, elle peut appeler de nombreuses autres fonctions. 
+    Cela se produit partiellement lorsqu’une fonction s’appelle elle-même. Cela s’appelle la <b>récursion</b>.
+</p>
+
+<h3 id="twoway">2. Deux façons de penser</h3>
+<p>
+    Prenons quelque chose de simple pour commencer – écrivons une fonction <b>pow(x, n)</b> qui élève <b>x</b> à une puissance naturel de <b>n</b>.
+    En d’autres termes, multiplie <b>x</b> par lui-même n fois.
+</p>
+<textarea class="code-php" id="">
+    pow(2, 2) = 4
+    pow(2, 3) = 8
+    pow(2, 4) = 16
+</textarea>
+
+<h4>Il y a deux façons de le mettre en œuvre.</h4>
+
+<h5>1. La pensée itérative: la boucle for:</h5>
+<textarea class="code-php" id="ta-1">
+    function pow(x, n) {
+      let result = 1;
+    
+      // multiplier le résultat par x n fois dans la boucle
+      for (let i = 0; i < n; i++) {
+        result *= x;
+      }
+    
+      return result;
+    }
+    
+    alert( pow(2, 3) ); // 8
+</textarea>
+<button id="copy-1" class="btn btn-secondary btn-sm" data-target="ta-1" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h5>2. La pensée récursive: simplifie la tâche et s’appele elle-même:</h5>
+<textarea class="code-php" id="ta-2">
+    function pow(x, n) {
+      if (n == 1) {
+        return x;
+      } else {
+        return x * pow(x, n - 1);
+      }
+    }
+    
+    alert( pow(2, 3) ); // 8
+</textarea>
+<button id="copy-2" class="btn btn-secondary btn-sm" data-target="ta-2" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    Veuillez noter en quoi la variante récursive est fondamentalement différente. <br>
+    Quand <b>pow(x, n)</b> est appelé, l’exécution se scinde en deux branches:    
+</p>
+<textarea class="code-php" id="">
+    if n==1  = x
+    /
+pow(x, n) =
+    \
+     else     = x * pow(x, n - 1)
+</textarea>
+
+<ol class="mt-4">
+    <li>Si <b>n == 1</b>, alors tout est trivial. On l’appelle la base de la récursion, car elle produit immédiatement le résultat évident: <b>pow(x, 1)</b> équivaut à <b>x</b>.</li>
+    <li>
+        Sinon, nous pouvons représenter <b>pow(x, n)</b> comme <b>x * pow(x, n - 1)</b>. En maths, on écrirait <b>xn = x * xn-1</b>. Ceci s’appelle une étape récursive: nous transformons la tâche 
+        en une action plus simple (multiplication par x) et un appel plus simple de la même tâche (pow avec le petit n). Les prochaines étapes le simplifient de plus en plus 
+        jusqu’à ce que n atteigne 1.
+    </li>
+</ol>
+<p>
+    On peut aussi dire que pow s’appelle récursivement jusqu’à ce que <b>n == 1</b>. <br>
+    Par exemple, pour calculer <b>pow(2, 4)</b> la variante récursive effectue ces étapes:
+</p>
+
+<ol>
+    <li>pow(2, 4) = 2 * pow(2, 3)</li>
+    <li>pow(2, 3) = 2 * pow(2, 2)</li>
+    <li>pow(2, 2) = 2 * pow(2, 1)</li>
+    <li>pow(2, 1) = 2</li>
+</ol>
+<p class="mt-4">
+    Ainsi, la récursion réduit un appel de fonction à un processus plus simple, puis – à un processus encore plus simple, etc. jusqu’à ce que le résultat devienne évident.
+</p>
+
+<div class="alert alert-info mt-4" role="alert">
+    <h4 class="alert-heading"> INFO : La récursion est généralement plus courte</h4> <hr>
+    <p>
+        Une solution récursive est généralement plus courte qu’une solution itérative. <br>
+        Ici, nous pouvons réécrire la même chose en utilisant l’opérateur conditionnel ? <br>
+        Au lieu de if pour rendre pow (x, n) plus concis et toujours très lisible:
+    </p>
+    <textarea class="code-php" id="">
+        function pow(x, n) {
+          return (n == 1) ? x : (x * pow(x, n - 1));
+        }
+    </textarea>
+</div>
+
+<p class="mt-4">
+    Le nombre maximal d’appels imbriqués (y compris le premier) est appelé la profondeur de récursivité. Dans notre cas, ce sera exactement <b>n</b>.
+</p>
+<p>
+    La profondeur maximale de récursion est limitée par le moteur JavaScript. Nous sommes sur qu’il va jusqu’à 10000, certains moteurs en autorisent plus, mais 100000 est probablement 
+    hors limite pour la majorité d’entre eux. Il existe des optimisations automatiques qui aident à atténuer ce problème (“optimisation des appels de queue”), mais elles ne sont pas encore 
+    prises en charge partout et ne fonctionnent que dans des cas simples.
+</p>
+<p>
+    Cela limite l’application de la récursion, mais cela reste très large. Il y a beaucoup de tâches pour lesquelles la pensée récursive donne un code plus simple et plus facile à gérer.
+</p>
+
+<h3 id="pile">3. Le contexte d’exécution et la pile</h3>
+<p>
+    Voyons maintenant comment fonctionnent les appels récursifs. Pour cela, nous allons regarder sous le capot des fonctions. <br>
+    Les informations sur le processus d’exécution d’une fonction en cours d’exécution sont stockées dans son contexte d’exécution.
+</p>
+<p>
+    Le contexte d’exécution est <st-r>une structure de données interne</st-r> contenant des détails sur l’exécution d’une fonction: où le flux de contrôle est maintenant, les variables actuelles, la valeur de this 
+    (nous ne l’utilisons pas ici) et quelques autres détails internes. <br>
+    Un appel de fonction est associé à exactement un contexte d’exécution. <br>
+    Lorsqu’une fonction effectue un appel imbriqué, les événements suivants se produisent:
+</p>
+<ul>
+    <li>La fonction en cours est suspendue.</li>
+    <li>Le contexte d’exécution qui lui est associé est mémorisé dans une structure de données spéciale appelée pile de contexte d’exécution.</li>
+    <li>L’appel imbriqué s’exécute.</li>
+    <li>Une fois terminé, l’ancien contexte d’exécution est extrait de la pile et la fonction externe reprend à partir de son point d’arrêt.</li>
+</ul>
+<p>
+    Voyons ce qui se passe pendant l’appel de pow(2, 3).
+</p>
+
+<h4>pow(2,3)</h4>
+<p>
+    Au début de l’appel de <b>pow(2, 3)</b> le contexte d’exécution stockera des variables: <b>x = 2, n = 3</b>, le flux d’exécution est à la ligne 1 de la fonction.
+</p>
+<p>
+    Nous pouvons l’esquisser comme:
+</p>
+<code>    
+    Context: { x: 2, n: 3, at line 1 } call: pow(2, 3)
+</code>
+<p class="mt-4"> 
+    C’est à ce moment que la fonction commence à s’exécuter. La conditionn == 1 est faux, donc le flux continue dans la deuxième branche de if:
+</p>
+<textarea class="code-php" id="">    
+    function pow(x, n) {
+      if (n == 1) {
+        return x;
+      } else {
+        return x * pow(x, n - 1);
+      }
+    }
+    
+    alert( pow(2, 3) );
+</textarea>
+<p class="mt-4">
+    Les variables sont les mêmes, mais la ligne change, le contexte est donc le suivant:
+</p>
+<code>    
+    Context: { x: 2, n: 3, at line 5 } call: pow(2, 3)
+</code>
+<p class="mt-4"> 
+    Pour calculer <b>x * pow(x, n - 1)</b>, nous devons faire un sous-appel de pow avec de nouveaux arguments <b>pow(2, 2)</b>.
+</p>
+
+<h4>pow(2, 2)</h4>
+<p class="mt-4">
+    Pour effectuer un appel imbriqué, JavaScript se souvient du contexte d’exécution actuel dans le contexte d’exécution de la pile. <br>
+    Ici, nous appelons la même fonction pow, mais cela n’a absolument aucune importance. Le processus est le même pour toutes les fonctions:
+</p>
+<ol>
+    <li>Le contexte actuel est “mémorisé” en haut de la pile.</li>
+    <li>Le nouveau contexte est créé pour le sous-appel.</li>
+    <li>Quand le sous-appel est fini – le contexte précédent est extrait de la pile et son exécution se poursuit.</li>
+</ol>
+<p>
+    Voici la pile de contexte lorsque nous sommes entrés dans le sous-appel <b>pow(2, 2)</b>:
+</p>
+<code class="red">    
+    Context: { x: 2, n: 3, at line 1 } call: pow(2, 2)
+</code>
+<p></p>
+<code>    
+    Context: { x: 2, n: 3, at line 5 } call: pow(2, 3)
+</code>
+<p class="mt-4">
+    Le nouveau contexte d’exécution actuel est en haut (et en rouge) et les contextes précédemment mémorisés sont en dessous. <br>
+    Quand on termine le sous-appel – il est facile de reprendre le contexte précédent, car il conserve les deux variables et l’emplacement exact du code où il s’est arrêté.
+</p>
+
+<div class="alert alert-info mt-4" role="alert">
+    <h4 class="alert-heading"> INFO : Veuillez noter</h4> <hr>
+    <p>
+        Dans la présentation des appels ci-dessus, nous utilisons le mot “line”, comme dans notre exemple, il n’y a qu’un seul sous-appel en ligne, mais généralement une seule ligne de code peut 
+        contenir plusieurs sous-appels, comme <b>pow(…)</b> + <b>pow(…)</b> + <b>somethingElse(…)</b>.
+        Il serait donc plus précis de dire que l’exécution reprend “immédiatement après le sous-appel”.        
+    </p>
+</div>
+
+<h4>pow(2, 1)</h4>
+<p class="mt-4">
+    Le processus se répète: un nouveau sous-appel est fait à la ligne <b>5</b>, maintenant avec des arguments <b>x=2</b>, <b>n=1</b>. <br>
+    Un nouveau contexte d’exécution est créé, le précédent est placé en haut de la pile:
+</p>
+
+<code class="red">    
+    Context: { x: 2, n: 3, at line 1 } call: pow(2, 1)
+</code>
+<p></p>
+<code>    
+    Context: { x: 2, n: 3, at line 5 } call: pow(2, 2)
+</code>
+<p></p>
+<code>    
+    Context: { x: 2, n: 3, at line 5 } call: pow(2, 3)
+</code>
+
+<p class="mt-4">Il y a 2 anciens contextes et 1 en cours d’exécution pour pow(2, 1).</p>
+
+<h4>La sortie</h4>
+<p>
+    Pendant l’exécution de <b>pow(2, 1)</b>, contrairement à avant, la condition <b>n == 1</b> est la vérité, donc la première branche de <b>if</b> fonctionne:
+</p>
+<textarea class="code-php" id="">    
+    function pow(x, n) {
+      if (n == 1) {
+        return x;
+      } else {
+        return x * pow(x, n - 1);
+      }
+    }
+    
+    alert( pow(2, 3) );
+</textarea>
+<p>
+    Il n’y a plus d’appels imbriqués, donc la fonction se termine en renvoyant 2. <br>
+    Lorsque la fonction se termine, son contexte d’exécution n’est plus nécessaire, il est donc supprimé de la mémoire. La précédente est restaurée en haut de la pile:
+</p>
+
+<code class="red">      
+    Context: { x: 2, n: 3, at line 5 } call: pow(2, 2)
+</code>
+<p></p>
+<code>    
+    Context: { x: 2, n: 3, at line 5 } call: pow(2, 3)
+</code>
+<p class="mt-4">
+    L’exécution de <b>pow(2, 2)</b> est repris. Il a le résultat du sous-appel <b>pow(2, 1)</b>, de sorte qu’il peut également terminer l’évaluation de <b>x * pow(x, n - 1)</b>, retournant 4. <br>
+    Ensuite, le contexte précédent est restauré :
+</p>
+<code class="red">    
+    Context: { x: 2, n: 3, at line 5 } call: pow(2, 3)
+</code>
+<p>
+    Quand il se termine, nous avons un résultat de <b>pow(2, 3) = 8</b>. <br>
+    La profondeur de récursion dans ce cas était: <st-r>3</st-r>. <br>
+    Comme nous pouvons le voir dans les illustrations ci-dessus, la profondeur de récursion est égale au nombre maximal de contextes dans la pile. <br>
+    Notez les besoins en mémoire. Les contextes prennent de la mémoire. Dans notre cas, augmenter à la puissance de n nécessite en réalité de la mémoire 
+    pour les contextes n, pour toutes les valeurs inférieures de n. <br>
+    Un algorithme basé sur des boucles est plus économe en mémoire:
+</p>
+<textarea class="code-php" id="">
+    function pow(x, n) {
+      let result = 1;
+    
+      for (let i = 0; i < n; i++) {
+        result *= x;
+      }
+    
+      return result;
+    }
+</textarea>
+
+<p class="mt-4">
+    Le pow itératif utilise un contexte unique qui change les processus i et result dans le processus. Ses besoins en mémoire sont faibles, fixes et ne dépendent pas de n.
+</p>
+<p>
+    <st-r>Toute récursion peut être réécrite sous forme de boucle. La variante de boucle peut généralement être rendue plus efficace</st-r>.
+</p>
+<p>     
+    …Parfois, la réécriture n’est pas triviale, en particulier lorsque la fonction utilise différents sous-appels récursifs en fonction des conditions et fusionne leurs résultats ou lorsque 
+    la création de branche est plus complexe. Et l’optimisation risque de ne pas être nécessaire et de ne pas valoir la peine.
+</p>
+<p>
+    La récursion peut donner un code plus court, plus facile à comprendre et à supporter. Les optimisations ne sont pas nécessaires à chaque endroit, nous avons surtout besoin d’un bon code, 
+    c’est pourquoi il est utilisé.
+</p>
+
+
+
+
+
+
+
+

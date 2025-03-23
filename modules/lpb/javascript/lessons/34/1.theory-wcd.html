@@ -1,0 +1,145 @@
+<!--
+<textarea class="code-php" id="ta-x">
+    
+</textarea>
+<button id="copy-x" class="btn btn-secondary btn-sm" data-target="ta-x" data-toggle="tooltip" title="Copy code">Copy</button>
+-->
+<h3 id="intro">1. Introduction</h3>
+<p>
+    Il y a deux sortes de proriétés d’objet. <br> 
+    Le premier type est les propriétés de données. Nous savons déjà comment travaillez avec. Toutes les propriétés que nous avons utilisés 
+    jusqu’à maintenant étaient des propriétés de données. <br>
+    Le second type de propriété est quelque chose de nouveau. C’est un <b>accesseur de propriété</b>. Ce sont essentiellement des fonctions qui 
+    exécutent une récupération ou une déclaration de valeur, mais qui ressemblent à une propriété normale pour le code extérieur.
+</p>
+
+<h3 id="getandset">2. Getters et Setters</h3>
+<p>
+    Les accesseurs de propriétés sont représentés par des méthodes “<b>getter</b>” et “<b>setter</b>”. Dans un objet littéral elles se demarquent 
+    par <b>get</b> et <b>set</b> :
+</p>
+<textarea class="code-php" id="ta-1">
+    let obj = {
+      get propName() {
+        // Getter, le code va récupérer obj.propName
+      },
+    
+      set propName(value) {
+        // Setter, le code va définir obj.propName = value
+      }
+    };
+</textarea>
+<button id="copy-1" class="btn btn-secondary btn-sm" data-target="ta-1" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    Le <b>getter</b> fonctionne quand <b>obj.propName</b> est lu, le <b>setter</b> – quand il s’agit d’une <b>assignation</b>. <br>
+    Par exemple, nous avons un objet user avec name et surname :
+</p>
+<textarea class="code-php" id="ta-2">
+    let user = {
+      name: "John",
+      surname: "Smith"
+    };
+</textarea>
+<button id="copy-2" class="btn btn-secondary btn-sm" data-target="ta-2" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    Maintenant nous voulons ajouter une propriété <b>fullName</b>, qui devrait être "John Smith". Bien sûr, nous ne voulons pas copier-coller l’information existante, 
+    donc nous pouvons implémenter un accesseur :
+</p>
+<textarea class="code-php" id="ta-3">
+    let user = {
+      name: "John",
+      surname: "Smith",
+    
+      get fullName() {
+        return `${this.name} ${this.surname}`;
+      }
+    };
+    
+    alert(user.fullName); // John Smith
+</textarea>
+<button id="copy-3" class="btn btn-secondary btn-sm" data-target="ta-3" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    De l’extérieur, un accesseur de propriété ressemble à une propriété normale. C’est l’idée d’un accesseur. Nous n’appellons pas user.fullName comme une fonction, nous la lisons normalement : le getter agit en arrière plan.
+    Pour l’instant, <b>fullName</b> n’a qu’un getter. Si nous essayons d’assigner <st-r class="red">user.fullName =</st-r>, il y aura une erreur :
+</p>
+<textarea class="code-php" id="ta-4">
+    et user = {
+      get fullName() {
+        return `...`;
+      }
+    };
+    
+    user.fullName = "Test"; // Erreur (la propriété n'a qu'un getter)
+</textarea>
+<button id="copy-4" class="btn btn-secondary btn-sm" data-target="ta-4" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    Corrigeons cela en ajoutant un setter pour <b>user.fullName</b> :
+</p>
+
+<textarea class="code-php" id="ta-5">
+    let user = {
+      name: "John",
+      surname: "Smith",
+    
+      get fullName() {
+        return `${this.name} ${this.surname}`;
+      },
+    
+      set fullName(value) {
+        [this.name, this.surname] = value.split(" ");
+      }
+    };
+    
+    // Le setter est exécuté avec la valeur donnée.
+    user.fullName = "Alice Cooper";
+    
+    alert(user.name); // Alice
+    alert(user.surname); // Cooper
+</textarea>
+<p class="mt-4">
+    Comme résultat, nous avons une propriété “virtuelle” fullName. Elle est lisible et ecrivable.
+</p>
+
+<h3 id="intelligent">3. Des getters/setters plus intelligents</h3>
+<p>
+    Les Getters/setters peuvent être utilisés comme des enveloppes autour des “réelles” valeurs de propriété pour gagner plus de contrôles sur leurs opérations.
+    Par exemple, si nous voulions interdire les noms trop court pour user, nous pourrions avoir un setter <b>name</b> et garder la valeur dans une propriété séparée <b>_name</b> :
+</p>
+<textarea class="code-php" id="ta-6">
+    let user = {
+      get name() {
+        return this._name;
+      },
+    
+      set name(value) {
+        if (value.length < 4) {
+          alert("Name is too short, need at least 4 characters");
+          return;
+        }
+        this._name = value;
+      }
+    };
+    
+    user.name = "Pete";
+    alert(user.name); // Pete
+    
+    user.name = ""; // Le nom est trop court...
+</textarea>
+<button id="copy-6" class="btn btn-secondary btn-sm" data-target="ta-6" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    Donc, le nom est stocké dans la propriété <b>_name</b>, et l’accés est fait par le <b>getter</b> et le <b>setter</b>.
+    Techniquement, le code extérieur est capable d’accéder directement à la propriété en utilisant <b>user._name</b>. Mais il y a une convention très connue, selon laquelle les propriétés commençant 
+    par un underscore "<b>_</b>" sont internes et ne devraient pas être touchées depuis l’extérieur des objets.
+</p>
+
+
+
+
+
+
+

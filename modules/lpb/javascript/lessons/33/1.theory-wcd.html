@@ -1,0 +1,509 @@
+<h3>Sommaire</h3>
+<ul>
+    <li><a href="#intro">1. Introduction</a></li>
+    <li><a href="#stringify">2. JSON.stringify</a></li>
+    <li><a href="#repalcer">3. Exclure et transformer : replacer</a></li>
+    <li><a href="#space">4. Formatage : space</a></li>
+    <li><a href="#tojson">5. “toJSON” personnalisé</a></li>
+    <li><a href="#parse">6. JSON.parse</a></li>
+    <li><a href="#reviver">7. Utiliser Reviver</a></li>
+    <li><a href="#conclusion">8. Conclusion</a></li>
+</ul>
+<h3 id="intro">1. Introduction</h3>
+<p>
+    Supposons que nous avons un objet complexe et que nous aimerions le convertir en chaîne, l’envoyer par le réseau ou simplement le rendre (la sortie, un affichage par exemple ou l'enregistrement 
+    dans un fichier), et ce à des fins de journalisation. Naturellement, une telle chaîne devrait inclure toutes les propriétés importantes.
+</p>
+
+<h3 id="stringify">2. JSON.stringify</h3>
+<p>
+    Le <b>JSON</b> (<st-r>JavaScript Object Notation</st-r>) est un format général pour représenter les valeurs et les objets. Il est décrit comme tel dans le 
+    standard <a href="http://tools.ietf.org/html/rfc4627" target="_blank">RFC 4627</a>. Initialement, il était conçu pour JavaScript, mais de nombreux autres 
+    langages disposent également de bibliothèques pour le gérer. Il est donc facile d’utiliser JSON pour l’échange de données lorsque le client utilise JavaScript et que le serveur 
+    est écrit sur Ruby/PHP/Java et bien d’autres. <br> 
+    JavaScript fournit des méthodes :
+</p>
+<ul>
+    <li><b>JSON.stringify</b> pour convertir des objets en JSON./li>
+    <li><b>JSON.parse</b> pour reconvertir JSON en objet.</li>
+</ul>
+<p>Par exemple, nous allons <b>JSON.stringify</b> un student (étudiant) :</p>
+<textarea class="code-php" id="ta-1">
+    let student = {
+        name: 'John',
+        age: 30,
+        isAdmin: false,
+        courses: ['html', 'css', 'js'],
+        pair: null
+      };
+      
+      let json = JSON.stringify(student);
+      
+      alert(typeof json); // nous avons une string !
+      
+      alert(json);
+      /* Objet encodé en JSON :
+      {
+        "name": "John",
+        "age": 30,
+        "isAdmin": false,
+        "courses": ["html", "css", "js"],
+        "pair": null
+      }
+      */
+</textarea>
+<button id="copy-1" class="btn btn-secondary btn-sm" data-target="ta-1" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    La méthode <b>JSON.stringify(student)</b> prend l’objet et le convertit en une chaîne.
+    La chaine <b>json</b> résultante est appelé un objet <b>JSON-encoded</b> ou <b>serialized</b> (sérialisé) ou stringified. Nous sommes prêts à l’envoyer par le câble ou à le placer 
+    dans un simple stockage de données. Veuillez noter qu’un objet <b>JSON-encoded</b> a plusieurs différences importantes par rapport au objet littéral :
+</p>
+<ul>
+    <li>Les chaînes utilisent des guillemets doubles. Il n’y a pas de guillemets simples ni de backticks en JSON. Donc <b>'John'</b> deviendra <b>"John"</b>.</li>
+    <li>Les propriété d’objet sont également entourées de guillemets doubles. C’est obligatoire. Donc <b>age:30</b> deviendra <b>"age":30</b>.</li>
+</ul>
+<p>
+    JSON.stringify peut aussi être appliqué aux primitives. <br>
+    JSON prend en charge les types de données suivants :
+</p>
+<ul>
+    <li>Objets <b>{...}</b></li>
+    <li>Tableaux <b>[...]</b></li>
+    <li>Primitives : chaînes, nombres, valeurs booléennes <b>true/false</b>, <b>null</b></li>
+</ul>
+<p>
+    Par exemple, voici comment <b>JSON.stringify</b> gère les primitives :
+</p>
+<textarea class="code-php" id="ta-2">
+    // un nombre en JSON est juste un nombre
+    alert( JSON.stringify(1) ) // 1
+
+    // une chaîne en JSON est toujours une chaîne, mais entre guillemets
+    alert( JSON.stringify('test') ) // "test"
+
+    alert( JSON.stringify(true) ); // true
+
+    alert( JSON.stringify([1, 2, 3]) ); // [1,2,3]
+</textarea>
+<button id="copy-2" class="btn btn-secondary btn-sm" data-target="ta-2" data-toggle="tooltip" title="Copy code">Copy</button>
+<p class="mt-4">
+    JSON est une spécification indépendante du langage et ne contenant que des données. Par conséquent, certaines propriétés d’objet spécifiques à JavaScript 
+    sont ignorées par JSON.stringify. <br>
+    A savoir :
+</p>
+<ul>
+    <li>Les propriétés de fonction (méthodes).</li>
+    <li>Les clés et les valeurs symboliques.</li>
+    <li>Les propriétés qui stockent des <b>undefined</b>.</li>
+</ul>
+<textarea class="code-php" id="ta-3">
+    let user = {
+        sayHi() { // ignorée
+          alert("Hello");
+        },
+        [Symbol("id")]: 123, // ignorée
+        something: undefined // ignorée
+      };
+      
+      alert( JSON.stringify(user) ); // {} (objet vide)
+</textarea>
+<button id="copy-3" class="btn btn-secondary btn-sm" data-target="ta-3" data-toggle="tooltip" title="Copy code">Copy</button>
+<p class="mt-4">
+    De façon générale cela fait le job. Si ce n’est pas ce que nous souhaitons, nous verrons bientôt comment personnaliser le processus. <br>
+    Le grand avantage est que les objets imbriqués sont pris en charge et convertis automatiquement. <br>
+    Par exemple : <br>
+</p>
+<textarea class="code-php" id="ta-4">
+    let meetup = {
+        title: "Conference",
+        room: {
+          number: 23,
+          participants: ["john", "ann"]
+        }
+      };
+      
+      alert( JSON.stringify(meetup) );
+      /* La structure entière est stringified :
+      {
+        "title":"Conference",
+        "room":{"number":23,"participants":["john","ann"]},
+      }
+      */
+</textarea>
+<button id="copy-4" class="btn btn-secondary btn-sm" data-target="ta-4" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p>
+    La limitation importante est qu’il ne doit pas y avoir de références circulaires. <br>
+    Par exemple :
+</p>
+<textarea class="code-php" id="ta-5">
+    let room = {
+        number: 23
+      };
+      
+      let meetup = {
+        title: "Conference",
+        participants: ["john", "ann"]
+      };
+      
+      meetup.place = room;      // meetup references room
+      room.occupiedBy = meetup; // room references meetup
+      
+      JSON.stringify(meetup); // Erreur: Conversion d'une structure circulaire en JSON
+</textarea>
+<button id="copy-5" class="btn btn-secondary btn-sm" data-target="ta-5" data-toggle="tooltip" title="Copy code">Copy</button>
+<p class="mt-4">
+    Ici, la conversion échoue à cause d’une référence circulaire : <b>room.occupiedBy</b> references <b>meetup</b>, et <b>meetup.place</b> references <b>room</b>.
+</p>
+
+<h3 id="repalcer">3. Exclure et transformer : replacer</h3>
+<p>
+    La syntaxe complète de JSON.stringify est :
+</p>
+<textarea class="code-php" id="">
+    let json = JSON.stringify(value, [replacer, space])
+</textarea>
+
+<p class="mt-4"> 
+    <st-r>Value</st-r> <br>
+    Une valeur à encoder.
+</p>
+
+<p>
+    <st-r>Space</st-r> <br>
+    Quantité d’espace à utiliser pour le formatage. <br>
+    La plupart du temps, <b>JSON.stringify</b> est utilisé avec le premier argument uniquement. Mais si nous devons affiner le processus de remplacement, préférez filtrer les références circulaires, 
+    nous pouvons utiliser le deuxième argument de <b>JSON.stringify</b>. <br>
+    Si nous lui passons un tableau de propriétés, seules ces propriétés seront encodées. <br>
+    Par exemple :
+</p>
+
+<textarea class="code-php" id="ta-6">
+    let room = {
+      number: 23
+    };
+    
+    let meetup = {
+      title: "Conference",
+      participants: [{name: "John"}, {name: "Alice"}],
+      place: room // meetup references room
+    };
+    
+    room.occupiedBy = meetup; // room references meetup
+    
+    alert( JSON.stringify(meetup, ['title', 'participants']) );
+    // {"title":"Conference","participants":[{},{}]}
+</textarea>
+<button id="copy-6" class="btn btn-secondary btn-sm" data-target="ta-6" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    Ici, nous sommes probablement trop strictes. La liste de propriétés est appliquée à la structure entière de l’objet. Donc, les objets dans participants sont vides, parce que name n’est 
+    pas dans la liste. <br>
+    Incluons dans la liste toutes les propriétés sauf <b>room.occupiedBy</b> qui provoquerait la référence circulaire :
+</p>
+<textarea class="code-php" id="ta-7">
+    let room = {
+        number: 23
+    };
+    
+    let meetup = {
+        title: "Conference",
+        participants: [{name: "John"}, {name: "Alice"}],
+        place: room // meetup references room
+    };  
+    
+    room.occupiedBy = meetup; // room references meetup
+    
+    alert( JSON.stringify(meetup, ['title', 'participants', 'place', 'name', 'number']) );
+    /*
+    {
+        "title":"Conference",
+        "participants":[{"name":"John"},{"name":"Alice"}],
+        "place":{"number":23}
+    }
+    */
+</textarea>
+<button id="copy-7" class="btn btn-secondary btn-sm" data-target="ta-7" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    Maintenant tout sauf <b>occupiedBy</b> est serialisé. Mais la liste des propriétés est assez longue. <br>
+    Heureusement, nous pouvons utiliser une fonction au lieu d’un tableau comme replacer. <br>
+    La fonction sera appelée pour chaque paire de (key, value) et devrait renvoyer la valeur “remplacée”, qui sera utilisée à la place de celle d’origine 
+    ou <b>undefined</b> si la valeur doit être ignorée. <br>
+    Dans notre cas, nous pouvons retourner une value “en l’état” pour tout sauf <b>occupiedBy</b>. Pour ignorer <b>occupiedBy</b>, le code ci-dessous retourne undefined :
+</p>
+<textarea class="code-php" id="ta-8">
+    let room = {
+      number: 23
+    };
+    
+    let meetup = {
+      title: "Conference",
+      participants: [{name: "John"}, {name: "Alice"}],
+      place: room // meetup references room
+    };
+    
+    room.occupiedBy = meetup; // room references meetup
+    
+    alert( JSON.stringify(meetup, function replacer(key, value) {
+      console.log(`${key}: ${value}`);
+      return (key == 'occupiedBy') ? undefined : value;
+    }));
+    
+    /* key:value pairs that come to replacer:
+    :             [object Object]
+    title:        Conference
+    participants: [object Object],[object Object]
+    0:            [object Object]
+    name:         John
+    1:            [object Object]
+    name:         Alice
+    place:        [object Object]
+    number:       23
+    occupiedBy:   [object Object]
+    */
+</textarea>
+<button id="copy-8" class="btn btn-secondary btn-sm" data-target="ta-8" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    Veuillez noter que la fonction <b>replacer</b> récupère chaque paire clé/valeur, y compris les objets imbriqués et les éléments de tableau. Il est appliqué de manière récursive. 
+    La valeur <b>this</b> dans replacer est l’objet qui contient la propriété actuelle. <br>
+    Le premier appel est spécial. Il est fabriqué en utilisant un “objet wrapper” spécial: <b>{"": meetup}</b>. En d’autres termes, la première paire <b>(key, value)</b> a une clé vide, et 
+    la valeur est l’objet cible dans son ensemble. C’est pourquoi la première ligne est <b>":[object Object]"</b> dans l’exemple ci-dessus. <br>
+    L’idée est de fournir autant de souplesse que possible : il est possible d’analyser et de remplacer/ignorer l’objet entier si nécessaire.
+</p>
+
+<h3 id="space">4. Formatage : space</h3>
+<p>
+    Le troisième argument de <b>JSON.stringify(value, replacer, space)</b> est le nombre d’espaces (<b>space</b>) à utiliser pour un joli formatage. <br>
+    Auparavant, tous les objets stringifiés n’avaient pas d’indentation ni d’espace supplémentaire. C’est bien si nous voulons envoyer un objet sur un réseau. 
+    L’arguement space est utilisé exclusivement pour une belle présentation de la sortie. <br>
+    Ici <b>space = 2</b> indique à JavaScript d’afficher des objets imbriqués sur plusieurs lignes, avec l’indentation de 2 espaces à l’intérieur d’un objet :
+</p>
+<textarea class="code-php" id="ta-9">
+    let user = {
+      name: "John",
+      age: 25,
+      roles: {
+        isAdmin: false,
+        isEditor: true
+      }
+    };
+    
+    alert(JSON.stringify(user, null, 2));
+    /* indentation de 2 espaces :
+    {
+      "name": "John",
+      "age": 25,
+      "roles": {
+        "isAdmin": false,
+        "isEditor": true
+      }
+    }
+    */
+    
+    /* pour JSON.stringify(user, null, 4) le résultat serait plus indenté :
+    {
+        "name": "John",
+        "age": 25,
+        "roles": {
+            "isAdmin": false,
+            "isEditor": true
+        }
+    }
+    */
+</textarea>
+<button id="copy-9" class="btn btn-secondary btn-sm" data-target="ta-9" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">     
+    Le troisième argument peut également être une chaîne de caractères. Dans ce cas, la chaîne de caractères est utilisée pour l’indentation au lieu d’un certain nombre d’espaces.
+    Le paramètre <b>space</b> est utilisé uniquement à des fins de journalisation et de sortie agréable.
+</p>
+
+<h3 id="tojson">5. “toJSON” personnalisé</h3>
+<p>
+    Comme <b>toString</b> pour la conversion de chaîne, un objet peut fournir une méthode <b>toJSON</b> pour une conversion en <b>JSON</b>. <b>JSON.stringify</b> appelle automatiquement si il est disponible.
+    Par exemple :
+</p>
+<textarea class="code-php" id="ta-10">
+    let room = {
+      number: 23
+    };
+    
+    let meetup = {
+      title: "Conference",
+      date: new Date(Date.UTC(2017, 0, 1)),
+      room
+    };
+    
+    alert( JSON.stringify(meetup) );
+    /*
+      {
+        "title":"Conference",
+        "date":"2017-01-01T00:00:00.000Z",  // (1)
+        "room": {"number":23}               // (2)
+      }
+    */
+</textarea>
+<button id="copy-10" class="btn btn-secondary btn-sm" data-target="ta-10" data-toggle="tooltip" title="Copy code">Copy</button>
+<p>
+    ci on peut voir que date (1) est devenu une chaîne. C’est parce que toutes les dates ont une méthode <b>toJSON</b> intégrée qui retourne ce genre de chaîne.
+    Ajoutons maintenant un <b>toJSON</b> personnalisé pour notre objet room (2):
+</p>
+<textarea class="code-php" id="ta-11">
+    let room = {
+      number: 23,
+      toJSON() {
+        return this.number;
+      }
+    };
+    
+    let meetup = {
+      title: "Conference",
+      room
+    };
+    
+    alert( JSON.stringify(room) ); // 23
+    
+    alert( JSON.stringify(meetup) );
+    /*
+      {
+        "title":"Conference",
+        "room": 23
+      }
+    */
+</textarea>
+<button id="copy-11" class="btn btn-secondary btn-sm" data-target="ta-11" data-toggle="tooltip" title="Copy code">Copy</button>
+<p class="mt-4">
+    Comme on peut le voir, <b>toJSON</b> est utilisé à la fois pour l’appel direct <b>JSON.stringify(room)</b> et quand room est imbriqué dans un autre objet encodé.
+</p>
+<h3 id="parse">6. JSON.parse</h3>
+<p>
+    Pour décoder une chaîne <b>JSON</b>, nous avons besoin d’une autre méthode nommée <b>JSON.parse</b>.
+    La syntaxe :
+</p>
+<textarea class="code-php" id="">
+    let value = JSON.parse(str, [reviver]);
+</textarea>
+<p class="mt-4">
+    <st-r>str</st-r> <br>
+    La chaîne JSON à parser. <br>
+</p>
+<p>
+    <st-r>reviver</st-r> <br>
+    Fonction optionnelle (clé, valeur) qui sera appelée pour chaque paire <b>(key, value)</b> et peut transformer la valeur. <br>
+    Par exemple :
+</p>
+<textarea class="code-php" id="ta-12">
+    // stringified array
+    let numbers = "[0, 1, 2, 3]";
+
+    numbers = JSON.parse(numbers);
+
+    alert( numbers[1] ); // 1
+</textarea>
+<button id="copy-12" class="btn btn-secondary btn-sm" data-target="ta-12" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    Ou pour les objets imbriqués :
+</p>
+<textarea class="code-php" id="ta-13">
+    let userData = '{ "name": "John", "age": 35, "isAdmin": false, "friends": [0,1,2,3] }';
+
+    let user = JSON.parse(userData);
+
+    alert( user.friends[1] ); // 1
+</textarea>
+<button id="copy-13" class="btn btn-secondary btn-sm" data-target="ta-13" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    Le <b>JSON</b> peut être aussi complexe que nécessaire, les objets et les tableaux peuvent inclure d’autres objets et tableaux. Mais ils doivent obéir au même format <b>JSON</b>. <br>
+    Voici des erreurs typiques dans un <b>JSON</b> écrit à la main (nous devons parfois l’écrire à des fins de débogage) :
+</p>
+<textarea class="code-php" id=" ta-14">
+    let json = `{
+        name: "John",                     // Erreur: nom de propriété sans guillemets
+        "surname": 'Smith',               // Erreur: guillemets simples en valeur (doit être double)
+        'isAdmin': false                  // Erreur: guillemets simples dans la clé (doit être double)
+        "birthday": new Date(2000, 2, 3), // Erreur: aucun "nouveau" n'est autorisé, seules les valeurs nues
+        "friends": [0,1,2,3]              // Ici tout va bien
+      }`;
+</textarea>
+<button id="copy-14" class="btn btn-secondary btn-sm" data-target="ta-14" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    En outre, <b>JSON</b> ne prend pas en charge les commentaires. L’ajout d’un commentaire dans un <b>JSON</b> le rend invalide.
+    Il y a un autre format nommé <b>JSON5</b> qui autorise les clés non commentées, les commentaires, etc. Mais il s’agit d’une bibliothèque autonome, pas dans la spécification du langage.
+    Le <b>JSON standard</b> est très strict, non pas parce que ses développeurs sont paresseux, mais pour permettre une implémentation facile, fiable et très rapide de l’algorithme de conversion.
+</p>
+
+<h3 id="reviver">7. Utiliser Reviver</h3>
+<p>
+    Imaginez, nous avons un objet stringified <b>meetup</b> sur le serveur. <br>
+    Cela ressemble à ça :
+</p>
+<textarea class="code-php" id="">
+    // title: (meetup title), date: (meetup date)
+    let str = '{"title":"Conference","date":"2017-11-30T12:00:00.000Z"}';
+</textarea>
+<p class="mt-4">
+    … Et maintenant, nous devons le déserializer, pour le retourner en <b>objet JavaScript</b>. <br>
+    Faisons-le en appelant <b>JSON.parse</b> :
+</p>
+<textarea class="code-php" id="ta-15">
+    let str = '{"title":"Conference","date":"2017-11-30T12:00:00.000Z"}';
+    let meetup = JSON.parse(str);
+    alert( meetup.date.getDate() ); // Error!
+</textarea>
+<button id="copy-15" class="btn btn-secondary btn-sm" data-target="ta-15" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    Whoops ! Une erreur !
+    La valeur de <b>meetup.date</b> est une chaîne et non un <b>objet Date</b>. Comment <b>JSON.parse</b> pourrait-il savoir qu’il devrait transformer cette chaîne en <b>Date</b> ?
+    Passons à <b>JSON.parse</b> la fonction de réactivation en tant que second argument, qui renvoie toutes les valeurs “en l’état”, mais date deviendra une <b>Date</b> :
+</p>
+<textarea class="code-php" id="ta-16">
+    let str = '{"title":"Conference","date":"2017-11-30T12:00:00.000Z"}';
+
+    let meetup = JSON.parse(str, function(key, value) {
+    if (key == 'date') return new Date(value);
+    return value;
+    });
+
+    alert( meetup.date.getDate() ); // ça fonctionne maintenant !
+</textarea>
+<button id="copy-16" class="btn btn-secondary btn-sm" data-target="ta-16" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    Cela fonctionne aussi pour les objets imbriqués :
+</p>
+<textarea class="code-php" id="ta-17">
+    let schedule = `{
+      "meetups": [
+        {"title":"Conference","date":"2017-11-30T12:00:00.000Z"},
+        {"title":"Birthday","date":"2017-04-18T12:00:00.000Z"}
+      ]
+    }`;
+    
+    schedule = JSON.parse(schedule, function(key, value) {
+      if (key == 'date') return new Date(value);
+      return value;
+    });
+    
+    alert( schedule.meetups[1].date.getDate() ); // ça fonctionne !
+</textarea>
+<button id="copy-17" class="btn btn-secondary btn-sm" data-target="ta-17" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h3 id="conclusion">8. Conclusion</h3>
+<ul>
+    <li>JSON est un format de données qui possède son propre standard indépendant et ses propres bibliothèques pour la plupart des langages de programmation.</li>
+    <li>JSON prend en charge les objets simples, les tableaux, les chaînes, les nombres, les booléens et null.</li>
+    <li>JavaScript fournit des méthodes <b>JSON.stringify</b> pour sérialiser en JSON et <b>JSON.parse</b> pour lire depuis JSON.</li>
+    <li>Les deux méthodes prennent en charge les fonctions du transformateur pour une lecture/écriture intelligente.</li>
+    <li>Si un objet a toJSON, alors il est appelé par <b>JSON.stringify</b>.</li>
+</ul>
+
+
+
+

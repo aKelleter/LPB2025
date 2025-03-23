@@ -4,6 +4,7 @@
     $message = '';
     $donnees = null;
     $logout = null;
+    $article = null;
 
     // On vérifie si l'utilisateur est connecté
     if(!checkConnexion()) {                
@@ -15,8 +16,7 @@
     if(isset($_GET['id'])) {
         $id = $_GET['id'];
         $article = SQLLoadArticleByID($id);
-        //DEBUG// 
-        Aprint($article);
+        //DEBUG// Aprint($article);
 
         // Si l'article n'existe pas
         if(empty($article)) {
