@@ -1,0 +1,509 @@
+<!--
+<textarea class="code-php" id="ta-x">
+    
+</textarea>
+<button id="copy-x" class="btn btn-secondary btn-sm" data-target="ta-x" data-toggle="tooltip" title="Copy code">Copy</button>
+-->
+<h3 id="intro">1. Introduction</h3>
+<p>
+    En programmation, nous voulons souvent prendre quelque chose et l’étendre. <br>
+    Par exemple, nous avons un objet <b>user</b> avec ses propriétés et méthodes et souhaitons en faire des variantes <b>admin</b> et <b>guest</b> légèrement modifiées. 
+    Nous aimerions réutiliser ce que nous avons dans <b>user</b>, et non pas copier/réimplémenter ses méthodes, mais simplement créer un nouvel objet par-dessus.
+    L’héritage prototypal est une fonctionnalité de langage qui facilite ce type d'opération.
+</p>
+
+<h3 id="proto">2. [[Prototype]]</h3>
+<p>
+    En JavaScript, les objets ont une propriété cachée spéciale <b>[[Prototype]]</b> (comme indiqué dans la spécification), qui est soit null ou fait référence à un autre objet. 
+    Cet objet s’appelle “un prototype” :
+</p>
+<textarea class="code-php" id="">
+    protype object
+    --------------
+          ^
+          | [[Prototype]]
+
+        object
+    --------------
+</textarea>
+
+<p class="mt-4">
+    Lorsque nous lisons une propriété depuis object, et qu’elle est manquante, JavaScript la prend automatiquement du prototype. En programmation, une telle chose est appelée “héritage prototypal”. 
+    Et bientôt, nous étudierons de nombreux exemples d’un tel héritage, ainsi que des fonctionnalités de langage plus cool qui en découlent.
+</p>
+<p>La propriété <b>[[Prototype]]</b> est interne et cachée, mais il y a plusieurs façons de la définir.</p>
+<p>
+    L’un d’eux est d’utiliser le nom spécial <b>__proto__</b>, comme ceci :
+</p>
+
+<textarea class="code-php" id="ta-1">    
+    let animal = {
+      eats: true
+    };
+    let rabbit = {
+      jumps: true
+    };
+    
+    rabbit.__proto__ = animal; // sets rabbit.[[Prototype]] = animal
+</textarea>
+<button id="copy-1" class="btn btn-secondary btn-sm" data-target="ta-1" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    Si nous recherchons une propriété dans <b>rabbit</b>, et qu’elle en manque, JavaScript la prend automatiquement à partir de animal. <br>
+    Par exemple :
+</p>
+
+<textarea class="code-php" id="ta-2">    
+    let animal = {
+      eats: true
+    };
+    let rabbit = {
+      jumps: true
+    };
+    
+    rabbit.__proto__ = animal; // (*)
+    
+    // nous pouvons maintenant trouver les deux propriétés dans rabbit :
+    alert( rabbit.eats ); // true (**)
+    alert( rabbit.jumps ); // true
+</textarea>
+<button id="copy-2" class="btn btn-secondary btn-sm" data-target="ta-2" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    Ici, la ligne <b>(*)</b> définit <b>animal</b> comme le prototype de <b>rabbit</b>.
+    Ensuite, lorsque alert essaie de lire la propriété rabbit.eats <b>(**)</b>, ce n’est pas dans <b>rabbit</b>, donc JavaScript suit la référence <b>[[Prototype]]</b> et la trouve 
+    dans <b>animal</b> ("regarde" du bas vers le haut) :
+</p>
+
+<textarea class="code-php" id="">    
+    animal
+    ------
+    eats: true
+    ----------
+        ^
+        | [[Prototype]]
+
+    rabbit    
+    ------
+    jumps: true
+    -----------
+</textarea>
+
+<p class="mt-4">
+    Ici, nous pouvons dire que “<st-r>animal est le prototype de rabbit</st-r>” ou que “<st-r>rabbit hérite de manière prototypal de animal</st-r>”. <br>
+    Donc, si <b>animal</b> a beaucoup de propriétés et de méthodes utiles, elles deviennent automatiquement disponibles dans <b>rabbit</b>. De telles propriétés sont appelées “<b>héritées</b>”.
+    Si nous avons une méthode dans <b>animal</b>, elle peut être appelée sur <b>rabbit</b> :
+</p>
+
+<textarea class="code-php" id="ta-3">    
+    let animal = {
+      eats: true,
+      walk() {
+        alert("Animal walk");
+      }
+    };
+    
+    let rabbit = {
+      jumps: true,
+      __proto__: animal
+    };
+    
+    // walk est prise à partir du prototype
+    rabbit.walk(); // Animal walk
+</textarea>
+<button id="copy-3" class="btn btn-secondary btn-sm" data-target="ta-3" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    La méthode est automatiquement prise à partir du prototype, comme ceci :
+</p>
+
+<textarea class="code-php" id="">    
+    animal
+    ------
+    eats: true
+    walk: function
+    --------------
+        ^
+        | [[Prototype]]
+
+    rabbit    
+    ------
+    jumps: true
+    -----------
+</textarea>
+
+<p class="mt-4">
+    La chaîne de prototypes peut être plus longue :
+</p>
+
+<textarea class="code-php" id="ta-4">    
+    let animal = {
+      eats: true,
+      walk() {
+        alert("Animal walk");
+      }
+    };
+    
+    let rabbit = {
+      jumps: true,
+      __proto__: animal
+    };
+    
+    let longEar = {
+      earLength: 10,
+      __proto__: rabbit
+    };
+    
+    // walk est prise à partir de la chaîne de prototype
+    longEar.walk(); // Animal walk
+    alert(longEar.jumps); // true (de rabbit)
+</textarea>
+<button id="copy-4" class="btn btn-secondary btn-sm mb-5" data-target="ta-4" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<textarea class="code-php" id="">    
+    animal
+    ------
+    eats: true
+    walk: function
+    --------------
+        ^
+        | [[Prototype]]
+
+    rabbit    
+    ------
+    jumps: true
+    -----------
+        ^
+        | [[Prototype]]
+
+    longEar
+    -------
+    earLength: 10
+    -------------
+</textarea>
+
+<p class="mt-4">
+    Maintenant, si nous lisons quelque chose de <b>longEar</b>, et qu’il est manquant, JavaScript le recherchera dans <b>rabbit</b>, puis dans <b>animal</b>.
+    Il n’y a que deux limitations : <br>
+</p>
+<div class="alert alert-danger">
+    <ol>
+        <li class="red fw-bold">
+            Les références ne peuvent pas tourner en rond. JavaScript va générer une erreur si nous essayons d’assigner <b>__proto__</b> 
+            à une référence circulaire (qui finit par se référencer elle-même).
+        </li>
+        <li class="red fw-bold">La valeur de <b>__proto__</b> peut être soit un <b>objet</b> soit <b>null</b>. Les autres types sont ignorés.</li>
+    </ol>
+</div>
+
+<p class="mt-4">
+    Cela peut sembler également évident, mais tout de même : <st-r>il ne peut y avoir qu’un seul <b>[[Prototype]]</b>. Un objet ne peut pas hériter de deux autres</st-r>.
+</p>
+
+<div class="alert alert-info">
+    <h4 class="alert-heading">INFOS : <b>__proto__</b> est un getter/setter historique pour <b>[[Prototype]]</b></h4> <hr>
+    <p>
+        C’est une erreur courante des développeurs novices de ne pas connaître la différence entre les deux. <br>
+        Veuillez noter que <b>__proto__</b> n’est pas la même que la propriété interne <b>[[Prototype]]</b>. C’est un getter/setter pour <b>[[Prototype]]</b>.
+        Plus tard, nous verrons des situations où cela compte, pour l’instant gardons cela à l’esprit, alors que nous construisons notre compréhension du langage JavaScript.
+    </p>
+    <p>
+        La propriété <b>__proto__</b> est un peu obsolète. Elle existe pour des raisons historiques, le JavaScript moderne suggère que nous devrions utiliser les fonctions 
+        <b>Object.getPrototypeOf/Object.setPrototypeOf</b> à la place pour obtenir/définir le prototype. Nous aborderons également ces fonctions plus tard.
+    </p>
+    <p>
+        Selon la spécification, <b>__proto__</b> ne doit être pris en charge que par les navigateurs. En fait cependant, tous les environnements, y compris côté serveur, prennent 
+        en charge <b>__proto__</b>, donc nous sommes assez sûrs de l’utiliser. <br>
+        Comme la notation <b>__proto__</b> est un peu plus évidente, nous l’utilisons dans les exemples.
+    </p>
+</div>
+
+<h3 id="ecrit">3. L’écriture n’utilise pas de prototype</h3>
+<p>
+    Le <b>prototype</b> n’est utilisé que pour la lecture des propriétés. <br>
+    Les opérations d’écriture/suppression fonctionnent directement avec l’objet. <br>
+    Dans l’exemple ci-dessous, nous affectons sa propre méthode <b>walk</b> à <b>rabbit</b> :
+</p>
+
+<textarea class="code-php" id="ta-5">    
+    let animal = {
+      eats: true,
+      walk() {
+        /* cette méthode ne sera pas utilisée par rabbit */
+      }
+    };
+    
+    let rabbit = {
+      __proto__: animal
+    };
+    
+    rabbit.walk = function() {
+      alert("Rabbit! Bounce-bounce!");
+    };
+    
+    rabbit.walk(); // Rabbit! Bounce-bounce!
+</textarea>
+<button id="copy-5" class="btn btn-secondary btn-sm" data-target="ta-5" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    A partir de maintenant, l’appel <b>rabbit.walk()</b> trouve la méthode immédiatement dans l’objet et l’exécute, sans utiliser le <b>prototype</b> :
+</p>
+
+<textarea class="code-php" id="">    
+    animal
+    ------
+    eats: true
+    walk: function
+    --------------
+        ^
+        | [[Prototype]]
+
+    rabbit    
+    ------
+    walk: function
+    --------------
+</textarea>
+
+<p class="mt-4">
+    Les propriétés d’accesseur constituent une exception, car l’affectation est gérée par une fonction mutateur. <br>
+    Donc, écrire dans une telle propriété revient en fait à appeler une fonction.
+    Pour cette raison, <b>admin.fullName</b> fonctionne correctement dans le code ci-dessous :
+</p>
+
+<textarea class="code-php" id="ta-6">    
+    let user = {
+      name: "John",
+      surname: "Smith",
+    
+      set fullName(value) {
+        [this.name, this.surname] = value.split(" ");
+      },
+    
+      get fullName() {
+        return `${this.name} ${this.surname}`;
+      }
+    };
+    
+    let admin = {
+      __proto__: user,
+      isAdmin: true
+    };
+    
+    alert(admin.fullName); // John Smith (*)
+    
+    // le mutateur se déclenche !
+    admin.fullName = "Alice Cooper"; // (**)
+    
+    alert(admin.fullName); // Alice Cooper, l'état de admin est modifié
+    alert(user.fullName); // John Smith, l'état de user est protégé
+</textarea>
+<button id="copy-6" class="btn btn-secondary btn-sm" data-target="ta-6" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    Ici dans la ligne <b>(*)</b> la propriété <b>admin.fullName</b> a un accesseur dans le prototype <b>user</b>, il est donc appelé. <br>
+    Et dans la ligne <b>(**)</b> la propriété a un mutateur dans le prototype, il est donc appelé.
+</p>
+
+<h3 id="this">4. La valeur de “this”</h3>
+<p>
+    Une question intéressante peut se poser dans l’exemple ci-dessus : quelle est la valeur de <b>this</b> dans <b>set fullName(value)</b> ? 
+    Où sont écrites les propriétés <b>this.name</b> et <b>this.surname</b> : dans <b>user</b> ou <b>admin</b> ?
+</p>
+<p>
+    La réponse est simple : <st-r class="red fw-bold"><b>this</b> n’est pas du tout affecté par les prototypes</st-r>.
+</p>
+<p>
+    <st-r>Peu importe où la méthode est trouvée : dans un objet ou son prototype. Dans un appel de méthode, <b>this</b> est toujours l’objet avant le point</st-r>.
+</p>
+<p>
+    Ainsi, l’appel du groupe <b>admin.fullName=</b> utilise <b>admin</b> comme <b>thisq</b>, pas <b>user</b>.
+</p>
+<p>
+    C’est en fait une chose très importante, car nous pouvons avoir un "gros objet" avec de nombreuses méthodes et en hériter. 
+    Ensuite, les objets hérités peuvent exécuter ces méthodes héritées, ils ne modifieront que leurs propres états, pas l’état du "gros objet".
+</p>
+<p>
+    Par exemple, ici <b>animal</b> représente un “stockage/collection de méthode” et <b>rabbit</b> en fait usage.
+</p>
+<p>
+    L’appel <b>rabbit.sleep()</b> définit <b>this.isSleeping</b> sur l’objet <b>rabbit</b> :
+</p>
+
+<textarea class="code-php" id="ta-7">    
+    // animal a des méthodes
+    let animal = {
+        walk() {
+            if (!this.isSleeping) {
+            alert(`I walk`);
+            }
+        },
+        sleep() {
+            this.isSleeping = true;
+        }
+    };
+
+    let rabbit = {
+        name: "White Rabbit",
+        __proto__: animal
+    };
+
+    // modifie rabbit.isSleeping
+    rabbit.sleep();
+
+    alert(rabbit.isSleeping); // true
+    alert(animal.isSleeping); // undefined (aucune propriété de ce type dans le prototype)
+</textarea>
+<button id="copy-7" class="btn btn-secondary btn-sm" data-target="ta-7" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    Le schéma résultant est le suivant :
+</p>
+
+<textarea class="code-php" id="">    
+    animal
+    ------    
+    walk: function
+    sleep: function
+    --------------
+        ^
+        | [[Prototype]]
+
+    rabbit    
+    ------
+    name: "White Rabbit"
+    isSleeping: true
+    --------------------
+</textarea>
+
+<p class="mt-4">
+    Si nous avions d’autres objets tels que bird, snake etc. héritant de <b>animal</b>, ils auraient également accès aux méthodes de animal. 
+    Mais <b>this</b> dans chaque appel de méthode serait l’objet correspondant, évalué au moment de l’appel (avant le point), et non animal. 
+    Ainsi, lorsque nous écrivons des données dans <b>this</b>, elles sont stockées dans ces objets. <br> 
+    <st-r>En conséquence, les méthodes sont partagées, mais pas l’état d’objet</st-r>.
+</p>
+
+
+<h3 id="forin">5. La boucle for…in</h3>
+<p>
+    La boucle <b>for..in</b> itère aussi sur les propriétés héritées. <br>
+    Par exemple :
+</p>
+
+<textarea class="code-php" id="ta-8">    
+    let animal = {
+      eats: true
+    };
+    
+    let rabbit = {
+      jumps: true,
+      __proto__: animal
+    };
+    
+    // Object.keys ne renvoie que ses propres clés
+    alert(Object.keys(rabbit)); // jumps
+    
+    // for..in boucle sur les clés propres et héritées
+    for(let prop in rabbit) alert(prop); // jumps, puis eats
+</textarea>
+<button id="copy-8" class="btn btn-secondary btn-sm" data-target="ta-8" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    Si ce n’est pas ce que nous voulons et que nous aimerions exclure les propriétés héritées, il existe une méthode intégrée <b>obj.hasOwnProperty(key)</b> : 
+    elle renvoie <b>true</b> si <b>obj</b> a sa propre propriété (non héritée) nommée <b>key</b>. <br>
+    Nous pouvons donc filtrer les propriétés héritées (ou faire autre chose avec elles) :
+</p>
+
+<textarea class="code-php" id="ta-9">    
+    let animal = {
+      eats: true
+    };
+    
+    let rabbit = {
+      jumps: true,
+      __proto__: animal
+    };
+    
+    for(let prop in rabbit) {
+      let isOwn = rabbit.hasOwnProperty(prop);
+    
+      if (isOwn) {
+        alert(`Our: ${prop}`); // Our : jumps
+      } else {
+        alert(`Inherited: ${prop}`); // Inherited: eats
+      }
+    }
+</textarea>
+<button id="copy-9" class="btn btn-secondary btn-sm" data-target="ta-9" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    Nous avons ici la chaîne d’héritage suivante : <b>rabbit</b> <st-r>hérite</st-r> de <b>animal</b>, qui lui <st-r>hérite</st-r> de <b>Object.prototype</b> (car <b>animal</b> est un objet littéral {...}, 
+    donc c’est par défaut), puis <b>null</b> au-dessus :
+</p>
+
+<textarea class="code-php" id="">    
+    NULL
+    ----
+        ^
+        | [[Prototype]]
+    
+    Object.prototype
+    ----------------
+    toString: function
+    hasOwnProperty: function
+    ...
+    ----------------
+        ^
+        | [[Prototype]]
+
+    animal
+    ------    
+    eats: true
+    ----------
+        ^
+        | [[Prototype]]
+
+    rabbit    
+    ------
+    jumps: true
+    -----------
+</textarea>
+
+<p class="mt-4">
+    <st-r>Remarque</st-r>, il y a une chose amusante. D’où vient la méthode <b>rabbit.hasOwnProperty</b> ? Nous ne l’avons pas défini. En regardant la chaîne, nous pouvons voir que la méthode 
+    est fournie par <b>Object.prototype.hasOwnProperty</b>. En d’autres termes, c’est hérité.
+</p>
+
+<p>
+    <st-r>…Mais</st-r> pourquoi <b>hasOwnProperty</b> n’apparaît pas dans la boucle <b>for..in</b>, comme <b>eats</b> et <b>jumps</b>, s’il répertorie toutes les propriétés héritées ? 
+</p>
+
+<p>
+    <st-r>La réponse est simple</st-r> : <st-r class="red fw-bold">ce n’est pas énumérable</st-r>. Comme toutes les autres propriétés de <b>Object.prototype</b>, il possède l’attribut 
+    <b>enumerable: false</b>. C’est pourquoi ils ne sont pas répertoriés. Et <b>for..in</b> ne répertorie que les propriétés énumérables.  <br>
+    C’est pourquoi elle et le reste des propriétés de <b>Object.prototype</b> ne sont pas listés :).
+</p>
+
+<div class="alert alert-info">
+    <h4 class="alert-heading">INFOS : Presque toutes les autres méthodes d’obtention de clé/valeur ignorent les propriétés héritées</h4> <hr>
+    <p>
+        Presque toutes les autres méthodes d’obtention de clé/valeur, telles que <b>Object.keys</b>, <b>Object.values</b> et ainsi de suite ignorent les propriétés héritées. <br>
+        Elles ne fonctionnent que sur l’objet lui-même. <st-r>Les propriétés du prototype ne sont pas prises en compte</st-r>.
+    </p>
+</div>
+
+<h3 id="resume">6. Résumé</h3>
+<ul>
+    <li>En JavaScript, tous lesb objets ont une propriété masquée <b>[[Prototype]]</b> qui est soit un autre <b>objet</b>, soit <b>null</b>.</li>
+    <li>Nous pouvons utiliser <>obj.__ proto__</li> pour y accéder (un accesseur/mutateur historique, il existe d’autres moyens, à découvrir bientôt).</li>
+    <li>L’objet référencé par <b>[[Prototype]]</b> s’appelle un “prototype”.</li>
+    <li>Si nous voulons lire une propriété de <b>obj</b> ou appeler une méthode, et que celle-ci n’existe pas, alors JavaScript essaye de la trouver dans le prototype.</li>
+    <li>Les opérations d’écriture/suppression agissent directement sur l’objet, elles n’utilisent pas le prototype (en supposant qu’il s’agisse d’une propriété de données, et non d’un setter).</li>
+    <li>Si nous appelons <b>obj.method()</b>, et que la méthode est extraite du prototype, <b>this</b> <st-r>fait toujours référence</st-r> à <b>obj</b>. Les méthodes fonctionnent donc toujours avec l’objet 
+        actuel, même si elles sont héritées.</li>
+    <li>La boucle <b>for..in</b> parcourt les propriétés propres et héritées. Toutes les autres méthodes d’obtention de clé / valeur ne fonctionnent que sur l’objet lui-même.</li>    
+</ul>
+
+<p>Je ne sais pas pour vous mais, mais pour moi la notion de <b>[[Prototype]]</b> et d'héritage par prototype devient plus claire dans mon esprit. Et dans le vôtre également, je l'espère :).</p>
+
+
+

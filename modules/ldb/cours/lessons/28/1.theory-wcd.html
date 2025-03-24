@@ -1,0 +1,53 @@
+<h3 id="intro">1. Introduction</h3>
+<p class="fw-bold">
+    Objectifs de la leçon :
+</p>
+<ul>
+    <li>Comprendre ce qu’est un index et son rôle dans une base de données.</li>
+    <li>Apprendre à créer un index avec la commande SQL <b>CREATE INDEX</b>.</li>
+    <li>Découvrir comment les index améliorent les recherches et quand les utiliser.</li>
+</ul>
+
+<h3 id="why">2. Introduction : Pourquoi les index ?</h3>
+<p>
+    Imaginez que vous cherchez un mot dans un gros dictionnaire. Si vous n’avez pas d’index alphabétique, vous devez parcourir toutes les pages une par une : c’est long ! 
+    Mais avec un index, vous allez directement à la bonne page en quelques secondes.
+</p>
+<p>
+    Dans une base de données, un <st-r>index</st-r> fonctionne comme une table des matières. Il aide MariaDB à trouver rapidement des données sans tout vérifier ligne par ligne.
+</p>
+
+<h3 id="what">3. Qu’est-ce qu’un index ?</h3>
+<p>
+    Un <st-r>index</st-r> est une structure spéciale créée sur une ou plusieurs colonnes d’une table. Il contient une liste triée des valeurs de ces colonnes, avec des 
+    "pointeurs" vers les lignes correspondantes dans la table.
+</p>
+<p class="fw-bold">Exemple simple :</p>
+<p>Prenons la table <b>eleves</b> que l’on a utilisée dans la leçon précédente :</p>
+
+<textarea class="code-php" id="">
+    ID	    Nom	    Age
+    -------------------
+    1	    Alice	15
+    2	    Bob	    16
+    3	    Clara	15
+    4	    David	14
+    -------------------
+</textarea>
+
+<p class="mt-4">
+    Si nous recherchons souvent des chaînes sur la colonne <b>Nom</b> (par exemple, "Trouve tous les élèves qui s’appellent Alice"), MariaDB doit vérifier chaque ligne. 
+    Avec beaucoup de données (par exemple, 10 000 élèves), ça devient lent. Un index sur <b>Nom</b> accélère cette recherche.
+</p>
+
+<p class="fw-bold">
+    Remarque :
+</p>
+<p>
+    La clé primaire (<b>ID</b> ici) a déjà un index automatique créé par MariaDB. Pas besoin d’en ajouter un pour elle !
+</p>
+
+<h3 id="useindex">4. Pourquoi utiliser des index ?</h3>
+<p>
+    
+</p>

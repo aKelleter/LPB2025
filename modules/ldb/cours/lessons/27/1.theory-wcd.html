@@ -1,0 +1,279 @@
+<h3>Sommaire</h3>
+<ul>
+    <li><a href="#intro">1. Introduction</a></li>
+    <li><a href="#why">2. Pourquoi organiser les données ?</a></li>
+    <li><a href="#primarykey">3. Qu’est-ce qu’une clé primaire ?</a></li>
+    <li><a href="#foreignkey">4. Qu’est-ce qu’une clé étrangère ?</a></li>
+    <li><a href="#why">5. Pourquoi utiliser ces clés ?</a></li>
+    <li><a href="#activite">6. Activité pratique : Créons nos tables dans MariaDB</a></li>
+    <li><a href="#conclusion">7. Conclusion</a></li>
+    <li><a href="#exos">8. Exercices</a></li>
+</ul>
+<h3 id="intro">1. Introduction</h3>
+<p>
+    Nous avons déjà abordé le sujet auparavant, mais une remise dans le contexte ne fait jamais de mal. 
+    Les bases de données sont des outils puissants pour stocker et manipuler des données. Cependant, pour 
+    que ces données soient utiles, il est important de les organiser correctement. 
+    C’est là qu’interviennent les clés primaires et étrangères.
+</p>
+<p>
+    Objectifs de la leçon :
+</p>
+<ul>
+    <li>Comprendre ce qu’est une clé primaire et pourquoi elle est importante.</li>
+    <li>Découvrir le rôle des clés étrangères pour relier des tables.</li>
+    <li>Voir comment ces clés rendent une base de données plus claire et fiable.</li>
+</ul>
+
+<h3 id="why">2. Pourquoi organiser les données ?</h3>
+<p>
+    Imaginez que vous tenez un carnet avec la liste de vos amis et leurs numéros de téléphone. Si deux amis s’appellent "Marie" et que vous ne notez pas quelque chose pour 
+    les différencier, comment savoir à quelle "Marie" appartient chaque numéro ? Et si vous voulez aussi noter leurs villes préférées, comment relier ces informations sans 
+    tout mélanger ?
+</p>
+<p>
+    Dans une base de données, les <b>clés primaires</b> et les <b>clés étrangères</b> sont comme des étiquettes et des fils qui relient les informations. Elles permettent d’organiser 
+    les données pour qu’elles soient faciles à trouver et à utiliser.
+</p>
+
+<h3 id="primarykey">3. Qu’est-ce qu’une clé primaire ?</h3>
+<p>
+    Une clé primaire est une colonne spéciale dans une table qui identifie chaque ligne de manière unique. 
+    C’est comme un numéro d’identité pour chaque enregistrement.
+</p>
+<p class="fw-bold">
+    Caractéristiques d’une clé primaire :
+</p>
+<ul>
+    <li>Elle doit être <st-r>unique</st-r> : il ne peut y avoir deux lignes avec la même valeur.</li>
+    <li>Elle ne peut pas être vide (<st-r>non NULL</st-r>) : chaque ligne doit avoir une valeur.</li>
+</ul>
+<p>Exemple simple :
+    Imaginons une table appelée <b>eleves</b>  <br>    
+</p>
+<textarea class="code-php" id="">
+    ID	    Nom	    Age
+    ---------------------
+    1	    Alice	15
+    2	    Bob	    16
+    3	    Clara	15
+</textarea>
+<ul class="mt-4">
+    <li>La colonne <b>ID</b> est la clé primaire. Chaque élève a un numéro unique (1, 2, 3).</li>
+    <li>Même si deux élèves ont le même âge ou un nom similaire, l’<b>ID</b> permet de les différencier.</li>
+</ul>
+
+<p class="fw-bold">Pourquoi c’est utile ?</p>
+<ul>
+    <li>Sans clé primaire, si vous cherchez "Alice", vous ne saurez pas de quelle "Alice" il s’agit s’il y en a plusieurs.</li>
+    <li>Avec une clé primaire, vous pouvez dire : "Je veux l’élève avec l’ID 1", et c’est clair !</li>
+</ul>
+
+<h3 id="foreignkey">4. Qu’est-ce qu’une clé étrangère ?</h3>
+<p>
+    Une clé étrangère est une colonne dans une table qui sert à relier cette table à une autre. Elle contient des valeurs qui correspondent à la clé primaire d’une autre table.
+</p>
+<p class="fw-bold">Exemple concret :</p>
+<p>Ajoutons une table <b>notes</b> pour suivre les notes des élèves :</p>
+<textarea class="code-php" id="">
+    ID_Note	    Eleve_ID	    Matiere	    Note
+    --------------------------------------------
+    1	        1	            Maths	    18
+    2	        2	            Histoire	15
+    3	        1	            Français	16
+</textarea>
+<ul class="mt-4">
+    <li>La colonne <b>Eleve_ID</b> dans la table Notes est une clé étrangère.</li>
+    <li>Elle fait référence à la <st-r>clé primaire</st-r> <b>ID</b> de la table <b>eleves</b>.</li>
+</ul>
+
+<p class="fw-bold">Que se passe-t-il ici ?</p>
+
+<ul>
+    <li><b>Eleve_ID</b> = 1 signifie que cette note appartient à Alice (ID 1 dans <b>eleves</b>).</li>
+    <li><b>Eleve_ID</b> = 2 renvoie à Bob.</li>
+    <li>On peut ainsi savoir à qui appartient chaque note sans répéter le nom ou l’âge dans la table <b>notes</b>.</li>    
+</ul>
+
+<h3 id="why">5. Pourquoi utiliser ces clés ?</h3>
+
+<p class="fw-bold">Avantages des clés primaires :</p>
+<ol>
+    <li><st-r>Identification claire</st-r> : Chaque ligne a une "carte d’identité" unique.</li>
+    <li><st-r>Évite les doublons</st-r> : Pas de confusion entre deux enregistrements identiques.</li>
+    <li><st-r>Facilite les recherches</st-r> : Vous pouvez chercher une ligne précise avec son ID.</li>
+</ol>
+
+<p class="fw-bold mt-4">Avantages des clés étrangères :</p>
+<ol>
+    <li><st-r>Relier les informations</st-r> : Les tables peuvent "parler" entre elles sans tout mélanger.</li>
+    <li><st-r>Économie d’espace</st-r> : Pas besoin de répéter les données (par exemple, le nom d’Alice n’est écrit qu’une fois dans Eleves).</li>
+    <li><st-r>Fiabilité</st-r> : MariaDB peut vérifier que les valeurs dans la clé étrangère existent vraiment dans la table liée (par exemple, pas de note pour un élève qui n’existe pas).</li>
+</ol>
+
+<p class="fw-bold mt-4">Exemple sans clés : le bazar !</p>
+
+<textarea class="code-php" id="">
+    Nom	    Matiere     Note
+    ------------------------
+    Alice	Maths	    18
+    Bob	    Histoire	15
+    Alice	Français	16
+    ------------------------
+</textarea>
+
+<p class="mt-4">Problèmes :</p>
+<ul>
+    <li>Deux lignes pour Alice, mais comment savoir à qui appartient chaque note ?</li>
+    <li>Si Alice change de nom, il faut modifier toutes les lignes.</li>
+    <li>Impossible de vérifier si un élève existe vraiment.</li>    
+</ul>
+
+<p>Avec les clés, tout est clair et organisé !</p>
+
+<h3 id="activite">6. Activité pratique : Créons nos tables dans MariaDB</h3>
+<p class="fw-bold">
+    Étape 1 : Créer la table <b>eleves</b> avec une clé primaire
+</p>
+
+<textarea class="code-php" id="ta-1">
+    CREATE TABLE eleves (
+        ID INT PRIMARY KEY,
+        Nom VARCHAR(50),
+        Age INT
+    );
+</textarea>
+<button id="copy-1" class="btn btn-secondary btn-sm" data-target="ta-1" data-toggle="tooltip" title="Copy code">Copy</button>
+<p class="mt-4">
+    <b>ID</b> est la clé primaire (mot-clé <b>PRIMARY KEY</b>).
+</p>
+<p class="mt-4 fw-bold">
+    Étape 2 : Ajouter des élèves
+</p>
+
+<textarea class="code-php" id="ta-2">
+    INSERT INTO eleves (ID, Nom, Age) VALUES
+    (1, 'Alice', 15),
+    (2, 'Bob', 16),
+    (3, 'Clara', 15);
+</textarea>
+<button id="copy-2" class="btn btn-secondary btn-sm" data-target="ta-2" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4 fw-bold">
+    Étape 3 : Créer la table <b>notes</b> avec une clé étrangère
+</p>
+
+<textarea class="code-php" id="ta-3">
+    CREATE TABLE notes (
+        ID_Note INT PRIMARY KEY,
+        Eleve_ID INT,
+        Matiere VARCHAR(50),
+        Note INT,
+        FOREIGN KEY (Eleve_ID) REFERENCES Eleves(ID)
+    );
+</textarea>
+<button id="copy-3" class="btn btn-secondary btn-sm" data-target="ta-3" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    <b>Eleve_ID</b> est une clé étrangère qui pointe vers <b>ID</b> dans <b>eleves</b>.
+</p>
+
+<p class="mt-4 fw-bold">
+    Étape 4 : Ajouter des notes
+</p>
+
+<textarea class="code-php" id="ta-4">
+    INSERT INTO notes (ID_Note, Eleve_ID, Matiere, Note) VALUES
+    (1, 1, 'Maths', 18),
+    (2, 2, 'Histoire', 15),
+    (3, 1, 'Français', 16);
+</textarea>
+<button id="copy-4" class="btn btn-secondary btn-sm" data-target="ta-4" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4 fw-bold">
+    Étape 5 : Vérifier le lien
+</p>
+
+<textarea class="code-php" id="ta-5">
+    SELECT eleves.Nom, notes.Matiere, notes.Note
+    FROM eleves
+    INNER JOIN notes ON eleves.ID = notes.Eleve_ID;
+</textarea>
+<button id="copy-5" class="btn btn-secondary btn-sm" data-target="ta-5" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">Résultat attendu :</p>
+<textarea class="code-php" id="">
+    Nom	    Matiere	    Note
+    ------------------------
+    Alice	Maths	    18
+    Bob	    Histoire	15
+    Alice	Français	16
+    ------------------------
+</textarea>
+
+<h3 id="conclusion">7. Conclusion</h3>
+
+<ul>
+    <li>Les <b>clés primaires</b> garantissent que chaque ligne est unique et facile à repérer.</li>
+    <li>Les <b>clés étrangères</b> relient les tables pour organiser les données sans répétition ni confusion.</li>
+    <li>Ensemble, elles rendent votre base de données claire, efficace et fiable, comme un classeur bien rangé !</li>
+</ul>
+
+<p class="fw-bold">
+    Question pour réfléchir : <br>
+</p>
+<p>
+    Que se passerait-il si on essayait d’ajouter une note pour un <b>Eleve_ID</b> qui n’existe pas (par exemple, 4) ? (Réponse : MariaDB refuserait, grâce à la clé étrangère !)
+</p>
+
+<h3 id="exos">8. Exercices</h3>
+<ol>
+    <li>Ajoutez un nouvel élève dans Eleves (ID 4, Nom "David", Age 14).</li>
+    <li>Ajoutez une note pour David dans Notes (ID_Note 4, Eleve_ID 4, Matiere "Sciences", Note 17).</li>
+    <li>Affichez toutes les notes avec les noms des élèves en utilisant la requête de l’étape 5.</li>
+</ol>
+
+<details>
+    <summary>Afficher la réponse</summary>
+    <p class="fw-bold mt-4">1. Ajoutez un nouvel élève dans Eleves (ID 4, Nom "David", Age 14).</p>
+    <textarea class="code-php" id="ta-6">        
+        INSERT INTO eleves (ID, Nom, Age) 
+        VALUES (4, 'David', 14);
+    </textarea>    
+    <button id="copy-6" class="btn btn-secondary btn-sm" data-target="ta-6" data-toggle="tooltip" title="Copy code">Copy</button>
+    <ul>
+        <li>Cette requête ajoute une nouvelle ligne dans la table <b>eleves</b> avec les valeurs spécifiées.</li>
+        <li><b>ID</b> est la clé primaire, donc 4 doit être unique (ce qui est le cas ici, car les ID existants sont 1, 2 et 3).</li>
+    </ul>
+
+    <p class="fw-bold mt-4">2. Ajoutez une note pour David dans Notes (ID_Note 4, Eleve_ID 4, Matiere "Sciences", Note 17).</p>
+    <textarea class="code-php" id="ta-6">        
+        INSERT INTO notes (ID_Note, Eleve_ID, Matiere, Note) 
+        VALUES (4, 4, 'Sciences', 17);
+    </textarea>    
+    <button id="copy-6" class="btn btn-secondary btn-sm" data-target="ta-6" data-toggle="tooltip" title="Copy code">Copy</button>
+    <ul>
+        <li>Cette requête insère une nouvelle note dans la table <b>notes</b>.</li>
+        <li><b>Eleve_ID</b> = 4 fait référence à David (ajouté juste avant), et la clé étrangère garantit que cet <b>Eleve_ID</b> existe dans <b>eleves</b>.</li>
+    </ul>
+
+    <p class="fw-bold mt-4">3. Affichez toutes les notes avec les noms des élèves en utilisant la requête de l’étape 5.</p>
+    <textarea class="code-php" id="ta-7">        
+        SELECT eleves.Nom, notes.Matiere, notes.Note
+        FROM eleves
+        INNER JOIN notes ON eleves.ID = notes.Eleve_ID;
+    </textarea>
+    <button id="copy-7" class="btn btn-secondary btn-sm" data-target="ta-7" data-toggle="tooltip" title="Copy code">Copy</button>
+
+    <p class="mt-4">Résultat :</p>
+    <textarea class="code-php" id="">
+        -----------------------------
+        | Nom   | Matiere   | Note  | 
+        |-------|-----------|-------| 
+        | Alice | Maths     | 18    | 
+        | Bob   | Histoire  | 15    | 
+        | Alice | Français  | 16    | 
+        | David | Sciences  | 17    |
+        -----------------------------
+    </textarea>
+</details>
