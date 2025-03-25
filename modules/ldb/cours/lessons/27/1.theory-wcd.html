@@ -247,23 +247,23 @@
     </ul>
 
     <p class="fw-bold mt-4">2. Ajoutez une note pour David dans Notes (ID_Note 4, Eleve_ID 4, Matiere "Sciences", Note 17).</p>
-    <textarea class="code-php" id="ta-6">        
+    <textarea class="code-php" id="ta-7">        
         INSERT INTO notes (ID_Note, Eleve_ID, Matiere, Note) 
         VALUES (4, 4, 'Sciences', 17);
     </textarea>    
-    <button id="copy-6" class="btn btn-secondary btn-sm" data-target="ta-6" data-toggle="tooltip" title="Copy code">Copy</button>
+    <button id="copy-7" class="btn btn-secondary btn-sm" data-target="ta-7" data-toggle="tooltip" title="Copy code">Copy</button>
     <ul>
         <li>Cette requête insère une nouvelle note dans la table <b>notes</b>.</li>
         <li><b>Eleve_ID</b> = 4 fait référence à David (ajouté juste avant), et la clé étrangère garantit que cet <b>Eleve_ID</b> existe dans <b>eleves</b>.</li>
     </ul>
 
     <p class="fw-bold mt-4">3. Affichez toutes les notes avec les noms des élèves en utilisant la requête de l’étape 5.</p>
-    <textarea class="code-php" id="ta-7">        
+    <textarea class="code-php" id="ta-8">        
         SELECT eleves.Nom, notes.Matiere, notes.Note
         FROM eleves
         INNER JOIN notes ON eleves.ID = notes.Eleve_ID;
     </textarea>
-    <button id="copy-7" class="btn btn-secondary btn-sm" data-target="ta-7" data-toggle="tooltip" title="Copy code">Copy</button>
+    <button id="copy-8" class="btn btn-secondary btn-sm" data-target="ta-8" data-toggle="tooltip" title="Copy code">Copy</button>
 
     <p class="mt-4">Résultat :</p>
     <textarea class="code-php" id="">

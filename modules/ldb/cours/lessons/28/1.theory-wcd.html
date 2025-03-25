@@ -1,3 +1,14 @@
+<h3>Sommaire</h3>
+<ul>
+    <li><a href="#intro">1. Introduction</a></li>
+    <li><a href="#why">2. Pourquoi les index ?</a></li>
+    <li><a href="#what">3. Qu’est-ce qu’un index ?</a></li>
+    <li><a href="#useindex">4. Pourquoi utiliser des index ?</a></li>
+    <li><a href="#how">5. Comment créer un index ?</a></li>
+    <li><a href="#optim">6. Optimisation : Quelques conseils simples</a></li>
+    <li><a href="#conclusion">7. Conclusion</a></li>
+    <li><a href="#exos">8. Exercices</a></li>
+</ul>
 <h3 id="intro">1. Introduction</h3>
 <p class="fw-bold">
     Objectifs de la leçon :
@@ -48,6 +59,207 @@
 </p>
 
 <h3 id="useindex">4. Pourquoi utiliser des index ?</h3>
+
+<p class="fw-bold">Avantages :</p>
+<ol>
+    <li><st-r>Recherches plus rapides</st-r> : Les requêtes avec <b>WHERE</b>, <b>ORDER BY</b>, ou <b>JOIN</b> sont accélérées.</li>
+    <li><st-r>Efficacité</st-r> : Moins de travail pour MariaDB, surtout avec de grandes tables.</li>
+    <li><st-r>Pertinence</st-r> : Même avec peu de données, c’est une bonne habitude à prendre.</li>
+</ol>
+
+<p class="fw-bold">Inconvénients :</p>
+<ol>
+    <li>Les index prennent de la place dans la base de données.</li>
+    <li>Ils ralentissent un peu les commandes <b>INSERT</b>, <b>UPDATE</b>, et <b>DELETE</b>, car l’index doit être mis à jour.</li>
+</ol>
+
+<p class="fw-bold">Quand doit-on créer un index ?</p>
+<ul>
+    <li>Sur les colonnes souvent utilisées dans des recherches (<b>WHERE</b>) ou des tris (<b>ORDER BY</b>).</li>
+    <li>Exemple : Sur le champs <b>nom</b> si vous cherchez souvent par <b>nom</b>, ou sur le champs <b>age</b> si vous triez par <b>âge</b>.</li>
+</ul>
+
+<h3 id="how">5. Comment créer un index ?</h3>
 <p>
-    
+    On utilise la commande <b>CREATE INDEX</b> dans SQL. Voici la syntaxe de base :
 </p>
+
+<textarea class="code-php" id="">
+    CREATE INDEX nom_de_l_index
+    ON nom_de_la_table (colonne);
+</textarea>
+
+<p class="fw-bold">Exemple pratique :</p>
+<p>Créons un index sur la colonne Nom de la table Eleves :</p>
+
+<textarea class="code-php" id="ta-1">
+    CREATE INDEX idx_nom
+    ON eleves (Nom);
+</textarea>
+<button id="copy-1" class="btn btn-secondary btn-sm" data-target="ta-1" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<ul class="mt-4">
+    <li><b>idx_nom</b> est le nom qu’on donne à l’index (on peut choisir ce qu’on veut, souvent avec "idx_" pour "index").</li>
+    <li>Désormais, chercher un élève par son nom sera plus rapide !</li>
+</ul>
+    
+<p class="fw-bold">Vérifions si cela fonctionne :</p>
+<p>Testons avec une requête :</p>
+
+<textarea class="code-php" id="ta-2">
+    SELECT * FROM eleves WHERE Nom = 'Alice';
+</textarea>
+<button id="copy-2" class="btn btn-secondary btn-sm" data-target="ta-2" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">Sans index, MariaDB regarde chaque ligne. Avec l’index, il va directement à "Alice".</p>
+
+<h3 id="optim">6. Les types d’index dans MariaDB</h3>
+<p>MariaDB propose plusieurs types d’index, mais les plus courants sont :</p>
+
+<p class="fw-bold">1. B-tree (par défaut) :</p>
+<ul>
+    <li>Une structure arborescente (comme un arbre généalogique inversé).</li>
+    <li>Idéal pour les recherches (<b>=</b>, <b>&lt;</b>, <b>&gt;</b>), les tris, et les plages de valeurs.</li>
+    <li>Exemple : <b>CREATE INDEX idx_nom ON eleves (Nom);</b> utilise <st-r>B-tree</st-r> automatiquement.</li>
+</ul>
+
+<p class="fw-bold">2. Unique :</p>
+<ul>
+    <li>Garantit qu’il n’y a pas de doublons dans la colonne.</li>
+    <li>Exemple : <b>CREATE UNIQUE INDEX idx_nom_unique ON eleves (Nom);</b> (échouerait ici à cause des deux "Alice").</li>
+    <li></li>
+</ul>
+
+<p class="fw-bold">3. Full-text (pour les textes) :</p>
+<ul>
+    <li>Utile pour chercher des mots dans de grandes chaînes (par exemple, descriptions).</li>
+    <li>Exemple : <b>CREATE FULLTEXT INDEX idx_desc ON articles (Description);</b> (pas applicable à <b>eleves</b>).</li>
+</ul>
+
+<p class="fw-bold">Choisir un type :</p>
+<ul>
+    <li>Pour débuter, restez sur <b>B-tree</b> (par défaut). On verra les autres plus tard !</li>
+</ul>
+
+<h3 id="">7. Analyser les requêtes avec <b>EXPLAIN</b></h3>
+<p>
+    La commande <b>EXPLAIN</b> montre comment MariaDB exécute une requête et si un index est utilisé.
+</p>
+<p class="fw-bold">Exemple:</p>
+<p>Ajoutons une table <b>formateurs</b>, ainsi que des données :</p>
+<textarea class="code-php" id="ta-3">
+    CREATE TABLE formateurs (
+        ID INT PRIMARY KEY,
+        Nom VARCHAR(50),
+        Age INT
+    );
+
+    INSERT INTO formateurs (ID, Nom, Age) VALUES
+    (1, 'Thor', 30),
+    (2, 'Ironman', 33),
+    (3, 'Hulk', 35),
+    (4, 'Spiderman', 23),
+    (5, 'Superman', 40)
+    (6, 'Thor', 34);
+</textarea>
+<button id="copy-3" class="btn btn-secondary btn-sm" data-target="ta-3" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">Sans index, testons :</p>
+<textarea class="code-php" id="ta-4">
+    EXPLAIN SELECT * FROM formateurs WHERE Nom = 'Thor';
+</textarea>
+<button id="copy-4" class="btn btn-secondary btn-sm" data-target="ta-4" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">Résulat:</p>
+<textarea class="code-php" id="">
+    ID	Select_type	    Table	    type	    possible_keys	    key	    key_len	    ref	    rows	Extra
+    ---------------------------------------------------------------------------------------------------------------
+    1	SIMPLE	        formateurs	ALL	        NULL	            NULL	NULL	    NULL	6	    Using where
+</textarea>
+
+<ul class="mt-4">
+    <li><b>type = ALL</b> : MariaDB scanne toutes les lignes (lent).</li>
+    <li><b>key = NULL</b> : Aucun index utilisé.</li>
+    <li><b>rows = 6</b> : 6 lignes vérifiées.</li>
+</ul>
+
+<p class="">
+    Ajoutons l’index :
+</p>
+<textarea class="code-php" id="ta-5">
+    CREATE INDEX idx_nom
+    ON formateurs (Nom);
+</textarea>
+<button id="copy-5" class="btn btn-secondary btn-sm" data-target="ta-5" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">Retestons :</p>
+<textarea class="code-php" id="ta-6">
+    EXPLAIN SELECT * FROM formateurs WHERE Nom = 'Thor';
+</textarea>
+<button id="copy-6" class="btn btn-secondary btn-sm" data-target="ta-6" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">Résulat:</p>
+<textarea class="code-php" id="">
+    ID	Select_type	    Table	    type	    possible_keys	    key	        key_len	    ref	    rows	Extra
+    -------------------------------------------------------------------------------------------------------------------
+    1	SIMPLE	        formateurs	ref	        idx_nom	            idx_nom	    203	        const	2	    Using where
+</textarea>
+
+<ul class="mt-4">
+    <li><b>type = ref</b> : Recherche ciblée (rapide).</li>
+    <li><b>key = idx_nom</b> : L’index est utilisé.</li>
+    <li><b>rows = 2</b> : Seulement 2 lignes vérifiées (les deux "Thor").</li>
+</ul>
+
+
+<h3 id="optim">8. Optimisation : Quelques conseils simples</h3>
+<ul>
+    <li><st-r>Ne mettez pas trop d’index</st-r> : Un index par colonne souvent utilisée suffit pour débuter. Trop d’index ralentissent les mises à jour.</li>
+    <li><st-r>Choisissez bien la colonne</st-r> : Indexez les colonnes dans vos <b>WHERE</b> ou <b>JOIN</b>. Par exemple, si vous reliez <b>eleves</b> à <b>notes</b> via <b>ID</b>, 
+        pas besoin d’un index supplémentaire (la clé primaire s’en charge).</li>
+    <li><st-r>Testez avec des données</st-r> : Avec peu de lignes (comme ici), la différence est minime. L’impact se voit avec des milliers de lignes !</li>
+</ul>
+
+<h3 id="conclusion">9. Conclusion</h3>
+<ul>
+    <li>Un <st-r>index</st-r> est comme un raccourci pour trouver ou trier des données rapidement.</li>
+    <li>On le crée avec <b>CREATE INDEX</b>, et il est utile sur les colonnes souvent cherchées ou triées.</li>
+    <li><b>B-tree</b> est le type par défaut, suffisant au début.</li>
+    <li>La commande <b>EXPLAIN</b> montre si vos index fonctionnent.</li>
+    <li>C’est une première étape vers des bases de données plus rapides et efficaces !</li>
+</ul>
+
+<h3 id="exos">10. Exercices</h3>
+
+<ul class="fw-bold">
+    <li>1. Créez un index sur la colonne <b>Age</b> dans <b>eleves</b> (appelez-le <b>idx_age</b>).</li>
+    <li>2. Écrivez une requête pour trouver tous les élèves de 15 ans.</li> 
+    <li>3. Affichez les élèves triés par âge (avec <b>ORDER BY Age</b>).</li>
+</ul>
+
+<details>
+    <summary>Afficher les réponses</summary>
+    <p class="fw-bold">1. Créez un index sur la colonne <b>Age</b> dans <b>eleves</b> (appelez-le <b>idx_age</b>).</p>
+    <textarea class="code-php" id="ta-10">
+        CREATE INDEX idx_age
+        ON eleves (Age);
+    </textarea>
+    <button id="copy-10" class="btn btn-secondary btn-sm" data-target="ta-10" data-toggle="tooltip" title="Copy code">Copy</button>
+
+    <p class="fw-bold mt-4">2. Écrivez une requête pour trouver tous les élèves de 15 ans.</p>
+    <textarea class="code-php" id="ta-11">
+        SELECT ID, Nom, Age
+        FROM eleves
+        WHERE Age = 15;
+    </textarea>
+    <button id="copy-11" class="btn btn-secondary btn-sm" data-target="ta-11" data-toggle="tooltip" title="Copy code">Copy</button>
+
+    <p class="fw-bold mt-4">3. Affichez les élèves triés par âge (avec <b>ORDER BY Age</b>).</p>
+    <textarea class="code-php" id="ta-12">
+        SELECT ID, Nom, Age
+        FROM eleves
+        ORDER BY Age;
+    </textarea>
+    <button id="copy-12" class="btn btn-secondary btn-sm" data-target="ta-12" data-toggle="tooltip" title="Copy code">Copy</button>
+   
+</details>

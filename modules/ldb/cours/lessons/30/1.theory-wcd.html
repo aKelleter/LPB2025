@@ -1,0 +1,254 @@
+<h3>Sommaire</h3>
+<ul>
+    <li><a href="#intro">1. Introduction</a></li>
+    <li><a href="#what">2. Qu’est-ce qu’un trigger ?</a></li>
+    <li><a href="#syntaxe">3. Syntaxe de base : CREATE TRIGGER</a></li>
+    <li><a href="#why">4. Pourquoi utiliser des triggers ?</a></li>
+    <li><a href="#activite">5. Activité pratique : Créons un trigger</a></li>
+    <li><a href="#quand">6. Quand utiliser les triggers ?</a></li>
+    <li><a href="#conclusion">7. Conclusion</a></li>
+    <li><a href="#exos">8. Exercices</a></li>
+</ul>
+<h3 id="intro">1. Introduction</h3>
+<p class="fw-bold">
+    Objectifs de la leçon :
+</p>
+<ul>
+    <li>Comprendre ce qu’est un trigger et à quoi il sert.</li>
+    <li>Apprendre la syntaxe de base de <b>CREATE TRIGGER</b>.</li>
+    <li>Découvrir comment utiliser un trigger pour automatiser une tâche (exemple : tenir un journal des modifications).</li>
+</ul>
+<p>
+    Imaginez que vous gérez une bibliothèque. Chaque fois qu’un livre est emprunté, vous voulez noter 
+    automatiquement la date et l’heure dans un journal, sans avoir à le faire manuellement. Dans une base de données, un trigger 
+    (ou déclencheur) est comme un "robot" qui agit tout seul quand quelque chose se passe (par exemple, une insertion ou une mise à jour).
+</p>
+<p class="fw-bold">
+    Un trigger est une action automatique déclenchée par un événement dans une table.
+</p>
+
+<h3 id="what">2. Qu’est-ce qu’un trigger ?</h3>
+<p>
+    Un <st-r>trigger</st-r> est un programme stocké dans la base de données qui s’exécute automatiquement quand un événement précis se produit, comme :
+</p>
+<ul>
+    <li>Une insertion (<b>INSERT</b>).</li>
+    <li>Une mise à jour (<b>UPDATE</b>).</li>
+    <li>Une suppression (<b>DELETE</b>).</li>    
+</ul>
+
+<p class="fw-bold">Exemples d’utilisation :</p>
+<ul>
+    <li>Mettre à jour un journal (log) quand une note est ajoutée pour un élève.</li>
+    <li>Vérifier ou ajuster des données avant qu’elles soient enregistrées.</li>
+    <li>Garder une trace des changements dans une table.</li>
+</ul>
+
+<h3 id="syntaxe">3. Syntaxe de base : <b>CREATE TRIGGER</b></h3>
+<p>
+    Voici comment créer un trigger dans MariaDB :
+</p>
+<textarea class="code-php" id="">
+    CREATE TRIGGER nom_du_trigger
+    {BEFORE | AFTER} {INSERT | UPDATE | DELETE}
+    ON nom_de_la_table
+    FOR EACH ROW
+    BEGIN
+        -- Actions à effectuer
+    END;
+</textarea>
+
+<p class="fw-bold">Explications :</p>
+<ul>
+    <li><b>nom_du_trigger</b> : Un nom que vous choisissez (ex. : <b>log_notes</b>).</li>
+    <li><b>BEFORE ou AFTER</b> : Le trigger agit avant ou après l’événement.</li>
+    <li><b>INSERT</b>, <b>UPDATE</b>, <b>DELETE</b> : L’événement qui déclenche le trigger.</li>
+    <li><b>ON nom_de_la_table</b> : La table concernée.</li>
+    <li><b>FOR EACH ROW</b> : Le trigger s’applique à chaque ligne affectée.</li>
+    <li><b>BEGIN ... END</b> : Les instructions SQL à exécuter.</li>
+</ul>
+
+<p class="fw-bold">Accéder aux données :</p>
+<ul>
+    <li><b>NEW</b> : Les nouvelles valeurs (pour <b>INSERT</b> ou <b>UPDATE</b>).</li>
+    <li><b>OLD</b> : Les anciennes valeurs (pour <b>UPDATE</b> ou <b>DELETE</b>).</li>
+</ul>
+
+<h3 id="why">4. Pourquoi utiliser des triggers ?</h3>
+<p class="fw-bold">Avantages :</p>
+<ul>
+    <li><b>Automatisation</b> : Pas besoin d’écrire des commandes manuelles à chaque fois.</li>
+    <li><b>Fiabilité</b> : Les actions se font systématiquement, sans oubli.</li>
+    <li><b>Suivi</b> : Idéal pour garder une trace des changements (ex. : un journal).</li>
+</ul>
+
+<p class="fw-bold">Exemple simple :</p>
+<p>Quand une note est ajoutée dans la table <b>Notes</b>, un trigger peut enregistrer l’heure et la matière dans une table de journalisation.</p>
+
+<h3 id="activite">5. Activité pratique : Créons un trigger</h3>
+<p class="fw-bold">Préparation : Créons la DB et les tables</p>
+
+<textarea class="code-php" id="ta-1">
+    CREATE DATABASE IF NOT EXISTS ecole
+    CHARACTER SET utf8mb4
+    collate utf8mb4_unicode_ci;
+
+    USE ecole;
+
+    CREATE TABLE Eleves (
+    ID INT PRIMARY KEY,
+    Nom VARCHAR(50),
+    Age INT
+    );
+
+    CREATE TABLE Notes (
+        ID_Note INT PRIMARY KEY,
+        Eleve_ID INT,
+        Matiere VARCHAR(50),
+        Note INT,
+        FOREIGN KEY (Eleve_ID) REFERENCES Eleves(ID)
+    );
+
+    CREATE TABLE Journal (
+        ID_Log INT AUTO_INCREMENT PRIMARY KEY,
+        Action VARCHAR(50),
+        Date_Heure DATETIME,
+        Details VARCHAR(100)
+    );
+</textarea>
+<button id="copy-1" class="btn btn-secondary btn-sm" data-target="ta-1" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">Ajoutons quelques données initiales :</p>
+
+<textarea class="code-php" id="ta-2">
+    INSERT INTO Eleves (ID, Nom, Age) VALUES
+    (1, 'Alice', 12),
+    (2, 'Bob', 13),
+    (3, 'Charlie', 11);
+
+    INSERT INTO Notes (ID_Note, Eleve_ID, Matiere, Note) VALUES
+    (1, 1, 'Maths', 15),
+    (2, 2, 'Français', 12),
+    (3, 3, 'Histoire', 14);
+</textarea>
+<button id="copy-2" class="btn btn-secondary btn-sm" data-target="ta-2" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4 fw-bold">Étape 1 : Créer un trigger pour journaliser les nouvelles notes</p>
+
+<textarea class="code-php" id="ta-3">
+    -- Changer le délimiteur
+	DELIMITER // 
+		
+    CREATE TRIGGER log_nouvelle_note
+    AFTER INSERT ON Notes
+    FOR EACH ROW
+    BEGIN
+        INSERT INTO Journal (Action, Date_Heure, Details)
+        VALUES ('Nouvelle note', NOW(), CONCAT('Eleve_ID : ', NEW.Eleve_ID, ', Matière : ', NEW.Matiere, ', Note : ', NEW.Note));
+    END //
+		
+	-- Rétablir le délimiteur
+    DELIMITER ; 
+</textarea>
+<button id="copy-3" class="btn btn-secondary btn-sm" data-target="ta-3" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<ul class="mt-4">
+    <li><b>AFTER INSERT</b> : Le trigger agit après une insertion dans <b>Notes</b>.</li>
+    <li><b>NEW.Matiere</b>, <b>NEW.Note</b> Les valeurs de la nouvelle ligne insérée.</li>
+    <li><b>NOW()</b> : La date et l’heure actuelles.</li>
+    <li><b>CONCAT</b> : Combine les détails en une phrase.</li>
+</ul>
+
+<p class="fw-bold">Étape 2 : Tester le trigger</p>
+<p>Insérons une note: </p>
+
+<textarea class="code-php" id="ta-4">
+    INSERT INTO Notes (ID_Note, Eleve_ID, Matiere, Note) 
+    VALUES (4, 1, 'Maths', 18);
+</textarea>
+<button id="copy-4" class="btn btn-secondary btn-sm" data-target="ta-4" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="fw-bold mt-4">Étape 3 : Vérifier le journal</p>
+
+<textarea class="code-php" id="ta-5">
+    SELECT * FROM Journal;
+</textarea>
+<button id="copy-5" class="btn btn-secondary btn-sm" data-target="ta-5" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">Résultat:</p>
+<textarea class="code-php" id="">
+    ID_Log  Action	        Date_Heure	            Details
+    ----------------------------------------------------------------------------------------    
+    1	    Nouvelle note	2025-03-25 10:30:00	    Eleve_ID : 1, Matière : Maths, Note : 18
+</textarea>
+
+<p class="fw-bold mt-4">Le trigger a automatiquement ajouté une entrée dans Journal !</p>
+
+<h3 id="quand">6. Quand utiliser les triggers ?</h3>
+<ul>
+    <li>Pour suivre les modifications (logs, historiques).</li>
+    <li>Pour ajuster des données automatiquement (ex. : recalculer un total).</li>
+    <li>Pour appliquer des règles simples sans intervention manuelle.</li>
+</ul>
+
+<p class="fw-bold">Attention</p>
+<ul>
+    <li>Les triggers ne remplacent pas les clés étrangères ou les contraintes.</li>
+    <li>Trop de triggers peuvent compliquer la base : utilisez-les avec modération.</li>
+</ul>
+
+<h3 id="conclusion">7. Conclusion</h3>
+<ul>
+    <li>Les <st-r>triggers</st-r> sont des actions automatiques déclenchées par des événements comme <b>INSERT</b>, <b>UPDATE</b>, ou <b>DELETE</b>.</li>
+    <li>On les crée avec <b>CREATE TRIGGER</b> et ils peuvent, par exemple, tenir un journal des changements.</li>
+    <li>Ils rendent la base plus intelligente et autonome, tout en restant simple à mettre en place !</li>
+</ul>
+
+<p class="fw-bold">Rélexion :</p>
+<p>
+    Que se passerait-il si on ajoutait un trigger <b>BEFORE INSERT</b> qui modifie la note avant qu’elle soit enregistrée ?  <br>
+    <st-r>Réponse</st-r> : La note pourrait être ajustée, par exemple arrondie. :)
+</p>
+
+<h3 id="exos">8. Exercices</h3>
+<ol class="fw-bold">
+    <li>
+        Créez un trigger qui journalise les suppressions dans <b>Notes</b> (appelez-le <b>log_suppression_note</b>). <br>
+        Utilisez <b>AFTER DELETE</b> et enregistrez dans <b>Journal</b> l’action "Note supprimée" avec la matière supprimée (<b>OLD</b>.Matiere).
+    </li>
+    <li>Testez-le en supprimant une note :</li>
+    <li>Vérifiez le journal :</li>
+</ol>
+
+<details>
+    <summary>Afficher les réponses</summary>
+    <p class="fw-bold">1. Créez un trigger qui journalise les suppressions dans <b>Notes</b> (appelez-le <b>log_suppression_note</b>).</p>
+    <textarea class="code-php" id="ta-10">
+        DELIMITER //
+        CREATE TRIGGER log_suppression_note
+        AFTER DELETE ON Notes
+        FOR EACH ROW
+        BEGIN
+            INSERT INTO Journal (Action, Date_Heure, Details)
+            VALUES ('Note supprimée', NOW(), CONCAT('Matière : ', OLD.Matiere));
+        END//
+        DELIMITER ;
+    </textarea>
+    <button id="copy-10" class="btn btn-secondary btn-sm" data-target="ta-10" data-toggle="tooltip" title="Copy code">Copy</button>
+
+    <p class="fw-bold mt-4">2. Testez-le en supprimant une note</p>
+    <textarea class="code-php" id="ta-11">
+        DELETE FROM Notes WHERE ID_Note = 1;        
+    </textarea>
+    <button id="copy-11" class="btn btn-secondary btn-sm" data-target="ta-11" data-toggle="tooltip" title="Copy code">Copy</button>
+
+    <p class="fw-bold mt-4">3. Vérifiez le journal :</p>
+    <textarea class="code-php" id="ta-12">
+        SELECT * FROM Journal;       
+    </textarea>
+    <button id="copy-12" class="btn btn-secondary btn-sm" data-target="ta-12" data-toggle="tooltip" title="Copy code">Copy</button>
+</details>
+
+
+
+

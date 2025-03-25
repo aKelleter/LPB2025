@@ -1,0 +1,249 @@
+<h3>Sommaire</h3>
+<ul>
+    <li><a href="#intro">1. Introduction</a></li>
+    <li><a href="#why">2. Pourquoi les transactions ?</a></li>
+    <li><a href="#what">3. Qu’est-ce qu’une transaction ?</a></li>
+    <li><a href="#importance">4. Pourquoi les transactions sont importantes ?</a></li>
+    <li><a href="#acid">5. Les propriétés ACID</a></li>
+    <li><a href="#pratique">6. Activité pratique : Utilisons une transaction</a></li>
+    <li><a href="#quand">7. Quand utiliser les transactions ?</a></li>
+    <li><a href="#conclusion">8. Conclusion</a></li>
+    <li><a href="#exos">9. Exercices</a></li>
+</ul>
+<h3 id="intro">1. Introduction</h3>
+<p>
+    Cette leçon introduit les notions de transactions (<b>BEGIN</b>, <b>COMMIT</b>, <b>ROLLBACK</b>), explique l’importance de l’intégrité des données, et détaille 
+    les propriétés <b>ACID</b> de manière simple et accessible.
+</p>
+<p class="fw-bold">
+    Les objectifs de la leçon :
+</p>
+<ul>
+    <li>Comprendre ce qu’est une transaction et comment elle fonctionne avec <b>BEGIN</b>, <b>COMMIT</b>, et <b>ROLLBACK</b>.</li>
+    <li>Découvrir pourquoi les transactions garantissent l’intégrité des données.</li>
+    <li>Apprendre les propriétés <st-r>ACID</st-r> et leur rôle dans une base de données.</li>
+</ul>
+
+<h3 id="why">2. Pourquoi les transactions ?</h3>
+<p>Imaginons que l'on doit transférer 50 € d’un compte bancaire à un autre. Deux étapes sont nécessaires :</p>
+<ol>
+    <li>Retirer 50 € du compte A.</li>
+    <li>Déposer 50 € dans le compte B.</li>
+</ol>
+<p>
+    Et si, après avoir retiré l’argent du compte A, une panne survient avant d’ajouter l’argent au compte B ? L’argent serait perdu ! 
+    Dans une base de données, une transaction garantit que toutes les étapes réussissent ensemble, ou aucune ne s’applique. 
+    C’est comme une promesse de fiabilité.
+</p>
+
+<h3 id="what">3. Qu’est-ce qu’une transaction ?</h3>
+<p>
+    Une transaction est un groupe d’opérations SQL (comme <b>INSERT</b>, <b>UPDATE</b>, <b>DELETE</b>) qui doivent être exécutées ensemble comme une seule unité. 
+    Si tout se passe bien, on valide (on "sauvegarde"). Sinon, on annule tout.
+</p>
+<p class="fw-bold">Les commandes de base :</p>
+<ul>
+    <li><b>BEGIN</b> (ou <b>START TRANSACTION</b>) : Démarre une transaction.</li>
+    <li><b>COMMIT</b> : Valide les changements pour qu’ils soient permanents.</li>
+    <li><b>ROLLBACK</b> : Annule tout ce qui a été fait depuis le <b>BEGIN</b>.</li>
+</ul>
+
+<p class="fw-bold">Exemple simple :</p>
+<p>
+    Ajouter un élève et sa note dans deux tables, mais seulement si les deux actions réussissent. (on va faire cela dans quelques instants :) )
+</p>
+
+<h3 id="importance">4. Pourquoi les transactions sont importantes ?</h3>
+<p>
+    Elles protègent l’<st-r>intégrité des données</st-r>, c’est-à-dire qu’elles assurent que la base reste cohérente et correcte. Sans transactions :
+</p>
+<ul>
+    <li>Une erreur peut laisser la base dans un état "cassé" (par exemple, un élève sans note alors qu’il devrait en avoir une).</li>
+    <li>Des utilisateurs pourraient voir des données incohérentes pendant une mise à jour.</li>
+</ul>
+<p>Avec les transactions, tout est "tout ou rien" : soit tout réussit, soit rien ne change.</p>
+
+<h3 id="acid">5. Les propriétés <st-r>ACID</st-r></h3>
+<p>Les transactions suivent quatre règles appelées <st-r>ACID</st-r>. Voici ce que cet acronyme signifie :</p>
+<ul>
+    <li><st-r>Atomicité (Atomicity)</st-r> : Tout ou rien. Si une étape échoue, tout est annulé.</li>
+    <li><st-r>Cohérence (Consistency)</st-r> : La base reste correcte (respect des règles comme les clés étrangères).</li>
+    <li><st-r>Isolation (Isolation)</st-r> : Une transaction ne perturbe pas les autres en cours.</li>
+    <li><st-r>Durabilité (Durability)</st-r> : Une fois validée (<b>COMMIT</b>), les changements sont sauvés, même en cas de panne.</li>
+</ul>
+
+<p class="fw-bold">Exemple :</p>
+<ul>
+    <li>Si j’ajoute un élève mais que sa note échoue (par exemple, à cause d’une erreur), l’atomicité annule l’ajout de l’élève.</li>
+    <li>La cohérence vérifie que les clés étrangères sont respectées.</li>
+    <li>L’isolation empêche un autre utilisateur de voir mes changements avant que je finisse.</li>
+    <li>La durabilité garantit que mes données ne disparaissent pas après un <b>COMMIT</b>.</li>
+</ul>
+
+<h3 id="pratique">6. Activité pratique : Utilisons une transaction</h3>
+<p>
+    <st-r>Préparation</st-r> : Créons une nouvelle DB (transaction) et deux tables:
+</p>
+<textarea class="code-php" id="ta-1">
+    CREATE DATABASE transaction
+    CHARACTER SET utf8mb4
+    collate utf8mb4_unicode_ci;
+        
+    USE transaction;
+
+    CREATE TABLE Eleves (
+        ID INT PRIMARY KEY,
+        Nom VARCHAR(50),
+        Age INT
+    );
+
+    CREATE TABLE Notes (
+        ID_Note INT PRIMARY KEY,
+        Eleve_ID INT,
+        Matiere VARCHAR(50),
+        Note INT,
+        FOREIGN KEY (Eleve_ID) REFERENCES Eleves(ID)
+    );
+</textarea>
+<button id="copy-1" class="btn btn-secondary btn-sm" data-target="ta-1" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="fw-bold">Étape 1 : Démarrer une transaction</p>
+<textarea class="code-php" id="ta-2">
+    START TRANSACTION;
+</textarea>
+<button id="copy-2" class="btn btn-secondary btn-sm" data-target="ta-2" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="fw-bold">Étape 2 : Ajouter un élève et une note</p>
+<textarea class="code-php" id="ta-3">
+    INSERT INTO Eleves (ID, Nom, Age) VALUES (1, 'Emma', 16);
+    INSERT INTO Notes (ID_Note, Eleve_ID, Matiere, Note) VALUES (1, 1, 'Maths', 17);
+</textarea>
+<button id="copy-3" class="btn btn-secondary btn-sm" data-target="ta-3" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="fw-bold">Étape 3 : Valider la transaction</p>
+<textarea class="code-php" id="ta-4">
+    COMMIT;    
+</textarea>
+<button id="copy-4" class="btn btn-secondary btn-sm" data-target="ta-4" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<ul class="mt-4">
+    <li>Les deux insertions sont maintenant permanentes.</li>
+    <li>Vérifions :</li>
+</ul>
+
+<textarea class="code-php" id="ta-5">
+    SELECT * FROM Eleves;
+    SELECT * FROM Notes;
+</textarea>
+<button id="copy-5" class="btn btn-secondary btn-sm" data-target="ta-5" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4 fw-bold">Résulats:</p>
+<textarea class="code-php" id="">
+    ID  Nom     Age
+    ---------------
+    1   Emma    16
+
+    ID_Note     Eleve_ID    Matiere     Note
+    ----------------------------------------
+    1           1           Maths       17
+</textarea>
+
+<p class="fw-bold mt-4">Étape 4 : Tester un échec avec <b>ROLLBACK</b></p>
+
+<textarea class="code-php" id="ta-6">
+    START TRANSACTION;
+
+    INSERT INTO Eleves (ID, Nom, Age) VALUES (2, 'John', 15);
+    INSERT INTO Notes (ID_Note, Eleve_ID, Matiere, Note) VALUES (2, 999, 'Français', '14'); -- Eleve_ID 999 n’existe pas !
+</textarea>
+<button id="copy-6" class="btn btn-secondary btn-sm" data-target="ta-6" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<ul class="mt-4">    
+    <li>La deuxième insertion échoue à cause de la clé étrangère.</li>    
+    <li>Annulons :</li>
+</ul>
+
+<textarea class="code-php" id="ta-7">
+    ROLLBACK;
+</textarea>
+<button id="copy-7" class="btn btn-secondary btn-sm" data-target="ta-7" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">Vérifions:</p>
+
+<textarea class="code-php" id="ta-8">
+    SELECT * FROM Eleves;
+    SELECT * FROM Notes;
+</textarea>
+<button id="copy-8" class="btn btn-secondary btn-sm" data-target="ta-8" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4 fw-bold">
+    Rien n’a été ajouté (toujours juste Emma et sa note).
+</p>
+
+<h3 id="quand">7. Quand utiliser les transactions ?</h3>
+<ul>
+    <li><st-r>Quand plusieurs opérations doivent réussir ensemble</st-r> (ex. : transfert d’argent, inscription d’un élève avec ses notes).</li>
+    <li>Quand vous testez des changements et voulez pouvoir annuler (pratique lors de l'apprentissage !).</li>
+</ul>
+
+<p class="fw-bold">Attention :</p>
+<ul>
+    <li class="red">Par défaut, chaque commande SQL seule (sans <b>BEGIN</b>) est une mini-transaction automatique qui fait un <b>COMMIT</b> immédiatement.</li>
+    <li>Les transactions nécessitent un moteur comme InnoDB (par défaut dans MariaDB).</li>
+    <li class="fw-bold">Si on oublie de faire un <b>COMMIT</b> après une transaction réussie, les changements ne seraient pas permanents et pourraient être perdus.</li>
+</ul>
+
+<h3 id="conclusion">8. Conclusion</h3>
+<ul>
+    <li>Les transactions regroupent des opérations pour qu’elles soient fiables avec <b>BEGIN</b>, <b>COMMIT</b>, et <b>ROLLBACK</b>.</li>
+    <li>Elles protègent l’intégrité des données grâce aux propriétés <b>ACID</b>.</li>
+    <li>C’est un outil puissant pour éviter les erreurs et garder une base propre et intègre !</li>
+</ul>
+
+<h3 id="exos">9. Exercices</h3>
+<ol class="fw-bold">
+    <li>Démarrez une transaction et ajoutez un élève (ID 3, Nom "Sophie", Age 14).</li>
+    <li>Ajoutez une note pour Sophie (ID_Note 3, Eleve_ID 3, Matiere "Sciences", Note 16).</li>
+    <li>Validez la transaction.</li>
+    <li>Vérifiez les tables :</li>
+    <li>(Bonus) : Testez une transaction avec une erreur (par exemple, Eleve_ID qui n’existe pas) et utilisez ROLLBACK.</li>
+</ol>
+
+<details>
+    <summary>Afficher les réponses</summary>
+    <p class="fw-bold">1. Démarrez une transaction et ajoutez un élève (ID 3, Nom "Sophie", Age 14).</p>
+    <textarea class="code-php" id="ta-10">
+        START TRANSACTION;
+        INSERT INTO Eleves (ID, Nom, Age) VALUES (3, 'Sophie', 14);
+    </textarea>
+    <button id="copy-10" class="btn btn-secondary btn-sm" data-target="ta-10" data-toggle="tooltip" title="Copy code">Copy</button>
+
+    <p class="fw-bold mt-4">2. Ajoutez une note pour Sophie (ID_Note 3, Eleve_ID 3, Matiere "Sciences", Note 16).</p>
+    <textarea class="code-php" id="ta-11">
+        INSERT INTO Notes (ID_Note, Eleve_ID, Matiere, Note) VALUES (3, 3, 'Sciences', 16);      
+    </textarea>
+    <button id="copy-11" class="btn btn-secondary btn-sm" data-target="ta-11" data-toggle="tooltip" title="Copy code">Copy</button>
+
+    <p class="fw-bold mt-4">3. Validez la transaction.</p>
+    <textarea class="code-php" id="ta-12">
+        COMMIT;
+    </textarea>
+    <button id="copy-12" class="btn btn-secondary btn-sm" data-target="ta-12" data-toggle="tooltip" title="Copy code">Copy</button>
+
+    <p class="fw-bold mt-4">4. Testez une transaction avec une erreur (par exemple, Eleve_ID qui n’existe pas) et utilisez ROLLBACK.</p>
+    <textarea class="code-php" id="ta-13">
+        START TRANSACTION;
+        INSERT INTO Notes (ID_Note, Eleve_ID, Matiere, Note) VALUES (4, 999, 'Histoire', 15); -- Eleve_ID 999 n’existe pas !
+        ROLLBACK;       
+    </textarea>
+    <button id="copy-13" class="btn btn-secondary btn-sm" data-target="ta-13" data-toggle="tooltip" title="Copy code">Copy</button>   
+</details>
+
+
+
+
+
+
+
+
+
