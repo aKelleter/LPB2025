@@ -1,0 +1,124 @@
+<!--
+<textarea class="code-php" id="ta-x">
+    
+</textarea>
+<button id="copy-x" class="btn btn-secondary btn-sm" data-target="ta-x" data-toggle="tooltip" title="Copy code">Copy</button>
+-->
+<h3 id="intro">1. Introduction</h3>
+<p>
+    L’épine dorsale d’un document HTML est constituée de balises. <br>
+    Selon le modèle d’objets de document (DOM), chaque balise HTML est un objet. Les balises imbriquées sont des “enfants” de celle qui les entoure. Le texte à l’intérieur d’une balise est également un objet.
+</p>
+<p>
+    Tous ces objets sont accessibles via <b>JavaScript</b>, et nous pouvons les utiliser pour modifier la page.
+    Par exemple, <b>document.body</b> est l’objet représentant la balise <body>.
+    L’exécution de ce code rendra le <code>&lt;body&gt;</code> rouge pendant 3 secondes :
+</p>
+<textarea class="code-php" id="ta-1">
+        document.body.style.backgroundColor = "red";
+        setTimeout(() => {
+            document.body.style.backgroundColor = "";
+        }, 3000);
+</textarea>
+<button id="copy-1" class="btn btn-secondary btn-sm" data-target="ta-1" data-toggle="tooltip" title="Copy code">Copy</button>
+<p>
+    Ici, nous avons utilisé <b>style.backgroundColor</b> pour changer la couleur d’arrière-plan de <b>document.body</b>, mais il existe de nombreuses autres propriétés, telles que :
+</p>
+<ul>
+    <li><b>innerHTML</b> – Contenu HTML du nœud.</li>
+    <li><b>offsetWidth</b> – la largeur du nœud (en pixels)</li>
+    <li>… etc.</li>
+</ul>
+<p>Bientôt, nous apprendrons plus de façons de manipuler le DOM, mais nous devons d’abord connaître sa structure.</p>
+
+<h3 id="exemple">2. Un exemple du DOM</h3>
+<p>
+    Commençons par le simple document suivant :
+</p>
+
+<textarea class="code-php" id="">
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>About elk</title>
+    </head>
+    <body>
+        The truth about elk.
+    </body>
+</html>
+</textarea>
+<p class="mt-4">
+    Le <b>DOM</b> représente le HTML comme une structure arborescente de balises. Voici à quoi ça ressemble :
+    <img src="img/schema-1.png" class="mx-auto d-block" alt="dom">
+</p>
+
+<div class="alert alert-info mt-4" role="alert">
+    <strong>Info : Les espaces au début/à la fin de la chaîne de caractères et les nœuds texte uniquement composé d’espaces sont généralement masqués dans les outils</strong> <hr>
+    <p>
+        Les outils de navigation (qui seront bientôt traités) qui fonctionnent avec le DOM n’affichent généralement pas d’espaces au début/fin du texte et des nœuds texte vides (sauts de ligne) entre les balises.
+    </p>
+    <p>
+        Les outils de développement permettent d’économiser de l’espace d’écran de cette façon. <br>
+        Sur d’autres images DOM, je les ometterai parfois lorsqu’elles ne sont pas pertinentes. Ces espaces n’affectent généralement pas la façon dont le document est affiché.
+    </p>
+</div>
+
+<h3 id="auto-correction">3. Auto-correction</h3>
+<p>
+    Si le navigateur rencontre du HTML mal formé, il le corrige automatiquement lors de la création du DOM.
+    Par exemple, la balise la plus haute est toujours <b>&lt;html&gt;</b>. Même si elle n’existe pas dans le document, elle existera dans le DOM, car le navigateur la créera. Il en va de même pour <b>&lt;body&gt;</b>.
+</p>
+<p>
+    Par exemple, si le fichier HTML est le seul mot "Hello", le navigateur l’enroulera dans <b>&lt;html&gt;</b> et <b>&lt;body&gt;</b>, et ajoutera le <b>&lt;head&gt;</b> requis, et le DOM sera :
+    <img src="img/schema-2.png" class="mx-auto d-block mt-3" alt="dom2">
+</p>
+<p>
+    Lors de la génération du DOM, les navigateurs traitent automatiquement les erreurs dans le document, ferment les balises, etc. <br>
+    Un document avec des balises non fermées :
+</p>
+<textarea class="code-php" id="">
+    <p>Bonjour
+    <li>John
+    <li>Jane
+    <li>Bob
+</textarea>
+<p class="mt-4">
+    … deviendra un <b>DOM</b> normal à mesure que le navigateur lit les balises et restaure les parties manquantes.
+</p>
+<div class="alert alert-info mt-4" role="alert">
+    <strong>Info : Les tableaux ont toujours <b>&lt;tbody&gt;</b></strong> <hr>
+    <p>
+        Un “cas spécial” intéressant est celui des tableaux. Selon la spécification DOM, ils doivent avoir un <b>&lt;tbody&gt;</b>, mais le texte HTML peut (officiellement) l’omettre. Ensuite, 
+        le navigateur crée automatiquement le <b>&lt;tbody&gt;</b> dans le DOM.
+    </p>   
+</div>
+
+<h3 id="others">4. Autres types de nœuds</h3>
+<p>
+    Il existe d’autres types de nœuds en plus des éléments et des nœuds de texte. <br>
+    Par exemple, les commentaires :
+</p>
+<textarea class="code-php" id="">
+    <!-- Ceci est un commentaire -->
+</textarea>
+<p class="mt-4">
+    Dans l’arbre du <b>DOM</b> un nœud de type commentaire sera étiqueté comme <b>#comment</b>.
+</p>
+<p>
+    Pourquoi un commentaire est-il ajouté au <b>DOM</b>? Cela n’affecte en rien la représentation visuelle. Mais il y a une règle, si quelque chose est en <b>HTML</b>, alors il doit aussi être dans 
+    l’arborescence <b>DOM</b>.
+</p>
+<p>
+    Même la directive <b><!DOCTYPE...></b> au tout début du html est également un noeud du <b>DOM</b>. C’est dans l’arborescence du <b>DOM</b> juste avant <b>&lt;html&gt;</b>. 
+</p>
+<p>L’objet <b>document</b> qui représente l’ensemble du document est également, formellement, un nœud <b>DOM</b>.</p>
+<p>
+    Il existe <a href="https://dom.spec.whatwg.org/#node" target="_blank">12 types de nœuds</a>. En pratique, nous travaillons généralement avec 4 d’entre eux : <br>
+</p>
+<ul>
+    <li><b>document</b> – le point d'entrée dans le <b>DOM</b></li>
+    <li><b>element</b> – balises HTML</li>
+    <li><b>text</b> – le texte à l’intérieur des balises</li>
+    <li><b>comment</b> – parfois, nous pouvons y mettre des informations, elles ne seront pas affichées, mais js peut les lire depuis le dom.</li>
+</ul>
+

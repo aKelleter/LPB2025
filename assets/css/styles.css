@@ -129,8 +129,8 @@ code {
     background-color: var(--color-background-code);
     border: 1px solid var(--color-h1);
     border-radius: 5px;
-    padding: 0.4em;  
-    margin: 0.4em 0; 
+    padding: 0.2em;  
+    margin: 0.5em 0; 
 }
 
 a {

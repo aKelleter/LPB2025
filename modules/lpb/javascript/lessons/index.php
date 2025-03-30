@@ -32,6 +32,7 @@
                                     <li>OBJ : Les Objets</li>
                                     <li>TYP : Les types de données</li>
                                     <li>ADV : Notions avancées</li>
+                                    <li>NAV : Navigateur : Document, Evènements, Interfaces</li>
                                 </ul>
                             </fieldset>
                         </div>

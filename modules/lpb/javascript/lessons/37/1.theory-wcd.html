@@ -1,0 +1,139 @@
+<!--
+
+-->
+<h3 id="intro">1. Introduction</h3>
+<p>
+    Le langage JavaScript a été initialement créé pour les navigateurs web. Dès lors, il a évolué et est devenu un langage aux multiples utilisations et plateformes.
+    Une plate-forme peut être un navigateur, ou un serveur Web ou un autre hôte, ou même une machine à café “intelligente” si elle peut exécuter JavaScript. Chacun d’entre eux fournit des fonctionnalités spécifiques à la plate-forme. La spécification JavaScript appelle cela un environnement hôte.
+</p>
+<p>   
+    Un environnement hôte fournit ses propres objets et fonctions en plus du noyau du langage. Les navigateurs Web permettent de contrôler les pages Web. Node.js fournit des fonctionnalités côté serveur, etc.
+    Voici une vue globale de ce que nous avons lorsque JavaScript s’exécute dans un navigateur Web :   
+</p>
+<p>
+    <img src="img/schema-1.png" class="mx-auto d-block" alt="JavaScript Host Environment">
+</p>
+<p>
+    Il existe un objet “racine” appelé <b>window</b>. Il a 2 rôles : <br>
+<ul>
+    <li>Premièrement, c’est un objet global pour le code JavaScript, comme décrit dans le chapitre L'objet global.</li>
+    <li>Deuxièmement, il représente la “fenêtre du navigateur” et fournit des méthodes pour la contrôler.</li>
+</ul>   
+    Par exemple, nous l’utilisons ici comme un objet global :
+</p>
+<textarea class="code-php" id="ta-1">
+    function sayHi() {
+        alert("Hello");
+    }
+      
+    // les fonctions globales sont des méthodes de l'objet global :
+    window.sayHi();
+</textarea>
+<button id="copy-1" class="btn btn-secondary btn-sm" data-target="ta-1" data-toggle="tooltip" title="Copy code">Copy</button>
+<p class="mt-4">
+    Et nous l’utilisons ici comme une fenêtre du navigateur pour voir la hauteur de la fenêtre :
+</p>
+<textarea class="code-php" id="ta-2">
+    alert(window.innerHeight); // hauteur de la fenêtre intérieure
+</textarea>
+<button id="copy-2" class="btn btn-secondary btn-sm" data-target="ta-2" data-toggle="tooltip" title="Copy code">Copy</button>
+<p class="mt-4">
+    Il y a d’autres méthodes et propriétés spécifiques à la fenêtre, nous les étudierons plus tard.
+</p>
+
+<h3 id="dom">2. DOM (Document Object Model)</h3>
+<p>
+    <b>Document Object Model</b>, ou <b>DOM</b> en abrégé, représente tout le contenu de la page sous forme d’objets pouvant être modifiés. <br>
+    L’objet document est le “point d’entrée” principal de la page. Nous pouvons changer ou créer n’importe quoi sur la page en l’utilisant.
+    Par exemple :
+</p>
+<textarea class="code-php" id="ta-3">
+    // change le titre de la page
+    document.title = "Hello";
+
+    // change le texte du premier élément <h1>
+    document.querySelector("h1").innerHTML = "Hello";
+
+    // change la couleur de fond de la page
+    document.body.style.backgroundColor = "red";
+
+    // change la couleur de texte de la page
+    document.body.style.color = "white";
+
+    // change la couleur de texte de tous les éléments <p>
+    let p = document.querySelectorAll("p");
+    for (let i = 0; i < p.length; i++) {
+        p[i].style.color = "white";
+    }
+</textarea>
+<button id="copy-3" class="btn btn-secondary btn-sm" data-target="ta-3" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<div class="alert alert-info mt-4" role="alert">
+    <strong>DOM n’est pas seulement pour les navigateurs :</strong> <hr>
+    <p>La spécification DOM explique la structure d’un document et fournit des objets pour le manipuler. Il existe également des instruments autres que les navigateurs qui utilisent DOM.</p>
+    <p>Par exemple, les scripts côté serveur qui téléchargent des pages HTML et les traitent peuvent également utiliser le DOM. Ils peuvent cependant ne supporter qu’une partie de la spécification.</p>
+</div>
+
+    <div class="alert alert-info mt-4" role="alert">
+        <strong>CSSOM pour le style :</strong> <hr>
+        <p>Il existe également une spécification distincte, Modèle d’objet CSS (CSSOM) pour les règles CSS et les feuilles de style, qui explique comment elles sont représentées en tant qu’objets 
+            et comment les lire et les écrire.</p>
+        <p>CSSOM est utilisé avec DOM lorsque nous modifions les règles de style du document. En pratique cependant, CSSOM est rarement nécessaire, car nous avons rarement besoin de modifier les règles 
+            CSS à partir de JavaScript (généralement, nous ajoutons / supprimons simplement des classes CSS, pas de modifier leurs règles CSS), mais c’est également possible.</p>
+    </div>
+
+<h3 id="bom">BOM (Browser Object Model)</h3>
+<p>
+    Le <b>modèle objet du navigateur</b> (<b>BOM</b> en anglais) contient des objets supplémentaires fournis par le navigateur (l’environnement hôte) pour travailler avec tout à l’exception du document.
+    Par exemple :
+</p>
+<ul>
+    <li>
+        L’objet navigator fournit des informations contextuelles à propos du navigateur et du système d’exploitation. Il y a beaucoup de propriétés mais les deux plus connues sont : 
+        <b>navigator.userAgent</b> – qui donne des informations sur le navigateur actuel, et <b>navigator.platform</b> sur la plateforme (peut permettre de faire la différence entre 
+        Windows/Linux/Mac etc).
+    </li>
+    <li>
+        L’objet location nous permet de lire l’URL courante et peut rediriger le navigateur vers une nouvelle adresse.
+    </li>
+</ul>
+<p>
+    Voici comment l’on peut utiliser l’objet location :
+</p>
+<textarea class="code-php" id="">
+    // redirige vers une autre page
+    location.href = "https://www.google.com";
+
+    // redirige vers une autre page
+    location.assign("https://www.google.com");
+
+    // redirige vers une autre page
+    location.replace("https://www.google.com");
+
+    // recharge la page courante
+    location.reload();
+
+    // affiche l'URL courante
+    alert(location.href);
+
+    // affiche le nom de domaine
+    alert(location.hostname);
+
+    // affiche le protocole
+    alert(location.protocol);
+
+    // affiche le port
+    alert(location.port);
+</textarea>
+<p class="mt-4">
+    Les fonctions <b>alert</b>/<b>confirm</b>/<b>prompt</b> font aussi partie du <b>BOM</b> : elles ne sont pas directement liées au document, mais représentent des méthodes du navigateur de communication pure avec l’utilisateur.
+</p>
+
+<div class="alert alert-info mt-4" role="alert">
+    <strong>Specifications :</strong> <hr>
+    <p>Le BOM fait partie de la <a href="https://html.spec.whatwg.org/" target="_blank">spécification HTML générale</a>.</p>
+    <p>
+        Oui, vous avez bien lu. La spécification HTML disponible à l’adresse https://html.spec.whatwg.org ne parle pas seulement du “langage HTML” (balises, attributs), mais couvre également un tas d’objets, 
+        de méthodes et d’extensions <b>DOM</b> spécifiques au navigateur. C’est l’“HTML de manière générale”. En outre, certaines parties ont des spécifications supplémentaires listées ici : https://spec.whatwg.org.
+    </p>
+</div>
