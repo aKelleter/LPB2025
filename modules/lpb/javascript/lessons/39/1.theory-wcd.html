@@ -1,0 +1,177 @@
+<h3>Sommaire</h3>
+<ul>
+    <li><a href="#strucuture">1. Comprendre la structure du DOM</a></li>
+    <li><a href="#acces">2. Accéder aux éléments</a></li>
+    <li><a href="#navigate">3. Naviguer dans l'arborescence</a></li>
+    <li><a href="#parcourir">4. Parcourir une liste d'éléments</a></li>
+    <li><a href="#pratique">5. Exemple pratique : Modifier le DOM en le parcourant</a></li>
+    <li><a href="#bestpractices">6. Bonnes pratiques</a></li>
+    <li><a href="#table">7. Plus de propriétés : Les tableaux</a></li>
+    <li><a href="#resume">8. Résumé</a></li>
+</ul>
+<h3 id="strucuture">1. Comprendre la structure du DOM</h3>
+<p>
+    Le <b>DOM</b> représente la structure d'une page HTML sous forme d'une arborescence d'objets que JavaScript peut manipuler. Parcourir le <b>DOM</b> signifie accéder à ses éléments 
+    (nœuds) pour les lire, les modifier ou interagir avec eux. Voici les concepts clés et les méthodes pour y parvenir.
+</p>
+<p>
+    Le DOM est organisé comme une hiérarchie d'éléments (nœuds) :
+</p>
+<ul>
+    <li><b>Nœud racine</b> : document (le point de départ).</li>
+    <li><b>Nœuds enfants</b> : éléments HTML comme &lt;body&gt;, &lt;div&gt;, &lt;p&gt;, etc.</li>
+    <li><b>Nœuds parents, frères et descendants</b> : chaque élément peut avoir un parent, des enfants ou des éléments voisins.</li>
+</ul>
+<p>Exemple de code HTML (rappel): </p>
+<textarea class="code-php" id="ta-1">
+<body>
+  <div id="conteneur">
+    <p class="texte">Bonjour</p>
+    <p class="texte">Salut</p>
+  </div>
+</body>
+</textarea>
+<button id="copy-1" class="btn btn-secondary btn-sm" data-target="ta-1" data-toggle="tooltip" title="Copy code">Copy</button>
+<p>Lien : <a href="tests/sample.html" target="_blank">sample.html</a></p>
+
+<h3 id="acces">2. Accéder aux éléments</h3>
+<p>
+    Pour parcourir le <b>DOM</b>, il faut d'abord sélectionner un point de départ. Voici les méthodes courantes :
+</p>
+<ul>
+    <b>document.getElementById("id")</b> : sélectionne un élément par son ID.
+    <b>document.querySelector("sélecteur")</b> : sélectionne le premier élément correspondant à un sélecteur CSS.
+    <b>document.querySelectorAll("sélecteur")</b> : renvoie une liste (NodeList) de tous les éléments correspondants.
+</ul>
+<p>Exemple : </p>
+<textarea class="code-php" id="ta-2">
+    const conteneur = document.getElementById("conteneur"); // Sélectionne <div id="conteneur">
+    const premierP = document.querySelector(".texte"); // Sélectionne le premier <p class="texte">
+    const tousLesP = document.querySelectorAll(".texte"); // Sélectionne tous les <p class="texte">
+</textarea>
+<button id="copy-2" class="btn btn-secondary btn-sm" data-target="ta-2" data-toggle="tooltip" title="Copy code">Copy</button>
+<p>Dans cet exemple, <b>conteneur</b> est un objet représentant le <b>div</b>, <b>premierP</b> est le premier <b>p</b>, et <b>tousLesP</b> est une liste de tous les <b>p</b>.</p>
+
+<h3 id="navigate">3. Naviguer dans l'arborescence</h3>
+<p>
+    Une fois un élément sélectionné, vous pouvez parcourir ses relations avec d'autres nœuds :
+</p>
+<ul>
+    <li><st-r>Parent</st-r> : <b>element.parentNode</b> (le nœud parent).</li>
+    <li><st-r>Enfants</st-r> : <b>element.childNodes</b> (tous les nœuds enfants, y compris texte et commentaires) ou element.children (uniquement les éléments HTML).</li>
+    <li><st-r>Premier enfant</st-r> : <b>element.firstChild</b> ou <b>element.firstElementChild</b>.</li>
+    <li><st-r>Dernier enfant</st-r> : <b>element.lastChild</b> ou <b>element.lastElementChild</b>.</li>
+    <li><st-r>Frères</st-r> : <b>element.nextSibling</b> (nœud suivant) ou <b>element.nextElementSibling</b> (élément suivant), et <b>element.previousSibling/previousElementSibling</b> pour le précédent.</li>
+</ul>
+<p>
+    Exemple :
+</p>
+<textarea class="code-php" id="ta-3">
+    const div = document.getElementById("conteneur");
+    console.log(div.parentNode); // Affiche <body>
+    console.log(div.children); // Affiche une liste avec les deux <p>
+    console.log(div.firstElementChild); // Affiche le premier <p>
+    console.log(div.lastElementChild); // Affiche le deuxième <p>
+
+    const premierP = div.firstElementChild;
+    console.log(premierP.nextElementSibling); // Affiche le deuxième <p>    
+</textarea>
+<button id="copy-3" class="btn btn-secondary btn-sm" data-target="ta-3" data-toggle="tooltip" title="Copy code">Copy</button>
+<p class="mt-4">
+    Dans cet exemple, <b>div</b> est le conteneur, et nous accédons à ses enfants et à leurs relations. <br>
+    Notez que <b>childNodes</b> inclut tous les nœuds enfants, y compris les nœuds de texte (espaces, retours à la ligne), tandis que <b>children</b> ne renvoie que les éléments HTML.
+</p>
+<p>
+    Utilisez <b>firstChild</b> et <b>lastChild</b> pour accéder au premier et au dernier nœud enfant, respectivement. Pour les éléments HTML, utilisez <b>firstElementChild</b> et <b>lastElementChild</b>. <br>
+    Pour accéder aux nœuds frères, utilisez <b>nextSibling</b> et <b>previousSibling</b> pour les nœuds, ou <b>nextElementSibling</b> et <b>previousElementSibling</b> pour les éléments HTML.
+</p>
+<p>Ces méthodes sont utiles pour naviguer dans le DOM et manipuler les éléments.</p>
+
+<h3 id="parcourir">4. Parcourir une liste d'éléments</h3>
+<p>
+    Avec <b>querySelectorAll</b>, vous obtenez une <b>NodeList</b> que vous pouvez parcourir avec une boucle (par exemple, <b>forEach</b>).
+</p>
+<p>Exemple</p>
+<textarea class="code-php" id="ta-4">
+    const paragraphes = document.querySelectorAll(".texte");
+    paragraphes.forEach((p, index) => {
+      console.log(`Paragraphe ${index + 1} : ${p.textContent}`);
+    });
+    // Résultat : 
+    // Paragraphe 1 : Bonjour
+    // Paragraphe 2 : Salut
+</textarea>
+<button id="copy-4" class="btn btn-secondary btn-sm" data-target="ta-4" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h3 id="pratique">5. Exemple pratique : Modifier le DOM en le parcourant</h3>
+<p>Imaginons que vous voulez changer la couleur de tous les <b>&lt;p&gt;</b> dans la <b>&lt;div&gt;</b> :</p>
+<textarea class="code-php" id="ta-5">
+    const div = document.getElementById("conteneur");
+    const enfants = div.children;
+
+    for (let i = 0; i < enfants.length; i++) {
+        enfants[i].style.color = "blue";
+    }
+</textarea>
+<button id="copy-5" class="btn btn-secondary btn-sm" data-target="ta-5" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h3 id="bestpractices">6. Bonnes pratiques</h3>
+<ul>
+    <li>Utilisez <b>children</b> plutôt que <b>childNodes</b> si vous voulez uniquement les éléments HTML (et pas les nœuds texte vides).</li>
+    <li>Testez si un élément existe avant de le manipuler (ex. : <b>if (element) {...}</b>).</li>
+    <li>Préférez <b>querySelector</b> pour sa flexibilité avec les sélecteurs CSS.</li>
+</ul>
+
+<h3 id="table">7. Plus de propriétés : Les tableau</h3>
+<p>
+    Jusqu’à présent, nous avons décrit les propriétés de navigation de base. <br>
+    Certains types d’éléments DOM peuvent fournir des propriétés supplémentaires, spécifiques à leur type, pour plus de commodité.
+    Les tableaux en sont un excellent exemple et représentent un cas particulièrement important :
+</p>
+<p>L’élément <b>&lt;table&gt;</b> supporte (en plus de ce qui précède) ces propriétés :</p>
+<ul>
+    <li><b>tHead</b> : renvoie l’élément <b>&lt;thead&gt;</b> de la table.</li>
+    <li><b>tFoot</b> : renvoie l’élément <b>&lt;tfoot&gt;</b> de la table.</li>
+    <li><b>tBodies</b> : renvoie une collection de tous les éléments <b>&lt;tbody&gt;</b>.</li>
+    <li><b>rows</b> : renvoie une collection de toutes les lignes de la table.</li>
+    <li><b>caption</b> : renvoie l’élément <b>&lt;caption&gt;</b> de la table.</li>
+    <li><b>deleteCaption()</b> : supprime l’élément <b>&lt;caption&gt;</b>.</li>
+    <li><b>createTHead()</b> : crée un élément <b>&lt;thead&gt;</b>.</li>
+    <li><b>createTFoot()</b> : crée un élément <b>&lt;tfoot&gt;</b>.</li>
+    <li><b>createTBody()</b> : crée un élément <b>&lt;tbody&gt;</b>.</li>
+    <li><b>deleteRow()</b> : supprime une ligne de la table.</li>
+    <li><b>insertRow()</b> : insère une nouvelle ligne dans la table.</li>    
+</ul>
+
+<p>Exemple de code HTML :</p>
+<p>Aller sur <a href="tests/table.html" target="_blank">Table</a></p>
+<textarea class="code-php" id="ta-6">
+    const table = document.getElementById("maTable");
+    console.log(table.tHead); // Affiche l'élément <thead>
+    console.log(table.tFoot); // Affiche l'élément <tfoot>
+    console.log(table.tBodies); // Affiche une collection de <tbody>
+    console.log(table.rows); // Affiche une collection de toutes les lignes de la table
+    console.log(table.caption); // Affiche l'élément <caption>
+    console.log(table.rows[1].cells[0].textContent); // Affiche "Alice" (première cellule de la première ligne)
+    table.deleteCaption(); // Supprime le <caption>
+    table.createTHead(); // Crée un nouvel élément <thead>
+    table.createTFoot(); // Crée un nouvel élément <tfoot>
+    table.createTBody(); // Crée un nouvel élément <tbody>
+    table.deleteRow(1); // Supprime la deuxième ligne de la table
+    table.insertRow(1); // Insère une nouvelle ligne à la position 1
+</textarea>
+<button id="copy-6" class="btn btn-secondary btn-sm" data-target="ta-6" data-toggle="tooltip" title="Copy code">Copy</button>
+
+
+<h3 id="resume">8. Résumé</h3>
+<p>
+    Étant donné un nœud DOM, nous pouvons aller vers ses voisins immédiats en utilisant les propriétés de navigation. <br>
+    Il en existe deux ensembles principaux :
+</p>
+<ul>
+    <li><st-r>Pour tous les nœuds</st-r> : <b>parentNode</b>, <b>childNodes</b>, <b>firstChild</b>, <b>lastChild</b>, <b>previousSibling</b>, <b>nextSibling</b>.</li>
+    <li><st-r>Pour les nœuds élément uniquement</st-r> : <b>parentElement</b>, <b>children</b>, <b>firstElementChild</b>, <b>lastElementChild</b>, <b>previousElementSibling</b>, <b>nextElementSibling</b></li>
+</ul>
+<p>
+    Certains types d’éléments DOM, par exemple les tableaux, fournissent des propriétés et des collections supplémentaires pour accéder à leur contenu.
+</p>

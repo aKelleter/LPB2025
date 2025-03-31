@@ -122,3 +122,54 @@
     <li><b>comment</b> – parfois, nous pouvons y mettre des informations, elles ne seront pas affichées, mais js peut les lire depuis le dom.</li>
 </ul>
 
+<h3 id="observation">5. Le DOM par l'observation</h3>
+<p>
+    Pour voir la structure dom en temps réel, essayez le <a href="https://software.hixie.ch/utilities/js/live-dom-viewer/" target="_blank">live DOM viewer</a>. Tapez simplement le document, et il apparaîtra comme un <b>DOM</b> en un instant.
+</p>
+<p>
+    Une autre façon d’explorer le DOM est d’utiliser les outils de développement du navigateur. en fait, c’est ce que nous utilisons lors du développement. <br>
+    Pour ce faire, ouvrez la page web <a href="test/sample-dom.html">sample-dom.html</a>, activez les outils de développement du navigateur et passez à l’onglet éléments. 
+    Vous verrez le DOM de la page. <br>
+</p>
+<img src="img/devtools.png" alt="devtools" class="mx-auto d-block mt-3 border-dark border-2 rounded-3">
+
+<p class="mt-4">
+    Vous pouvez voir le dom, cliquer sur les éléments, voir leurs détails et ainsi de suite. <br> <br>
+    Veuillez noter que la structure du dom dans les outils de développement est simplifiée. Les nœuds texte sont affichés comme du texte. Et il n’y a aucun nœud texte “vide” (espace uniquement). C’est très bien, car la plupart du temps nous nous intéressons aux nœuds éléments.
+    En cliquant sur le bouton dans le coin supérieur gauche cela nous permet de choisir un nœud à partir de la page Web à l’aide d’une souris (ou d’autres périphériques de pointeur) et de “l’inspecter” (faites défiler jusqu’à l’onglet Éléments). cela fonctionne très bien lorsque
+    nous avons une énorme page html (et un énorme dom correspondant) et que nous aimerions voir la place d’un élément particulier. <br> <br>
+    Une autre façon de le faire serait simplement de cliquer avec le bouton droit sur une page Web et de sélectionner “inspecter” dans le menu contextuel.
+</p>
+<p>
+    Dans la partie droite des outils se trouvent les sous-onglets suivants (varie selon le navigateur) : <br>
+    <ul>  
+        <li><b>Éléments</b> – le DOM lui-même, avec la possibilité de modifier le HTML et de voir les nœuds enfants.</li>
+        <li><b>Styles</b> – les styles CSS appliqués à l’élément sélectionné.</li>
+        <li><b>Calculé</b> – les styles CSS calculés pour l’élément sélectionné.</li>
+        <li>...</li>
+    </ul>
+</p>
+<p>
+    La meilleure façon de les étudier est de cliquer dessus. La plupart des valeurs sont modifiables sur place.
+</p>
+
+<h3 id="interaction">6. Interaction</h3>
+<p>
+    Comme nous travaillons le DOM, nous pouvons également vouloir lui appliquer du JavaScript. Comme : obtenir un nœud et exécuter du code pour le modifier, pour voir le résultat. 
+    Voici quelques conseils pour voyager entre l’onglet Elements et la console.
+</p>
+<p>
+    Pour commencer :
+    <ul>
+        <li>Sélectionnez le premier <b>&lt;li&gt;</b> dans l’onglet Éléments.</li>
+        <li>Appuyez sur la touche <b>Esc</b> – cela ouvrira la console juste en dessous de l’onglet Éléments.</li>
+    </ul>
+
+    Maintenant, le dernier élément sélectionné est disponible en tant que <b>$0</b>, le précédent sélectionné est <b>$1</b>, etc. <br>
+    Nous pouvons exécuter des commandes sur eux. Par exemple, <b>$0.style.background = 'red'</b> rend l’élément de la liste sélectionné rouge. <br>
+    Faites le test :)
+</p>
+<p>
+    C’est à des fins de débogage bien sûr. À partir du chapitre suivant, nous accéderons et modifierons le DOM en utilisant JavaScript. <br>
+    Les outils de développement du navigateur sont d’une grande aide au développement : nous pouvons explorer le DOM, essayer des choses et voir ce qui ne va pas.
+</p>

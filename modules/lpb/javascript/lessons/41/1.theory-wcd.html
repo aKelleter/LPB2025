@@ -1,0 +1,151 @@
+<!--
+<textarea class="code-php" id="ta-x">
+    
+</textarea>
+<button id="copy-x" class="btn btn-secondary btn-sm" data-target="ta-x" data-toggle="tooltip" title="Copy code">Copy</button>
+-->
+<h3 id="intro">1. Introduction</h3>
+<p>
+    Voyons plus en détail les nœuds DOM. <br>
+    Dans ce chapitre, nous verrons plus en détail ce qu’ils sont et découvrirons leurs propriétés les plus utilisées.
+</p>
+<h4>Les différentes classes de nœud DOM</h4>
+<p>
+    Différents nœuds DOM peuvent avoir des propriétés différentes. Par exemple, un nœud élément correspondant à la balise &lt;a&gt; a des propriétés liées aux liens, et celui 
+    correspondant à &lt;input&gt; a des propriétés liées aux entrées, etc. Les nœuds texte ne sont pas identiques aux nœuds élément. Mais il existe également des propriétés et 
+    des méthodes communes à chacun d’entre eux, car toutes les classes de nœuds DOM forment une hiérarchie unique.
+    Chaque nœud DOM appartient à la classe intégrée correspondante. <br>
+    La racine de la hiérarchie est <b>EventTarget</b>, hérité par <b>Node</b>, et d’autres nœuds DOM en héritent.
+    Voici la représentation :
+</p>
+<img src="img/schema-1.png" alt="hiérarchie des classes" class="mx-auto d-block mt-3 border-dark border-2 rounded-3">
+<p>
+    Les classes sont :
+</p>
+
+<ul>
+    <li>    
+        <b>EventTarget</b> – est la classe racine “abstraite” pour tout. <br>
+        Les objets de cette classe ne sont jamais créés. Ils servent de base, afin que tous les nœuds DOM supportent les soi-disant “événements”, nous les étudierons plus tard.
+    </li>
+    <li class="mt-3">
+        <b>Node</b> – est également une classe “abstraite”, servant de base aux nœuds DOM. <br>
+        Elle fournit la fonctionnalité de l’arborescence de base : parentNode, nextSibling, childNodes et ainsi de suite (ce sont des getters). Les objets de la classe <b>Node</b> ne sont jamais 
+        créés. Mais il existe d’autres classes qui en héritent (et héritent donc de la fonctionnalité Node).
+    </li>
+    <li class="mt-3">
+        <b>Document</b>, pour des raisons historiques souvent héritées par <b>HTMLDocument</b> (bien que la dernière spécification ne le dicte pas) – est un document dans son ensemble.
+        L’objet global document appartient exactement à cette classe. Il sert de point d’entrée au DOM.
+    </li>
+    <li class="mt-3">
+        <b>CharacterData</b> – une classe “abstraite”, héritée par : <br>
+        <st-r>Text</st-r> – la classe correspondant à un texte à l’intérieur des éléments, par ex. Bonjour dans <b>&lt;p&gt;Hello&lt;/p&gt;</b>. <br>
+        <st-r>Comment</st-r> – la classe pour les commentaires. Ils ne sont pas affichés, mais chaque commentaire devient un membre du DOM.
+    </li>
+    <li class="mt-3">
+        <b>Element</b> – est la classe de base des éléments DOM. <br>
+        Elle fournit une navigation au niveau des éléments comme <b>nextElementSibling</b>, <b>children</b> et des méthodes de recherche comme <b>getElementsByTagName</b>, <b>querySelector</b>. <br>
+        Un navigateur prend en charge non seulement le <b>HTML</b>, mais également l'<b>XML</b> et le <b>SVG</b>. Ainsi, la classe <b>Element</b> sert de base à des classes plus spécifiques : 
+        SVGElement, XMLElement (nous n’en avons pas besoin ici) et <st-r>HTMLElement</st-r>.
+    </li>
+    <li>
+        Enfin, <b>HTMLElement</b> est la classe de base pour tous les éléments HTML. Nous travaillerons avec lui la plupart du temps. <br>
+        Elle est héritée par des éléments HTML concrets :
+        <ul class="mt-3">
+            <li><b>HTMLInputElement</b> – la classe pour les éléments <b>&lt;input&gt;</b>,</li>
+            <li><b>HTMLBodyElement</b> – la classe pour les éléments <b>&lt;body&gt;</b>,</li>
+            <li><b>HTMLAnchorElement</b> – la classe pour les éléments <b>&lt;a&gt;</b>,</li>
+            <li>…etc.</li>
+        </ul>
+    </li>
+</ul>
+<p>
+    Il existe de nombreuses autres balises avec leurs propres classes qui peuvent avoir des propriétés et des méthodes spécifiques, tandis que certains éléments, 
+    tels que <b>&lt;span&gt;</b>, <b>&lt;section&gt;</b>, <b>&lt;article&gt;</b> n’ont pas de propriétés spécifiques, ce sont donc des instances de la classe <b>HTMLElement</b>. <br>
+    Ainsi, l’ensemble complet des propriétés et des méthodes d’un nœud donné est le résultat de la chaîne de l’héritage.
+</p>
+<p>
+    Par exemple, considérons l’objet DOM pour un élément <b>&lt;input&gt;</b>. Il appartient à la classe <b>HTMLInputElement</b>. <br>
+    Il obtient les propriétés et les méthodes en superposition de (répertoriées dans l’ordre d’héritage) :
+</p>
+<ul>    
+    <li><b>HTMLInputElement</b> – cette classe fournit des propriétés spécifiques à l’entrée,</li>
+    <li><b>HTMLElement</b> – elle fournit des méthodes d’élément HTML communes (et des getters/setters),</li>
+    <li><b>Element</b> – fournit des méthodes d’élément génériques,</li>
+    <li><b>Node</b> – fournit des propriétés de noeud DOM communes,</li>
+    <li><b>EventTarget</b> – apporte du support aux événements (à couvrir),</li>
+    <li>…et finalement il hérite de <b>Object</b>, donc les méthodes “plain object” comme hasOwnProperty sont également disponibles.</li>
+</ul>
+<p>
+    Pour voir le nom de la classe de noeud DOM, nous pouvons rappeler qu’un objet a généralement la propriété <b>constructor</b>. 
+    Il fait référence au constructeur de classe, et <b>constructor.name</b> est son nom :
+</p>
+<textarea class="code-php" id="ta-1">
+    alert( document.body.constructor.name ); // HTMLBodyElement
+</textarea>
+<button id="copy-1" class="btn btn-secondary btn-sm" data-target="ta-1" data-toggle="tooltip" title="Copy code">Copy</button>
+<p class="mt-4">
+    ...Ou, nous pouvons simplement utiliser le <b>toString</b> :
+</p>
+<textarea class="code-php" id="ta-2">
+    alert( document.body ); // [object HTMLBodyElement]
+</textarea>
+<button id="copy-2" class="btn btn-secondary btn-sm" data-target="ta-2" data-toggle="tooltip" title="Copy code">Copy</button>
+<p class="mt-4">
+    Nous pouvons également utiliser <b>instanceof</b> pour vérifier l’héritage :
+</p>
+<textarea class="code-php" id="ta-3">
+    alert( document.body instanceof HTMLBodyElement ); // true
+    alert( document.body instanceof HTMLElement ); // true
+    alert( document.body instanceof Element ); // true
+    alert( document.body instanceof Node ); // true
+    alert( document.body instanceof EventTarget ); // true
+</textarea>
+<button id="copy-3" class="btn btn-secondary btn-sm" data-target="ta-3" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    Comme nous pouvons le voir, les nœuds DOM sont des objets JavaScript normaux. Ils utilisent des classes basées sur des prototypes pour l’héritage.
+    C’est aussi facile à voir en sortant un élément avec <b>console.dir(elem)</b> dans un navigateur. Là, dans la console, vous pouvez voir <b>HTMLElement.prototype</b>, 
+    <b>Element.prototype</b> et ainsi de suite.
+</p>
+
+<div class="alert alert-info">
+    <strong>console.dir(elem) versus console.log(elem)</strong> <hr>
+    <p>
+        La plupart des navigateurs prennent en charge deux commandes dans leurs outils de développement : <b>console.log</b> et <b>console.dir</b>. 
+        Elles sortent leurs arguments dans la console. Pour les objets JavaScript, ces commandes font généralement la même chose.
+    </p>
+    <p>
+        Mais pour les éléments DOM, elles sont différents :
+    </p>
+    <ul>
+        <li><b>console.log(elem)</b> affiche l’arborescence DOM de l’élément.</li>
+        <li><b>console.dir(elem)</b> affiche l’élément en tant qu’objet DOM, bon pour explorer ses propriétés.</li>
+    </ul>
+    <p>
+        Essayez les sur <b>document.body</b>.
+    </p>
+    <p>Les différences :</p>
+    <table class="table table-bordered table-striped table-hover table-sm mt-3">
+        <thead class="border-b border-primary/20"><tr class="border-primary/10"><th class="break-words">Aspect</th><th class="break-words"><span class="text-sm px-1 rounded-sm !font-mono bg-sunset/10 text-rust dark:bg-dawn/10 dark:text-dawn">console.log</span></th><th class="break-words"><span class="text-sm px-1 rounded-sm !font-mono bg-sunset/10 text-rust dark:bg-dawn/10 dark:text-dawn">console.dir</span></th></tr></thead><tbody><tr class="border-primary/10"><td style="white-space: pre-wrap;" class="break-words"><strong>Affichage DOM</strong></td><td style="white-space: pre-wrap;" class="break-words">Montre l’élément comme une balise HTML</td><td style="white-space: pre-wrap;" class="break-words">Montre l’objet DOM avec ses propriétés</td></tr><tr class="border-primary/10"><td style="white-space: pre-wrap;" class="break-words"><strong>Objets</strong></td><td style="white-space: pre-wrap;" class="break-words">Vue hiérarchique lisible</td><td style="white-space: pre-wrap;" class="break-words">Liste complète des propriétés</td></tr><tr class="border-primary/10"><td style="white-space: pre-wrap;" class="break-words"><strong>Utilisation</strong></td><td style="white-space: pre-wrap;" class="break-words">Débogage rapide et général</td><td style="white-space: pre-wrap;" class="break-words">Analyse détaillée des objets/DOM</td></tr><tr class="border-primary/10"><td style="white-space: pre-wrap;" class="break-words"><strong>Format</strong></td><td style="white-space: pre-wrap;" class="break-words">Plus visuel et "humain"</td><td style="white-space: pre-wrap;" class="break-words">Plus technique et structuré</td></tr></tbody>
+    </table>
+    <textarea class="code-php" id="">
+        const div = document.getElementById("test");
+
+        console.log(div);
+        // Résultat : <div id="test">Texte</div>
+
+        console.dir(div);
+        // Résultat : Objet avec propriétés comme :
+        // {
+        //   id: "test",
+        //   nodeType: 1,
+        //   tagName: "DIV",
+        //   textContent: "Texte",
+        //   ...
+        // }
+    </textarea>
+</div>
+<p>
+    ... en cours
+</p>
