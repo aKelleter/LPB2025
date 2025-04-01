@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toto List</title>
+</head>
+<body>
+    <script>
+        // Ma première to-do list en JavaScript
+
+        // Tableau pour stocker les tâches (chaque tâche est un objet avec un nom et un statut)
+        let taches = [];
+
+        // Fonction pour ajouter une tâche
+        function ajouterTache(nom) {
+            let nouvelleTache = { nom: nom, terminee: false }; // Création d'un objet tâche
+            taches.push(nouvelleTache); // Ajout au tableau
+            console.log(`Tâche "${nom}" ajoutée !`);
+        }
+
+        // Fonction pour afficher toutes les tâches (version avec fonction fléchée)
+        const listerTaches = () => {
+            if (taches.length === 0) {
+                console.log("Aucune tâche pour le moment.");
+            } else {
+                taches.forEach((tache, i) => {
+                    let statut = tache.terminee ? "Terminée" : "En cours"; // Opérateur ternaire
+                    console.log(`${i + 1}. ${tache.nom} - ${statut}`);
+                });
+            }
+        };
+
+        // Fonction pour marquer une tâche comme terminée
+        function marquerTerminee(numero) {
+            if (numero > 0 && numero <= taches.length) { // Vérification du numéro
+                taches[numero - 1].terminee = true; // Mise à jour du statut
+                console.log(`Tâche ${numero} marquée comme terminée.`);
+            } else {
+                console.log("Numéro invalide.");
+            }
+        }
+
+        // Fonction pour supprimer une tâche
+        function supprimerTache(numero) {
+            numero = numero ?? 1; // Opérateur de coalescence pour une valeur par défaut
+            if (numero > 0 && numero <= taches.length) {
+                let tacheSupprimee = taches.splice(numero - 1, 1); // Suppression de la tâche
+                console.log(`Tâche "${tacheSupprimee[0].nom}" supprimée.`);
+            } else {
+                console.log("Numéro invalide.");
+            }
+        }
+
+        // Fonction bonus : compter les tâches terminées
+        function compterTerminees() {
+            let compte = 0;
+            for (let tache of taches) { // Boucle for...of
+                if (tache.terminee) compte++; // Incrémentation si terminée
+            }
+            console.log(`Tâches terminées : ${compte}`);
+        }
+
+        // Exemple d'utilisation :
+        ajouterTache("Apprendre JavaScript");
+        ajouterTache("Faire les courses");
+        ajouterTache("Réviser pour l'examen");
+
+        listerTaches(); // Affiche la liste initiale
+
+        marquerTerminee(1); // Marque la première tâche comme terminée
+        listerTaches(); // Affiche la liste mise à jour
+
+        supprimerTache(2); // Supprime la deuxième tâche
+        listerTaches(); // Affiche la liste après suppression
+
+        compterTerminees(); // Affiche le nombre de tâches terminées
+    </script>
+</body>
+</html>

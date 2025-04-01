@@ -1,0 +1,334 @@
+<h3>Sommaire</h3>
+<ul>
+    <li><a href="#intro">1. Introduction</a></li>
+    <li><a href="#lenteur">2. Pourquoi les requêtes peuvent être lentes ?</a></li>
+    <li><a href="#explain">3. Technique 1 : Analyser avec EXPLAIN</a></li>
+    <li><a href="#profiling">4. Technique 2 : Utiliser le profiling</a></li>
+    <li><a href="#jointure">5. Technique 3 : Choisir les bonnes jointures</a></li>
+    <li><a href="#other">6. Autres bonnes pratiques</a></li>
+    <li><a href="#activite">7. Activité pratique : Optimisons une requête</a></li>
+    <li><a href="#conclusion">8. Conclusion</a></li>
+    <li><a href="#exo">9. Exercice</a></li>
+</ul>
+<h3 id="intro">1. Introduction</h3>
+<p class="fw-bold">
+    Objectifs de la leçon :
+</p>
+<ul>
+    <li>Comprendre pourquoi et comment optimiser les requêtes SQL.</li>
+    <li>Apprendre à utiliser <b>EXPLAIN</b> pour analyser les performances.</li>
+    <li>Découvrir des techniques simples comme le profiling et le choix des jointures.</li>
+    <li>Appliquer ces notions pour rendre les requêtes plus rapides.</li>
+</ul>
+
+<h4>Pourquoi optimiser les requêtes ?</h4>
+
+<p>
+    Imaginez que vous cherchez un livre dans une bibliothèque mal rangée : sans ordre, vous mettez des heures à le trouver. 
+    Dans une base de données, une requête mal optimisée peut être lente, surtout avec beaucoup de données (par exemple, des milliers d’élèves et de notes). 
+    <st-r>Optimiser une requête</st-r>, c’est la rendre plus rapide et moins lourde pour MariaDB, tout en obtenant le même résultat.
+</p>
+
+<h3 id="lenteur">2. Pourquoi les requêtes peuvent être lentes ?</h3>
+<ul>
+    <li><st-r>Trop de données à vérifier</st-r> : Sans index, MariaDB lit tout.</li>
+    <li><st-r>Mauvais choix de jointures</st-r> : Certaines jointures sont plus lentes que d’autres.</li>   
+    <li><st-r>Requêtes mal écrites</st-r> : Des conditions ou des tris inutiles ajoutent du travail.</li>
+</ul>
+
+<p class="fw-bold">Objectif :</p>
+<p>
+    Analyser comment MariaDB exécute une requête et l’améliorer avec des outils et des bonnes pratiques.
+</p>
+
+<h3 id="explain">3. Technique 1 : Analyser avec <b>EXPLAIN</b></h3>
+<p>
+    <st-r>EXPLAIN</st-r> montre le "plan d’exécution" d’une requête, c'est un outil qui va exécuter une requête. 
+    Il donne des détails sur les tables, les index et les jointures utilisées. 
+    Cela aide à comprendre pourquoi une requête est lente et comment l’optimiser.
+</p>
+
+<p class="fw-bold">
+    Exemple :
+</p>
+<p>Créons des tables avec quelques données :</p>
+
+<textarea class="code-php" id="ta-1">
+    CREATE TABLE Eleves (
+    ID INT PRIMARY KEY,
+    Nom VARCHAR(50),
+    Age INT
+    );
+
+    CREATE TABLE Notes (
+        ID_Note INT PRIMARY KEY,
+        Eleve_ID INT,
+        Matiere VARCHAR(50),
+        Note INT,
+        FOREIGN KEY (Eleve_ID) REFERENCES Eleves(ID)
+    );
+
+    INSERT INTO Eleves (ID, Nom, Age) VALUES
+    (1, 'Alice', 15), (2, 'Bob', 16), (3, 'Clara', 15);
+
+    INSERT INTO Notes (ID_Note, Eleve_ID, Matiere, Note) VALUES
+    (1, 1, 'Maths', 18), (2, 2, 'Histoire', 15), (3, 1, 'Français', 16);
+</textarea>
+<button id="copy-1" class="btn btn-secondary btn-sm" data-target="ta-1" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">Testons une requête :</p>
+<textarea class="code-php" id="ta-2">
+    EXPLAIN SELECT Nom, Matiere, Note
+    FROM Eleves
+    JOIN Notes ON Eleves.ID = Notes.Eleve_ID
+    WHERE Note > 15;
+</textarea>
+<button id="copy-2" class="btn btn-secondary btn-sm" data-target="ta-2" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    Résultat :
+</p>
+<textarea class="code-php" id="ta-1">
+    id	select_type	    table	    type        possible_keys       key         key_len    ref	                                rows	Extra
+    -----------------------------------------------------------------------------------------------------------------------------------------------
+    1	SIMPLE	        Notes	    ALL	        Eleve_ID		    null        null       null                                 3	    Using where
+    1	SIMPLE	        Eleves	    eq_ref	    PRIMARY	            PRIMARY	    4          transaction.Notes.Eleve_ID	        1	
+</textarea>
+
+<ul class="mt-4">
+    <li><b>type = ALL</b> : Scan complet de <st-r>Eleves</st-r> (lent si beaucoup de lignes).</li>
+    <li><b>key = NULL</b> : Pas d’index utilisé sur <st-r>Eleves</st-r>.</li>
+    <li><b>rows</b> : Nombre de lignes vérifiées.</li>
+</ul>
+
+<p class="mt-4">Ajoutons un index sur Note :</p>
+<textarea class="code-php" id="ta-3">
+    CREATE INDEX idx_note ON Notes (Note);
+</textarea>
+<button id="copy-3" class="btn btn-secondary btn-sm" data-target="ta-3" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    Retestons :
+</p>
+<textarea class="code-php" id="ta-4">
+    EXPLAIN SELECT Nom, Matiere, Note
+    FROM Eleves
+    JOIN Notes ON Eleves.ID = Notes.Eleve_ID
+    WHERE Note > 15;
+</textarea>
+<button id="copy-4" class="btn btn-secondary btn-sm" data-target="ta-4" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    Résultat :
+</p>
+<textarea class="code-php" id="ta-1">
+    id	select_type	    table	    type        possible_keys       key         key_len    ref	                                rows	Extra
+    ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    1	SIMPLE	        Notes	    range	    Eleve_ID,idx_note   idx_note    5          null                                 2	    Using index condition; Using where
+    1	SIMPLE	        Eleves	    eq_ref	    PRIMARY	            PRIMARY	    4          transaction.Notes.Eleve_ID	        1	
+</textarea>
+
+<ul class="mt-4">
+    <li><b>type = range</b> : Recherche optimisée sur <st-r>Note</st-r>.</li>
+    <li><b>key = idx_note</b> : Index utilisé.</li>
+    <li>Moins de lignes vérifiées !</li>
+</ul>
+
+<h3 id="profiling">4. Technique 2 : Utiliser le <b>profiling</b></h3>
+<p>
+    Le <st-r>profiling</st-r> permet de mesurer le temps d’exécution d’une requête. 
+    Cela aide à identifier les parties lentes et à optimiser la requête.
+</p>
+
+<p class="fw-bold">Activer le profiling :</p>
+<textarea class="code-php" id="ta-5">
+    SET profiling = 1;
+</textarea>
+<button id="copy-5" class="btn btn-secondary btn-sm" data-target="ta-5" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="fw-bold mt-4">Exécuter une requête :</p>
+<textarea class="code-php" id="ta-6">
+    SELECT Nom, Matiere, Note
+    FROM Eleves
+    JOIN Notes ON Eleves.ID = Notes.Eleve_ID;
+</textarea>
+<button id="copy-6" class="btn btn-secondary btn-sm" data-target="ta-6" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="fw-bold mt-4">Voir les résultats :</p>
+<textarea class="code-php" id="ta-7">
+    SHOW PROFILES;
+</textarea>
+<button id="copy-7" class="btn btn-secondary btn-sm" data-target="ta-7" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="fw-bold mt-4">Résultat :</p>
+<textarea class="code-php" id="">
+    Query_ID	Duration	Query
+    -----------------------------------------------------------------------------------------------------------------------------------
+    93	        0,0003183	SELECT Nom, Matiere, Note FROM Eleves JOIN Notes ON Eleves.ID = Notes.Eleve_ID;
+</textarea>
+
+<p class="fw-bold mt-4">Détails :</p>
+<textarea class="code-php" id="ta-8">
+    SHOW PROFILE FOR QUERY 93;
+</textarea>
+<button id="copy-8" class="btn btn-secondary btn-sm" data-target="ta-8" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="fw-bold mt-4">
+    Montre où le temps est passé (lecture, jointure, etc.).
+</p>
+
+<textarea class="code-php" id="">
+    Status	                            Duration
+    -----------------------------------------------------------------------------------------------------------------------------------
+    Starting	                        0,000051
+    checking permissions	            0,000004
+    Opening tables	                    0,000022
+    After opening tables	            0,000006
+    System lock	                        0,000005
+    table lock	                        0,000004
+    init	                            0,000017
+    Optimizing	                        0,000014
+    Statistics	                        0,000038
+    Preparing	                        0,000027
+    Executing	                        0,000002
+    Sending data	                    0,000052
+    End of update loop	                0,000003
+    Query end	                        0,000002
+    Commit	                            0,000002
+    Query end	                        0,000002
+    closing tables	                    0,000002
+    Unlocking tables	                0,000001
+    closing tables	                    0,000002
+    Query end	                        0,000003
+    Starting cleanup    	            0,000002
+    Freeing items	                    0,000004
+    Updating status	                    0,000050
+    Reset for next command	            0,000004
+</textarea>
+
+<h3 id="jointure">5. Technique 3 : Choisir les bonnes jointures</h3>
+<ul>
+    <li><b>INNER JOIN</b> : Rapide, ne garde que les lignes qui correspondent.</li>
+    <li><b>LEFT JOIN</b> : Plus lent, inclut toutes les lignes de la table de gauche, même sans correspondance.</li>
+    <li><b>Astuce</b> : Utilisez <b>INNER JOIN</b> si possible, sauf si vous avez besoin des "non-correspondances".</li>
+</ul>
+
+<p class="fw-bold">Exemple :</p>
+<textarea class="code-php" id="ta-9">
+    -- INNER JOIN (rapide)
+    SELECT Nom, Matiere
+    FROM Eleves
+    INNER JOIN Notes ON Eleves.ID = Notes.Eleve_ID;
+
+    -- LEFT JOIN (plus lent)
+    SELECT Nom, Matiere
+    FROM Eleves
+    LEFT JOIN Notes ON Eleves.ID = Notes.Eleve_ID;
+</textarea>
+<button id="copy-9" class="btn btn-secondary btn-sm" data-target="ta-9" data-toggle="tooltip" title="Copy code">Copy</button>
+<p>Remarque : ce test peut éventuellement donner des résulats contraire en fonction du contexte et de la quantité de données dans les tables</p>
+
+
+<h3 id="other">6. Autres bonnes pratiques</h3>
+<ul>
+    <li><st-r>Utiliser des index</st-r> : Sur les colonnes dans <b>WHERE</b>, <b>JOIN</b>, ou <b>ORDER BY</b>.</li>
+    <li><st-r>Limiter les colonnes</st-r> : <b>SELECT Nom, Note</b> au lieu de <b>SELECT *</b>.</li>
+    <li><st-r>Éviter les tris inutiles</st-r> : Supprimez <b>ORDER BY</b> si l’ordre n’est pas essentiel.</li>
+    <li><st-r>Filtrer tôt</st-r> : Ajoutez <b>WHERE</b> pour réduire les lignes avant les jointures.</li>
+</ul>
+
+<h3 id="activite">7. Activité pratique : Optimisons une requête</h3>
+
+<p class="fw-bold">Étape 1 : Analyser une requête non optimisée</p>
+<textarea class="code-php" id="ta-10">
+    EXPLAIN SELECT Nom, Matiere, Note
+    FROM Eleves
+    JOIN Notes ON Eleves.ID = Notes.Eleve_ID
+    WHERE Age = 15 AND Note > 15;
+</textarea>
+<button id="copy-10" class="btn btn-secondary btn-sm" data-target="ta-10" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="">
+    Notez si des index sont utilisés.
+</p>
+
+<p class="fw-bold mt-4">
+    Étape 2 : Ajouter des index
+</p>
+<textarea class="code-php" id="ta-11">
+    CREATE INDEX idx_age ON Eleves (Age);
+    -- CREATE INDEX idx_note ON Notes (Note); -- déjà fait
+</textarea>
+<button id="copy-11" class="btn btn-secondary btn-sm" data-target="ta-11" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="fw-bold mt-4">Étape 3 : Retester avec EXPLAIN</p>
+<textarea class="code-php" id="ta-12">
+    EXPLAIN SELECT Nom, Matiere, Note
+    FROM Eleves
+    JOIN Notes ON Eleves.ID = Notes.Eleve_ID
+    WHERE Age = 15 AND Note > 15;
+</textarea>
+<button id="copy-12" class="btn btn-secondary btn-sm" data-target="ta-12" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">Vérifiez si <st-r>idx_age</st-r> et <st-r>idx_note</st-r> apparaissent dans key.</p>
+
+<p class="fw-bold mt-4">Étape 4 : Profiler</p>
+<textarea class="code-php" id="ta-13">
+    SET profiling = 1;
+    SELECT Nom, Matiere, Note
+    FROM Eleves
+    JOIN Notes ON Eleves.ID = Notes.Eleve_ID
+    WHERE Age = 15 AND Note > 15;
+    SHOW PROFILES;
+</textarea>
+<button id="copy-13" class="btn btn-secondary btn-sm" data-target="ta-13" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h3 id="conclusion">8. Conclusion</h3>
+<ul>
+    <li>L’<st-r>optimisation des requêtes</st-r> rend la base plus rapide et efficace.</li>
+    <li><b>EXPLAIN</b> montre comment MariaDB travaille.</li>
+    <li>Le <st-r>profiling</st-r> mesure le temps.</li>
+    <li>Les <st-r>index</st-r> et les <st-r>jointures adaptées</st-r> sont vos meilleurs alliés.</li>
+    <li>Avec ces outils, même une grande base reste performante !</li>
+</ul>
+
+<h3 id="exo">9. Exercice</h3>
+<p>
+    1. Analysez cette requête avec <b>EXPLAIN</b> <br>
+    2. Profilez la requête avant la création de l'index.
+    3. Ajoutez un index sur Matiere. <br>
+    4. Retestez avec EXPLAIN et comparez. <br>
+    5. Profilez la requête après l’index.    
+</p>
+
+<details>
+    <summary>Afficher les réponses</summary>
+    <p class="fw-bold">1.Analysez cette requête avec <b>EXPLAIN</b> :</p>
+    <textarea class="code-php" id="ta-20">
+        EXPLAIN SELECT Nom, Matiere
+        FROM Eleves
+        JOIN Notes ON Eleves.ID = Notes.Eleve_ID
+        WHERE Matiere = 'Maths';
+    </textarea>
+    <button id="copy-20" class="btn btn-secondary btn-sm" data-target="ta-20" data-toggle="tooltip" title="Copy code">Copy</button>
+
+    <p class="fw-bold mt-4">2. Ajoutez un index sur Matiere :</p>
+    <textarea class="code-php" id="ta-21">
+        CREATE INDEX idx_matiere ON Notes (Matiere);
+    </textarea>
+    <button id="copy-21" class="btn btn-secondary btn-sm" data-target="ta-21" data-toggle="tooltip" title="Copy code">Copy</button>
+   
+    <p class="fw-bold mt-4">3. Retestez avec EXPLAIN et comparez.</p>
+    <p class="fw-bold mt-4">4. Profilez la requête avant et après l’index :</p>
+    <textarea class="code-php" id="ta-22">
+        SET profiling = 1;
+        SELECT Nom, Matiere FROM Eleves JOIN Notes ON Eleves.ID = Notes.Eleve_ID WHERE Matiere = 'Maths';
+        SHOW PROFILES;
+    </textarea>
+    <button id="copy-22" class="btn btn-secondary btn-sm" data-target="ta-22" data-toggle="tooltip" title="Copy code">Copy</button>
+       
+</details>
+
+
+
+
