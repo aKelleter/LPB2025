@@ -1,4 +1,224 @@
+<h3>Sommaire</h3>
+<ul>
+    <li><a href="#intro">1. Introduction</a></li>
+    <li><a href="#why">2. Qu’est-ce qu’une procédure stockée ?</a></li>
+    <li><a href="#syntaxe">3. Syntaxe de base : CREATE PROCEDURE</a></li>
+    <li><a href="#encapsuler">4. Pourquoi encapsuler la logique métier ?</a></li>
+    <li><a href="#activite">5. Activité pratique : Créons une procédure stockée</a></li>
+    <li><a href="#quand">6. Quand utiliser les procédures stockées ?</a></li>
+    <li><a href="#conclusion">7. Conclusion</a></li>
+    <li><a href="#exo">8. Exercice</a></li>
+</ul>
 <h3 id="intro">1. Introduction</h3>
 <p>
-... En cours d'écriture ;)
+    Objectifs de la leçon :
 </p>
+<ul>
+    <li>Comprendre ce qu’est une procédure stockée et pourquoi elle est utile.</li>
+    <li>Apprendre à créer une procédure avec <b>CREATE PROCEDURE</b>.</li>
+    <li>Découvrir comment encapsuler des tâches répétitives ou complexes dans la base de données.</li>
+</ul>
+
+<h4>Pourquoi des procédures stockées ?</h4>
+<p>
+    Imaginez que vous gérez les notes des élèves et que, à chaque fois qu’un professeur ajoute une note, vous devez vérifier si elle est valide (entre 0 et 20), puis l’enregistrer 
+    avec la date du jour. Faire ça manuellement à chaque fois est long et risqué : on peut oublier une étape. Une procédure stockée est comme une recette enregistrée dans la base 
+    de données : vous la préparez une fois, et ensuite vous l’utilisez facilement quand vous voulez.
+</p>
+
+<h3 id="why">2. Qu’est-ce qu’une procédure stockée ?</h3>
+<p>
+    Une <st-r>procédure stockée</st-r> est un ensemble d’instructions SQL sauvegardé dans la base de données sous un nom. Vous pouvez l’appeler (l’exécuter) à tout moment avec une simple commande, 
+    comme une fonction personnalisée.
+</p>
+<p>Exemple d'utilisation :</p>
+<ul>
+    <li>Ajouter une note avec des vérifications automatiques.</li>
+    <li>Calculer la moyenne des notes d’un élève.</li>
+    <li>Générer un rapport simple.</li>
+</ul>
+<p>Avantages : </p>    
+<ul>
+    <li><st-r>Réutilisation</st-r> : Une seule définition pour une tâche répétée.</li>
+    <li><st-r>Simplicité</st-r> : Cache la complexité derrière un nom facile à appeler.</li>
+    <li><st-r>Sécurité</st-r> : La logique reste dans la base, pas dans une application extérieure.</li>
+</ul>
+
+<h3 id="syntaxe">3. Syntaxe de base : <b>CREATE PROCEDURE</b></h3>
+<p>
+    Voici comment créer une procédure stockée dans MariaDB :
+</p>
+<textarea class="code-php" id="ta-1">
+    DELIMITER //
+    CREATE PROCEDURE nom_de_la_procedure (paramètres)
+    BEGIN
+        -- Instructions SQL
+    END//
+    DELIMITER ;
+</textarea>
+<button id="copy-1" class="btn btn-secondary btn-sm" data-target="ta-1" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="fw-bold mt-4">Explications :</p>
+<ul>
+    <li><b>nom_de_la_procedure</b> : Le nom que vous choisissez (ex. : AjouterNote).</li>
+    <li><b>paramètres</b> : Entrées comme IN nom TYPE (facultatif).</li>
+    <li><b>BEGIN ... END</b> : Les instructions à exécuter.</li>
+    <li><b>DELIMITER</b> : Change le séparateur (par défaut ;) pour écrire plusieurs lignes.</li>
+</ul>
+
+<p class="fw-bold">Appeler une procédure :</p>
+<textarea class="code-php" id="ta-2">
+    CALL nom_de_la_procedure(paramètres);
+</textarea>
+<button id="copy-2" class="btn btn-secondary btn-sm" data-target="ta-2" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h3 id="encapsuler">4. Pourquoi encapsuler la logique métier ?</h3>
+<p>
+    La <st-r>logique métier</st-r> est la façon dont vos données doivent être gérées selon les règles de votre projet (ex. : une note doit être entre 0 et 20). 
+    Mettre cette logique dans une procédure stockée :
+</p>
+<ul>
+    <li>Évite de répéter le code dans plusieurs applications.</li>
+    <li>Garantit que les règles sont toujours appliquées de la même manière.</li>
+    <li>Facilite les mises à jour : changez la procédure une fois, et tout suit.</li>
+</ul>
+
+<h3 id="activite">5. Activité pratique : Créons une procédure stockée</h3>
+<p class="fw-bold">
+    Préparation : Créons les tables
+</p>
+<textarea class="code-php" id="ta-3">
+    CREATE TABLE Eleves (
+        ID INT PRIMARY KEY,
+        Nom VARCHAR(50),
+        Age INT
+    );
+    
+    CREATE TABLE Notes (
+        ID_Note INT AUTO_INCREMENT PRIMARY KEY,
+        Eleve_ID INT,
+        Matiere VARCHAR(50),
+        Note INT,
+        Date_Ajout DATE,
+        FOREIGN KEY (Eleve_ID) REFERENCES Eleves(ID)
+    );
+    
+    INSERT INTO Eleves (ID, Nom, Age) VALUES (1, 'Alice', 15);
+</textarea>
+<button id="copy-3" class="btn btn-secondary btn-sm" data-target="ta-3" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="fw-bold mt-4">
+    Étape 1 : Créer une procédure pour ajouter une note
+</p>
+<textarea class="code-php" id="ta-4">
+    DELIMITER //
+    CREATE PROCEDURE AjouterNote (IN eleve_id INT, IN matiere VARCHAR(50), IN note INT)
+    BEGIN
+        -- Vérifier si la note est valide (entre 0 et 20)
+        IF note >= 0 AND note <= 20 THEN
+            INSERT INTO Notes (Eleve_ID, Matiere, Note, Date_Ajout)
+            VALUES (eleve_id, matiere, note, CURDATE());
+        ELSE
+            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Erreur : Note doit être entre 0 et 20';
+        END IF;
+    END//
+    DELIMITER ;
+</textarea>
+<button id="copy-4" class="btn btn-secondary btn-sm" data-target="ta-4" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<ul class="mt-4">
+    <li><b>IN</b> : Paramètres d’entrée (l’élève, la matière, la note).</li>
+    <li><b>IF ... THEN</b> : Vérifie la note avant insertion.</li>
+    <li><b>CURDATE()</b> : Ajoute la date du jour.</li>
+    <li><b>SIGNAL</b> Génère une erreur si la note est invalide.</li>
+</ul>
+
+<p class="fw-bold">Étape 2 : Tester la procédure</p>
+<p>Ajoutons une note valide :</p>
+<textarea class="code-php" id="ta-5">
+    CALL AjouterNote(1, 'Maths', 18);
+</textarea>
+<button id="copy-5" class="btn btn-secondary btn-sm" data-target="ta-5" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="fw-bold">Vérifions :</p>
+<textarea class="code-php" id="ta-6">
+    SELECT * FROM Notes;
+</textarea>
+<button id="copy-6" class="btn btn-secondary btn-sm" data-target="ta-6" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="fw-bold mt-4">Résultat attendu :</p>
+<textarea class="code-php" id="ta-7">
+    +---------+----------+---------+------+------------+
+    | ID_Note | Eleve_ID | Matiere | Note | Date_Ajout |
+    +---------+----------+---------+------+------------+
+    |       1 |        1 | Maths   |   18 | 2025-04-01 |
+    +---------+----------+---------+------+------------+
+</textarea>
+<button id="copy-7" class="btn btn-secondary btn-sm" data-target="ta-7" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="fw-bold mt-4">Testons une note invalide :</p>
+<textarea class="code-php" id="ta-8">
+    CALL AjouterNote(1, 'Français', 25);
+</textarea>
+<button id="copy-8" class="btn btn-secondary btn-sm" data-target="ta-8" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="fw-bold mt-4">Résultat : <st-r class="red">Une erreur s’affiche ("Note doit être entre 0 et 20"), et rien n’est ajouté</st-r>.</p>
+
+<h3 id="quand">6. Quand utiliser les procédures stockées ?</h3>
+<ul>
+    <li>Pour des tâches répétitives avec des règles (ex. : ajouter une note avec vérification).</li>
+    <li>Pour simplifier des opérations complexes (ex. : calculer des statistiques).</li>
+    <li>Quand plusieurs utilisateurs ou applications accèdent à la base.</li>    
+</ul>
+
+<p class="fw-bold red"><u>Attention : </u></p>
+<ul>
+    <li>Les procédures ne remplacent pas les <b>triggers</b> (qui effectuent des tâches de façon automatiques).</li>
+    <li>Trop de logique dans la base peut la rendre difficile à gérer : équilibre avec les applications.</li>
+</ul>
+
+<h3 id="conclusion">7. Conclusion</h3>
+<ul>
+    <li>Les <st-r>procédures stockées</st-r> sont des blocs d’instructions SQL réutilisables, créés avec <b>CREATE PROCEDURE</b>.</li>
+    <li>Elles encapsulent la <st-r>logique métier</st-r> (règles comme "note entre 0 et 20") dans la base.</li>
+    <li>Elles simplifient les tâches et garantissent que les règles sont toujours respectées !</li>
+</ul>
+<p class="fw-bold">
+    Question pour réfléchir :
+</p>
+<p>
+    Comment pourriez-vous modifier <st-r>AjouterNote</st-r> pour aussi vérifier si l’élève existe avant d’ajouter la note ? (Indice : Utilisez une condition avec <st-r>SELECT COUNT</st-r>.)
+</p>
+
+<h3 id="exo">8. Exercice</h3>
+<p>
+    1. Créez une procédure <st-r>SupprimerNote</st-r> qui supprime une note par son <st-r>ID_Note</st-r> et affiche un message de confirmation.
+</p>
+
+<details>
+    <summary>Afficher les réponses</summary>
+    <p class="fw-bold">1. Créez une procédure <st-r>SupprimerNote</st-r> qui supprime une note par son <st-r>ID_Note</st-r> et affiche un message de confirmation.</p>
+    <textarea class="code-php" id="ta-10">
+        DELIMITER //
+        CREATE PROCEDURE SupprimerNote (IN id_note INT)
+        BEGIN
+            DELETE FROM Notes WHERE ID_Note = id_note;
+            SELECT CONCAT('Note avec ID ', id_note, ' supprimée') AS Message;
+        END//
+        DELIMITER ;
+    </textarea>
+    <button id="copy-10" class="btn btn-secondary btn-sm" data-target="ta-10" data-toggle="tooltip" title="Copy code">Copy</button>
+
+    <p class="fw-bold mt-4">1. Testez-la avec la note ajoutée :</p>
+    <textarea class="code-php" id="ta-11">
+        CALL SupprimerNote(1);
+    </textarea>
+    <button id="copy-11" class="btn btn-secondary btn-sm" data-target="ta-11" data-toggle="tooltip" title="Copy code">Copy</button>
+   
+    <p class="fw-bold mt-4">3. Vérifiez que la note a disparu</p>
+    <textarea class="code-php" id="ta-12">
+        SELECT * FROM Notes;
+    </textarea>
+    <button id="copy-12" class="btn btn-secondary btn-sm" data-target="ta-12" data-toggle="tooltip" title="Copy code">Copy</button>
+       
+</details>

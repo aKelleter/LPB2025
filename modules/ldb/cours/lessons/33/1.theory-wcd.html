@@ -1,0 +1,111 @@
+<!--
+<textarea class="code-php" id="ta-x">
+    
+</textarea>
+<button id="copy-x" class="btn btn-secondary btn-sm" data-target="ta-x" data-toggle="tooltip" title="Copy code">Copy</button>
+-->
+<h3 id="intro">1. Exercice : Création d'une base de données pour une boutique de vêtements avec MariaDB</h3>
+<h5 class="fw-bold"> 
+    Contexte
+</h5>
+<p>
+    Vous êtes chargé(e) de concevoir une base de données pour une boutique en ligne qui vend des vêtements. 
+    Cette base doit permettre de gérer les produits (vêtements), les catégories de vêtements (par exemple, 
+    T-shirts, pantalons) et les commandes passées par les clients.
+</p>
+<h5 class="fw-bold">
+    Instructions
+</h5>
+<ul>
+    <li>Créez une base de données appelée BoutiqueVetements.</li>
+    <li>Créez trois tables avec les spécifications suivantes :</li>
+    <ul>
+        <li>Une table Categories pour regrouper les types de vêtements.</li>
+        <li>Une table Produits pour lister les vêtements en vente.</li>
+        <li>Une table Commandes pour enregistrer les achats des clients.</li>
+    </ul>
+    <li>Ajoutez au moins une contrainte (par exemple, clé primaire, clé étrangère, ou champ obligatoire).</li>
+    <li>Insérez quelques données d'exemple dans chaque table pour tester votre base.</li>
+</ul>
+<h5 class="fw-bold">
+    Détails des tables
+</h5>
+<p>Table Categories :</p>
+<ul>
+    <li>id_categorie : Identifiant unique (entier, auto-incrémenté).</li>
+    <li>nom_categorie : Nom de la catégorie (chaîne de caractères, maximum 30 caractères, obligatoire).</li>
+</ul>
+
+<p>Table Produits :</p>
+<ul>
+    <li>id_produit : Identifiant unique (entier, auto-incrémenté).</li>
+    <li>nom_produit : Nom du vêtement (chaîne de caractères, maximum 50 caractères, obligatoire).</li>
+    <li>prix : Prix du produit en euros (nombre décimal avec 2 chiffres après la virgule).</li>
+    <li>id_categorie : Identifiant de la catégorie du produit (clé étrangère liée à la table Categories).</li>
+</ul>
+
+<p>Table Commandes :</p>
+<ul>
+    <li>id_commande : Identifiant unique (entier, auto-incrémenté).</li>
+    <li>id_produit : Identifiant du produit commandé (clé étrangère liée à la table Produits).</li>
+    <li>date_commande : Date de la commande (date).</li>
+    <li>quantite : Nombre d'unités commandées (entier, obligatoire).</li>
+</ul>
+
+<h5 class="fw-bold mt-4">Tâches à réaliser</h5>
+<p class="fw-bold">
+    1. Écrivez le code SQL pour :
+    <ul>
+        <li>Créer la base de données.</li>
+        <li>Créer les trois tables avec leurs colonnes et contraintes.</li>
+        <li>Insérer au moins 2 enregistrements dans chaque table.</li>
+    </ul>
+</p>
+<p class="fw-bold">
+    2. Testez votre code dans un environnement MariaDB.
+</p>
+
+<h5 class="fw-bold mt-4">Données d'exemple à insérer</h5>
+<p>
+    <p class="fw-bold">Dans Categories :</p>
+
+    <ul><li>"T-shirts", "Pantalons".</li></ul>
+
+    <p class="fw-bold">Dans Produits :</p>
+    <ul>
+        <li>"T-shirt blanc", 15.99 €, catégorie "T-shirts".</li>
+        <li>"Jean slim", 39.99 €, catégorie "Pantalons".</li>
+    </ul>
+    
+
+    <p class="fw-bold">Dans Commandes :</p>
+    <ul>
+        <li>Commande d’un "T-shirt blanc" (quantité : 2) datée du 01/04/2025.</li>
+        <li>Commande d’un "Jean slim" (quantité : 1) datée du 02/04/2025.</li>
+    </ul>    
+</p>
+
+<h5 class="fw-bold mt-4">Ajouter une vue</h5>
+<p>
+    Nous voulons créer une vue appelée Vue_Commandes_Detaillees qui affiche des informations combinées sur les commandes, 
+    les produits et leurs catégories. Cette vue permettra de voir facilement :
+</p>
+<ul>
+    <li>Le nom du produit commandé.</li>
+    <li>La catégorie du produit.</li>
+    <li>La quantité commandée.</li>
+    <li>La date de la commande.</li>
+</ul>
+<p>Une fois la vue créée, testez là avec la commande suivante</p>
+<textarea class="code-php" id="ta-1">   
+    SELECT * FROM Vue_Commandes_Detaillees; 
+</textarea>
+<button id="copy-1" class="btn btn-secondary btn-sm" data-target="ta-1" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p>Résultat attendu :</p>
+<textarea class="code-php" id="">   
+    nom_produit	    categorie	quantite	date_commande
+    -------------------------------------------------
+    T-shirt blanc	T-shirts	2	        2025-04-01
+    Jean slim	    Pantalons	1	        2025-04-02
+</textarea>

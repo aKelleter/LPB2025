@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <title>Solution : LDB Bibliothèque</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+          <div class="col-md-1"></div>
+          <div class="col-md-10">
+            <h1>EVALUATION : BIBILIOTHEQUE</h1>
+            <hr>
+            <h2>Solution de l'exercice : Gestion d’une bibliothèque scolaire</h2>
+            <hr>
+            <h3>1. Modèle Conceptuel de Données (MCD)</h3>
+
+            <h4>Entités et attributs :</h4>
+            <ul>
+                <li>ÉLÈVE (id_eleve, nom, prénom, classe)</li>
+                <li>LIVRE (id_livre, titre, auteur, année_publication)</li>
+                <li>EMPRUNT (id_emprunt, date_emprunt, date_retour, id_eleve, id_livre)</li>
+                <li>CATÉGORIE (id_categorie, libelle)</li>
+            </ul>        
+        
+            <h4>Relations et cardinalités :</h4>        
+            <p>
+                Un élève peut emprunter plusieurs livres, mais un livre ne peut être emprunté que par un seul élève à la fois. <br>
+                → Relation Emprunter (1,N entre Élève et Emprunt) et (1,1 entre Emprunt et Livre).
+            </p>
+            <p>
+                Un livre appartient à une seule catégorie, mais une catégorie peut contenir plusieurs livres. <br>
+                → Relation Classer (1,N entre Catégorie et Livre).
+            </p>
+            <p>
+                Voici une représentation du MCD en notation Entité-Association :
+            </p>
+            
+            <code>
+                [ÉLÈVE] ⟷ (1,N) [EMPRUNT] (1,1) ⟷ [LIVRE] ⟷ (N,1) [CATÉGORIE]
+            </code>
+            <hr>
+            <h3>2. Modèle Logique de Données (MLD)</h3>
+            <p>
+                On traduit maintenant le MCD en tables relationnelles :
+            </p>
+            <pre>
+                CREATE TABLE Eleve (
+                    id_eleve INT PRIMARY KEY AUTO_INCREMENT,
+                    nom VARCHAR(50),
+                    prenom VARCHAR(50),
+                    classe VARCHAR(10)
+                );
+
+                CREATE TABLE Categorie (
+                    id_categorie INT PRIMARY KEY AUTO_INCREMENT,
+                    libelle VARCHAR(50)
+                );
+
+                CREATE TABLE Livre (
+                    id_livre INT PRIMARY KEY AUTO_INCREMENT,
+                    titre VARCHAR(100),
+                    auteur VARCHAR(50),
+                    annee_publication INT,
+                    id_categorie INT,
+                    FOREIGN KEY (id_categorie) REFERENCES Categorie(id_categorie)
+                );
+
+                CREATE TABLE Emprunt (
+                    id_emprunt INT PRIMARY KEY AUTO_INCREMENT,
+                    date_emprunt DATE NOT NULL,
+                    date_retour DATE NOT NULL,
+                    id_eleve INT,
+                    id_livre INT UNIQUE, -- Un livre ne peut être emprunté que par un élève à la fois
+                    FOREIGN KEY (id_eleve) REFERENCES Eleve(id_eleve),
+                    FOREIGN KEY (id_livre) REFERENCES Livre(id_livre)
+                );
+
+            </pre>
+
+            <h3>Explication :</h3>
+            <ul>
+                <li>Categorie : Contient les catégories de livres.</li>
+                <li>Livre : Contient les informations des livres et leur catégorie.</li>
+                <li>Emprunt : Gère les emprunts avec les dates et les clés étrangères.</li>
+            </ul>
+            <p>
+                Ce modèle garantit :    
+            </p>
+            <p>                            
+                ✅ Qu'un livre ne peut être emprunté qu'une seule fois à la fois (via UNIQUE sur id_livre dans Emprunt). <br>
+                ✅ La gestion des relations via les clés étrangères.
+            </p>
+          </div>
+          <div class="col-md-1"></div>
+          <footer class="mb-5"></footer>
+</body>
+</html>
