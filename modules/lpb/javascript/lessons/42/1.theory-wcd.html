@@ -1,0 +1,268 @@
+<!--
+<textarea class="code-php" id="ta-x">
+    
+</textarea>
+<button id="copy-x" class="btn btn-secondary btn-sm" data-target="ta-x" data-toggle="tooltip" title="Copy code">Copy</button>
+-->
+<h3 id="intro">1. Introduction</h3>
+<p>
+    La modification DOM est la clé pour créer des pages "live".
+    Ici, nous verrons comment créer de nouveaux éléments “à la volée” et modifier le contenu de la page existante. 
+</p>
+
+<h3 id="exemple">Démonstration par l'exemple</h3>
+<p>
+    Démontrons en utilisant un exemple. Nous allons ajouter un message sur la page qui est plus joli qu'un alert(). Voici à quoi cela ressemblera : 
+    <a href="tests/demo.html" target="_blank">demo.html</a>
+
+</p>
+<textarea class="code-php" id="ta-1">
+<style>
+    .alert {
+    padding: 15px;
+    border: 1px solid #d6e9c6;
+    border-radius: 4px;
+    color: #3c763d;
+    background-color: #dff0d8;
+    text-align: center;
+    }
+</style>
+
+<div class="alert">
+  <strong>Hi there!</strong> You've read an important message.
+</div>
+</textarea>
+<button id="copy-1" class="btn btn-secondary btn-sm" data-target="ta-1" data-toggle="tooltip" title="Copy code">Copy</button>
+<p class="mt-4">
+    C’était un exemple HTML. Créons maintenant la même div avec JavaScript (en supposant que les styles sont déjà dans le HTML ou un fichier CSS externe). 
+</p>
+
+<h3 id="create-element">2. Création d'un élément</h3>
+<p>
+    Pour créer des nœuds DOM, il existe <st-r>deux méthodes</st-r> :
+</p>
+<code>
+    document.createElement(tag)
+</code>
+<p>
+    <st-r>Crée un nouveau noeud élément avec la balise donnée</st-r> :
+</p>
+<textarea class="code-php" id="ta-2">
+    let div = document.createElement('div');
+</textarea>
+<button id="copy-2" class="btn btn-secondary btn-sm" data-target="ta-2" data-toggle="tooltip" title="Copy code">Copy</button>
+<p></p>
+<code class="mt-4">
+    document.createTextNode(text)
+</code>
+<p>
+    <st-r>Crée un nouveau nœud texte avec le texte donné</st-r> :
+</p>
+<textarea class="code-php" id="ta-2">
+    let textNode = document.createTextNode('Mon nom est Link');
+</textarea>
+<button id="copy-2" class="btn btn-secondary btn-sm" data-target="ta-2" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    La plupart du temps, nous devons créer des nœuds de type "element", tels que la "div" pour afficher le message.
+</p>
+
+<h3 id="create-message">3. Création du message</h3>
+<p>
+    La création du message div prend 3 étapes :
+</p>
+<ol>
+    <li>Créer un élément div</li>
+    <li>Définir sa classe</li>
+    <li>Ajouter du contenu dans la div</li>    
+</ol>
+<p>
+    Voici le code pour créer le message.
+</p>
+<textarea class="code-php" id="ta-3">
+    // 1. Créer un élément div
+    let div = document.createElement('div');
+    
+    // 2. Définir sa classe
+    div.className = "alert";
+    
+    // 3. jouter du contenu dans la div
+    div.innerHTML = "<strong>Bonjour !</strong> Vous avez un nouveau message.";
+</textarea>
+<button id="copy-3" class="btn btn-secondary btn-sm" data-target="ta-3" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    Nous avons créé l’élément. Mais pour le moment, ce n’est que dans une variable nommée div, pas encore dans la page. Nous ne pouvons donc pas le voir.
+</p>
+
+<h3 id="insertions">4. Les méthodes d’insertion</h3>
+<p>
+    Pour faire apparaître la <b>div</b>, nous devons l’insérer quelque part dans document. Par exemple, dans l’élément <b>&lt;body&gt;</b>, référencé par <b>document.body</b>. <br>
+    Il existe une méthode spéciale append pour cela : <code>document.body.append(div)</code>. <br>
+    Voici le code complet :
+</p>
+<textarea class="code-php" id="ta-4">
+    // 1. Créer un élément div
+    let div = document.createElement('div');
+    
+    // 2. Définir sa classe
+    div.className = "alert";
+    
+    // 3. jouter du contenu dans la div
+    div.innerHTML = "<strong>Bonjour !</strong> Vous avez un nouveau message.";
+    
+    // 4. Insérer la div dans le body
+    document.body.append(div);
+</textarea>
+<button id="copy-4" class="btn btn-secondary btn-sm" data-target="ta-4" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    Nous avons créé un message et l’avons inséré dans le document. <br>
+    Vous pouvez voir le résultat en ouvrant <a href="tests/demo2.html" target="_blank">demo2.html</a> dans votre navigateur. <br>
+    Vous pouvez également essayer de modifier le code et de le tester dans la console du navigateur. <br>
+    Voici le code complet :
+</p>
+
+<textarea class="code-php" id="ta-5">
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Demo2</title>
+        <style>
+            .alert {
+            padding: 15px;
+            border: 1px solid #d6e9c6;
+            border-radius: 4px;
+            color: #3c763d;
+            background-color: #dff0d8;
+            text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <script>
+           // 1. Créer un élément div
+            let div = document.createElement('div');
+            
+            // 2. Définir sa classe
+            div.className = "alert";
+            
+            // 3. jouter du contenu dans la div
+            div.innerHTML = "<strong>Bonjour !</strong> Vous avez un nouveau message.";
+            
+            // 4. Insérer la div dans le body
+            document.body.append(div);
+        </script>
+    </body>
+    </html>
+</textarea>
+<button id="copy-5" class="btn btn-secondary btn-sm" data-target="ta-5" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    Ici, nous avons appelé append sur document.body, mais nous pouvons appeler la méthode append sur n’importe quel autre élément, pour y mettre un autre élément. 
+    Par exemple, nous pouvons ajouter quelque chose à <b>&lt;div&gt;</b> en appelant <code>div.append(anotherElement)</code>.
+</p>
+<p>
+    Voici plus de méthodes d’insertion, elles spécifient différents endroits où insérer :
+</p>
+<ul>
+    <li><b>node.append(...nodes or strings)</b> – ajouter des nœuds ou des chaînes de caractères à la fin de node,</li>
+    <li><b>node.prepend(...nodes or strings)</b> – insérer des nœuds ou des chaînes de caractères au début de node,</li>
+    <li><b>node.before(...nodes or strings)</b> –- insérer des nœuds ou des chaînes de caractères avant node</li>
+    <li><b>node.after(...nodes or strings)</b> –- insérer des nœuds ou des chaînes de caractères après node,</li>
+    <li><b>node.replaceWith(...nodes or strings)</b> –- remplace node avec les nœuds ou chaînes de caractères donnés.</li>
+    <li><b>node.remove()</b> –- supprime node.</li>
+</ul>
+<p>
+    Les arguments de ces méthodes sont une liste arbitraire de nœuds <b>DOM</b> à insérer ou des chaînes de texte (qui deviennent automatiquement des nœuds de texte).
+    Voyons-les en action. <br>
+    Voici un exemple d’utilisation de ces méthodes pour ajouter des éléments à une liste et le texte avant/après :
+</p>
+<p><a href="tests/demo3.html" target="_blank">demo3.html</a></p>
+<textarea class="code-php" id="ta-6">
+    <ol id="ol">
+      <li>0</li>
+      <li>1</li>
+      <li>2</li>
+    </ol>
+    
+    <script>
+      ol.before('before'); // insère la chaîne de caractères "before" avant <ol>
+      ol.after('after'); // insère la chaîne de caractères "after" après <ol>
+    
+      let liFirst = document.createElement('li');
+      liFirst.innerHTML = 'prepend';
+      ol.prepend(liFirst); // insère liFirst au début de <ol>
+    
+      let liLast = document.createElement('li');
+      liLast.innerHTML = 'append';
+      ol.append(liLast); // insère liLast à la fin de <ol>
+    </script>
+</textarea>
+<button id="copy-6" class="btn btn-secondary btn-sm" data-target="ta-6" data-toggle="tooltip" title="Copy code">Copy</button>
+<p class="mt-4"> <st-r> Affichage : </st-r></p>
+<textarea class="code-php" id="">
+    before
+
+        prepend
+        0
+        1
+        2
+        append
+
+    after
+</textarea>
+
+<p class="mt-4">La liste finale sera donc :</p>
+<textarea class="code-php" id="ta-7">
+    before
+    <ol id="ol">
+        <li>prepend</li>
+        <li>0</li>
+        <li>1</li>
+        <li>2</li>
+        <li>append</li>
+    </ol>
+    after
+</textarea>
+<button id="copy-7" class="btn btn-secondary btn-sm" data-target="ta-7" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    Comme indiqué, ces méthodes peuvent insérer plusieurs nœuds et morceaux de texte en un seul appel.
+    Par exemple, ici une chaîne de caractères et un élément sont insérés :
+</p>
+<textarea class="code-php" id="ta-8">
+    <div id="div"></div>
+    <script>
+        div.before('<p>Hello</p>', document.createElement('hr'));
+    </script>
+</textarea>
+<p class="mt-4">
+    Remarque: le texte est inséré “en tant que texte”, pas “en tant que HTML”, avec un échappement approprié des caractères tels que <b>&lt;</b>, <b>&gt;</b>. <br>
+    Le HTML final est donc :
+</p>
+<textarea class="code-php" id="ta-9">
+    &amp;lt; p &amp;gt; Hello &amp;lt; /p &amp;gt;
+    <hr>
+    <div id="div"></div>
+</textarea>
+
+<p class="mt-4">
+    En d’autres termes, les chaînes de caractères sont insérées de manière sûre, comme le fait <b>elem.textContent</b>.
+    Ainsi, ces méthodes ne peuvent être utilisées que pour insérer des nœuds DOM ou des morceaux de texte.
+    Mais que se passe-t-il si nous voulons insérer du HTML “en tant que html”, avec toutes les balises et les trucs qui fonctionnent, comme <b>elem.innerHTML</b> le fait ?
+</p>
+
+<h3 id="inset-html">5. insertAdjacentHTML/Text/Element</h3>
+<p>
+    Pour cela, nous pouvons utiliser une autre méthode assez polyvalente : <b>elem.insertAdjacentHTML(where, html)</b>. <br>
+    Le premier paramètre est un mot de code, spécifiant où insérer par rapport à <b>elem</b>. Doit être l’un des suivants :
+</p>
+<ul>
+    <li><b>beforebegin</b> – insère html immédiatement avant elem,</li>
+    <li><b>afterbegin</b> – insérer html juste après le début de elem,</li>
+    <li><b>beforeend</b> – insérer html juste avant la fin de elem,</li>
+    <li><b>afterend</b> –  insère html immédiatement après elem.</li>
+</ul>
