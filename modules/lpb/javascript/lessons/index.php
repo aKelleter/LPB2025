@@ -33,6 +33,7 @@
                                     <li>TYP : Les types de données</li>
                                     <li>ADV : Notions avancées</li>
                                     <li>NAV : Navigateur : Document, Evènements, Interfaces</li>
+                                    <li>EV : Les Events (évènements)</li>
                                 </ul>
                             </fieldset>
                         </div>

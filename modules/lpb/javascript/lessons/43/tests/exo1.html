@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exo1</title>
+</head>
+<body>
+    <p id="compteur">Compteur : 0</p>
+    <button id="incrementer">Incrémenter</button>
+
+    <script>
+        // Sélectionner les éléments
+        const compteur = document.getElementById('compteur');
+        const bouton = document.getElementById('incrementer');
+        let count = 0; // Initialiser le compteur
+
+        // Ajouter un écouteur d'événement
+        bouton.addEventListener('click', function() {
+            count++; // Incrémenter le compteur
+            compteur.textContent = 'Compteur : ' + count; // Mettre à jour le texte
+        });
+    </script>    
+</body>
+</html>

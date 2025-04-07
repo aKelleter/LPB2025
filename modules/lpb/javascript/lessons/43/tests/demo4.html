@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo4</title>    
+</head>
+<body>
+    <p id="monTexte">Ce texte changera de couleur.</p>
+    <button id="monBouton">Clique-moi !</button>
+    <button id="supprime">Supprime l'écouteur</button>
+    <script>
+        // Sélectionner les éléments
+        const bouton = document.getElementById('monBouton');
+        const texte = document.getElementById('monTexte');
+        const boutonSupprime = document.getElementById('supprime');
+
+        function changerCouleur() {
+            texte.style.color = 'red';
+        }
+
+        function supprimerEcouteur() {
+            bouton.removeEventListener('click', changerCouleur);
+        }
+
+        bouton.addEventListener('click', changerCouleur);
+
+        boutonSupprime.addEventListener('click', supprimerEcouteur);
+    </script>
+</body>
+</html>
