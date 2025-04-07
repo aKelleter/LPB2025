@@ -1,9 +1,15 @@
-<!--
-<textarea class="code-php" id="ta-x">
-    
-</textarea>
-<button id="copy-x" class="btn btn-secondary btn-sm" data-target="ta-x" data-toggle="tooltip" title="Copy code">Copy</button>
--->
+<h3>Sommaire</h3>
+<ul>
+    <li><a href="#intro">1. Introduction</a></li>
+    <li><a href="#nodeType">2. La propriété “nodeType”</a></li>
+    <li><a href="#nodeName_tagName">3. Balise : nodeName et tagName</a></li>
+    <li><a href="#inner">4. innerHTML : les contenus</a></li>
+    <li><a href="#outer">5. outerHTML : HTML complet de l’élément</a></li>
+    <li><a href="#nodeValue">6. nodeValue/data : contenu du nœud texte</a></li>
+    <li><a href="#textContent">7. textContent : texte pur</a></li>
+    <li><a href="#hidden">8. La propriété “cachée”</a></li>
+    <li><a href="#more">9. Plus de propriétés</a></li>
+</ul>
 <h3 id="intro">1. Introduction</h3>
 <p>
     Voyons plus en détail les nœuds DOM. <br>
@@ -146,6 +152,301 @@
         // }
     </textarea>
 </div>
+
+<h3 id="nodeType">2. La propriété “nodeType”</h3>
 <p>
-    ... en cours
+    La propriété nodeType fournit une autre méthode “à l’ancienne” pour obtenir le “type” d’un nœud DOM. <br>
+    Il a une valeur numérique :
+    <ul>
+        <li><b>1</b> – pour les nœuds élément,</li>
+        <li><b>2</b> – pour les nœuds d’attribut,</li>
+        <li><b>3</b> – pour les nœuds texte,</li>
+        <li><b>8</b> – pour les nœuds de commentaire,</li>
+        <li><b>9</b> – pour l’objet document,</li>
+        <li><b>10</b> – pour les nœuds de document de type DOCTYPE.</li>
+    </ul>
+</p>
+
+<p>
+    Dans les scripts modernes, nous pouvons utiliser <b>instanceof</b> et d’autres tests basés sur les classes pour voir le type de nœud, mais parfois <b>nodeType</b> 
+    peut être plus simple. Nous pouvons seulement lire <b>nodeType</b>, pas le changer.
+</p>
+
+<h3 id="nodeName_tagName">3. Balise : nodeName et tagName</h3>
+<p>
+    Étant donné un nœud DOM, nous pouvons lire son nom de balise dans les propriétés nodeName ou tagName. <br>
+    Par exemple :   
+</p>
+<textarea class="code-php" id="ta-4">
+    const elem = document.body; // <body>...</body>
+    alert( elem.nodeName ); // BODY
+    alert( elem.tagName ); // BODY
+</textarea>
+<button id="copy-4" class="btn btn-secondary btn-sm" data-target="ta-4" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    Y a-t-il une différence entre <b>tagName</b> et <b>nodeName</b> ? <br>
+    Bien sûr, la différence se reflète dans leurs noms, mais c’est en effet un peu subtile.
+</p>
+
+<ul>    
+    <li>La propriété <b>tagName</b> existe uniquement pour les nœuds <b>Element</b>.</li>
+    <li>Le <b>nodeName</b> est défini pour tout Node :
+        <ul>
+            <li>pour les éléments, cela signifie la même chose que <b>tagName</b>.</li>
+            <li>pour les autres types de nœuds (texte, commentaire, etc.), il a une chaîne de caractères avec le type de nœud.</li>
+        </ul>
+    </li>    
+</ul>
+
+<p>
+    En d’autres termes, <b>tagName</b> est uniquement pris en charge par les nœuds élément (car il provient de la classe Element), tandis que <b>nodeName</b> peut 
+    dire quelque chose sur d’autres types de nœuds.
+</p>
+
+<h3 id="inner">4. innerHTML: les contenus</h3>
+<p>
+    La propriété <b>innerHTML</b> permet d’obtenir le HTML à l’intérieur de l’élément sous forme de chaîne de caractères.
+    Nous pouvons également le modifier. C’est donc l’un des moyens les plus puissants de modifier la page.
+    L’exemple montre le contenu de document.body puis le remplace complètement :
+</p>
+<textarea class="code-php" id="ta-5">
+    <body>
+        <p>A paragraph</p>
+        <div>A div</div>
+      
+        <script>
+          alert( document.body.innerHTML ); // lit le contenu actuel
+          document.body.innerHTML = 'The new BODY!'; // le remplace
+        </script>
+      
+      </body>
+</textarea>
+<button id="copy-5" class="btn btn-secondary btn-sm" data-target="ta-5" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p>
+    <a href="tests/demo.html" target="_blank">Essayez demo.html</a>
+</p>
+
+<p class="mt-4">
+    Si nous pouvons essayer d’insérer du code HTML invalide, le navigateur corrigera nos erreures.
+</p>
+
+<div class="alert alert-info" >
+    <strong>Les scripts ne s’exécutent pas</strong> <hr>
+    Si innerHTML insère une balise <b>&lt;script&gt;</b> dans le document – elle devient une partie du HTML, mais ne s’exécute pas.
+</div>
+
+<h4 class="mt-4">Attention : “<b>innerHTML+=</b>” fait un écrasement complet</h4>
+<p>
+    Nous pouvons ajouter du HTML à un élément en utilisant elem.innerHTML+="more html". <br>
+    Comme ceci :
+</p>
+<textarea class="code-php" id="ta-6">
+    <body>
+        <p>A paragraph</p>
+        <div>A div</div>
+      
+        <script>
+          document.body.innerHTML += '<p>Another paragraph</p>'; // ajoute un autre paragraphe
+        </script>
+      
+    </body>
+</textarea>
+<button id="copy-6" class="btn btn-secondary btn-sm" data-target="ta-6" data-toggle="tooltip" title="Copy code">Copy</button>
+<p>
+    <a href="tests/demo2.html" target="_blank"> Essayez demo2.html</a>
+</p>
+<p class="mt-4">
+    Mais nous devons faire très attention à le faire, car ce qui se passe n’est pas un ajout, mais une réécriture complète.
+</p>
+<p>
+    En d’autres termes, innerHTML+= fait ceci :
+    <ul>
+        <li>Il lit le contenu actuel de l’élément (document.body.innerHTML),</li>
+        <li>Il ajoute le nouveau contenu à la fin de la chaîne,</li>
+        <li>Il écrit le résultat dans l’élément.</li>
+    </ul>
+    L’ancien contenu est supprimé. <br>
+    Le nouveau innerHTML est écrit à la place (une concaténation de l’ancien et du nouveau).
+</p>
+
+<p class="fw-bold red">
+    Comme le contenu est “remis à zéro” et réécrit à partir de zéro, toutes les images et autres ressources seront rechargées.
+</p>
+
+<h3 id="outer">5. outerHTML : HTML complet de l’élément</h3>
+<p>
+    La propriété <b>outerHTML</b> contient le code HTML complet de l’élément. C’est comme <b>innerHTML</b> plus l’élément lui-même.
+    Voici un exemple :
+</p>
+<textarea class="code-php" id="ta-7">
+    <body>
+        <p>A paragraph</p>
+        <div>A div</div>
+      
+        <script>
+          alert( document.body.outerHTML ); // lit le contenu actuel
+          document.body.outerHTML = '<h1>New BODY!</h1>'; // le remplace
+        </script>
+      
+    </body>
+</textarea>
+<button id="copy-7" class="btn btn-secondary btn-sm" data-target="ta-7" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p>
+    <a href="tests/demo3.html" target="_blank">Essayez demo3.html</a>
+</p>
+
+<strong class="mt-4 red fw-bold">
+    Attention : contrairement à <b>innerHTML</b>, l’<b>écriture dans outerHTML</b> ne modifie pas l’élément. Au lieu de cela, il le remplace dans le DOM.
+</strong>
+
+<p>
+    Nous pouvons écrire dans <b>elem.outerHTML</b>, mais nous devons garder à l’esprit que cela ne change pas l’élément dans lequel nous écrivons (‘elem’). <br>
+    Il place le nouveau code HTML à sa place. Nous pouvons obtenir des références aux nouveaux éléments en interrogeant le DOM.
+</p>
+
+<h3 id="nodeValue">6. nodeValue/data : contenu du nœud texte</h3>
+<p>
+    La propriété <b>innerHTML</b> n’est valide que pour les nœuds élément. <br>
+    D’autres types de nœuds, tels que les nœuds texte, ont leur contrepartie : les propriétés <b>nodeValue</b> et <b>data</b>. Ces deux sont presque les mêmes pour une utilisation pratique, 
+    il n’y a que des différences de spécifications mineures. Nous allons donc utiliser data, car il est plus court.
+    Un exemple de lecture du contenu d’un nœud texte et d’un commentaire :
+</p>
+<textarea class="code-php" id="ta-8">
+<body>
+    Hello
+    <!-- Commentaire -->
+    <script>
+      let text = document.body.firstChild;
+      alert(text.data); // Hello
+  
+      let comment = text.nextSibling;
+      alert(comment.data); // Commentaire
+    </script>
+  </body>
+</textarea>
+<button id="copy-8" class="btn btn-secondary btn-sm" data-target="ta-8" data-toggle="tooltip" title="Copy code">Copy</button>
+<p>
+    <a href="tests/demo4.html" target="_blank">Essayez demo4.html</a>
+</p>
+
+<p class="mt-4">
+    Pour les nœuds texte, nous pouvons imaginer une raison de les lire ou de les modifier, mais pourquoi des commentaires ?
+</p>
+
+<p>
+    Parfois, les développeurs incorporent des informations ou des instructions de modèle dans HTML, comme ceci :
+</p>
+<textarea class="code-php" id="ta-9">
+    <!-- if isAdmin -->
+        <div>Welcome, Admin!</div>
+    <!-- /if -->
+</textarea>
+<p class="mt-4">
+    …Ensuite, JavaScript peut le lire à partir de la propriété data et traiter les instructions intégrées.
+</p>
+
+<h3 id="textContent">7. textContent: texte pur</h3>
+<p>
+    Le <b>textContent</b> donne accès au texte à l’intérieur de l’élément : seulement le texte, moins tous les <b>&lt;tags&gt;</b>.
+    Par exemple :
+</p>
+<textarea class="code-php" id="ta-10">
+
+  <div id="news">
+    <h1>Headline!</h1>
+    <p>Martians attack people!</p>
+  </div>
+  
+  <script>
+    // Headline! Martians attack people!
+    alert(news.textContent);
+  </script>
+
+</textarea>
+<button id="copy-10" class="btn btn-secondary btn-sm" data-target="ta-10" data-toggle="tooltip" title="Copy code">Copy</button>
+<p>
+    <a href="tests/demo5.html" target="_blank">Essayez demo5.html</a>
+</p>
+
+<p>
+    Comme nous pouvons le voir, seul le texte est renvoyé, comme si tous les <b>&lt;tags&gt;</b> étaient supprimés, mais le texte qu’ils contenaient est resté. <br>
+    En pratique, la lecture d’un tel texte est rarement nécessaire.
+</p>
+
+<strong class="red">Ecrire dans <b>textContent</b> est beaucoup plus utile, car il permet d’écrire du texte de “manière sûre”.</strong>
+
+<p>
+    Disons que nous avons une chaîne de caractères arbitraire, par exemple entrée par un utilisateur, et que nous voulons l’afficher.
+</p>
+<ul>
+    <li>Avec innerHTML nous allons l’insérer “au format HTML”, avec toutes les balises HTML.</li>
+    <li>Avec textContent nous allons l’insérer “en tant que texte”, tous les symboles sont traités littéralement.</li>
+</ul>
+<p>
+    Comparez les deux :
+</p>    
+<textarea class="code-php" id="ta-11">
+    <div id="elem1"></div>
+    <div id="elem2"></div>
+
+    <script>
+        let name = prompt("What's your name?", "<b>My name is Link !</b>");
+
+        elem1.innerHTML = name;
+        elem2.textContent = name;
+    </script>
+</textarea>
+<button id="copy-11" class="btn btn-secondary btn-sm" data-target="ta-11" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p>
+    <a href="tests/demo6.html" target="_blank">Essayer demo6.html</a>
+</p>
+
+<p class="mt-4">
+    1. La première &lt;div&gt; obtient le nom “en HTML” : toutes les balises deviennent des balises, nous voyons donc le nom en gras. <br>
+    2. La seconde &lt;div&gt; obtient le nom “sous forme de texte”, donc nous voyons littéralement &lt;b&gt;Winnie-the-pooh!&lt;/b&gt;.
+</p>
+
+<p>
+    Dans la plupart des cas, nous attendons le texte d’un utilisateur et souhaitons le traiter comme du texte. Nous ne voulons pas de HTML inattendu sur notre site. Une affectation à textContent fait exactement cela.
+</p>
+
+<h3 id="hidden">8. La propriété “cachée”</h3>
+<p>
+    L’attribut “<b>hidden</b>” (caché) et la propriété <b>DOM</b> spécifient si l’élément est visible ou non. <br>
+    Nous pouvons l’utiliser dans le code HTML ou l’attribuer en utilisant JavaScript, comme ceci :
+</p>
+
+<textarea class="code-php" id="ta-12">
+    <div id="elem1" hidden>Caché</div>
+    <div id="elem2">Affiché</div>
+
+    <script>
+        elem1.hidden = true; // le cache
+        elem2.hidden = false; // le montre
+    </script>
+</textarea>
+<button id="copy-12" class="btn btn-secondary btn-sm" data-target="ta-12" data-toggle="tooltip" title="Copy code">Copy</button>
+<p>
+    <a href="tests/demo7.html" target="_blank">Essayez demo7.html</a>
+</p>
+
+<p>
+    Techniquement, <b>hidden</b> fonctionne de la même manière que style="display:none". Mais c’est plus court à écrire. ;)
+</p>
+
+<h3 id="more">9. Plus de propriétés</h3>
+<p>
+    Les éléments DOM ont également des propriétés supplémentaires.
+</p>
+<p>
+    Si nous voulons connaître la liste complète des propriétés prises en charge pour une classe donnée, nous pouvons les trouver dans la spécification. 
+    Par exemple, <b>HTMLInputElement</b> est documenté à <a href="https://html.spec.whatwg.org/#htmlinputelement" target="_blank">https://html.spec.whatwg.org/#htmlinputelement</a>.
+</p>
+<p>
+    Ou si nous voulons les obtenir rapidement ou encore si nous sommes intéressés par une spécification concrète de navigateur – nous pouvons toujours sortir l’élément 
+    en utilisant <b>console.dir(elem)</b> et lire les propriétés. Ou explorez les “propriétés DOM” dans l’onglet Éléments des outils de développement du navigateur.
 </p>

@@ -1,0 +1,195 @@
+
+<h3 id="intro">1. Introduction</h3>
+<p>
+    Les "browser events" (événements du navigateur) sont des actions ou des interactions qui se produisent dans une page web, comme un clic de souris, une pression sur une touche du clavier, 
+    ou le chargement d'une page. JavaScript permet de détecter ces événements et d'exécuter du code en réponse à ceux-ci. C'est une partie essentielle pour rendre les pages web interactives.
+</p>
+
+<h3 id="what">2. Qu'est-ce qu'un événement ?</h3>
+<p>
+    Un événement est un signal envoyé par le navigateur lorsqu'une action spécifique se produit.  <br>
+    Par exemple :
+</p>
+<ul>
+    <li>L'utilisateur clique sur un bouton (<b>click</b>).</li>
+    <li>Une page finit de se charger (<b>load</b>).</li>
+    <li>L'utilisateur tape sur une touche (<b>keydown</b>).</li>
+</ul>
+
+<h3 id="how">3. Comment écouter un événement ?</h3>
+<p>
+    Pour réagir à un événement, on utilise la méthode addEventListener sur un élément HTML. <br>
+    Voici la syntaxe de base :
+</p>
+<textarea class="code-php" id="ta-1">
+    element.addEventListener('nomDeLEvénement', fonctionÀExécuter);
+</textarea>
+<button id="copy-1" class="btn btn-secondary btn-sm" data-target="ta-1" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<ul class="mt-4">
+    <li><b>element</b> : L'élément HTML sur lequel on veut écouter l'événement (ex. un bouton, un paragraphe).</li>
+    <li><b>'nomDeLEvénement'</b> : Le type d'événement (ex. 'click', 'mouseover', 'input').</li>
+    <li><b>fonctionÀExécuter</b> : La fonction qui sera appelée quand l'événement se produit.</li>
+</ul>
+
+<h3 id="reagir">4. Exemple simple : Réagir à un clic</h3>
+<p>
+    Imaginons un bouton dans une page HTML :
+</p>
+<textarea class="code-php" id="ta-2">
+    <button id="monBouton">Clique-moi !</button>
+</textarea>
+<button id="copy-2" class="btn btn-secondary btn-sm" data-target="ta-2" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    Voici comment ajouter un événement de clic en JavaScript :
+</p>
+
+<textarea class="code-php" id="ta-3">
+    // Sélectionner le bouton
+    const bouton = document.getElementById('monBouton');
+
+    // Ajouter un écouteur d'événement
+    bouton.addEventListener('click', function() {
+        alert('Tu as cliqué sur le bouton !');
+    });
+</textarea>
+<button id="copy-3" class="btn btn-secondary btn-sm" data-target="ta-3" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p>
+    <a href="tests/demo.html" target="_blank"> Essaye demo.html</a>
+</p>
+<p>Quand l'utilisateur clique sur le bouton, une fenêtre d'alerte s'affiche.</p>
+
+<h3 id="objEvent">5. L'objet "Event"</h3>
+<p>
+    Quand un événement se produit, JavaScript passe automatiquement un <b>objet event</b> (souvent abrégé en e) à la fonction. Cet objet contient des informations utiles sur l'événement.
+    Exemple avec des détails sur le clic :
+</p>
+
+<textarea class="code-php" id="ta-4">
+    bouton.addEventListener('click', function(e) {
+        console.log('Type d\'événement :', e.type); // Affiche "click"
+        console.log('Élément cliqué :', e.target); // Affiche le bouton
+    });
+</textarea>
+<button id="copy-4" class="btn btn-secondary btn-sm" data-target="ta-4" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p>
+    <a href="tests/demo2.html" target="_blank"> Essaye demo2.html</a>
+</p>
+
+<h3 id="eventscourant">6. Quelques événements courants</h3>
+<ul>
+    <li><b>click</b> : Clic sur un élément.</li>
+    <li><b>mouseover</b> : La souris passe au-dessus d’un élément.</li>
+    <li><b>mouseout</b> : La souris quitte un élément.</li>
+    <li><b>keydown</b> : Une touche est enfoncée.</li>
+    <li><b>submit</b> : Un formulaire est soumis.</li>
+    <li><b>load</b> : La page ou une ressource a fini de charger.</li>
+</ul>
+
+<h3 id="exo1">7. Exemple pratique : Changer la couleur d’un texte</h3>
+<p>
+    Prenons un paragraphe et un bouton :
+</p>
+
+<textarea class="code-php" id="ta-5">
+    <p id="monTexte">Ce texte changera de couleur.</p>
+    <button id="changeCouleur">Changer la couleur</button>
+
+    <script>
+        // Sélectionner les éléments
+        const texte = document.getElementById('monTexte');
+        const bouton = document.getElementById('changeCouleur');
+
+        // Ajouter un écouteur d'événement
+        bouton.addEventListener('click', function() {
+            texte.style.color = 'blue'; // Change la couleur du texte en bleu
+        });
+    </script>
+</textarea>
+<button id="copy-5" class="btn btn-secondary btn-sm" data-target="ta-5" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p>
+    <a href="tests/demo3.html" target="_blank"> Essaye demo3.html</a>
+</p>
+<p>Quand l'utilisateur clique sur le bouton, la couleur du texte devient bleu.</p>
+
+<h3 id="remove">8. Supprimer un écouteur d'événement</h3>
+<p>
+    Si besoin, on peut arrêter d’écouter un événement avec <b>removeEventListener</b>. Il faut pour cela nommer la fonction :
+</p>
+<textarea class="code-php" id="ta-6">
+    <p id="monTexte">Ce texte changera de couleur.</p>
+    <button id="monBouton">Clique-moi !</button>
+    <button id="supprime">Supprime l'écouteur</button>
+    <script>
+        // Sélectionner les éléments
+        const bouton = document.getElementById('monBouton');
+        const texte = document.getElementById('monTexte');
+        const boutonSupprime = document.getElementById('supprime');
+
+        function changerCouleur() {
+            texte.style.color = 'red';
+        }
+
+        function supprimerEcouteur() {
+            bouton.removeEventListener('click', changerCouleur);
+        }
+
+        bouton.addEventListener('click', changerCouleur);
+
+        boutonSupprime.addEventListener('click', supprimerEcouteur);
+    </script>
+</textarea>
+<button id="copy-6" class="btn btn-secondary btn-sm" data-target="ta-6" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p><a href="tests/demo4.html" target="_blank">Essaye demo4.html</a></p>
+
+<h3 id="bestpractices">9. Bonnes pratiques</h3>
+<ul>
+    <li>Évitez d’écrire trop de logique dans l’écouteur, préférez appeler une fonction séparée.</li>
+    <li>Testez vos événements dans la console pour vérifier qu’ils fonctionnent comme prévu.</li>
+    <li>Pensez à la compatibilité entre navigateurs pour des événements plus rares.</li>
+</ul>
+
+<h3>Exercice</h3>
+<p>
+    Créez une page avec un bouton et un compteur. À chaque clic sur le bouton, augmentez le compteur et affichez sa valeur dans un paragraphe. 
+    Essayez d’utiliser <b>addEventListener</b> !
+</p>
+
+<details>
+    <summary>Afficher la réponse</summary>
+<textarea class="code-php" id="ta-7">
+    <p id="compteur">Compteur : 0</p>
+    <button id="incrementer">Incrémenter</button>
+
+    <script>
+        // Sélectionner les éléments
+        const compteur = document.getElementById('compteur');
+        const bouton = document.getElementById('incrementer');
+        let count = 0; // Initialiser le compteur
+
+        // Ajouter un écouteur d'événement
+        bouton.addEventListener('click', function() {
+            count++; // Incrémenter le compteur
+            compteur.textContent = 'Compteur : ' + count; // Mettre à jour le texte
+        });
+    </script>
+</textarea>
+<button id="copy-7" class="btn btn-secondary btn-sm" data-target="ta-7" data-toggle="tooltip" title="Copy code">Copy</button>
+<p>
+    <a href="tests/exo1.html" target="_blank">Exécuter la solution proposée</a>
+</p> 
+</details>
+
+
+
+
+
+
+
+
+

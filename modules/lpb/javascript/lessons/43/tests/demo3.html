@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo3</title>    
+</head>
+<body>
+    <p id="monTexte">Ce texte changera de couleur.</p>
+    <button id="changeCouleur">Changer la couleur</button>
+
+    <script>
+        // Sélectionner les éléments
+        const texte = document.getElementById('monTexte');
+        const bouton = document.getElementById('changeCouleur');
+
+        // Ajouter un écouteur d'événement
+        bouton.addEventListener('click', function() {
+            texte.style.color = 'blue'; // Change la couleur du texte en bleu
+        });
+    </script>
+</body>
+</html>
