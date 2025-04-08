@@ -1,0 +1,268 @@
+<h3>Sommaire</h3>
+<ul>
+    <li><a href="#intro">1. Introduction</a></li>
+    <li><a href="#grant">2. Gestion des privilèges : GRANT et REVOKE</a></li>
+    <li><a href="#securise">3. Sécuriser les accès</a></li>
+    <li><a href="#bestpractices">4. Bonnes pratiques pour protéger la base</a></li>
+    <li><a href="#activite">5. Activité pratique : Sécurisons une base</a></li>
+    <li><a href="#conclusion">6. Conclusion</a></li>
+    <li><a href="#exo">7. Exercice</a></li>
+</ul>
+<h3 id="intro">1. Introduction</h3>
+<p>
+    Objectifs de la leçon :
+</p>
+<ul class="">
+    <li>Comprendre comment gérer les privilèges avec GRANT et REVOKE.</li>
+    <li>Apprendre à sécuriser les accès à la base de données.</li>
+    <li>Découvrir des bonnes pratiques pour protéger les données.</li>
+</ul>
+
+<h4>Pourquoi sécuriser MariaDB ?</h4>
+<p>
+    Imaginez une école où tout le monde peut entrer dans la salle des professeurs, modifier les notes des élèves, ou même supprimer des dossiers. Ce serait le chaos ! 
+    Dans une base de données, la sécurité consiste à contrôler qui peut accéder aux données et ce qu’ils peuvent faire (lire, modifier, supprimer). Sans sécurité, vos 
+    données pourraient être perdues, volées ou altérées.
+</p>
+
+<div class="alert alert-info">
+    <strong>Info</strong> <hr>
+    Les commandes utilisées ci-dessous nécessitent des privilèges <b>root</b> (exécutez en tant que <b>root</b> ou avec un utilisateur avec <b>GRANT OPTION</b>).
+</div>
+
+<h3 id="grant">2. Gestion des privilèges : GRANT et REVOKE</h3>
+<p>
+    MariaDB utilise des <st-r>utilisateurs</st-r> et des <st-r>privilèges</st-r> pour contrôler les accès.
+</p>
+
+<h4>1. Créer un utilisateur :</h4>
+<textarea class="code-php" id="ta-1">
+    CREATE USER 'prof'@'localhost' IDENTIFIED BY 'motdepasse123';
+</textarea>
+<button id="copy-1" class="btn btn-secondary btn-sm" data-target="ta-1" data-toggle="tooltip" title="Copy code">Copy</button>
+<ul class="mt-4">
+    <li><b>'prof'@'localhost'</b> : Utilisateur "prof" qui se connecte depuis la machine locale.</li>
+    <li><b>IDENTIFIED BY</b> : Mot de passe pour cet utilisateur.</li>
+</ul>
+
+<h4>2. Donner des privilèges avec <b>GRANT</b> :</h4>
+<textarea class="code-php" id="ta-2">
+    GRANT SELECT, INSERT ON college.Notes TO 'prof'@'localhost';
+</textarea>
+<button id="copy-2" class="btn btn-secondary btn-sm" data-target="ta-2" data-toggle="tooltip" title="Copy code">Copy</button>
+<ul class="mt-4">
+    <li><b>SELECT, INSERT</b> : Autorise à lire et ajouter des données.</li>
+    <li><b>college.Notes</b> : S’applique à la table <b>Notes</b> dans la base <b>college</b>.</li>
+</ul>
+
+<strong>Pour tout autoriser sur une base :</strong>
+<textarea class="code-php" id="ta-3">
+    GRANT ALL PRIVILEGES ON college.* TO 'prof'@'localhost';
+</textarea>
+<button id="copy-3" class="btn btn-secondary btn-sm" data-target="ta-3" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4>3. Retirer des privilèges avec <b>REVOKE</b> :</h4>
+<textarea class="code-php" id="ta-4">
+    REVOKE INSERT ON college.Notes FROM 'prof'@'localhost';
+</textarea>
+<button id="copy-4" class="btn btn-secondary btn-sm" data-target="ta-4" data-toggle="tooltip" title="Copy code">Copy</button>
+<p class="mt-4">
+    - Retire le droit d’insérer des données.
+</p>
+
+<h4>4. Vérifier les privilèges :</h4>
+<textarea class="code-php" id="ta-5">
+    SHOW GRANTS FOR 'prof'@'localhost';
+</textarea>
+<button id="copy-5" class="btn btn-secondary btn-sm" data-target="ta-5" data-toggle="tooltip" title="Copy code">Copy</button>
+<p class="mt-4">
+    - Affiche les privilèges de l'utilisateur "prof".
+</p>
+
+<h3 id="securise">3. Sécuriser les accès</h3>
+
+<h4>Le compte root :</h4>
+
+<p>Par défaut, MariaDB a un utilisateur root avec tous les droits. Sécurisez-le en modifiant son mot de passe :</p>
+<textarea class="code-php" id="ta-6">
+    ALTER USER 'root'@'localhost' IDENTIFIED BY 'MonMotDePasseSecurise';
+</textarea>
+<button id="copy-6" class="btn btn-secondary btn-sm" data-target="ta-6" data-toggle="tooltip" title="Copy code">Copy</button>
+<p class="mt-4">
+    - Changez le mot de passe par défaut immédiatement après l’installation.
+</p>
+
+<h4>Supprimer les utilisateurs anonymes :</h4>
+<p>MariaDB crée parfois des utilisateurs anonymes. Supprimez-les :</p>
+<textarea class="code-php" id="ta-7">
+    DROP USER ''@'localhost';
+</textarea>
+<button id="copy-7" class="btn btn-secondary btn-sm" data-target="ta-7" data-toggle="tooltip" title="Copy code">Copy</button>
+<p class="mt-4">
+    - Évite les connexions sans identifiant.
+</p>
+
+<h4>Limiter les connexions :</h4>
+<p>Vous pouvez restreindre les connexions à partir de certaines adresses IP :</p>
+<textarea class="code-php" id="ta-7">
+    CREATE USER 'eleve'@'192.168.1.10' IDENTIFIED BY 'pass456';
+</textarea>
+<button id="copy-7" class="btn btn-secondary btn-sm" data-target="ta-7" data-toggle="tooltip" title="Copy code">Copy</button>
+<p class="mt-4">
+    - <b>'eleve'@'192.168.1.10'</b> : N’autorise que cette adresse IP.
+</p>
+
+
+<h3 id="bestpractices">4. Bonnes pratiques pour protéger la base</h3>
+
+<p class="fw-bold" >1. Mots de passe forts :</p>
+<ul>
+    <li>Utilisez des mots de passe longs et complexes (ex. : <b>X7kP!m9qL2</b>).</li>
+    <li>Évitez <b>password</b> ou <b>1234</b>.</li>
+</ul>
+
+<p class="fw-bold">2. Privilèges minimaux :</p>
+<p>    
+    Donnez seulement les droits nécessaires :
+</p>
+<ul>
+    Un élève : <b>SELECT</b> uniquement.
+    Un professeur : <b>SELECT</b>, <b>INSERT</b>, <b>UPDATE</b>.
+</ul>
+
+<p class="fw-bold">3. Mettre à jour MariaDB :</p>
+<ul>
+    <li>Les versions récentes corrigent les failles de sécurité.</li>
+</ul>
+
+<p class="fw-bold">4. Sauvegardes régulières :</p>
+<ul>
+    <li>Utilisez <b>mysqldump</b> pour créer des sauvegardes.</li>
+    <li>Stockez-les sur un autre serveur.</li>
+</ul>
+<textarea class="code-php" id="ta-8">
+mysqldump -u root -p college > sauvegarde.sql
+</textarea>
+<button id="copy-8" class="btn btn-secondary btn-sm" data-target="ta-8" data-toggle="tooltip" title="Copy code">Copy</button>
+<p>- Protège contre la perte de données.</p>
+
+<p class="fw-bold">5. Désactiver l’accès distant si inutile :</p>
+<p>Modifiez le fichier de configuration (<b>my.cnf</b>) :</p>
+<textarea class="code-php" id="ta-9">
+    [mysqld]
+    bind-address = 127.0.0.1
+</textarea>
+<button id="copy-9" class="btn btn-secondary btn-sm" data-target="ta-9" data-toggle="tooltip" title="Copy code">Copy</button>
+<p>- Limite les connexions au serveur local.</p>
+
+<h3 id="activite">5. Activité pratique : Sécurisons une base</h3>
+<p class="fw-bold">Préparation : Tables existantes</p>
+<textarea class="code-php" id="ta-10">
+    CREATE DATABASE college;
+    USE college;
+
+    CREATE TABLE Eleves (
+        ID INT PRIMARY KEY,
+        Nom VARCHAR(50)
+    );
+
+    CREATE TABLE Notes (
+        ID_Note INT PRIMARY KEY,
+        Eleve_ID INT,
+        Note INT
+    );
+</textarea>
+<button id="copy-10" class="btn btn-secondary btn-sm" data-target="ta-10" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="fw-bold mt-4">Étape 1 : Créer deux utilisateurs</p>
+
+<p>- Un professeur avec des droits d’écriture :</p>
+
+<textarea class="code-php" id="ta-11">
+    CREATE USER 'prof'@'localhost' IDENTIFIED BY 'Prof2023!';
+    GRANT SELECT, INSERT, UPDATE ON college.* TO 'prof'@'localhost';
+</textarea>
+<button id="copy-11" class="btn btn-secondary btn-sm" data-target="ta-11" data-toggle="tooltip" title="Copy code">Copy</button>
+<p>- Créez un utilisateur "prof" avec des droits d’écriture sur toutes les tables de la base "college".</p>
+
+<p>- Un élève avec lecture seule :</p>
+<textarea class="code-php" id="ta-12">
+    CREATE USER 'eleve'@'localhost' IDENTIFIED BY 'Eleve2025!';
+    GRANT SELECT ON college.* TO 'eleve'@'localhost';
+</textarea>
+<button id="copy-12" class="btn btn-secondary btn-sm" data-target="ta-12" data-toggle="tooltip" title="Copy code">Copy</button>
+<p>- Créez un utilisateur "eleve" avec des droits de lecture sur toutes les tables de la base "college".</p>
+
+<p class="fw-bold mt-4">Étape 2 : Tester les accès</p>
+<p>- Connectez-vous avec prof (via terminal ou phpMyAdmin) :</p>
+<textarea class="code-php" id="ta-13">
+    mysql -u prof -p
+</textarea>
+<button id="copy-13" class="btn btn-secondary btn-sm" data-target="ta-13" data-toggle="tooltip" title="Copy code">Copy</button>
+<p>- Essayez d’insérer une élève :</p>
+<textarea class="code-php" id="ta-14">
+    USE college;
+    INSERT INTO Eleves (ID, Nom) VALUES (1, 'Alice');
+    SELECT * FROM Eleves;
+</textarea>
+<button id="copy-14" class="btn btn-secondary btn-sm" data-target="ta-14" data-toggle="tooltip" title="Copy code">Copy</button>
+<p>- Cela devrait fonctionner :)</p>
+
+<p class="fw-bold mt-4">Étape 3 : Retirer un privilège</p>
+<textarea class="code-php" id="ta-15">
+    REVOKE INSERT ON college.* FROM 'prof'@'localhost';
+</textarea>
+<button id="copy-15" class="btn btn-secondary btn-sm" data-target="ta-15" data-toggle="tooltip" title="Copy code">Copy</button>
+<p>- Retirer le droit d’insertion.</p>
+<p>- Essayez d’insérer à nouveau :</p>
+<textarea class="code-php" id="ta-16">
+    INSERT INTO Eleves (ID, Nom) VALUES (2, 'Bob');
+</textarea>
+<button id="copy-16" class="btn btn-secondary btn-sm" data-target="ta-16" data-toggle="tooltip" title="Copy code">Copy</button>
+<p>- Cela devrait échouer.</p>
+<p>- Vérifiez les privilèges :</p>
+<textarea class="code-php" id="ta-17">
+    SHOW GRANTS FOR 'prof'@'localhost';
+</textarea>
+<button id="copy-17" class="btn btn-secondary btn-sm" data-target="ta-17" data-toggle="tooltip" title="Copy code">Copy</button>
+<p>- Cela devrait afficher les privilèges restants.</p>
+
+<h3 id="conclusion">6. Conclusion</h3>
+<ul>
+    <li>La sécurité dans <b>MariaDB</b> repose sur la gestion des privilèges (<b>GRANT</b>, <b>REVOKE</b>) et des accès.</li>
+    <li>Bonnes pratiques : mots de passe forts, privilèges limités, sauvegardes, et restrictions d’accès.</li>
+    <li>Une base bien sécurisée protège vos données contre les erreurs ou les attaques !</li>
+</ul>
+
+<h3 id="exo">7. Exercice</h3>
+<ol>
+    <li>Créez un utilisateur <b>admin</b> avec tous les droits sur <b>college</b> :</li>
+    <li>Retirez le droit de supprimer (<b>DELETE</b>) à <b>admin</b> :</li>
+    <li>Vérifiez ses privilèges :</li>
+</ol>
+
+<details>
+    <summary>Afficher/cacher les réponses</summary>
+    <p class="fw-bold">1. Créez un utilisateur <b>admin</b> avec tous les droits sur <b>college</b> :</p>
+    <textarea class="code-php" id="ta-20">
+        CREATE USER 'admin'@'localhost' IDENTIFIED BY 'AdminSecure2025!';
+        GRANT ALL PRIVILEGES ON college.* TO 'admin'@'localhost';
+    </textarea>
+    <button id="copy-20" class="btn btn-secondary btn-sm" data-target="ta-20" data-toggle="tooltip" title="Copy code">Copy</button>
+
+    <p class="fw-bold mt-4">2. Retirez le droit de supprimer (<b>DELETE</b>) à <b>admin</b> :</p>
+    <textarea class="code-php" id="ta-21">
+        REVOKE DELETE ON college.* FROM 'admin'@'localhost';
+    </textarea>
+    <button id="copy-21" class="btn btn-secondary btn-sm" data-target="ta-21" data-toggle="tooltip" title="Copy code">Copy</button>
+
+    <p class="fw-bold mt-4">3. Vérifiez ses privilèges :</p>
+    <textarea class="code-php" id="ta-22">
+        SHOW GRANTS FOR 'admin'@'localhost';
+    </textarea>
+    <button id="copy-22" class="btn btn-secondary btn-sm" data-target="ta-22" data-toggle="tooltip" title="Copy code">Copy</button>          
+       
+</details>
+
+
+

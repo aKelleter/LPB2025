@@ -3,14 +3,15 @@ app/conn.php
 
 # Correctifs des évaluations de janvier
 #modules/lpb/php/evals/janvier/correctifs/
-modules/lpb/php/evals/janvier/*.zip
-modules/lpb/php/evals/janvier/*.rar
+#modules/lpb/php/evals/janvier/*.zip
+#modules/lpb/php/evals/janvier/*.rar
 #modules/lpb/php/evals/album-photo/correctifs/
 #modules/lpb/javascript/evals/calculatrice/soluce/
 #modules/lpb/javascript/evals/mastermind/soluce/
 #modules/lpb/javascript/evals/todo-list/soluce/
 #modules/ldb/cours/evals/bibliotheque/soluce/
 modules/ldb/cours/lessons/33/soluces/
+modules/ldb/cours/lessons/36/soluces/
 
 
 

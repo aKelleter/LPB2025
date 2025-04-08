@@ -1,0 +1,88 @@
+<h3>Sommaire</h3>
+<ul>
+    <li><a href="#create">1. Création d'une base de données et des tables</a></li>
+    <li><a href="#select">2. Exercice 2 : Requêtes SELECT avec jointures</a></li>
+    <li><a href="#chaines">3. Exercice 3 : Fonctions de chaînes et de dates</a></li>
+    <li><a href="#triggers">4. Exercice 4 : Triggers</a></li>
+    <li><a href="#vues">5. Exercice 5 : Vues</a></li>
+    <li><a href="#index">6. Exercice 6 : Optimisation avec index</a></li>
+</ul>
+<h3 id="create">1. Création de la base de données et des tables</h3>
+<p class="fw-bold">
+    Énoncé :
+</p>
+<p class="fw-bold">
+    Vous êtes chargé de créer une base de données pour gérer une ludothèque ou plus exactement une collection 
+    de jeux vidéo. :)
+</p>
+
+<ol>
+    <li>Créez une base de données nommée <b>collection_jeux_video</b>.</li>
+    <li>
+        Créez les tables suivantes avec les contraintes appropriées :
+        <ul>
+            <li><b>plateformes</b> : id_plateforme (clé primaire), nom_plateforme (chaîne, unique).</li>
+            <li><b>editeurs</b> : id_editeur (clé primaire), nom_editeur (chaîne, non nul).</li>
+            <li><b>jeux</b> : id_jeu (clé primaire), titre (chaîne, non nul), annee_sortie (entier), id_plateforme (clé étrangère vers plateformes), id_editeur (clé étrangère vers editeurs).</li>
+        </ul>
+    </li>       
+    <li>Insérez au moins une plateforme, un éditeur et un jeu.</li>
+</ol>
+
+<h3 id="select">Exercice 2 : Requêtes SELECT avec jointures</h3>
+<p class="fw-bold">
+    Énoncé :
+</p>
+<ul>
+    <li>Ajoutez une nouvelle plateforme ("<b>PlayStation 5</b>"), un nouvel éditeur ("<b>Square Enix</b>") et un jeu ("<b>Final Fantasy XVI</b>", sorti en 2023).</li>
+    <li>Écrivez une requête pour afficher le titre du jeu, le nom de la plateforme et le nom de l’éditeur pour tous les jeux.</li>
+</ul>
+
+<h3 id="chaines">Exercice 3 : Fonctions de chaînes et de dates</h3>
+<p class="fw-bold">
+    Énoncé :
+</p>
+<ul>
+    <li>Créez une table <b>joueurs</b> avec id_joueur (clé primaire), pseudo (chaîne), date_inscription (date).</li>
+    <li><st-r>Insérez deux joueurs</st-r> avec des pseudos et la date actuelle (01/04/2025 pour le premier et 08/03/2025 pour le second).</li>
+    <li>Écrivez une requête pour afficher les pseudos en majuscules et le nombre de jours depuis leur inscription.</li>
+</ul>
+
+
+<h3 id="triggers">Exercice 4 : Triggers</h3>
+<p class="fw-bold">
+    Énoncé :
+</p>
+<ul>
+    <li>Ajoutez une table <b>inventaire</b> pour suivre les jeux possédés par les joueurs : id_inventaire (clé primaire), id_joueur (clé étrangère), id_jeu (clé étrangère), date_achat (date).</li>
+    <li>Créez un trigger qui insère automatiquement la date actuelle lors de l’ajout d’un jeu dans l’inventaire si aucune date n’est spécifiée.</li>
+    <li>Testez le trigger.</li>
+</ul>
+
+<h3 id="vues">Exercice 5 : Vues</h3>
+<p class="fw-bold">
+    Énoncé :
+</p>
+<ul>
+    <li>Créez une <b>vue</b> <b>vue_collection_joueurs</b> qui affiche le pseudo du joueur, le titre du jeu et la plateforme pour chaque entrée de l’inventaire.</li>
+    <li>Interrogez la vue après avoir ajouté un autre jeu dans l’inventaire d’un joueur.</li>
+</ul>
+
+<h3 id="index">Exercice 6 : Optimisation avec index</h3>
+<p class="fw-bold">
+    Énoncé :
+</p>
+<ul>
+    <li>Ajoutez un <b>index</b> sur la colonne <b>titre</b> de la table <b>jeux</b>.</li>
+    <li>Écrivez une requête pour rechercher tous les jeux dont le titre commence par "F" et expliquez pourquoi l’index peut aider.</li>
+</ul>
+
+
+<h4>Elle est pas belle la vie, à vos claviers ! :)</h4>
+    
+
+    
+
+    
+    
+    
