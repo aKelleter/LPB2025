@@ -1,0 +1,622 @@
+<h3>Sommaire</h3>
+<ul>
+    <li><a href="#intro">1. Introduction</a>
+        <ul>
+            <li><a href="#what">1. Qu'est-ce que l'asynchronicité en JavaScript ?</a>
+                <ul>
+                    <li><a href="#problematique">1.1 Problématiques de l'asynchronicité</a></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li><a href="#promise">2. Les Promesses (Promises)</a>
+        <ul>
+            <li><a href="#create-promise">2.1 Création d'une Promesse</a></li>
+            <li><a href="#use-promise">2.2 Utilisation des Promesses</a></li>
+            <li><a href="#exo-api-fetch">2.3 Exemple concret : requête API avec fetch()</a>
+                <ul>
+                    <li><a href="#explanation-fetch">Explication en détail de fetch()</a></li>
+                    <li><a href="#treatment-response-fetch">Traitement des réponses fetch</a></li>
+                    <li><a href="#sample-with-then-catch">Exemple complet avec then/catch</a></li>
+                    <li><a href="#option-config-adv">Options de configuration avancées</a></li>
+                    <li><a href="#important-points">Points importants à retenir sur fetch()</a></li>
+                </ul>
+            </li>
+            <li><a href="#stat-methods">2.4 Méthodes statiques de Promise</a>
+                <ul>
+                    <li><a href="#promise-all">Promise.all()</a></li>
+                    <li><a href="#promise-race">Promise.race()</a></li>
+                    <li><a href="#promise-allsetled">Promise.allSettled()</a></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li><a href="#async">3. Async/Await</a>
+        <ul>
+            <li><a href="#fct-async">3.1 Fonctions asynchrones</a></li>
+            <li><a href="#keyword-await">3.2 Le mot-clé await</a></li>
+            <li><a href="#compare">3.3 Comparaison des approches</a>
+                <ul>
+                    <li><a href="#promise-then-catch">Avec les Promesses (then/catch)</a></li>
+                    <li><a href="#async-await">Avec async/await</a></li>
+                </ul>
+            </li>
+            <li><a href="#paralel">3.4 Traitement parallèle avec async/await</a></li>
+        </ul>
+    </li>
+    <li><a href="#bestpractices">4. Bonnes pratiques et pièges courants</a>
+        <ul>
+            <li><a href="#bonnes-pratiques">4.1 Les bonnes pratiques</a></li>
+            <li><a href="#pieges">4.2 Pièges courants</a></li>
+        </ul>
+    </li>
+</ul>
+<h3 id="intro">1. Introduction</h3>
+<p>
+    Dans le développement web moderne, la gestion des opérations asynchrones est essentielle. JavaScript offre plusieurs mécanismes pour gérer cette asynchronicité, notamment les Promesses et les 
+    fonctions async/await. Cette leçon vous permettra de comprendre ces concepts fondamentaux pour développer des applications web performantes et réactives.
+</p>
+
+<h4 id="what">1. Qu'est-ce que l'asynchronicité en JavaScript ?</h4>
+<p>
+    JavaScript est un langage à thread unique (single-threaded), ce qui signifie qu'il ne peut exécuter qu'une opération à la fois. Cependant, certaines opérations prennent du temps :
+</p>
+<ul>
+    <li>Requêtes réseau (API, chargement de fichiers)</li>
+    <li>Opérations sur une base de données</li>
+    <li>Timers et délais programmés</li>
+</ul>
+<p>
+    Pour éviter de bloquer l'exécution du programme pendant ces opérations, JavaScript utilise un modèle asynchrone.
+</p>
+<h5 id="problematique">1.1 Problématiques de l'asynchronicité</h5>
+<p>Considérons ce code synchrone simple :</p>
+<textarea class="code-php" id="ta-1">
+    const resultat = rechercherDonnees();
+    console.log(resultat);
+    traiterResultat(resultat);
+</textarea>
+<button id="copy-1" class="btn btn-secondary btn-sm" data-target="ta-1" data-toggle="tooltip" title="Copy code">Copy</button>
+<p class="mt-4">
+    Si <b>rechercherDonnees()</b> prend du temps à s'exécuter (comme une requête API), le reste du code est bloqué jusqu'à ce que la fonction termine son exécution. 
+    C'est là que les mécanismes asynchrones entrent en jeu.
+</p>
+<h3 id="promise">2. Les Promesses (Promises)</h3>
+<p>Une Promesse est un objet qui représente l'état d'une opération asynchrone. Elle peut être :</p>
+<ul>
+    <li><b>pending</b> (en attente) : état initial</li>
+    <li><b>fulfilled</b> (résolue) : opération réussie</li>
+    <li><b>rejected</b> (rejetée) : opération échouée</li>
+</ul>
+
+<h4 id="create-promise">2.1 Création d'une Promesse</h4>
+<p>Voici comment créer une Promesse :</p>
+<textarea class="code-php" id="ta-2">
+    const maPromesse = new Promise((resolve, reject) => {
+        // Opération asynchrone
+        if (/* opération réussie */) {
+          resolve(valeur); // La promesse est résolue avec une valeur
+        } else {
+          reject(erreur); // La promesse est rejetée avec une erreur
+        }
+      });
+</textarea>
+<button id="copy-2" class="btn btn-secondary btn-sm" data-target="ta-2" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4 id="use-promise">2.2 Utilisation des Promesses</h4>
+<p>Pour utiliser une Promesse, on utilise les méthodes <b>.then()</b> et <b>.catch()</b> :</p>
+<textarea class="code-php" id="ta-3">
+    maPromesse
+    .then(resultat => {
+        // Code exécuté si la promesse est résolue
+        console.log("Succès:", resultat);
+        return traiterResultat(resultat);
+    })
+    .then(nouveauResultat => {
+        // Chaînage de promesses
+        console.log("Traitement terminé:", nouveauResultat);
+    })
+    .catch(erreur => {
+        // Code exécuté si la promesse est rejetée
+        console.error("Erreur:", erreur);
+    })
+    .finally(() => {
+        // Code exécuté dans tous les cas (résolution ou rejet)
+        console.log("Opération terminée");
+    });
+</textarea>
+<button id="copy-3" class="btn btn-secondary btn-sm" data-target="ta-3" data-toggle="tooltip" title="Copy code">Copy</button>
+<p class="mt-4">
+    Le chaînage de promesses permet d'exécuter plusieurs opérations asynchrones de manière séquentielle. Chaque <b>.then()</b> retourne une nouvelle promesse, 
+    ce qui permet de continuer à chaîner des appels.
+</p>
+
+<h4 id="exo-api-fetch">2.3 Exemple concret : requête API avec fetch()</h4>
+<p>Voici un exemple d'utilisation de la méthode <b>fetch()</b> pour effectuer une requête API :</p>
+<textarea class="code-php" id="ta-4">
+    function obtenirUtilisateurs() {
+        return fetch('https://api.exemple.com/utilisateurs')
+          .then(reponse => {
+            if (!reponse.ok) {
+              throw new Error('Erreur réseau');
+            }
+            return reponse.json();
+          })
+          .then(donnees => {
+            return donnees;
+          })
+          .catch(erreur => {
+            console.error('Erreur lors de la récupération des utilisateurs:', erreur);
+            throw erreur;
+          });
+      }
+      
+      // Utilisation
+      obtenirUtilisateurs()
+        .then(utilisateurs => {
+          console.log('Utilisateurs récupérés:', utilisateurs);
+        })
+        .catch(erreur => {
+          console.error('Impossible de récupérer les utilisateurs:', erreur);
+        });
+</textarea>
+<button id="copy-4" class="btn btn-secondary btn-sm" data-target="ta-4" data-toggle="tooltip" title="Copy code">Copy</button>
+<p class="mt-4">
+    Dans cet exemple, nous utilisons <b>fetch()</b> pour effectuer une requête GET vers une API. La réponse est ensuite convertie en JSON et traitée dans le deuxième <b>.then()</b>. 
+    En cas d'erreur, elle est capturée dans le bloc <b>.catch()</b>.
+</p>
+
+<hr>
+<h5 id="explanation-fetch">Explication en détail de fetch()</h5>
+<p>
+    La fonction <b>fetch()</b> est une méthode moderne pour effectuer des requêtes HTTP en JavaScript. Elle remplace l'ancienne méthode XMLHttpRequest et offre une interface plus simple 
+    basée sur les promesses.
+</p>
+
+<p class="fw-bold">1. Syntaxe de base :</p>
+<textarea class="code-php" id="ta-5">
+    fetch(url, options)
+</textarea>
+<button id="copy-5" class="btn btn-secondary btn-sm" data-target="ta-5" data-toggle="tooltip" title="Copy code">Copy</button>
+<ul class="mt-4">
+    <li><b>url</b> : L'URL de la ressource que vous souhaitez récupérer.</li>
+    <li><b>options</b> : Un objet optionnel pour configurer la requête (méthode, en-têtes, corps, etc.).</li>
+</ul>
+
+<p>2. <st-r>Retour</st-r> : <b>fetch()</b> retourne <st-r>toujours</st-r> une promesse qui se résout avec un objet <b>Response</b>, qu'il y ait eu succès ou erreur HTTP.</p>
+<p>
+    3. <st-r>Gestion des erreurs</st-r> : <br>
+    <b>fetch()</b> ne rejette la promesse que pour des erreurs réseau (comme une connexion perdue) <br>
+    Pour gérer les erreurs, vous devez vérifier le statut de la réponse (par exemple, <b>response.ok</b>) et lancer une erreur si nécessaire. <br>
+    Une réponse HTTP <b>404</b> ou <b>500</b> est considérée comme une "réponse valide" et ne rejette pas la promesse     
+</p>
+<h6 id="treatment-response-fetch">Traitement des réponses fetch</h6>
+<p>
+    Lorsque vous utilisez fetch(), vous devez effectuer deux étapes :
+</p>
+<ul>
+    <li>Vérifier si la réponse est correcte (statut 200-299)</li>
+    <li>Convertir la réponse en JSON ou dans le format souhaité</li>
+</ul>
+<p>
+    Voici un exemple de traitement d'une réponse JSON :
+</p>
+<textarea class="code-php" id="ta-6">
+    fetch('https://api.exemple.com/utilisateurs')
+      .then(reponse => {
+        if (!reponse.ok) {
+          throw new Error('Erreur réseau');
+        }
+        return reponse.json();
+      })
+      .then(donnees => {
+        console.log(donnees);
+      })
+      .catch(erreur => {
+        console.error('Erreur:', erreur);
+      });
+</textarea>
+<button id="copy-6" class="btn btn-secondary btn-sm" data-target="ta-6" data-toggle="tooltip" title="Copy code">Copy</button>
+<p class="mt-4">
+    Dans cet exemple, nous vérifions d'abord si la réponse est correcte avec <b>reponse.ok</b>. Si ce n'est pas le cas, nous lançons une erreur. Ensuite, nous convertissons la réponse en JSON 
+    avec <b>reponse.json()</b>.
+</p>
+<p>
+    Extraire les données avec une méthode appropriée : <br>
+    <ul>
+        <li><b>response.json()</b> - pour du JSON (retourne une promesse)</li>
+        <li><b>response.text()</b> - pour du texte (retourne une promesse)</li>
+        <li><b>response.blob()</b> - pour des fichiers binaires (retourne une promesse)</li>
+        <li><b>response.formData()</b> - pour des données de formulaire (retourne une promesse)</li>
+    </ul>
+</p>
+<p>
+    Chacune de ces méthodes d'extraction retourne également une promesse !
+</p>
+
+<h6 id="sample-with-then-catch">Exemple complet avec then/catch (idem exemple 2.3)</h6>
+<textarea class="code-php" id="ta-7">
+    function obtenirUtilisateurs() {
+        return fetch('https://api.exemple.com/utilisateurs')
+          .then(response => {
+            // Étape 1: Vérifier si la requête a réussi
+            if (!response.ok) {
+              throw new Error(`Erreur HTTP: ${response.status}`);
+            }
+            // Étape 2: Extraire les données JSON
+            return response.json();
+          })
+          .then(utilisateurs => {
+            // Traitement des données obtenues
+            console.log(`${utilisateurs.length} utilisateurs récupérés`);
+            return utilisateurs;
+          })
+          .catch(erreur => {
+            // Gestion des erreurs (réseau ou lancées manuellement)
+            console.error('Erreur lors de la récupération des utilisateurs:', erreur);
+            throw erreur; // Propager l'erreur
+          });
+      }
+      
+      // Utilisation
+      obtenirUtilisateurs()
+        .then(utilisateurs => {
+          // Faire quelque chose avec les utilisateurs
+          utilisateurs.forEach(user => console.log(user.name));
+        })
+        .catch(erreur => {
+          // Gérer l'erreur au niveau de l'appel
+          console.error('Échec de l\'opération:', erreur);
+        });
+</textarea>
+<button id="copy-7" class="btn btn-secondary btn-sm" data-target="ta-7" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h6 id="option-config-adv">Options de configuration avancées</h6>
+<p>
+    Vous pouvez configurer la requête avec un objet d'options. Voici quelques options courantes :
+</p>
+<ul>
+    <li><b>method</b> : La méthode HTTP (GET, POST, PUT, DELETE, etc.)</li>
+    <li><b>headers</b> : Un objet contenant les en-têtes HTTP</li>
+    <li><b>body</b> : Le corps de la requête (pour les méthodes comme POST)</li>
+    <li><b>mode</b> : Le mode de la requête (cors, no-cors, same-origin)</li>
+    <li><b>credentials</b> : Indique si les cookies doivent être envoyés avec la requête (same-origin, include)</li>
+    <li><b>cache</b> : Le mode de cache (default, no-cache, reload, force-cache, only-if-cached)</li>
+    <li><b>redirect</b> : Comment gérer les redirections (follow, error, manual)</li>
+    <li><b>referrer</b> : La référence de la requête (URL ou no-referrer)</li>
+    <li><b>referrerPolicy</b> : La politique de référence (no-referrer, no-referrer-when-downgrade, origin, strict-origin, etc.)</li>
+    <li><b>integrity</b> : L'intégrité de la ressource (pour la sécurité)</li>
+    <li><b>keepalive</b> : Indique si la connexion doit rester ouverte après la requête</li>
+    <li><b>signal</b> : Un signal d'annulation pour annuler la requête</li>
+</ul>
+<p>
+    Voici un exemple d'utilisation de certaines de ces options :
+</p>
+<textarea class="code-php" id="ta-8">
+    fetch('https://api.exemple.com/articles', {
+        method: 'POST', // GET, POST, PUT, DELETE, etc.
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer token123'
+        },
+        body: JSON.stringify({
+          title: 'Nouveau Article',
+          content: 'Contenu de l\'article'
+        }),
+        mode: 'cors', // no-cors, cors, same-origin
+        cache: 'no-cache', // default, no-cache, reload, force-cache, only-if-cached
+        credentials: 'same-origin', // include, same-origin, omit
+        redirect: 'follow', // manual, follow, error
+        referrerPolicy: 'no-referrer', // no-referrer, client
+        signal: abortController.signal // pour annuler la requête
+      })
+        .then(response => response.json())
+        .then(data => console.log('Article créé:', data))
+        .catch(error => console.error('Erreur:', error));
+</textarea>
+<button id="copy-8" class="btn btn-secondary btn-sm" data-target="ta-8" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h6 id="important-points">Points importants à retenir sur fetch()</h6>
+<ol>
+    <li>fetch() est basé sur les <b>promesses</b>, ce qui facilite la gestion des opérations asynchrones.</li>
+    <li><b>Double promesse</b> : Avec fetch(), vous devez toujours attendre deux promesses : la requête elle-même, puis l'extraction des données.</li>
+    <li><b>Gestion manuelle des erreurs HTTP</b> : Contrairement à d'autres bibliothèques comme Axios, les erreurs HTTP (404, 500, etc.) doivent être détectées et gérées manuellement.</li>
+    <li><b>Cache par défaut</b> : Si non spécifié, fetch() utilise le cache du navigateur, ce qui peut parfois mener à des comportements inattendus.</li>
+    <li><b>CORS</b> : Les requêtes cross-origin sont soumises aux règles CORS (Cross-Origin Resource Sharing) et peuvent nécessiter une configuration côté serveur.</li>
+    <li><b>Cookies</b> : Par défaut, fetch() n'envoie pas de cookies avec les requêtes cross-origin à moins que credentials: 'include' ne soit spécifié.</li>   
+    <li>Utilisez <b>response.ok</b> pour vérifier si la requête a réussi.</li>
+    <li>Utilisez les méthodes appropriées pour extraire les données (JSON, texte, etc.).</li>
+    <li>Vous pouvez configurer la requête avec un objet d'options.</li>    
+    <li>Pour annuler une requête, utilisez l'API <b>AbortController</b>.</li>
+    <li>fetch() est asynchrone et ne bloque pas le fil d'exécution principal.</li>
+    <li>Il est recommandé d'utiliser async/await pour un code plus lisible.</li>
+</ol>
+<p>
+    En résumé, <b>fetch()</b> est un outil puissant pour effectuer des requêtes HTTP en JavaScript. Il est simple à utiliser et offre de nombreuses options de configuration pour répondre à vos besoins.
+    En maîtrisant <b>fetch()</b>, vous serez en mesure de créer des applications web modernes et réactives qui interagissent avec des API et des services distants.
+</p>
+<p>
+    N'hésitez pas à explorer la documentation officielle de <a href="https://developer.mozilla.org/fr/docs/Web/API/Fetch_API" target="_blank">MDN</a> pour en savoir plus sur les fonctionnalités avancées de <b>fetch()</b>.
+</p>
+<p>
+    Vous pouvez également consulter des ressources supplémentaires sur les promesses et l'asynchronicité en JavaScript pour approfondir vos connaissances.
+</p>
+<p>
+    En conclusion, la compréhension des promesses et de l'asynchronicité est essentielle pour développer des applications web modernes. 
+    En maîtrisant ces concepts, vous serez en mesure de créer des applications réactives et performantes qui répondent aux besoins des utilisateurs.
+</p>
+<p>
+    Dans les prochains thèmes, nous aborderons les fonctions <b>async</b> et <b>await</b>, qui simplifient encore davantage la gestion des opérations asynchrones en JavaScript.
+</p>
+<hr>
+
+<h4 id="stat-methods">2.4 Méthodes statiques de Promise</h4>
+<p>JavaScript propose plusieurs méthodes statiques sur l'objet <b>Promise</b> pour faciliter la gestion des promesses :</p>
+
+<h5 id="promise-all">Promise.all()</h5>
+<p>Attend que toutes les promesses soient résolues ou qu'une soit rejetée.</p>
+<textarea class="code-php" id="ta-9">
+    const promesse1 = fetch('/api/utilisateurs');
+    const promesse2 = fetch('/api/produits');
+    const promesse3 = fetch('/api/commandes');
+    
+    Promise.all([promesse1, promesse2, promesse3])
+    .then(resultats => {
+      const [utilisateurs, produits, commandes] = resultats;
+      // Traitement des résultats
+    })
+    .catch(erreur => {
+      // Une des promesses a été rejetée
+      console.error(erreur);
+    });
+</textarea>
+<button id="copy-9" class="btn btn-secondary btn-sm" data-target="ta-9" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h5 id="promise-race">Promise.race()</h5>
+<p>Retourne la première promesse résolue ou rejetée.</p>
+
+<textarea class="code-php" id="ta-10">
+const promesse1 = new Promise(resolve => setTimeout(() => resolve('Première'), 500));
+const promesse2 = new Promise(resolve => setTimeout(() => resolve('Deuxième'), 100));
+
+Promise.race([promesse1, promesse2])
+.then(resultat => {
+  console.log(resultat); // Affiche 'Deuxième' (plus rapide)
+});
+</textarea>
+<button id="copy-10" class="btn btn-secondary btn-sm" data-target="ta-10" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h5 id="promise-allsetled">Promise.allSettled()</h5>
+<p>Attend que toutes les promesses soient terminées (résolues ou rejetées).</p>
+<textarea class="code-php" id="ta-11">
+    const promesses = [
+        Promise.resolve(1),
+        Promise.reject('erreur'),
+        Promise.resolve(3)
+    ];
+
+    Promise.allSettled(promesses)
+        .then(resultats => {
+            // resultats contient l'état et la valeur/raison de chaque promesse
+            console.log(resultats);
+    });
+</textarea>
+<button id="copy-11" class="btn btn-secondary btn-sm" data-target="ta-11" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h3 id="async">3. Async/Await</h3>
+<p>
+    Introduit en ES2017, <b>async/await</b> est une syntaxe qui simplifie l'utilisation des promesses, rendant le code asynchrone plus lisible et plus proche du code synchrone.
+</p>
+
+<h4 id="fct-async">3.1 Fonctions asynchrones</h4>
+
+<p>Une fonction asynchrone est déclarée avec le mot-clé <b>async</b> et retourne toujours une promesse.</p>
+<textarea class="code-php" id="ta-12">
+    async function maFonctionAsync() {
+      return "Résultat";  // Automatiquement emballé dans une promesse résolue
+    }
+    
+    // Équivalent à :
+    function maFonctionPromesse() {
+      return Promise.resolve("Résultat");
+    }
+</textarea>
+<button id="copy-12" class="btn btn-secondary btn-sm" data-target="ta-12" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4 id="keyword-await">3.2 Le mot-clé await</h4>
+<p>
+    Le mot-clé <b>await</b> permet d'attendre la résolution d'une promesse et d'extraire sa valeur. Il ne peut être utilisé qu'à l'intérieur d'une fonction async.
+</p>
+
+<textarea class="code-php" id="ta-13">
+    async function afficherUtilisateurs() {
+        try {
+          const reponse = await fetch('https://api.exemple.com/utilisateurs');
+          
+          if (!reponse.ok) {
+            throw new Error('Erreur réseau');
+          }
+          
+          const utilisateurs = await reponse.json();
+          console.log(utilisateurs);
+          return utilisateurs;
+        } catch (erreur) {
+          console.error('Erreur:', erreur);
+          throw erreur;
+        }
+      }
+</textarea>
+<button id="copy-13" class="btn btn-secondary btn-sm" data-target="ta-13" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4 id="compare">3.3 Comparaison des approches</h4>
+<h5 id="promise-then-catch">Avec les Promesses (then/catch)</h5>
+<textarea class="code-php" id="ta-14">
+    function obtenirDonnees() {
+      return fetch('https://api.exemple.com/donnees')
+        .then(reponse => reponse.json())
+        .then(donnees => {
+          return traiterDonnees(donnees);
+        })
+        .then(donneesFiltrees => {
+          return formaterDonnees(donneesFiltrees);
+        })
+        .catch(erreur => {
+          console.error('Erreur:', erreur);
+          throw erreur;
+        });
+    }
+</textarea>
+<button id="copy-14" class="btn btn-secondary btn-sm" data-target="ta-14" data-toggle="tooltip" title="Copy code">Copy</button>
+<h5 id="async-await">Avec async/await</h5>
+<textarea class="code-php" id="ta-15">
+    async function obtenirDonnees() {
+      try {
+        const reponse = await fetch('https://api.exemple.com/donnees');
+        const donnees = await reponse.json();
+        const donneesFiltrees = await traiterDonnees(donnees);
+        const donneesFormatees = formaterDonnees(donneesFiltrees);
+        return donneesFormatees;
+      } catch (erreur) {
+        console.error('Erreur:', erreur);
+        throw erreur;
+      }
+    }
+</textarea>
+<button id="copy-15" class="btn btn-secondary btn-sm" data-target="ta-15" data-toggle="tooltip" title="Copy code">Copy</button>
+<p class="mt-4">
+    Comme vous pouvez le constater, l'utilisation de <b>async/await</b> rend le code plus lisible et plus facile à comprendre. 
+    Vous pouvez écrire du code asynchrone de manière séquentielle, ce qui facilite la gestion des erreurs et la logique de traitement.
+</p>
+
+<h4 id="paralel">3.4 Traitement parallèle avec async/await</h4>
+<p>
+    Vous pouvez également exécuter plusieurs opérations asynchrones en parallèle avec <b>async/await</b>. Voici un exemple :
+</p>
+<textarea class="code-php" id="ta-16">
+    async function obtenirToutesDonnees() {
+      try {
+        // Lancement en parallèle des requêtes
+        const promesseUtilisateurs = fetch('https://api.exemple.com/utilisateurs');
+        const promesseProduits = fetch('https://api.exemple.com/produits');
+        
+        // Attente des résultats
+        const reponseUtilisateurs = await promesseUtilisateurs;
+        const reponseProduits = await promesseProduits;
+        
+        // Traitement des résultats
+        const utilisateurs = await reponseUtilisateurs.json();
+        const produits = await reponseProduits.json();
+        
+        return { utilisateurs, produits };
+      } catch (erreur) {
+        console.error('Erreur:', erreur);
+        throw erreur;
+      }
+    }
+</textarea>
+<button id="copy-16" class="btn btn-secondary btn-sm" data-target="ta-16" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="fw-bold">Ou avec Promise.all :</p>
+<textarea class="code-php" id="ta-17">
+    async function obtenirToutesDonnees() {
+      try {
+        const [reponseUtilisateurs, reponseProduits] = await Promise.all([
+          fetch('https://api.exemple.com/utilisateurs'),
+          fetch('https://api.exemple.com/produits')
+        ]);
+        
+        const utilisateurs = await reponseUtilisateurs.json();
+        const produits = await reponseProduits.json();
+        
+        return { utilisateurs, produits };
+      } catch (erreur) {
+        console.error('Erreur:', erreur);
+        throw erreur;
+      }
+    }
+</textarea>
+<button id="copy-17" class="btn btn-secondary btn-sm" data-target="ta-17" data-toggle="tooltip" title="Copy code">Copy</button>
+<p class="mt-4">
+    Dans cet exemple, nous lançons deux requêtes en parallèle avec <b>Promise.all()</b>, puis nous attendons que les deux soient terminées avant de traiter les résultats. 
+    Cela permet d'optimiser le temps d'attente global.
+</p>
+
+<h3 id="bestpractices">4. Bonnes pratiques et pièges courants</h3>
+<h4 id="bonnes-pratiques">4.1 Les bonnes pratiques</h4>
+<p>
+    Voici quelques bonnes pratiques à suivre lors de l'utilisation des promesses et de <b>async/await</b> :
+</p>
+
+<ol>
+    <li>
+        <strong>Toujours gérer les erreurs</strong> <br>
+        <textarea class="code-php" id="">
+            async function maFonction() {
+                try {
+                  // Code asynchrone
+                } catch (erreur) {
+                  // Gérer l'erreur
+                }
+              }
+        </textarea>
+    </li>
+    <li>
+        <strong>Ne pas oublier que <b>await</b> ne fonctionne que dans les fonctions <b>async</b></strong>        
+    </li>
+    <li>
+        <strong>Éviter le blocage excessif avec <b>await</b></strong> <br>
+        <p>Utilisez <b>Promise.all</b></p>
+        <textarea class="code-php" id="">
+            // Mauvais (séquentiel)
+            const utilisateurs = await obtenirUtilisateurs();
+            const produits = await obtenirProduits();
+
+            // Bon (parallèle)
+            const [utilisateurs, produits] = await Promise.all([
+            obtenirUtilisateurs(),
+            obtenirProduits()
+            ]);
+        </textarea>
+    </li>
+    <li>
+        N'utilisez pas <b>async/await</b> pour des opérations simples et synchrones
+    </li>
+</ol>
+
+<h4 id="pieges">4.2 Pièges courants</h4>
+
+<ol>
+    <li>
+        <strong>Oublier d'attendre une promesse</strong> <br>
+        <textarea class="code-php" id="">
+            // Incorrect
+            function obtenirDonnees() {
+                const donnees = fetch('https://api.exemple.com/donnees');
+                return donnees; // Retourne une promesse non résolue
+            }
+
+            // Correct
+            async function obtenirDonnees() {
+                const reponse = await fetch('https://api.exemple.com/donnees');
+                const donnees = await reponse.json();
+                return donnees;
+            }
+        </textarea>
+    </li>
+    <li><strong>Ne pas gérer les erreurs</strong></li>
+    <li>
+        <strong>Await dans une boucle for classique</strong> <br>
+        <textarea class="code-php" id="">
+            // Inefficace (séquentiel)
+            for (let i = 0; i < ids.length; i++) {
+                const resultat = await traiterId(ids[i]);
+                resultats.push(resultat);
+            }
+
+            // Plus efficace (parallèle)
+            const promesses = ids.map(id => traiterId(id));
+            const resultats = await Promise.all(promesses);
+        </textarea>
+    </li>
+</ol>
+
