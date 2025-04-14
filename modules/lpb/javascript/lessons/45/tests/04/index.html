@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Projet JQuery</title>
+</head>
+<body>
+    <h1 id="titre">Bienvenue</h1>
+    <!-- Inclure jQuery via CDN -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <!-- Votre code jQuery ici -->
+    <script>
+        // Faire disparaître un élément avec une animation
+        $("#titre").fadeOut(1000); // Disparaît en 1 seconde
+
+        // Faire réapparaître
+        $("#titre").fadeIn(1000);
+
+        // Animer plusieurs propriétés
+        $("#titre").animate({
+            fontSize: "24px",
+            marginLeft: "50px"
+        }, 2000); // Animation sur 2 secondes
+    </script>
+</body>
+</html>

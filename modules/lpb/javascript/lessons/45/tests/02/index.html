@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Projet JQuery</title>
+</head>
+<body>
+    <h1 id="titre">Bienvenue</h1>
+    
+    <!-- Inclure jQuery via CDN -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <!-- Votre code jQuery ici -->
+    <script>
+        // Changer le contenu d'un élément
+        $("#titre").html("<strong>Nouveau titre</strong>");
+
+        // Modifier le style
+        $("#titre").css("color", "blue");
+
+        // Ajouter une classe
+        $("#titre").addClass("maClasse");
+    </script>
+</body>
+</html>

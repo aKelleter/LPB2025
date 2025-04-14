@@ -1,0 +1,289 @@
+<h3>Sommaire</h3>
+<ul>
+    <li><a href="#intro">1. Introduction</a></li>
+    <li><a href="#integration">2. Intégration de jQuery</a></li>
+    <li><a href="#syntaxe">3. Syntaxe de base de jQuery</a></li>
+    <li>
+        <a href="#use">4. Utilisation de jQuery</a>
+        <ul>
+            <li><a href="#manip">4.1 Manipulation du DOM</a></li>
+            <li><a href="#gest-event">4.2 Gestion des événements</a></li>
+            <li><a href="#anim">4.3 Animations</a></li>
+            <li><a href="#ajax">4.4 Requêtes AJAX</a></li>
+        </ul>
+    </li>
+    <li><a href="#bestpractices">5. Bonnes pratiques</a></li>
+    <li><a href="#conclusion">6. Conclusion</a></li>
+</ul>
+<h3 id="intro">1. Introduction</h3>
+<p>
+    jQuery est une bibliothèque JavaScript qui simplifie la manipulation du DOM, la gestion des événements, les animations et les requêtes AJAX. Elle est légère, rapide et compatible avec tous 
+    les navigateurs modernes.
+</p>
+
+<h3 id="integration">2. Intégration de jQuery</h3>
+<p>
+    Pour utiliser jQuery, incluez la bibliothèque dans votre projet. Vous pouvez la télécharger ou utiliser un CDN (Content Delivery Network). <br>
+    Exemple avec un CDN (à ce jour 13/04/2025, la version est la : 3.7.1) :
+</p>
+<textarea class="code-php" id="ta-1">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+</textarea>
+<button id="copy-1" class="btn btn-secondary btn-sm" data-target="ta-1" data-toggle="tooltip" title="Copy code">Copy</button>   
+
+<p class="mt-4">
+    Vous pouvez également télécharger jQuery et l'inclure localement dans votre projet. <br>
+    Exemple de téléchargement et d'inclusion locale :
+</p>
+<textarea class="code-php" id="ta-2">
+    <script src="assets/js/jquery-3.7.1.min.js"></script>
+</textarea>
+<button id="copy-2" class="btn btn-secondary btn-sm" data-target="ta-2" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    Voici un exemple complet de page html avec un CDN
+</p>
+<textarea class="code-php" id="ta-3">
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script defer src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+        <title>Mon Projet JQuery</title>
+    </head>
+    <body>
+        <h1 id="titre">Bienvenue</h1>
+        <button id="monBouton">Cliquez-moi</button>
+
+        <script>
+            // Votre code jQuery ici
+        </script>
+    </body>
+    </html>
+</textarea>
+<button id="copy-3" class="btn btn-secondary btn-sm" data-target="ta-3  " data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    ou mieux encore...
+</p>
+
+<textarea class="code-php" id="ta-4">
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Mon Projet JQuery</title>
+    </head>
+    <body>
+        <h1 id="titre">Bienvenue</h1>
+        <button id="monBouton">Cliquez-moi</button>
+
+        <!-- Inclure jQuery via CDN -->
+        <script defer src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+        <!-- Votre fichier JS-->
+        <script defer src="assets/js/main.js"></script>
+        <!-- Votre code jQuery ici -->
+        <script>
+            // Votre code jQuery ici
+            $(document).ready(function() {
+                $("#monBouton").click(function() {
+                    $("#titre").text("Bonjour, jQuery!");
+                });
+            });
+        </script>
+    </body>
+    </html>
+</textarea>
+<button id="copy-4" class="btn btn-secondary btn-sm" data-target="ta-4  " data-toggle="tooltip" title="Copy code">Copy</button>
+<a href="tests/01/index.html" id="execute-4" class="btn btn-secondary btn-sm yellow" target="_blank"  title="Exécute le code">Exécute</a>
+
+<h3 id="syntaxe">3. Syntaxe de base de jQuery</h3>
+<p>
+    jQuery utilise le symbole <b>$</b> comme raccourci. La syntaxe générale est :
+</p>
+<textarea class="code-php" id="ta-5">
+    $(sélecteur).méthode();
+</textarea>
+<button id="copy-5" class="btn btn-secondary btn-sm" data-target="ta-5" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    Exemple
+</p>
+<textarea class="code-php" id="ta-6">
+    // Modifier le texte d'un élément
+    $("#titre").text("Bonjour avec jQuery !");
+</textarea>
+<button id="copy-6" class="btn btn-secondary btn-sm" data-target="ta-6" data-toggle="tooltip" title="Copy code">Copy</button>
+
+
+<h3 id="use">4. Utilisation de jQuery</h3>
+<h4 id="manip">4.1 Manipulation du DOM</h4>
+<p>
+    jQuery simplifie la sélection et la modification des éléments HTML.
+</p>
+<textarea class="code-php" id="ta-7">
+// Changer le contenu d'un élément
+$("#titre").html("<strong>Nouveau titre</strong>");
+
+// Modifier le style
+$("#titre").css("color", "blue");
+
+// Ajouter une classe
+$("#titre").addClass("maClasse");
+</textarea>
+<button id="copy-7" class="btn btn-secondary btn-sm" data-target="ta-7" data-toggle="tooltip" title="Copy code">Copy</button>
+<a href="tests/02/index.html" id="execute-4" class="btn btn-secondary btn-sm yellow" target="_blank"  title="Exécute le code">Exécute</a>
+
+<h4 id="gest-event">4.2 Gestion des événements</h4>
+<p>
+    jQuery rend la gestion des événements plus intuitive.
+</p>
+<textarea class="code-php" id="ta-8">
+// Événement de clic
+$("#monBouton").click(function() {
+    alert("Bouton cliqué avec jQuery !");
+});
+
+// Événement de survol
+$("#titre").hover(
+    function() { $(this).css("background-color", "yellow"); }, // Survol
+    function() { $(this).css("background-color", ""); } // Sortie
+);
+</textarea>
+<button id="copy-8" class="btn btn-secondary btn-sm" data-target="ta-8" data-toggle="tooltip" title="Copy code">Copy</button>
+<a href="tests/03/index.html" id="execute-4" class="btn btn-secondary btn-sm yellow" target="_blank"  title="Exécute le code">Exécute</a>
+
+<h4 id="anim">4.3 Animations</h4>
+<p>
+    jQuery propose des méthodes pour créer des animations fluides.
+</p>
+<textarea class="code-php" id="ta-9">
+    // Faire disparaître un élément avec une animation
+    $("#titre").fadeOut(1000); // Disparaît en 1 seconde
+
+    // Faire réapparaître
+    $("#titre").fadeIn(1000);
+
+    // Animer plusieurs propriétés
+    $("#titre").animate({
+        fontSize: "24px",
+        marginLeft: "50px"
+    }, 2000); // Animation sur 2 secondes
+</textarea>
+<button id="copy-9" class="btn btn-secondary btn-sm" data-target="ta-9" data-toggle="tooltip" title="Copy code">Copy</button>
+<a href="tests/04/index.html" id="execute-4" class="btn btn-secondary btn-sm yellow" target="_blank"  title="Exécute le code">Exécute</a>
+
+
+<h4 id="ajax">4.4 Requêtes AJAX</h4>
+<p>
+    jQuery facilite les interactions avec des serveurs sans recharger la page.
+</p>
+<div class="alert alert-info" role="alert">
+    <strong>Le problème : Restriction CORS (Cross-Origin Resource Sharing)</strong> <hr>
+    <p>
+        Si vous essayez d'accéder à une API externe (comme <a href="https://api.restful-api.dev/" target="_blank">https://api.restful-api.dev/</a>) depuis votre application, vous pourriez rencontrer une erreur CORS.
+        Par exemple, si vous essayez d'accéder à l'URL <a href="https://api.restful-api.dev/objects/4" target="_blank">https://api.restful-api.dev/objects/4</a>, vous pourriez voir une erreur dans la console de votre navigateur indiquant que l'accès à cette ressource est interdit.
+    </p>
+    <p>
+        Le problème est lié à une restriction CORS (Cross-Origin Resource Sharing) qui empêche votre requête d'accéder à la ressource sur https://api.restful-api.dev/objects/4, 
+        car le serveur ne renvoie pas l'en-tête Access-Control-Allow-Origin. Cela se produit généralement lorsque vous effectuez une requête depuis un navigateur vers une API située 
+        sur un domaine différent.
+    </p>
+    <p>
+       Une des solutions consiste à utiliser un proxy CORS, comme <a href="https://cors-anywhere.herokuapp.com/" target="_blank">CORS Anywhere</a>.
+       Ce service agit comme un intermédiaire entre votre application et l'API, en ajoutant les en-têtes CORS nécessaires à la réponse.
+    </p>
+    <p>
+        Rendez-vous sur https://cors-anywhere.herokuapp.com/ et cliquez sur "Request temporary access" pour activer le proxy si nécessaire. Sans cela, vous pourriez recevoir une erreur 403.
+    </p>    
+</div>
+<textarea class="code-php" id="ta-10">
+    $.ajax({
+        url: "https://cors-anywhere.herokuapp.com/https://api.restful-api.dev/objects/4",
+        method: "GET",
+        success: function(data) {
+            console.log(data);
+            // Handle data
+        },
+        error: function() {
+            alert("Erreur lors de la requête !");
+        }    
+    });  
+    
+    /*
+        // Sans JQuery avec XMLHttpRequest
+        var xhr = new XMLHttpRequest();
+        var requestUrl = "https://cors-anywhere.herokuapp.com/https://api.restful-api.dev/objects/4";
+        xhr.open("GET", requestUrl, true); 
+        xhr.onload = function(){
+            console.log(xhr.responseText);
+            // Handle data
+        };
+        xhr.send();
+    */
+
+    /*
+        Explications :
+        $.ajax() remplace XMLHttpRequest pour une syntaxe plus simple.
+        url spécifie l'URL de la requête, comme dans requestUrl.
+        method: "GET" équivaut à xhr.open("GET", ...).
+        success remplace onload pour gérer la réponse.
+        Pas besoin d'appeler send() explicitement, jQuery le fait automatiquement.
+    */
+</textarea>
+<button id="copy-10" class="btn btn-secondary btn-sm" data-target="ta-10" data-toggle="tooltip" title="Copy code">Copy</button>
+<a href="tests/05/index.html" id="execute-4" class="btn btn-secondary btn-sm yellow" target="_blank"  title="Exécute le code">Exécute</a>
+
+<p class="mt-4">
+    Exemple simplifié avec <b>$.get</b> :
+</p>
+<textarea class="code-php" id="ta-11">
+    $.get("https://cors-anywhere.herokuapp.com/https://api.restful-api.dev/objects/4", function(data) {
+        $("#titre").text(data.name); 
+    }).fail(function(jqXHR, textStatus, errorThrown) {
+        console.error("Erreur lors de la requête : ", textStatus, errorThrown);
+        $("#titre").text("Erreur lors du chargement des données");
+    });
+</textarea>
+<button id="copy-11" class="btn btn-secondary btn-sm" data-target="ta-11" data-toggle="tooltip" title="Copy code">Copy</button>
+<a href="tests/06/index.html" id="execute-4" class="btn btn-secondary btn-sm yellow" target="_blank"  title="Exécute le code">Exécute</a>
+
+<h3 id="bestpractices">5. Bonnes pratiques</h3>
+<ol>
+    <li>
+        <st-r>Utilisez des sélecteurs efficaces</st-r> : Privilégiez les ID (<b>#monId</b>) ou les classes (<b>.maClasse</b>) pour des performances optimales.
+    </li>
+    <li>
+        <st-r>Encapsulez votre code</st-r> : Placez votre code jQuery dans $(document).ready() pour garantir que le DOM est chargé.
+        <textarea class="code-php" id="">
+            $(document).ready(function() {
+                $("#monBouton").click(function() {
+                    alert("Prêt !");
+                });
+            });
+        </textarea>
+    </li>
+    <li>
+        <st-r>Minimisez les dépendances</st-r> : Depuis l’amélioration de JavaScript natif (ex. <b>fetch</b> pour AJAX, <b>querySelector</b>), jQuery n’est pas toujours nécessaire. 
+        Utilisez-le si cela simplifie votre projet.
+    </li>
+    <li>
+        <st-r>Testez la compatibilité</st-r> : Bien que jQuery gère les différences entre navigateurs, testez toujours sur plusieurs navigateurs.
+    </li>
+</ol>
+
+<h3 id="conclusion">6. Conclusion</h3>
+<ul>
+    <li><st-r>JavaScript</st-r> est puissant mais peut être verbeux pour manipuler le DOM ou gérer des événements.</li>
+    <li><st-r>jQuery</st-r> simplifie ces tâches avec une syntaxe concise et des fonctionnalités comme les animations et AJAX.</li>
+    <li>Cependant, avec les améliorations de JavaScript moderne (ex. <b>querySelector</b>, <b>fetch</b>), évaluez si <st-r>jQuery</st-r> est nécessaire pour votre projet.</li>
+</ul>
+
+<p>Ressources supplémentaires</p>
+<ul>
+    <li>Documentation officielle jQuery : <a href="https://jquery.com/">jquery.com</a></li>
+    <li>Tutoriels JavaScript : <a href="https://developer.mozilla.org/fr/docs/Web/JavaScript">MDN Web Docs</a></li>
+    <li>API publique pour tests : <a href="https://jsonplaceholder.typicode.com/">JSONPlaceholder</a></li>
+</ul>

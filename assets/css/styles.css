@@ -30,6 +30,7 @@
     --color-light-grey: rgb(241, 239, 239);
     --color-light-green: rgb(15, 219, 107);
     --color-elem-cite: rgb(101, 25, 193);
+    --color-light-yellow: rgb(255, 204, 0);
    
    
     --border-width-1: 1px;
@@ -334,6 +335,10 @@ a.link{
 
 .green {
     color: var(--color-light-green);
+}
+
+.yellow {
+    color: var(--color-light-yellow);
 }
 
 .link {

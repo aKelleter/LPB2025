@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Projet JQuery</title>
+</head>
+<body>
+    <h1 id="titre">Bienvenue</h1>
+    <!-- Inclure jQuery via CDN -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <!-- Votre code jQuery ici -->
+    <script>
+        $.get("https://cors-anywhere.herokuapp.com/https://api.restful-api.dev/objects/4", function(data) {
+            $("#titre").text(data.name); 
+        }).fail(function(jqXHR, textStatus, errorThrown) {
+            console.error("Erreur lors de la requête : ", textStatus, errorThrown);
+            $("#titre").text("Erreur lors du chargement des données");
+        });
+    </script>
+</body>
+</html>

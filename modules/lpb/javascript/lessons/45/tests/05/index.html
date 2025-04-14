@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Projet JQuery</title>
+</head>
+<body>
+    <h1 id="titre">Bienvenue</h1>
+    <!-- Inclure jQuery via CDN -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <!-- Votre code jQuery ici -->
+    <script>
+    $.ajax({
+        url: "https://cors-anywhere.herokuapp.com/https://api.restful-api.dev/objects/4",
+        method: "GET",
+        success: function(data) {
+            console.log(data);
+            // Handle data
+        },
+        error: function() {
+            alert("Erreur lors de la requête !");
+        }    
+    });  
+    
+    /*
+        // Sans JQuery avec XMLHttpRequest
+        var xhr = new XMLHttpRequest();
+        var requestUrl = "https://cors-anywhere.herokuapp.com/https://api.restful-api.dev/objects/4";
+        xhr.open("GET", requestUrl, true); 
+        xhr.onload = function(){
+            console.log(xhr.responseText);
+            // Handle data
+        };
+        xhr.send();
+    */
+
+    /*
+        Explications :
+        $.ajax() remplace XMLHttpRequest pour une syntaxe plus simple.
+        url spécifie l'URL de la requête, comme dans requestUrl.
+        method: "GET" équivaut à xhr.open("GET", ...).
+        success remplace onload pour gérer la réponse.
+        Pas besoin d'appeler send() explicitement, jQuery le fait automatiquement.
+    */
+
+    </script>
+</body>
+</html>

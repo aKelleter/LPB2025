@@ -34,6 +34,7 @@
                                     <li>ADV : Notions avancées</li>
                                     <li>NAV : Navigateur : Document, Evènements, Interfaces</li>
                                     <li>EV : Les Events (évènements)</li>
+                                    <li>ADV : Avancé</li>
                                 </ul>
                             </fieldset>
                         </div>
