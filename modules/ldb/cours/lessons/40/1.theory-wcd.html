@@ -1,0 +1,265 @@
+
+<h3 id="intro">1. Introduction</h3>
+<p>
+    Objectifs de la leçon :
+</p>
+<ul>
+    <li>Découvrir trois fonctionnalités uniques de MariaDB : JSON, Aria, et tables temporaires.</li>
+    <li>Comprendre comment elles peuvent être utilisées dans des projets.</li>
+    <li>Apprendre à les mettre en œuvre avec des exemples SQL simples.</li>
+</ul>
+
+<h4>Qu’est-ce qui rend MariaDB spécial ?</h4>
+<p>
+    <b>MariaDB</b> est un SGBD puissant, mais il se distingue de MySQL et d’autres systèmes par des fonctionnalités spécifiques qui le rendent flexible et efficace. 
+    Aujourd’hui, nous allons explorer trois d’entre elles :
+</p>
+<ul>
+    <li><b>JSON</b> : Pour stocker et interroger des données semi-structurées.</li>
+    <li><b>Aria</b> : Un moteur de stockage robuste et rapide.</li>
+    <li><b>Tables temporaires</b> : Pour des données temporaires qui disparaissent automatiquement.</li>
+</ul>
+<p>
+    Ces outils permettent de résoudre des problèmes variés, comme gérer des données complexes ou optimiser les performances.
+</p>
+
+<h3 id="json">2. Les types de données JSON</h3>
+<h4>Qu’est-ce que c’est ?</h4>
+<p>
+    JSON (JavaScript Object Notation) est un format pour stocker des données comme des listes ou des paires clé-valeur (ex. : {"nom": "Alice", "age": 15}). 
+    MariaDB permet de stocker des données JSON dans une colonne et de les interroger facilement.
+</p>
+<h4>Pourquoi l’utiliser ?</h4>
+<ul>
+    <li>Idéal pour des données flexibles (ex. : profils d’élèves avec des informations variées).</li>
+    <li>Permet des requêtes puissantes sans créer des tables supplémentaires.</li>
+</ul>
+
+<h4>Exemple :</h4>
+<p>
+    Créons une table avec une colonne JSON :
+</p>
+<textarea class="code-php" id="ta-1">
+-- Création de la base de données
+CREATE DATABASE IF NOT EXISTS ldb_json;
+USE ldb_json;
+
+-- Création de la table Eleves avec une colonne JSON pour stocker des informations supplémentaires
+CREATE TABLE Eleves (
+ID INT PRIMARY KEY AUTO_INCREMENT,
+Nom VARCHAR(50),
+Infos JSON
+);
+
+INSERT INTO Eleves (Nom, Infos) VALUES
+('Alice', '{"age": 15, "matiere_favorite": "Maths"}'),
+('Bob', '{"age": 16, "matiere_favorite": "Histoire"}');
+</textarea>
+<button id="copy-1" class="btn btn-secondary btn-sm" data-target="ta-1" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    Interrogeons le JSON :
+</p>
+<textarea class="code-php" id="ta-2">
+SELECT Nom, JSON_EXTRACT(Infos, '$.age') AS Age
+FROM Eleves;
+</textarea>
+<button id="copy-2" class="btn btn-secondary btn-sm" data-target="ta-2" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4 fw-bold">Résultat :</p>
+<textarea class="code-php" id="ta-3">
+    Nom	    Age
+    -----------
+    Alice	15
+    Bob	    16
+    -----------
+</textarea>
+<button id="copy-3" class="btn btn-secondary btn-sm" data-target="ta-3" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    <st-r>Astuce</st-r> : <br>
+    <b>JSON_EXTRACT</b> récupère une valeur dans le JSON. Le <b>$</b> représente la racine du <st-r>JSON</st-r>, et <b>$.age</b> pointe vers la clé age.
+</p>
+
+<h3 id="aria">3. Le moteur de stockage Aria</h3>
+<h4>Qu’est-ce que c’est ?</h4>
+<p>
+    <b>Aria</b> est un moteur de stockage propre à MariaDB, conçu pour être rapide et robuste. Contrairement à <b>InnoDB</b> (<st-r>par défaut</st-r>), 
+    <b>Aria</b> est optimisé pour les lectures/écritures fréquentes et offre une meilleure récupération après crash.
+</p>
+
+<h4>Pourquoi l’utiliser ?</h4>
+<ul>
+    <li>Idéal pour les tables avec beaucoup d’insertions (ex. : journaux d’activité).</li>
+    <li>Plus léger qu’InnoDB pour certaines tâches.</li>
+</ul>
+
+<h4>Exemple :</h4>
+<p>Créons une table avec Aria :</p>
+<textarea class="code-php" id="ta-4">
+CREATE TABLE Journal (
+    ID_Log INT PRIMARY KEY AUTO_INCREMENT,
+    Action VARCHAR(50),
+    Date_Heure DATETIME
+) ENGINE=Aria;
+
+INSERT INTO Journal (Action, Date_Heure) VALUES
+('Connexion', NOW()),
+('Ajout note', NOW());
+</textarea>
+<button id="copy-4" class="btn btn-secondary btn-sm" data-target="ta-4" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4>Vérifions :</h4>
+<textarea class="code-php" id="ta-5">
+SELECT * FROM Journal;
+</textarea>
+<button id="copy-5" class="btn btn-secondary btn-sm" data-target="ta-5" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4 fw-bold">Résultat :</p>
+<textarea class="code-php" id="ta-6">
+    ID_Log	Action	        Date_Heure
+    -----------------------------------------------
+    1	    Connexion	    2025-04-13 13:58:05.000
+    2	    Ajout note	    2025-04-13 13:58:05.000
+    -----------------------------------------------
+</textarea>
+<button id="copy-6" class="btn btn-secondary btn-sm" data-target="ta-6" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4>Comparaison avec InnoDB :</h4>
+<ul>
+    <li><b>Aria</b> : Plus rapide pour les insertions, mais moins robuste pour les transactions complexes.</li>
+    <li><b>InnoDB</b> : Meilleur pour les relations (clés étrangères) et les transactions <b>ACID</b>.</li>
+</ul>
+
+<h3 id="temp">4. Les tables temporaires</h3>
+<h4>Qu’est-ce que c’est ?</h4>
+<p>
+    Une <b>table temporaire</b> existe seulement pendant votre session (connexion) et disparaît automatiquement quand vous vous déconnectez. 
+    Elle est invisible pour les autres utilisateurs.
+</p>
+<h4>Pourquoi les utiliser ?</h4>
+<ul>
+    <li>Idéal pour stocker des résultats intermédiaires sans encombrer la base de données.</li>
+    <li>Facilite le traitement de données complexes sans créer de tables permanentes, et evite ainsi de "polluer" la base avec des tables inutiles.</li>
+</ul>
+
+<h4>Exemple :</h4>
+<p>Créons une table temporaire :</p>
+<textarea class="code-php" id="ta-7">
+ CREATE TEMPORARY TABLE TempNotes (
+     Eleve_ID INT,
+     Note INT
+ );
+ 
+ INSERT INTO TempNotes (Eleve_ID, Note) VALUES
+ (1, 18),
+ (2, 15);
+ 
+ SELECT * FROM TempNotes;
+</textarea>
+<button id="copy-7" class="btn btn-secondary btn-sm" data-target="ta-7" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4>Résultat :</h4>
+<textarea class="code-php" id="ta-8">
+    Eleve_ID	Note
+    ------------------
+    1	        18
+    2	        15
+    ------------------
+</textarea>
+<button id="copy-8" class="btn btn-secondary btn-sm" data-target="ta-8" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    Déconnectez-vous (ou quittez la session) et reconnectez-vous :
+</p>
+<textarea class="code-php" id="ta-9">
+SELECT * FROM TempNotes; -- Erreur : Table n’existe pas
+</textarea>
+<button id="copy-9" class="btn btn-secondary btn-sm" data-target="ta-9" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h3>5. Activité pratique : Utilisons ces fonctionnalités</h3>
+
+<h4>Préparation : Créons une base</h4>
+<textarea class="code-php" id="ta-10">
+CREATE DATABASE ldb_college;
+USE ldb_college;
+</textarea>
+<button id="copy-10" class="btn btn-secondary btn-sm" data-target="ta-10" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4>Étape 1 : Table avec JSON</h4>
+<textarea class="code-php" id="ta-11">
+CREATE TABLE Eleves (
+    ID INT PRIMARY KEY AUTO_INCREMENT,
+    Nom VARCHAR(50),
+    Profil JSON
+);
+
+INSERT INTO Eleves (Nom, Profil) VALUES
+('Clara', '{"age": 15, "club": "Échecs"}'),
+('David', '{"age": 16, "club": "Football"}');
+
+SELECT Nom, JSON_EXTRACT(Profil, '$.club') AS Club
+FROM Eleves;
+</textarea>
+<button id="copy-11" class="btn btn-secondary btn-sm" data-target="ta-11" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4 fw-bold">Résultat attendu :</p>
+<textarea class="code-php" id="ta-12">
+Nom	    Club
+-----------------
+Clara	Échecs
+David	Football
+-----------------
+</textarea>
+<button id="copy-12" class="btn btn-secondary btn-sm" data-target="ta-12" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4>Étape 2 : Table avec Aria</h4>
+<textarea class="code-php" id="ta-13">
+CREATE TABLE Logs (
+    ID_Log INT PRIMARY KEY AUTO_INCREMENT,
+    Evenement VARCHAR(50),
+    Date_Heure DATETIME
+) ENGINE=Aria;
+
+INSERT INTO Logs (Evenement, Date_Heure) VALUES
+('Mise à jour', NOW());
+
+SELECT * FROM Logs;
+</textarea>
+<button id="copy-13" class="btn btn-secondary btn-sm" data-target="ta-13" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4>Étape 3 : Table temporaire</h4>
+<textarea class="code-php" id="ta-14">
+CREATE TEMPORARY TABLE TempRapport (
+    Nom VARCHAR(50),
+    Note INT
+);
+
+INSERT INTO TempRapport (Nom, Note) VALUES
+('Clara', 17),
+('David', 14);
+
+SELECT * FROM TempRapport;
+</textarea>
+<button id="copy-14" class="btn btn-secondary btn-sm" data-target="ta-14" data-toggle="tooltip" title="Copy code">Copy</button>
+<p class="mt-4">Déconnectez-vous pour vérifier que la table disparaît.</p>
+
+<h3 id="quand">6. Quand utiliser ces fonctionnalités ?</h3>
+<ul>
+    <li><b>JSON</b> : Pour des données flexibles, comme des profils ou des préférences.</li>
+    <li><b>Aria</b> : Pour des tables avec beaucoup d’écritures (ex. : logs, statistiques).</li>
+    <li><b>Tables temporaires</b> : Pour des calculs ou tests sans impact permanent.</li>
+</ul>
+<h4>Attention :</h4>
+<ul>
+    <li><b>JSON</b> : Vérifiez la validité du JSON avant insertion.</li>
+    <li><b>Aria</b> : Moins adapté aux relations complexes (préférez InnoDB).</li>
+    <li><b>Tables temporaires</b> : Ne stockent pas de données à long terme.</li>
+</ul>
+
+<h3 id="conclusion">7. Conclusion</h3>
+<ul>
+    <li><b>MariaDB</b> se distingue par des fonctionnalités comme JSON, Aria, et les tables temporaires.</li>
+    <li>Elles permettent de gérer des données modernes, d’optimiser les performances, et de simplifier les tâches temporaires.</li>
+    <li>Ces outils rendent <b>MariaDB</b> flexible pour des projets variés, même pour les débutants !</li>
+</ul>

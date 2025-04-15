@@ -1,0 +1,213 @@
+<h3>Sommaire</h3>
+<ul>
+    <li><a href="#intro">1. Introduction : Pourquoi gérer les erreurs ?</a></li>
+    <li><a href="#erreurs-courantes">2. Les erreurs SQL courantes</a></li>
+    <li><a href="#trycatch">3. Gérer les erreurs avec TRY/CATCH</a></li>
+    <li><a href="#debug">4. Débogage : Trouver et corriger les erreurs</a></li>
+    <li><a href="#bestpractices">5. Bonnes pratiques</a></li>
+    <li><a href="#conlusion">6. Conclusion</a></li>
+</ul>
+<h3 id="intro">1. Introduction : Pourquoi gérer les erreurs ?</h3>
+<p>
+    Imaginez que vous ajoutez une note dans la base de données d’une école, mais vous faites une faute de frappe dans la requête. 
+    Au lieu d’ajouter une note, la base affiche une erreur et rien ne se passe. Pire, si l’erreur n’est pas claire, vous ne savez pas quoi corriger ! 
+    La gestion des erreurs et le débogage permettent de repérer ces problèmes, de les comprendre, et de les résoudre pour que la base fonctionne correctement.
+</p>
+
+<h3 id="erreurs-courantes">2. Les erreurs SQL courantes</h3>
+<p>Voici quelques erreurs typiques que vous pourriez rencontrer :</p>
+
+<h4>1. <span class="red">Erreur de syntaxe</span> : Par exemple, oublier un point-virgule (;)</h4>
+<textarea class="code-php" id="ta-1">
+    SELECT * FROM Eleves WHERE ID = 1 -- Erreur : manque ;
+</textarea>
+<button id="copy-1" class="btn btn-secondary btn-sm" data-target="ta-1" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4 class="mt-4">2. <span class="red">Table ou colonne inconnue</span> :</h4>
+<textarea class="code-php" id="ta-2">
+    SELECT Nom FROM Etudiants; -- Erreur : table "Etudiants" n’existe pas
+</textarea>
+<button id="copy-2" class="btn btn-secondary btn-sm" data-target="ta-2" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4 class="mt-4">3. <span class="red">Violation de contrainte</span> : Par exemple, insérer un Eleve_ID qui n’existe pas.</h4>
+<textarea class="code-php" id="ta-3">
+    INSERT INTO Notes (ID_Note, Eleve_ID, Note) VALUES (1, 999, 15); -- Erreur : Eleve_ID 999 n’existe pas
+</textarea>
+<button id="copy-3" class="btn btn-secondary btn-sm" data-target="ta-3" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4 class="mt-4">4. <span class="red">Erreur dans un script</span> : Une procédure ou fonction qui plante à cause d’une logique incorrecte.</h4>
+<p>
+    MariaDB affiche un message d’erreur avec un code (ex. : 1064 pour syntaxe) et une description.
+</p>
+
+
+<h3 id="trycatch">3. Gérer les erreurs avec TRY/CATCH</h3>
+<p>
+    Dans MariaDB, on peut gérer les erreurs dans des procédures ou fonctions stockées en utilisant un bloc <b>DECLARE ... HANDLER</b> (équivalent à <b>TRY/CATCH</b> dans d’autres langages).
+</p>
+<p class="fw-bold">Syntaxe</p>
+<textarea class="code-php" id="ta-4">
+    DELIMITER //
+    CREATE PROCEDURE nom_procedure()
+    BEGIN
+        DECLARE EXIT HANDLER FOR SQLEXCEPTION
+        BEGIN
+            -- Gérer l’erreur
+            SELECT 'Une erreur s’est produite' AS Message;
+        END;
+        -- Instructions normales
+    END//
+    DELIMITER ;
+</textarea>
+<button id="copy-4" class="btn btn-secondary btn-sm" data-target="ta-4" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4 fw-bold">
+    Exemple : <br>  
+    Créons une procédure qui insère une note et gère une erreur :
+</p>
+<p>
+    Mais avant cela, créons une DB "ecole" et deux tables "Eleves" et "Notes" pour l’exemple :
+</p>
+<textarea class="code-php" id="ta-5">
+CREATE TABLE Eleves (
+    ID INT PRIMARY KEY,
+    Nom VARCHAR(50),
+    Age INT
+);
+
+CREATE TABLE Notes (
+    ID_Note INT AUTO_INCREMENT PRIMARY KEY,
+    Eleve_ID INT,
+    Matiere VARCHAR(50),
+    Note INT,
+    FOREIGN KEY (Eleve_ID) REFERENCES Eleves(ID)
+);
+
+INSERT INTO Eleves (ID, Nom, Age) VALUES (1, 'Alice', 15), (2, 'Bob', 16);
+INSERT INTO Notes (ID_Note, Eleve_ID, Matiere, Note) VALUES
+(1, 1, 'Maths', 18), (2, 1, 'Français', 16), (3, 2, 'Histoire', 15);
+</textarea>
+<button id="copy-5" class="btn btn-secondary btn-sm" data-target="ta-5" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    Maintenant, créons une procédure qui ajoute une note et gère les erreurs :
+</p>
+<textarea class="code-php" id="ta-6">
+DELIMITER //
+CREATE PROCEDURE AjouterNoteSecurisee(IN eleve_id INT, IN note INT)
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        SELECT 'Erreur : Impossible d’ajouter la note' AS Message;
+    END;
+    INSERT INTO Notes (ID_Note, Eleve_ID, Matiere, Note)
+    VALUES (NULL, eleve_id, 'Maths', note);
+    SELECT 'Note ajoutée avec succès' AS Message;
+END//
+DELIMITER ;
+</textarea>
+<button id="copy-6" class="btn btn-secondary btn-sm" data-target="ta-6" data-toggle="tooltip" title="Copy code">Copy</button>
+<p class="mt-4">
+    Pour appeler cette procédure, utilisez la commande suivante :
+</p>
+<textarea class="code-php" id="ta-7">
+    -- Appel de la procédure avec des données valides
+    CALL AjouterNoteSecurisee(1, 20); -- Ajoute une note de 20 pour l’élève avec ID 1 (en Math)
+    -- Appel de la procédure avec un ID d’élève invalide
+    CALL AjouterNoteSecurisee(999, 20); -- Erreur : l’élève avec ID 999 n’existe pas
+</textarea>
+<button id="copy-7" class="btn btn-secondary btn-sm" data-target="ta-7" data-toggle="tooltip" title="Copy code">Copy</button>
+<p class="mt-4">
+    Dans cet exemple, si l’élève n’existe pas, la procédure affiche un message d’erreur au lieu de planter.
+</p>
+
+<h3 id="debug">4. Débogage : Trouver et corriger les erreurs</h3>
+<p>
+    Le <b>débogage</b> consiste à examiner une requête ou un script pour comprendre pourquoi il ne fonctionne pas.
+</p>
+
+<h4>Technique 1 : Lire les messages d’erreur</h4>
+<p>
+    Quand une requête échoue, MariaDB affiche :
+</p>
+<ul>
+    <li>Un <st-r>code d’erreur</st-r> (ex. : 1452 pour violation de clé étrangère).</li>
+    <li>Une <st-r>description</st-r> (ex. : "Cannot add or update a child row"). Exemple :</li>
+</ul>
+<textarea class="code-php" id="ta-8">
+    INSERT INTO Notes (Eleve_ID, Matiere, Note) VALUES (999, 'Histoire' , 15);
+</textarea>
+<button id="copy-8" class="btn btn-secondary btn-sm" data-target="ta-8" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    <st-r>Erreur : 1452 - Cannot add ... foreign key constraint fails.</st-r> <br>
+    Solution : Vérifiez si Eleve_ID = 999 existe dans Eleves.
+</p>
+
+<h4>Technique 2 : Tester pas à pas</h4>
+<p>
+    Divisez une requête complexe en morceaux :
+</p>
+<textarea class="code-php" id="ta-9">
+-- Requête complexe
+SELECT Nom, AVG(Note)
+FROM Eleves
+JOIN Notes ON Eleves.ID = Notes.Eleve_ID
+WHERE Note > 10
+GROUP BY Nom;
+</textarea>
+<button id="copy-9" class="btn btn-secondary btn-sm" data-target="ta-9" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    Testez chaque partie :
+</p>
+<ul>
+    <li><b>SELECT * FROM Eleves;</b> → Vérifiez les données.</li>
+    <li><b>SELECT * FROM Notes WHERE Note > 10;</b> → Vérifiez le filtre.</li>
+    <li><b>SELECT Nom, Note FROM Eleves JOIN Notes ON Eleves.ID = Notes.Eleve_ID;</b> → Vérifiez la jointure.</li>
+</ul>
+
+<h4>Technique 3 : Utiliser <b>SELECT</b> pour déboguer</h4>
+<p>
+    Ajoutez des <b>SELECT</b> temporaires dans une procédure :
+</p>
+<textarea class="code-php" id="ta-10">
+DELIMITER //
+CREATE PROCEDURE DebugNombreEleves()
+BEGIN
+    DECLARE var INT;
+    SET var = (SELECT COUNT(*) FROM Eleves);
+    SELECT var AS Debug; -- Vérifie la valeur
+END//
+DELIMITER ;
+</textarea>
+<button id="copy-10" class="btn btn-secondary btn-sm" data-target="ta-10" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">Appeler la procédure</p>
+<textarea class="code-php" id="ta-11">
+CALL DebugNombreEleves();
+</textarea>
+<button id="copy-11" class="btn btn-secondary btn-sm" data-target="ta-10" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4>Technique 4 : Outils comme DBeaver, MysqlWorkShop,phpMyAdmin,...</h4>
+<ul>
+    <li>A l'aide de votre outil préféré, exécutez une requête dans l’onglet SQL.</li>
+    <li>Les erreurs s’affichent avec des détails.</li>
+    <li>Testez des morceaux de code dans l’interface pour isoler le problème</li>
+</ul>
+
+<h3 id="bestpractices">5. Bonnes pratiques</h3>
+<ul>
+    <li><b>Lisez attentivement les erreurs</b> : Le message indique souvent la cause (table, colonne, contrainte).</li>
+    <li><b>Testez petit à petit</b> : Une requête complexe doit être décomposée.</li>
+    <li><b>Ajoutez des messages</b> : Dans les scripts, utilisez SELECT pour afficher des étapes.</li>
+    <li><b>Utilisez les outils</b> : phpMyAdmin ou DBeaver montrent les erreurs clairement.</li>
+    <li><b>Vérifiez les données</b> : Une erreur vient souvent d’un problème dans les tables.</li>
+</ul>
+
+<h3 id="conlusion">6. Conclusion</h3>
+<ul>
+    <li>La gestion des erreurs avec <b>DECLARE ... HANDLER</b> permet de contrôler les problèmes dans les scripts.</li>
+    <li>Le débogage repose sur la lecture des messages, les tests progressifs, et les outils comme phpMyAdmin et autres.</li>
+    <li>Avec ces techniques, vous transformez les erreurs en opportunités pour améliorer vos requêtes !</li>
+</ul>

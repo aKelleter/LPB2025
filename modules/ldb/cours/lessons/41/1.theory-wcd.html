@@ -1,0 +1,120 @@
+
+<h3 id="intro">1. Introduction</h3>
+<p>
+<h4>Contexte :</h4>
+<p>
+    Vous êtes chargé de créer une base de données pour gérer les personnages et leurs actions dans l’univers de The Legend of Zelda. 
+    Chaque personnage (comme Link, Zelda, ou Ganondorf) a des caractéristiques et effectue des actions (combats, quêtes, etc.) dans différents jeux de la série 
+    (Ocarina of Time, Breath of the Wild, etc.). Vous utiliserez toutes les notions apprises pour construire, optimiser, sécuriser, et déboguer cette base de données.
+</p>
+<h4>Objectifs :</h4>
+<ul>
+    <li>Créer et structurer une base avec des relations.</li>
+    <li>Appliquer des index, transactions, triggers, procédures, et fonctions.</li>
+    <li>Sécuriser les accès.</li>
+    <li>Explorer des fonctionnalités spécifiques de MariaDB.</li> 
+</ul>
+
+<h3>Étape 1 : Création de la base et des tables (Clés primaires et étrangères)</h3>
+<h4>1. Créez une base de données nommée zelda_db.</h4>
+<textarea class="code-php" id="ta-1">
+    CREATE DATABASE zelda_db;
+    USE zelda_db;
+</textarea>
+<button id="copy-1" class="btn btn-secondary btn-sm" data-target="ta-1" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4>2. Créez deux tables :</h4>
+<ul>
+    <li><b>Personnages</b> : ID, nom, rôle (ex. : Héros, Princesse), jeu (ex. : Breath of the Wild).</li>
+    <li><b>Actions</b> : ID_Action, personnage associé(Personnage_ID), type d’action (ex. : Combat, Quête), année de l’action.</li>
+</ul>
+
+<h4>3. Insérez des données initiales :</h4>
+<p>Exemple de données:</p>
+<textarea class="code-php">
+    ('Link', 'Héros', 'Breath of the Wild'),
+    ('Zelda', 'Princesse', 'Breath of the Wild'),
+    ('Ganondorf', 'Antagoniste', 'Ocarina of Time');
+</textarea>
+<textarea class="code-php">
+    (1, 'Combat', 2017),
+    (1, 'Quête', 2017),
+    (2, 'Diplomatie', 2019),
+    (3, 'Combat', 2023);
+</textarea>
+
+<h3>Étape 2 : Ajout d’index (Index)</h3>
+<p>
+    <b>Concept couvert</b> : Index pour optimiser les recherches.
+</p>
+
+<h4>1. Créez un index sur la colonne Type dans Actions pour accélérer les recherches par type d’action :</h4>
+<h4>2. Vérifiez les index :</h4>
+
+<h3>Étape 3 : Transaction sécurisée (Transactions)</h3>
+<p>
+    <b>Concept couvert</b> : Transactions pour garantir l’intégrité.
+</p>
+
+<h4>1. Ajoutez un nouveau personnage et une action dans une transaction :</h4>
+<h4>2. Testez une transaction avec une erreur (Personnage_ID inexistant) (avec ROLLBACK) :</h4>
+
+<h3>Étape 4 : Trigger pour journalisation (Triggers)</h3>
+<p>
+    <b>Concept couvert</b> : Triggers pour automatiser.
+</p>
+
+<h4>1. Créez une table Journal avec le moteur Aria pour stocker les logs :</h4>
+<ul>
+    <li>ID_Log INT PRIMARY KEY AUTO_INCREMENT,</li>
+    <li>Evenement VARCHAR(100),</li>
+    <li>Date_Heure DATETIME</li>
+</ul>
+
+<h4>2. Créez un trigger qui enregistre chaque nouvelle action dans Journal :</h4>
+<h4>3. Testez en ajoutant une action :</h4>
+
+<h3>Étape 5 : Procédure stockée (Procédures stockées)</h3>
+<p>
+    <b>Concept couvert</b> : Procédures pour encapsuler la logique.
+</p>
+
+<h4>1. Créez une procédure <b>AjouterPersonnageAction</b> qui ajoute un personnage et une action associée :</h4>
+<h4>2. Testez la procédure :</h4>
+
+<h3>Étape 6 : Fonction stockée (Fonctions stockées)</h3>
+<p>
+    <b>Concept couvert</b> : Fonctions pour retourner une valeur.
+</p>
+
+<h4>1. Créez une fonction <b>CompterActions</b> qui retourne le nombre d’actions d’un personnage :</h4>
+<h4>2. Testez la fonction :</h4>
+
+<h3>Étape 7 : Sécurisation (Sécurité)</h3>
+<p>
+    <b>Concept couvert</b> : Gestion des privilèges.
+</p>
+
+<h4>1. Créez deux utilisateurs :</h4>
+<ul>
+    <li><b>joueur</b> (lecture seule sur la DB)</li>
+    <li><b>admin</b> (tous droits sauf DELETE sur la DB) :</li>
+</ul>
+
+<p>2. Testez avec <b>joueur</b> (connectez-vous), pas de code SQL, juste une simple connexion avec DBeaver ou phpMyAdmin</p>
+<p>Testez ces requêtes</p>
+<textarea class="code-php" id="ta-2">
+    SELECT * FROM Personnages; -- OK
+    INSERT INTO Personnages (Nom) VALUES ('Test'); -- Erreur
+</textarea>
+<button id="copy-2" class="btn btn-secondary btn-sm" data-target="ta-2" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h3>Étape 8 : Fonctionnalités spécifiques (MariaDB : Fonctionnalités spécifiques)</h3>    
+<p>
+    <b>Concept couvert</b> : JSON, Aria, tables temporaires.
+</p>
+
+<h4>1. Ajoutez une colonne JSON à Personnages : mettez à jour link (UPDATE) avec ces données dans la nouvelle colonne "Details" (type JSON) : <b>{"arme": "Épée", "niveau": 5}</b></h4>
+<h4>2. Interrogez le JSON : allez chercher (SELECT) le type d'arme de link en plus de son nom</h4>
+<h4>3. Créez une table temporaire pour un rapport : avec les champs suivants ->  Nom VARCHAR(50), Nb_Actions INT</h4>
+

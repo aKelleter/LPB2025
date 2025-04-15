@@ -1,0 +1,239 @@
+<h3>Sommaire</h3>
+<ul>
+    <li><a href="#intro">1. Introduction</a></li>
+    <li><a href="#what">2. Qu’est-ce qu’une partition ?</a></li>
+    <li><a href="#why">3. Pourquoi utiliser les partitions ?</a></li>
+    <li><a href="#how">4. Comment partitionner une table ?</a></li>
+    <li><a href="#activite">5. Activité pratique : Créons une table partitionnée</a></li>
+    <li><a href="#quand">6. Quand utiliser les partitions ?</a></li>
+    <li><a href="#conclusion">7. Conclusion</a></li>
+</ul>
+<h3 id="intro">1. Introduction</h3>
+<p>
+    Objectifs de la leçon :
+</p>
+<ul>
+    <li>Comprendre ce qu’est une partition de table et pourquoi elle est utile.</li>
+    <li>Apprendre à partitionner une table dans MariaDB avec la syntaxe <b>PARTITION BY</b>.</li>
+    <li>Découvrir comment les partitions améliorent les performances pour de grandes bases de données.</li>
+</ul>
+
+<h4>Pourquoi partitionner une table ?</h4>
+<p>
+    Imaginez une bibliothèque avec un seul énorme classeur contenant des millions de fiches pour tous les livres, mélangés sans ordre. 
+    Trouver un livre publié en 2023 serait très long ! Si on divisait ce classeur en plusieurs tiroirs (un par année), la recherche serait beaucoup plus rapide. 
+    Dans MariaDB, partitionner une table revient à diviser une grande table en plusieurs morceaux (partitions) pour faciliter la gestion et accélérer les requêtes.
+</p>
+
+<h3 id="what">2. Qu’est-ce qu’une partition ?</h3>
+<p>
+    Une partition est une division logique d’une table en sous-ensembles de données, stockés séparément mais gérés comme une seule table. 
+    Chaque partition contient une partie des lignes, selon une règle que vous définissez (par exemple, par année ou par plage de valeurs).
+</p>
+<p class="fw-bold">
+    Types de partitionnement dans MariaDB :
+</p>
+<ul>
+    <li><b>RANGE</b> : Divise selon des plages (ex. : années, notes de 0-10, 11-20).</li>
+    <li><b>LIST</b> : Divise selon des valeurs spécifiques (ex. : matières comme Maths, Français).</li>
+    <li><b>HASH</b> : Répartit les lignes uniformément selon une clé.</li>
+    <li><b>KEY</b> : Similaire à HASH, mais basé sur une clé interne.</li>
+</ul>
+<p>
+    Pour débuter, nous nous concentrerons sur <b>RANGE</b>, le plus simple à mettre en oeuvre.
+</p>
+<p>
+    <st-r>Exemple</st-r> : <br>
+    Une table <b>Notes</b> avec des millions de notes peut être partitionnée par année pour que les requêtes sur 2023 n’ouvrent que les données de cette année.
+</p>
+
+<h3 id="why">3. Pourquoi utiliser les partitions ?</h3>
+<p class="fw-bold">
+    Avantages :
+</p>
+<ul>
+    <li><b>Performance</b> : Les requêtes touchent moins de données (ex. : chercher dans une partition au lieu de toute la table).</li>
+    <li><b>Gestion</b> : Plus facile de supprimer ou archiver d’anciennes données (ex. : supprimer la partition 2020).</li>
+    <li><b>Évolutivité</b> : Gère mieux les gros volumes (millions de lignes).</li>
+</ul>
+<p class="fw-bold">
+    Limites :
+</p>
+<ul>
+    <li>Nécessite un moteur comme <b>InnoDB</b> (par défaut dans MariaDB).</li>
+    <li>Pas utile pour les petites tables (moins de 10 000 lignes).</li>
+    <li>Ajoute un peu de complexité à la création.</li>
+</ul>
+
+<h3 id="how">4. Comment partitionner une table ?</h3>
+<p>
+    La syntaxe de base pour créer une table partitionnée :
+</p>
+<textarea class="code-php" id="ta-1">
+CREATE TABLE nom_table (
+    colonnes
+)
+PARTITION BY RANGE (colonne) (
+    PARTITION nom_partition VALUES LESS THAN (valeur),
+    ...
+);    
+</textarea>
+<button id="copy-1" class="btn btn-secondary btn-sm" data-target="ta-1" data-toggle="tooltip" title="Copy code">Copy</button>
+<p class="mt-4">
+    <st-r>Parton d'un exemple simple</st-r> : <br>
+    Créons une table Notes partitionnée par année :
+</p>
+<textarea class="code-php" id="ta-2">
+CREATE TABLE Notes (
+    ID_Note INT AUTO_INCREMENT PRIMARY KEY,
+    Eleve_ID INT,
+    Matiere VARCHAR(50),
+    Note INT,
+    Annee INT
+)
+PARTITION BY RANGE (Annee) (
+    PARTITION p2023 VALUES LESS THAN (2024),
+    PARTITION p2024 VALUES LESS THAN (2025),
+    PARTITION p2025 VALUES LESS THAN (2026)
+);
+</textarea>
+<button id="copy-2" class="btn btn-secondary btn-sm" data-target="ta-2" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">Explications</p>
+<ul>
+    <li><b>PARTITION BY RANGE (Annee)</b> : Divise selon la colonne Annee.</li>
+    <li><b>p2023</b> : Contient les lignes où Annee < 2024 (2023 et avant).</li>
+    <li><b>p2024</b> : Contient Annee < 2025 (2024).</li>
+    <li><b>p2025</b> : Contient Annee < 2026 (2025).</li>
+</ul>
+
+<h3 id="activite">5. Activité pratique : Créons une table partitionnée</h3>
+<p class="fw-bold">
+    Préparation : Créons une DB, une table et remplissons la table :)
+</p>
+<textarea class="code-php" id="ta-3">
+CREATE DATABASE IF NOT EXISTS ldb_partition;
+USE ldb_partition;
+
+CREATE TABLE Notes (
+    ID_Note INT AUTO_INCREMENT,
+    Eleve_ID INT,
+    Matiere VARCHAR(50),
+    Note INT,
+    Annee INT,
+    PRIMARY KEY (ID_Note, Annee)
+)
+PARTITION BY RANGE (Annee) (
+    PARTITION p2023 VALUES LESS THAN (2024),
+    PARTITION p2024 VALUES LESS THAN (2025),
+    PARTITION p2025 VALUES LESS THAN (2026)
+);
+
+INSERT INTO Notes (Eleve_ID, Matiere, Note, Annee) VALUES
+(1, 'Maths', 18, 2023),
+(1, 'Français', 16, 2023),
+(2, 'Histoire', 15, 2024),
+(3, 'Sciences', 17, 2024),
+(4, 'Anglais', 19, 2025);
+</textarea>
+<button id="copy-3" class="btn btn-secondary btn-sm" data-target="ta-3" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<div class="alert alert-info mt-4" role="alert">
+    <strong>Info :</strong>  <hr>
+    Dans MariaDB, la clé primaire d’une table partitionnée doit inclure toutes les colonnes utilisées dans la fonction de partitionnement (PARTITION BY).  <br>
+    Dans notre cas : <br>
+    <ul>
+        <li>La table est partitionnée par Annee (PARTITION BY RANGE (Annee)).</li>
+        <li>La clé primaire doit donc être composée de <b>ID_Note</b> de de <b>Annee</b>.</li>
+    </ul>    
+    MariaDB exige que la clé primaire contienne Annee (la colonne de partitionnement) pour garantir que chaque partition peut identifier ses lignes de manière unique. 
+    Sans cela, la gestion des index devient problématique.
+</div>
+
+<p class="fw-bold">Étape 1 : Vérifier les données</p>
+<textarea class="code-php" id="ta-4">
+SELECT * FROM Notes;
+</textarea>
+<button id="copy-4" class="btn btn-secondary btn-sm" data-target="ta-4" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">Résultats</p>
+<textarea class="code-php" id="ta-5">
+    ID_Note	    Eleve_ID	Matiere	    Note	Annee
+    -------------------------------------------------
+    1	        1	        Maths	    18	    2023
+    2	        1	        Français	16	    2023
+    3	        2	        Histoire	15	    2024
+    4	        3	        Sciences	17	    2024
+    5	        4	        Anglais	    19	    2025
+</textarea> 
+<button id="copy-5" class="btn btn-secondary btn-sm" data-target="ta-5" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="fw-bold mt-4">
+    Étape 2 : Tester une requête optimisée
+</p>
+<textarea class="code-php" id="ta-6">
+SELECT * FROM Notes WHERE Annee = 2024;
+</textarea>
+<button id="copy-6" class="btn btn-secondary btn-sm" data-target="ta-6" data-toggle="tooltip" title="Copy code">Copy</button>
+<p class="mt-4">
+    MariaDB ne lit que la partition <b>p2024</b>, ce qui est plus rapide que de scanner toute la table.
+</p>
+
+<p class="fw-bold">
+    Étape 3 : Vérifier les partitions
+</p>
+<textarea class="code-php" id="ta-7">
+SELECT PARTITION_NAME, TABLE_ROWS
+FROM information_schema.PARTITIONS
+WHERE TABLE_SCHEMA = 'ldb_partition' AND TABLE_NAME = 'notes';    
+</textarea>
+<button id="copy-7" class="btn btn-secondary btn-sm" data-target="ta-7" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p>
+    Résultat attendu :
+</p>
+<textarea class="code-php" id="ta-8">
+    PARTITION_NAME	TABLE_ROWS
+    p2023	        2
+    p2024	        2
+    p2025	        1
+</textarea>
+<button id="copy-8" class="btn btn-secondary btn-sm" data-target="ta-8" data-toggle="tooltip" title="Copy code">Copy</button>
+<p class="mt-4">
+    Vous pouvez voir combien de lignes sont dans chaque partition. Cela vous aide à comprendre comment les données sont réparties.
+</p>
+
+<p class="fw-bold">
+    Étape 4 : Supprimer une partition
+</p>
+<textarea class="code-php" id="ta-9">
+ALTER TABLE Notes DROP PARTITION p2023;
+</textarea>
+<button id="copy-9" class="btn btn-secondary btn-sm" data-target="ta-9" data-toggle="tooltip" title="Copy code">Copy</button>
+<p class="mt-4">
+    Cela supprime toutes les données de 2023. Vérifiez à nouveau les données :
+</p>
+<textarea class="code-php" id="ta-10">
+SELECT * FROM Notes;
+</textarea>
+<button id="copy-10" class="btn btn-secondary btn-sm" data-target="ta-10" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h3 id="quand">6. Quand utiliser les partitions ?</h3>
+<ul>
+    <li><b>Gros volumes</b> : Quand une table dépasse des dizaines de milliers de lignes.</li>
+    <li><b>Requêtes fréquentes sur une colonne</b> : Par exemple, chercher par année ou par catégorie.</li>
+    <li><b>Gestion des archives</b> : Supprimer ou déplacer des données anciennes.</li>
+</ul>
+
+<div class="alert alert-danger">
+    <strong>Attention :</strong> <hr>
+    Les petites tables (comme dans notre exemple) ne bénéficient pas beaucoup des partitions. <br>
+    Choisissez une colonne souvent utilisée dans le <b>WHERE</b> (ex. : <st-r>Annee</st-r>).
+</div>
+
+<h3 id="conclusion">7. Conclusion</h3>
+<ul>
+    <li>Les partitions divisent une table en morceaux pour gérer les gros volumes de données.</li>
+    <li>Elles utilisent <b>PARTITION BY</b> (comme <b>RANGE</b>) pour organiser les lignes.</li>
+    <li>Elles rendent les requêtes plus rapides et la gestion plus facile, surtout pour les grandes bases !</li>
+</ul>
