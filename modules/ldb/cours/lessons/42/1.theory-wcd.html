@@ -1,0 +1,265 @@
+<h3>Sommaire</h3>
+<ul>
+    <li><a href="#intro">1. Introduction</a></li>
+    <li><a href="#tools">2. Les outils de sauvegarde</a></li>
+    <li><a href="#msqldump">3. Sauvegarder avec mysqldump</a></li>
+    <li><a href="#restore">4. Restaurer avec mysqldump</a></li>
+    <li><a href="#mariadbbackup">5. Sauvegarder avec MariaDB Backup</a></li>
+    <li><a href="#bestpractices">6. Bonnes pratiques</a></li>
+    <li><a href="#conslusions">7. Conclusion</a></li>
+</ul>
+<h3 id="intro">1. Introduction</h3>
+<p>
+    Objectifs de la leçon :
+</p>
+<ul>
+    <li>Mettre en pratique la sauvegarde et la restauration d’une base.</li>
+    <li>Comprendre l’importance des sauvegardes pour protéger les données.</li>
+    <li>Apprendre à utiliser mysqldump pour sauvegarder et restaurer une base.</li>
+    <li>Découvrir MariaDB Backup pour des sauvegardes avancées.</li>
+</ul>
+
+<h4>Pourquoi sauvegarder une base de données ?</h4>
+
+<p>
+    Imaginez que la base de données de votre école, qui contient les notes des élèves, est accidentellement supprimée ou corrompue à cause d’une panne ou d’une erreur humaine. 
+    Sans sauvegarde, ces données seraient perdues à jamais ! Une sauvegarde est une copie de votre base que vous pouvez utiliser pour restaurer les données en cas de problème. 
+    Dans MariaDB, des outils comme <b>mysqldump</b> et <b>MariaDB</b> Backup facilitent ce processus.
+</p>
+   
+<h3 id="tools">2. Les outils de sauvegarde</h3>
+<p>
+    MariaDB propose deux outils principaux pour les sauvegardes :
+</p>
+
+<ul>
+    <li><b>mysqldump</b> : Un outil en ligne de commande qui exporte la base sous forme de fichier SQL (instructions pour recréer les tables et données).</li>
+    <li><b>MariaDB Backup</b> : Un outil pour des sauvegardes physiques (copies des fichiers de données), idéal pour les grandes bases ou les sauvegardes à chaud.</li>
+</ul>
+
+<h4>Quand utiliser chaque outil ?</h4>
+
+<ul>
+    <b>mysqldump : Pour les petites et moyennes bases, facile à utiliser, produit un fichier lisible.</b>
+    <b>MariaDB Backup : Pour les grandes bases, les sauvegardes rapides, ou les serveurs en production.</b>
+</ul>
+
+<h3 id="msqldump">3. Sauvegarder avec mysqldump</h3>
+<p>
+    <b>mysqldump</b> génère un fichier SQL contenant les commandes pour recréer la structure et les données de la base.
+</p>
+
+Syntaxe de base :
+<textarea class="code-php" id="ta-1">
+    mysqldump -u [utilisateur] -p [base_de_données] > sauvegarde.sql
+</textarea>
+<button id="copy-1" class="btn btn-secondary btn-sm" data-target="ta-1" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<ul class="mt-4">
+    <li><b>-u</b> : Nom de l’utilisateur (ex. : root).</li>
+    <li><b>-p</b> : Demande le mot de passe.</li>
+    <li><b>&gt;</b> : Redirige la sortie vers un fichier (ex. : <b>sauvegarde.sql</b>).</li>
+</ul>
+
+<h4>Exemple :</h4>
+<p>
+    Pour sauvegarder une base <b>college</b> : <br>
+    Au préalable, allez copier le code du chapitre 7 (activité) et exécutez-le dans un terminal. <br>
+</p>
+<p class="red fw-bold">
+    Sous Windows, ouvrez l’invite de commande et placez-vous dans le répertoire de votre serveur MariaDB ou ajouter le chemin des binaires MariaDB dans le path de vos variables d'environnement. <br> 
+    Exemple de path sous Windows : C:\Program Files\MariaDB 11.4\bin
+</p>
+   
+
+<textarea class="code-php" id="ta-2">
+    mysqldump -u root -p college > college_sauvegarde.sql
+</textarea>
+<button id="copy-2" class="btn btn-secondary btn-sm" data-target="ta-2" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<ul class="mt-4">
+    <li>Entrez le mot de passe quand demandé.</li>
+    <li>Le fichier <b>college_sauvegarde.sql</b> contient les <b>CREATE TABLE</b> et <b>INSERT</b> nécessaires.</li>
+</ul>
+
+<h4>Sauvegarder une table spécifique :</h4>
+<p>
+    Pour sauvegarder une seule table, ajoutez le nom de la table après le nom de la base :
+</p>
+<textarea class="code-php" id="ta-3">
+    mysqldump -u root -p college eleves > eleves_sauvegarde.sql
+</textarea>
+<button id="copy-3" class="btn btn-secondary btn-sm" data-target="ta-3" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h3 id="restore">4. Restaurer avec mysqldump</h3>
+<p>
+    Pour restaurer, vous exécutez le fichier SQL généré par mysqldump.
+</p>
+
+<h4>Syntaxe :</h4>
+<textarea class="code-php" id="ta-4">
+    mysql -u [utilisateur] -p [base_de_données] < sauvegarde.sql
+</textarea>
+<button id="copy-4" class="btn btn-secondary btn-sm" data-target="ta-4" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="fw-bold">Restaurez :</p>
+<p class="red fw-bold">
+    <b>ATTENTION</b> : La restauration écrase les données existantes dans la base. <br>
+    Si la base n'existe pas, créé-la avec la commande <code>CREATE DATABASE college;</code> avant de restaurer. <br>
+</p>
+<p>
+    Exemple de restauration de la base <b>college</b> à partir du fichier <b>college_sauvegarde.sql</b> :
+</p>
+<textarea class="code-php" id="ta-5">
+    mysql -u root -p college < college_sauvegarde.sql
+</textarea>
+<button id="copy-5" class="btn btn-secondary btn-sm" data-target="ta-5" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    <span class="fw-bold">Attention</span>, comme annoncé précédemment, la restauration écrase les données existantes dans la base. <br>
+    Si vous restaurez une base qui existe déjà, les tables seront écrasées ou causeront des erreurs si elles contiennent des données. <br>
+    Pour éviter cela, supprimez la base avant :
+</p>
+<textarea class="code-php" id="ta-6">
+    mysql -u root -p -e "DROP DATABASE college; CREATE DATABASE college;"
+</textarea>
+<button id="copy-6" class="btn btn-secondary btn-sm" data-target="ta-6" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h3 id="mariadbbackup">5. Sauvegarder avec MariaDB Backup</h3>
+<p>
+    <b>MariaDB Backup</b> copie les fichiers physiques de la base (données brutes), ce qui est plus rapide pour les grandes bases.
+</p>
+<p>
+    Prérequis :
+</p>
+<ul>
+    <li>Installez MariaDB Backup (inclus avec MariaDB Server).</li>
+    <li>Vous devez avoir les permissions pour accéder aux fichiers de données (souvent /var/lib/mysql (sous Linux)).</li>
+</ul>
+Syntaxe de sauvegarde :
+<textarea class="code-php" id="ta-7">
+    mariabackup --backup --target-dir=/chemin/sauvegarde --user=[utilisateur] --password=[mot_de_passe]
+</textarea>
+<button id="copy-7" class="btn btn-secondary btn-sm" data-target="ta-7" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4>Exemple :</h4>
+<p>Sauvegarder toutes les bases de données :</p>
+<textarea class="code-php" id="ta-8">
+    mariabackup --backup --target-dir=/backups --user=root --password=motdepasse
+</textarea>
+<button id="copy-8" class="btn btn-secondary btn-sm" data-target="ta-8" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4>Restaurer avec MariaDB Backup :</h4>
+
+<h5>1. Arrêtez le serveur MariaDB (serveur Linux) :</h5>
+<textarea class="code-php" id="ta-9">
+    sudo systemctl stop mariadb
+</textarea>
+<button id="copy-9" class="btn btn-secondary btn-sm" data-target="ta-9" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h5>2. Préparez la sauvegarde :</h5>
+<textarea class="code-php" id="ta-10">
+    mariabackup --prepare --target-dir=/backups/college
+</textarea>
+<button id="copy-10" class="btn btn-secondary btn-sm" data-target="ta-10" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h5>3. Copiez les fichiers dans le répertoire de données :</h5>
+<textarea class="code-php" id="ta-11">
+    mariabackup --copy-back --target-dir=/backups/college
+</textarea>
+<button id="copy-11" class="btn btn-secondary btn-sm" data-target="ta-11" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h5>4. Redémarrez le serveur :</h5>
+<textarea class="code-php" id="ta-12">
+    sudo systemctl start mariadb
+</textarea>
+<button id="copy-12" class="btn btn-secondary btn-sm" data-target="ta-12" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<div class="alert alert-info mt-4">
+    <strong>Note :</strong> <hr>
+    <st-r>MariaDB Backup</st-r> est plus complexe et nécessite des privilèges administrateur.  <br>
+    Si vous débutez, concentrez-vous sur <b>mysqldump</b>. 
+</div>
+
+<h3 id="bestpractices">6. Bonnes pratiques</h3>
+<ul>
+    <li><st-r>Planifiez des sauvegardes régulières</st-r> : Par exemple, tous les jours à minuit avec un script cron.</li>
+    <li><st-r>Stockez les sauvegardes ailleurs</st-r> : Sur un disque externe ou un cloud pour éviter les pertes en cas de panne matérielle.</li>
+    <li><st-r>Testez vos restaurations</st-r> : Vérifiez que vos sauvegardes sont valides en les restaurant dans une base de test.</li>
+    <li><st-r>Utilisez des mots de passe sécurisés</st-r> : Protégez l’accès aux outils de sauvegarde.</li>
+</ul>
+
+<h3>7. Activité pratique : Sauvegarde et restauration</h3>
+
+<h4>Préparation : Créons une base</h4>
+<textarea class="code-php" id="ta-13">
+    CREATE DATABASE college;
+    USE college;
+
+    CREATE TABLE Eleves (
+        ID INT PRIMARY KEY AUTO_INCREMENT,
+        Nom VARCHAR(50)
+    );
+
+    CREATE TABLE Notes (
+        ID_Note INT PRIMARY KEY AUTO_INCREMENT,
+        Eleve_ID INT,
+        Note INT,
+        FOREIGN KEY (Eleve_ID) REFERENCES Eleves(ID)
+    );
+
+    INSERT INTO Eleves (Nom) VALUES ('Alice'), ('Bob');
+    INSERT INTO Notes (Eleve_ID, Note) VALUES (1, 18), (2, 15);
+</textarea>
+<button id="copy-13" class="btn btn-secondary btn-sm" data-target="ta-13" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4>Étape 1 : Sauvegarder avec mysqldump</h4>
+
+<h5>1. Exécutez dans un terminal :</h5>
+<textarea class="code-php" id="ta-14">
+    mysqldump -u root -p college > college_sauvegarde.sql
+</textarea>
+<button id="copy-14" class="btn btn-secondary btn-sm" data-target="ta-14" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h5>2. Vérifiez que le fichier <b>college_sauvegarde.sql</b> contient les <b>CREATE TABLE</b> et <b>INSERT</b>.</h5>
+
+<h4>Étape 2 : Simuler une perte de données</h4>
+<p>Supprimez une table pour simuler une erreur :</p>
+<textarea class="code-php" id="ta-15">
+    DROP TABLE notes;
+</textarea>
+<button id="copy-15" class="btn btn-secondary btn-sm" data-target="ta-15" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4>Étape 3 : Restaurer la base</h4>
+
+<h5>1. Restaurez la base :</h5>
+<textarea class="code-php" id="ta-16">
+    mysql -u root -p college < college_sauvegarde.sql
+</textarea>
+<button id="copy-16" class="btn btn-secondary btn-sm" data-target="ta-16" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h5>2. Vérifiez que les données sont revenues :</h5>
+<textarea class="code-php" id="ta-17">
+    SELECT * FROM notes;
+</textarea>
+<button id="copy-17" class="btn btn-secondary btn-sm" data-target="ta-17" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">Résultat attendu :</p>
+<textarea class="code-php" id="ta-18">
+    +--------+----------+------+
+    | ID_Note| Eleve_ID | Note |
+    +--------+----------+------+
+    |      1 |        1 |   18 |
+    |      2 |        2 |   15 |
+    +--------+----------+------+
+</textarea>
+<button id="copy-18" class="btn btn-secondary btn-sm" data-target="ta-18" data-toggle="tooltip" title="Copy code">Copy</button>
+
+
+<h3 id="conslusions">8. Conclusion</h3>
+<ul>
+    <li>Les <st-r>sauvegardes</st-r> protègent vos données contre les pertes ou corruptions.</li>
+    <li><st-r>mysqldump</st-r> est simple et idéal pour les débutants, générant un fichier SQL portable.</li>
+    <li><st-r>MariaDB Backup</st-r> est plus adapté aux grandes bases ou aux environnements de production.</li>
+    <li>Avec des sauvegardes régulières et des tests de restauration, vous assurez la sécurité de vos bases !</li>
+</ul>

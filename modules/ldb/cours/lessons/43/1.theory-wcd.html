@@ -1,0 +1,275 @@
+<h3>Sommaire</h3>
+<ul>
+    <li><a href="#intro">1. Introduction</a></li>
+    <li><a href="#what">2. Qu’est-ce que la réplication ?</a></li>
+    <li><a href="#comment">3. Comment fonctionne la réplication maître-esclave ?</a></li>
+    <li><a href="#config">4. Configurer une réplication maître-esclave</a></li>
+    <li><a href="#activites">5. Activité pratique : Simuler une réplication maître-esclave</a></li>
+    <li><a href="#bestpractices">6. Bonnes pratiques</a></li>
+    <li><a href="#conclusion">7. Conclusion</a></li>
+</ul>
+<h3 id="intro">1. Introduction</h3>
+<p>
+    Objectifs de la leçon :
+</p>
+<ul>
+    <li>Comprendre ce qu’est la réplication et pourquoi elle est utile.</li>
+    <li>Découvrir les types de réplication : <b>maître-esclave</b> et <b>maître-maître</b>.</li>
+    <li>Apprendre les bases pour configurer une réplication maître-esclave.</li>
+    <li>Tester un scénario simple de réplication (simulation).</li>
+</ul>
+
+<h4>Pourquoi la réplication ?</h4>
+<p>
+    Imaginez que votre base de données scolaire, qui contient les notes des élèves, est hébergée sur un seul serveur. Si ce serveur tombe en panne, plus personne ne peut accéder aux données ! 
+    De plus, si beaucoup d’élèves interrogent la base en même temps, le serveur peut devenir lent. La <b>réplication</b> résout ces problèmes en créant des copies de la base sur d’autres serveurs, 
+    assurant <b>disponibilité</b>, <b>performance</b>, et <b>redondance</b>.
+</p>
+<p>
+    Dans MariaDB, la réplication permet à un serveur (<b>maître</b>) d’envoyer ses modifications à d’autres serveurs (<b>esclaves</b>) pour qu’ils restent synchronisés.
+</p>
+
+<h3 id="what">2. Qu’est-ce que la réplication ?</h3>
+<p>
+    La <b>réplication</b> est un mécanisme où les données d’une base de données (le maître) sont copiées automatiquement vers une ou plusieurs autres bases (les esclaves). 
+    Les modifications (insertions, mises à jour, suppressions) sur le maître sont propagées aux esclaves.
+</p>
+
+<h4>Les types de réplication dans MariaDB :</h4>
+
+<ol>
+    <li>
+        <span class="fw-bold">Maître-esclave</span> :
+        <ul>
+            <li>Le <b>maître</b> accepte les écritures (INSERT, UPDATE, DELETE).</li>
+            <li>Les <b>esclaves</b> reçoivent les modifications et sont en lecture seule (SELECT).</li>
+            <li>Utilité : Répartir les lectures (ex. : rapports sur les esclaves) et avoir une sauvegarde en cas de panne du maître.</li>
+        </ul>
+    </li>
+    <li>
+        <span class="fw-bold">Maître-maître</span> :
+        <ul>
+            <li>Deux serveurs sont à la fois <b>maîtres</b> et <b>esclaves</b> l’un de l’autre.</li>
+            <li>Les deux acceptent les écritures, mais cela nécessite une gestion soigneuse pour éviter les conflits.</li>
+            <li><st-r>Utilité</st-r> : Haute disponibilité dans des environnements distribués.</li>
+        </ul>
+    </li>
+</ol>
+
+<h4>Exemple d’application :</h4>
+
+<ul>
+    <li><st-r>Maître-esclave</st-r> : Une école utilise le maître pour enregistrer les notes, et un esclave pour générer des rapports d’élèves sans surcharger le maître.</li>
+    <li><st-r>Maître-maître</st-r> : Deux campus partagent la même base, chacun pouvant ajouter des données.</li>
+</ul>
+
+<h3 id="comment">3. Comment fonctionne la réplication maître-esclave ?</h3>
+<ol>
+    <li><st-r>Journal binaire</st-r> : Le maître enregistre toutes les modifications dans un fichier journal (binary log).</li>
+    <li><st-r>Relais</st-r> : L’esclave lit le journal du maître via une connexion réseau.</li>
+    <li><st-r>Application</st-r> : L’esclave applique les modifications à sa propre base.</li>
+</ol>
+
+<h5>Prérequis :</h5>
+<ul>
+    <li>Deux instances de MariaDB (sur le même ordinateur ou sur des machines différentes).</li>
+    <li>Une configuration réseau permettant aux serveurs de communiquer.</li>
+    <li>Des privilèges administrateur pour configurer les serveurs.</li>
+</ul>
+
+<h3 id="config">4. Configurer une réplication maître-esclave</h3>
+<p>
+    Pour les débutants, nous allons expliquer les étapes sans entrer dans des configurations réseau complexes. Voici comment configurer un maître et un esclave 
+    (simulable sur un seul ordinateur avec deux instances MariaDB).
+</p>
+
+<h4>Étape 1 : Configurer le maître</h4>
+
+<h5>1. Modifiez le fichier de configuration</h5>
+<p>(my.cnf ou my.ini, souvent dans /etc/mysql/ ou C:\Program Files\MariaDB 11.4\ (avec PHP utilisez la fonction <b>phpinfo()</b> pour connaître le chemin du fichier)).</p>
+<textarea class="code-php" id="ta-1">
+[mysqld]
+server-id=1
+log-bin=mysql-bin
+bind-address=0.0.0.0
+</textarea>
+<button id="copy-1" class="btn btn-secondary btn-sm" data-target="ta-1" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<ul class="mt-4">
+    <li> <b>server-id</b> : Identifiant unique pour le maître (ex. : 1).</li>
+    <li><b>log-bin</b> : Active le journal binaire.</li>
+    <li><b>bind-address</b> : Permet les connexions distantes.</li>
+</ul>
+
+<h5>2. Redémarrez MariaDB :</h5>
+<p>Pour appliquer les modifications, redémarrez le serveur MariaDB (exemple sous Linux).</p>
+<textarea class="code-php" id="ta-2">
+    sudo systemctl restart mariadb
+</textarea>
+<button id="copy-2" class="btn btn-secondary btn-sm" data-target="ta-2" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h5>3. Créez un utilisateur pour la réplication :</h5>
+<p>Connectez-vous au serveur maître et créez un utilisateur pour la réplication.</p>
+<textarea class="code-php" id="ta-3">
+    CREATE USER 'replicator'@'%' IDENTIFIED BY 'password';
+    GRANT REPLICATION SLAVE ON *.* TO 'replicator'@'%';
+</textarea>
+<button id="copy-3" class="btn btn-secondary btn-sm" data-target="ta-3" data-toggle="tooltip" title="Copy code">Copy</button>
+<ul class="mt-4">
+    <li><b>replicator</b> : Nom de l’utilisateur.</li>
+    <li><b>%</b> : Autorise les connexions depuis n’importe quelle adresse IP.</li>
+    <li><b>password</b> : Mot de passe pour l’utilisateur.</li>
+    <li><b>GRANT REPLICATION SLAVE</b> : Donne les droits nécessaires pour la réplication.</li>
+</ul>
+
+<h5>4. Obtenez la position du journal binaire :</h5>
+<p>Exécutez la commande suivante pour obtenir la position actuelle du journal binaire.</p>
+<textarea class="code-php" id="ta-4">
+    SHOW MASTER STATUS;
+</textarea>
+<button id="copy-4" class="btn btn-secondary btn-sm" data-target="ta-4" data-toggle="tooltip" title="Copy code">Copy</button>
+<ul class="mt-4">
+    <li>Notez le nom du fichier journal et la position (ex. : mysql-bin.000001, 123).</li>
+    <li>Ces informations seront nécessaires pour configurer l’esclave.</li>
+</ul>
+
+<p class="fw-bold">Exemple de résultat :</p>
+<textarea class="code-php" id="ta-5">
+    File	            Position	Binlog_Do_DB	Binlog_Ignore_DB
+    ----------------------------------------------------------------
+    mysql-bin.000001	123
+</textarea>
+<p class="mt-4">
+    Notez <b>File</b> et <b>Position</b>.
+</p>
+
+<h4>Étape 2 : Configurer l’esclave</h4>
+
+<h5>1. Modifiez le fichier de configuration de l’esclave :</h5>
+<p>Ouvrez le fichier de configuration de l’esclave (my.cnf ou my.ini).</p>
+<textarea class="code-php" id="ta-6">
+[mysqld]
+server-id=2
+log-bin=mysql-bin
+bind-address=0.0.0.0
+</textarea>
+<button id="copy-6" class="btn btn-secondary btn-sm" data-target="ta-6" data-toggle="tooltip" title="Copy code">Copy</button>
+<ul class="mt-4">
+    <li><b>server-id</b> : Identifiant unique pour l’esclave (ex. : 2).</li>
+    <li><b>log-bin</b> : Active le journal binaire.</li>
+    <li><b>bind-address</b> : Permet les connexions distantes.</li>
+</ul>
+
+<h5>2. Redémarrez MariaDB :</h5>
+<p>Pour appliquer les modifications, redémarrez le serveur MariaDB (exemple sous Linux).</p>
+<textarea class="code-php" id="ta-7">
+    sudo systemctl restart mariadb
+</textarea>
+<button id="copy-7" class="btn btn-secondary btn-sm" data-target="ta-7" data-toggle="tooltip" title="Copy code">Copy</button>
+
+
+<h5>3. Connectez l’esclave au maître :</h5>
+<p>Connectez-vous au serveur esclave et exécutez la commande suivante :</p>
+<textarea class="code-php" id="ta-8">
+    CHANGE MASTER TO
+    MASTER_HOST='adresse_ip_maitre',
+    MASTER_USER='repl',
+    MASTER_PASSWORD='ReplPass2023!',
+    MASTER_LOG_FILE='mysql-bin.000001',
+    MASTER_LOG_POS=123;
+</textarea>
+<button id="copy-8" class="btn btn-secondary btn-sm" data-target="ta-8" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h5>4. Démarrez l’esclave :</h5>
+<p>Exécutez la commande suivante pour démarrer le processus de réplication :</p>
+<textarea class="code-php" id="ta-9">
+    START SLAVE;
+</textarea>
+<button id="copy-9" class="btn btn-secondary btn-sm" data-target="ta-9" data-toggle="tooltip" title="Copy code">Copy</button>
+
+
+<h5>5. Vérifiez l’état :</h5>
+<p>Pour vérifier que la réplication fonctionne, exécutez :</p>
+<textarea class="code-php" id="ta-10">
+    SHOW SLAVE STATUS\G
+</textarea>
+<button id="copy-10" class="btn btn-secondary btn-sm" data-target="ta-10" data-toggle="tooltip" title="Copy code">Copy</button>
+<p class="mt-4">
+    Cherchez <b>Slave_IO_Running: Yes</b> et <b>Slave_SQL_Running: Yes</b>.
+</p>
+
+<h3 id="activites">5. Activité pratique : Simuler une réplication maître-esclave</h3>
+<h4>Préparation : Base de test</h4>
+
+<p>
+    Sur le maître, créez une base simple :
+</p>
+<textarea class="code-php" id="ta-11">
+    CREATE DATABASE college;
+    USE college;
+
+    CREATE TABLE Eleves (
+        ID INT PRIMARY KEY AUTO_INCREMENT,
+        Nom VARCHAR(50)
+    );
+
+    INSERT INTO Eleves (Nom) VALUES ('Alice'), ('Bob');
+</textarea>
+<button id="copy-11" class="btn btn-secondary btn-sm" data-target="ta-11" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4>Étape 1 : Configurer le maître (simulation)</h4>
+<p>Si vous ne possédez pas deux instances MariaDB, simulez la configuration en notant les commandes :</p>
+<textarea class="code-php" id="ta-12">
+    -- Sur le maître
+    CREATE USER 'repl'@'localhost' IDENTIFIED BY 'ReplPass2023!';
+    GRANT REPLICATION SLAVE ON *.* TO 'repl'@'localhost';
+    SHOW MASTER STATUS;
+</textarea>
+<button id="copy-12" class="btn btn-secondary btn-sm" data-target="ta-12" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4>Étape 2 : Simuler l’esclave</h4>
+<p>
+    Sans les deux serveurs, l’esclave copierait la base college. Si possible, utilisez une seconde instance MariaDB sur le même ordinateur (ports différents, ex. : 3306 pour maître, 3307 pour esclave).
+</p>
+
+<h4>Étape 3 : Tester la réplication</h4>
+
+<h5>Sur le maître, ajoutez une donnée :</h5>
+<textarea class="code-php" id="ta-13">
+    INSERT INTO Eleves (Nom) VALUES ('Clara');
+</textarea>
+<button id="copy-13" class="btn btn-secondary btn-sm" data-target="ta-13" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h5>Sur l’esclave (si configuré), vérifiez :</h5>
+<textarea class="code-php" id="ta-14">
+    SELECT * FROM college.eleves;
+</textarea>
+<button id="copy-14" class="btn btn-secondary btn-sm" data-target="ta-14" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    Résultat attendu :
+</p>
+<textarea class="code-php" id="ta-15">
+    ID  | Nom
+    ------------
+    1   | Alice
+    2   | Bob
+    3   | Clara
+</textarea>
+<button id="copy-15" class="btn btn-secondary btn-sm" data-target="ta-15" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h3 id="bestpractices">6. Bonnes pratiques</h3>
+<ul>
+    <li><st-r>Surveillez l’état</st-r> : Utilisez <b>SHOW SLAVE STATUS</b> pour détecter les erreurs de synchronisation.</li>        
+    <li><st-r>Utilisez des identifiants uniques</st-r> : Chaque serveur doit avoir un <b>server-id</b> différent.</li>
+    <li><st-r>Sécurisez les connexions</st-r> : Utilisez SSL pour la réplication sur des réseaux non sécurisés.</li>
+    <li><st-r>Testez la bascule</st-r> : Simulez une panne du maître pour vérifier que l’esclave peut prendre le relais.</li>
+</ul>
+
+<h3 id="conclusion">7. Conclusion</h3>
+<ul>
+    <li>La <b>réplication</b> dans MariaDB permet de créer des copies synchronisées d’une base pour améliorer la <b>disponibilité</b> et la <b>performance</b>.</li>
+    <li>La <b>maître-esclave</b> est idéale pour répartir les lectures et assurer une sauvegarde.</li>
+    <li>La <b>maître-maître</b> offre une haute disponibilité, mais est plus complexe.</li>
+    <li>Avec une configuration correcte, la réplication rend vos bases robustes et scalables !</li>
+</ul>
