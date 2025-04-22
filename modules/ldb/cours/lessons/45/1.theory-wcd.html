@@ -1,0 +1,267 @@
+<!--
+<textarea class="code-php" id="ta-1">
+    
+</textarea>
+<button id="copy-1" class="btn btn-secondary btn-sm" data-target="ta-1" data-toggle="tooltip" title="Copy code">Copy</button>
+-->
+<h3 id="intro">1. Introduction</h3>
+<p>
+    Cette leçon approfondit <b>GROUP BY</b>, <b>HAVING</b>, et les fonctions d’agrégation complexes (comme <b>COUNT</b>, <b>SUM</b>, <b>AVG</b>, <b>MIN</b>, <b>MAX</b>) 
+    avec des sous-requêtes, en restant accessible. Les exemples et l’activité pratique sont basés sur la base de données "college" pour maintenir la cohérence.
+</p>
+<p>
+    Objectifs de la leçon :
+</p>
+<ul>
+    <li>Maîtriser <b>GROUP BY</b> pour regrouper les données.</li>
+    <li>Comprendre <b>HAVING</b> pour filtrer les groupes.</li>
+    <li>Utiliser des <b>fonctions d’agrégation complexes</b> avec des sous-requêtes.</li>
+    <li>Appliquer ces concepts à des analyses scolaires dans la base <b>college</b>.</li>
+</ul>
+
+<h4>Pourquoi les agrégations avancées ?</h4>
+<p>
+    Dans la base de données <b>college</b>, qui contient les informations sur les élèves et leurs notes, vous pourriez vouloir répondre à des questions complexes :
+    quelle est la moyenne des notes par élève ? Quels élèves ont plus de trois notes enregistrées ? Les agrégations (comme <b>COUNT, AVG, SUM</b>) permettent de 
+    résumer les données, et avec <b>GROUP BY, HAVING</b>, et des <b>sous-requêtes</b>, vous pouvez effectuer des analyses précises pour aider les professeurs ou l’administration.
+</p>    
+
+<h3 id="rappel">2. Rappel : Les bases des agrégations</h3>
+<p>
+    Les <st-r>fonctions d’agrégation</st-r> résument les données :
+</p>
+<ul>
+    <li><b>COUNT(*)</b> : Compte les lignes.</li>
+    <li><b>SUM(colonne)</b> : Somme les valeurs.</li>
+    <li><b>AVG(colonne)</b> : Calcule la moyenne.</li>
+    <li><b>MIN(colonne) / MAX(colonne)</b> : Trouve la valeur minimale/maximale.</li>
+</ul>
+<p>
+    <b>GROUP BY</b> regroupe les lignes par une ou plusieurs colonnes :
+</p>
+<textarea class="code-php" id="ta-1">
+    SELECT Eleve_ID, COUNT(*) AS Nb_Notes
+    FROM Notes
+    GROUP BY Eleve_ID;
+</textarea>
+<button id="copy-1" class="btn btn-secondary btn-sm" data-target="ta-1" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">Résultat : Affiche le nombre de notes par élève.</p>
+
+<h3 id="prepa">3. Préparation : Structure de la base college</h3>
+<p>
+    Pour les exemples, utilisons la base college avec deux tables :
+</p>
+<textarea class="code-php" id="ta-2">
+    CREATE DATABASE college;
+USE college;
+
+CREATE TABLE Eleves (
+    ID INT PRIMARY KEY AUTO_INCREMENT,
+    Nom VARCHAR(50),
+    Classe VARCHAR(10)
+);
+
+CREATE TABLE Notes (
+    ID_Note INT PRIMARY KEY AUTO_INCREMENT,
+    Eleve_ID INT,
+    Matiere VARCHAR(50),
+    Note INT,
+    FOREIGN KEY (Eleve_ID) REFERENCES Eleves(ID)
+);
+
+INSERT INTO Eleves (Nom, Classe) VALUES
+('Alice', '3A'),
+('Bob', '3A'),
+('Clara', '3B');
+
+INSERT INTO Notes (Eleve_ID, Matiere, Note) VALUES
+(1, 'Maths', 18),
+(1, 'Français', 16),
+(1, 'Histoire', 14),
+(2, 'Maths', 15),
+(2, 'Français', 12),
+(3, 'Maths', 17);
+</textarea>
+<button id="copy-2" class="btn btn-secondary btn-sm" data-target="ta-2" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p>Données : </p>
+<ul>
+    <li><st-r>Eleves</st-r> : Alice (ID=1, 3A), Bob (ID=2, 3A), Clara (ID=3, 3B).</li>
+    <li><st-r>Notes</st-r> : Alice a 3 notes, Bob a 2, Clara a 1.</li>
+</ul>
+
+<h3 id="groupby">4. Approfondir GROUP BY</h3>
+<p><b>GROUP BY</b> peut regrouper sur plusieurs colonnes pour des analyses détaillées.</p>
+<p>
+    Exemple : <br>
+    Combien de notes chaque élève a-t-il par matière ?
+</p>
+<textarea class="code-php" id="ta-3">
+    SELECT Eleves.Nom, Notes.Matiere, COUNT(*) AS Nb_Notes
+    FROM Eleves
+    JOIN Notes ON Eleves.ID = Notes.Eleve_ID
+    GROUP BY Eleves.Nom, Notes.Matiere;
+</textarea>
+<button id="copy-3" class="btn btn-secondary btn-sm" data-target="ta-3" data-toggle="tooltip" title="Copy code">Copy</button>
+<p class="mt-4">Résultats :</p>
+<textarea class="code-php" id="ta-3">
+Nom	    Matiere	    Nb_Notes
+----------------------------
+Alice	Maths	    1
+Alice	Français	1
+Alice	Histoire	1
+Bob	    Maths	    1
+Bob	    Français	1
+Clara	Maths	    1
+</textarea>
+<button id="copy-3" class="btn btn-secondary btn-sm" data-target="ta-3" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p>
+    Exemple avec plusieurs colonnes : <br>
+    Quelle est la moyenne des notes par classe et matière ?
+</p>
+<textarea class="code-php" id="ta-4">
+    SELECT Eleves.Classe, Notes.Matiere, AVG(Notes.Note) AS Moyenne
+    FROM Eleves
+    JOIN Notes ON Eleves.ID = Notes.Eleve_ID
+    GROUP BY Eleves.Classe, Notes.Matiere;
+</textarea>
+<button id="copy-4" class="btn btn-secondary btn-sm" data-target="ta-4" data-toggle="tooltip" title="Copy code">Copy</button>
+<p class="mt-4">Résultats :</p>
+<textarea class="code-php" id="ta-4">
+    Classe	    Matiere	    Moyenne
+    -------------------------------
+    3A	        Maths	    16.5
+    3A	        Français	14.0
+    3A	        Histoire	14.0
+    3B	        Maths	    17.0
+</textarea>
+
+<h3 id="having">5. Filtrer avec HAVING</h3>
+<p><b>HAVING</b> filtre les groupes après l’agrégation, contrairement à <b>WHERE</b> qui filtre les lignes avant.</p>
+
+<p class="fw-bold">Syntaxe :</p>
+<textarea class="code-php" id="ta-5">
+SELECT colonne, fonction_agrégation
+FROM table
+GROUP BY colonne
+HAVING condition;
+</textarea>
+<button id="copy-5" class="btn btn-secondary btn-sm" data-target="ta-5" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p>
+    Exemple : <br>
+    Quels élèves ont plus de deux notes enregistrées ?
+</p>
+<textarea class="code-php" id="ta-6">
+    SELECT Eleves.Nom, COUNT(*) AS Nb_Notes
+    FROM Eleves
+    JOIN Notes ON Eleves.ID = Notes.Eleve_ID
+    GROUP BY Eleves.Nom
+    HAVING COUNT(*) > 2;
+</textarea>
+<button id="copy-6" class="btn btn-secondary btn-sm" data-target="ta-6" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p>Résultat :</p>
+<textarea class="code-php" id="ta-6">
+    Nom	    Nb_Notes
+    ------------------
+    Alice	3    
+</textarea>
+<button id="copy-6" class="btn btn-secondary btn-sm" data-target="ta-6" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">
+    Exemple combiné : <br>
+    Quelles classes ont une moyenne de notes en Maths supérieure à 15 ?
+</p>
+<textarea class="code-php" id="ta-7">
+    SELECT Eleves.Classe, AVG(Notes.Note) AS Moyenne_Maths
+    FROM Eleves
+    JOIN Notes ON Eleves.ID = Notes.Eleve_ID
+    WHERE Notes.Matiere = 'Maths'
+    GROUP BY Eleves.Classe
+    HAVING AVG(Notes.Note) > 15;
+</textarea>
+<button id="copy-7" class="btn btn-secondary btn-sm" data-target="ta-7" data-toggle="tooltip" title="Copy code">Copy</button>
+<p>Résultat :</p>
+<textarea class="code-php" id="ta-7">
+    Classe	    Moyenne_Maths
+    ------------------------
+    3A	        16.5
+    3B          17.0
+</textarea>
+<button id="copy-7" class="btn btn-secondary btn-sm" data-target="ta-7" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h3 id="agreg">6. Agrégations avec sous-requêtes</h3>
+<p>Les <b>sous-requêtes</b> permettent des analyses complexes en imbriquant une requête dans une autre.</p>
+<p class="fw-bold">Exemple 1 : Élèves avec des notes supérieures à la moyenne générale</p>
+<p>Quels élèves ont une note moyenne supérieure à la moyenne générale de toutes les notes ?</p>
+<textarea class="code-php" id="ta-8">
+    SELECT Eleves.Nom, AVG(Notes.Note) AS Moyenne_Élève
+    FROM Eleves
+    JOIN Notes ON Eleves.ID = Notes.Eleve_ID
+    GROUP BY Eleves.Nom
+    HAVING AVG(Notes.Note) > (
+        SELECT AVG(Note)
+        FROM Notes
+    );
+</textarea>
+<button id="copy-8" class="btn btn-secondary btn-sm" data-target="ta-8" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="mt-4">Explication :</p>
+<ul>
+    <li>La sous-requête calcule la moyenne générale (ex. : 15.33).</li>
+    <li>La requête principale compare la moyenne de chaque élève à cette valeur.</li>
+</ul>
+<p>Résultat :</p>
+<textarea class="code-php" id="ta-8">
+    Nom	    Moyenne_Élève
+    ---------------------
+    Alice	16.0
+    Clara	17.0
+</textarea>
+<button id="copy-8" class="btn btn-secondary btn-sm" data-target="ta-8" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<p class="fw-bold">Exemple 2 : Classes très performantes</p>
+<p>Quelles classes ont plus de notes supérieures à 15 que la moyenne des classes ?</p>
+<textarea class="code-php" id="ta-9">
+    SELECT Eleves.Classe, COUNT(*) AS Nb_Notes_Sup_15
+    FROM Eleves
+    JOIN Notes ON Eleves.ID = Notes.Eleve_ID
+    WHERE Notes.Note > 15
+    GROUP BY Eleves.Classe
+    HAVING COUNT(*) > (
+        SELECT AVG(nb)
+        FROM (
+            SELECT COUNT(*) AS nb
+            FROM Notes
+            WHERE Note > 15
+            GROUP BY Eleve_ID
+        ) AS sous_requête
+    );
+</textarea>
+<button id="copy-9" class="btn btn-secondary btn-sm" data-target="ta-9" data-toggle="tooltip" title="Copy code">Copy</button>
+<p class="mt-4">Résultats :</p>
+<textarea class="code-php" id="ta-9">
+    Classe	    Nb_Notes_Sup_15
+    --------------------------
+    3A	        2   
+</textarea>
+<button id="copy-9" class="btn btn-secondary btn-sm" data-target="ta-9" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h3 id="bestpractices">7. Bonnes pratiques</h3>
+<ul>
+    <li><st-r>Clarté</st-r> : Utilisez des alias pour les sous-requêtes (ex. : AS sous_requête).</li>
+    <li><st-r>Optimisation</st-r> : Ajoutez des index sur les colonnes fréquemment utilisées dans GROUP BY ou WHERE (ex. : Eleve_ID, Matiere).</li>
+    <li><st-r>Vérification</st-r> : Testez les sous-requêtes seules pour valider leurs résultats.</li>
+    <li><st-r>WHERE</st-r> avant <st-r>HAVING</st-r> : Utilisez <b>WHERE</b> pour filtrer les lignes brutes, puis <b>HAVING</b> pour les groupes.</li>
+</ul>
+
+<h3 id="conclusion">8. Conclusion</h3>
+<ul>
+    <li><b>GROUP BY</b> organise les données en groupes pour des analyses par catégorie.</li>
+    <li><b>HAVING</b> filtre les résultats agrégés pour cibler des groupes spécifiques.</li>
+    <li>Les sous-requêtes combinées aux agrégations permettent des comparaisons complexes, comme identifier les élèves performants.</li>
+    <li>Ces outils sont parfaits pour analyser les données scolaires dans la DB "college" !</li>
+</ul>

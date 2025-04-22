@@ -1,9 +1,11 @@
-<!--
-<textarea class="code-php" id="ta-1">
-    
-</textarea>
-<button id="copy-1" class="btn btn-secondary btn-sm" data-target="ta-1" data-toggle="tooltip" title="Copy code">Copy</button>
--->
+<h3>Sommaire</h3>
+<ul>
+    <li><a href="#intro">1. Introduction</a></li>
+    <li><a href="#code-nodejs">2. Écrire le code Node.js</a></li>
+    <li><a href="#diff-mysql2">3. Différences avec mysql2</a></li>
+    <li><a href="#conseils">4. Conseils</a></li>
+    <li><a href="#conclusion">5. Conclusion</a></li>
+</ul>
 <h3 id="intro">1. Introduction</h3>
 <p>
     Il est tout à fait possible de se connecter à MariaDB avec JavaScript, et en particulier avec Node.js, en utilisant un module dédié comme <b>mysql2</b> ou <b>mariadb</b>. 
@@ -19,3 +21,195 @@
     <li><st-r>MariaDB</st-r> : Un serveur <b>MariaDB</b> en cours d’exécution avec une base de données accessible.</li>
     <li><st-r>Module npm</st-r> : Utilisez le module <b>mysql2</b> (recommandé pour sa compatibilité et ses performances) ou <b>mariadb</b>.</li>
 </ol>
+
+<h5>Pourquoi mysql2 ?</h5>
+<ul>
+    <li><st-r>mysql2</st-r> est compatible avec MariaDB (MariaDB est un fork de MySQL).</li>
+    <li>Il est plus rapide et supporte les promesses (async/await), ce qui simplifie le code.</li>
+    <li>Plus populaire et mieux documenté que le module <b>Mariadb</b>.</li>
+</ul>
+
+<h4>Étapes pour se connecter</h4>
+
+<h5>1. Installer Node.js et mysql2 :</h5>
+<p>
+    Assurez-vous que Node.js est installé :
+</p>
+<textarea class="code-php" id="ta-1">
+    node -v
+</textarea>
+<button id="copy-1" class="btn btn-secondary btn-sm" data-target="ta-1" data-toggle="tooltip" title="Copy code">Copy</button>
+<p>
+    <ol>
+        <li>Créez un dossier pour votre projet Node.js.</li>
+        <li>Accédez au dossier et initialisez un projet Node.js.</li>
+        <li>Installez le module mysql2.</li>
+    </ol>
+</p>
+<textarea class="code-php" id="ta-2">
+    mkdir connect_mariadb
+    cd connect_mariadb
+    npm init -y
+    npm install mysql2
+</textarea>
+<button id="copy-2" class="btn btn-secondary btn-sm" data-target="ta-2" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h5>2. Configurer MariaDB :</h5>
+
+<ul>
+    <li>Assurez-vous que votre serveur MariaDB est en cours d’exécution.</li>
+    <li>Créez un utilisateur avec les privilèges nécessaires :</li>
+</ul>
+<textarea class="code-php" id="ta-3">
+    CREATE USER 'node_user'@'localhost' IDENTIFIED BY 'IfapmeLDB2025!';
+    GRANT ALL PRIVILEGES ON college.* TO 'node_user'@'localhost';
+    FLUSH PRIVILEGES;
+</textarea>
+<button id="copy-3" class="btn btn-secondary btn-sm" data-target="ta-3" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h3>3. Écrire le code Node.js : Créez un fichier index.js dans votre dossier de projet.</h3>
+
+<h4>Exemple de code Node.js</h4>
+<p>
+    Voici un exemple simple qui se connecte à la base de données "college", exécute une requête pour lister les élèves, et insère un nouvel élève.
+</p>
+<textarea class="code-php" id="ta-4">
+    const mysql = require('mysql2/promise');
+
+    // Configuration de la connexion
+    async function main() {
+        try {
+            // Créer une connexion
+            const connection = await mysql.createConnection({
+                host: 'localhost',
+                user: 'node_user',
+                password: 'IfapmeLDB2025!',
+                database: 'college'
+            });
+    
+            console.log('Connexion à MariaDB réussie !');
+    
+            // Exécuter une requête SELECT
+            const [rows] = await connection.execute('SELECT * FROM eleves');
+            console.log('Liste des élèves :');
+            console.log(rows);
+    
+            // Insérer une nouvelle chanson
+            const nouvelEleve = ['Mario'];
+            await connection.execute(
+                'INSERT INTO Chansons (Nom) VALUES (?)',
+                nouvelEleve
+            );
+            console.log('Nouvelle élève ajoutée !');
+    
+            // Fermer la connexion
+            await connection.end();
+        } catch (error) {
+            console.error('Erreur :', error.message);
+        }
+    }
+    
+    main();
+</textarea> 
+<button id="copy-4" class="btn btn-secondary btn-sm" data-target="ta-4" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h4>Explications du code</h4>
+<ul>
+    <li><st-r>Module mysql2/promise</st-r> : Utilise la version basée sur les promesses pour simplifier avec <b>async/await</b>.</li>
+    <li><st-r>createConnection</st-r> : Établit une connexion à MariaDB avec les informations d’identification.</li>
+    <li><st-r>execute</st-r> : Exécute des requêtes SQL. Les ? dans l’insertion protègent contre les injections SQL.</li>
+    <li><st-r>try/catch</st-r> : Gère les erreurs (ex. : mauvais mot de passe, base inexistante).</li>
+    <li><st-r>connection.end</st-r> : Ferme la connexion pour libérer les ressources.</li>
+</ul>
+
+<h4>Exécuter le code</h4>
+<ol>
+    <li>Assurez-vous que la base de données <b>college</b> existe (utilisez le code SQL de la leçon précédente pour la créer).</li>
+    <li>
+        Dans le terminal, à la racine de votre projet :
+        <textarea class="code-php" id="ta-5">
+            node index.js
+        </textarea>
+        <button id="copy-5" class="btn btn-secondary btn-sm" data-target="ta-5" data-toggle="tooltip" title="Copy code">Copy</button>        
+    </li>
+    <li class="mt-4">Résultat attendu (en principe) :D:</li>
+    <textarea class="code-php" id="ta-6">
+        Connexion à MariaDB réussie !
+        Liste des élèves :
+        [ { id: 1, Nom: 'Alice' }, { id: 2, Nom: 'Bob' }, { id: 3, Nom: 'Mario' } ]
+        Nouvelle élève ajoutée !
+        Connexion fermée.
+    </textarea>
+    <button id="copy-6" class="btn btn-secondary btn-sm" data-target="ta-6" data-toggle="tooltip" title="Copy code">Copy</button>
+</ol>
+
+<h4>Utilisation du module mariadb</h4>
+<p>Si vous préférez le module officiel <b>mariadb</b>, l’approche est similaire. Installez-le :</p>
+<textarea class="code-php" id="ta-7">
+    npm install mariadb
+</textarea>
+<button id="copy-7" class="btn btn-secondary btn-sm" data-target="ta-7" data-toggle="tooltip" title="Copy code">Copy</button>
+
+
+<h5>Exemple de code :</h5>
+<textarea class="code-php" id="ta-8">
+    const mariadb = require('mariadb');
+
+    async function main() {
+        let conn;
+        try {
+            conn = await mariadb.createConnection({
+                host: 'localhost',
+                user: 'node_user',
+                password: 'IfapmeLDB2025!',
+                database: 'college'
+            });
+            console.log('Connexion à MariaDB réussie !');
+    
+            const rows = await conn.query('SELECT * FROM eleves');
+            console.log('Liste des élèves :', rows);
+    
+            const nouvelEleve = ['Peach'];
+            await conn.query(
+                'INSERT INTO eleves (Nom) VALUES (?)',
+                nouvelEleve
+            );
+            console.log('Nouvel élève ajoutée !');
+        } catch (err) {
+            console.error('Erreur :', err.message);
+        } finally {
+            if (conn) conn.end();
+        }
+    }
+    
+    main();
+</textarea>
+<button id="copy-8" class="btn btn-secondary btn-sm" data-target="ta-8" data-toggle="tooltip" title="Copy code">Copy</button>
+
+<h3>4. Différences avec mysql2 :</h3>
+<ul>
+    <li><b>mariadb</b> utilise un <st-r>pool</st-r> de connexions par défaut, utile pour les applications avec plusieurs requêtes simultanées.</li>
+    <li>La syntaxe est légèrement différente (<b>query</b> au lieu de <b>execute</b>).</li>
+    <li>Moins utilisé que <b>mysql2</b>, mais spécifique à MariaDB.</li>
+</ul>
+
+<h3>5. Conseils</h3>
+<ul>
+    <li><st-r>Sécurité</st-r> : Ne mettez jamais les mots de passe en clair dans le code en production. Utilisez des variables d’environnement (ex. : <b>process.env.DB_PASSWORD</b>).</li>
+    <li>
+        <st-r>Erreurs courantes</st-r> :
+        <ul>
+            <li><b>ER_ACCESS_DENIED_ERROR</b> : Vérifiez l’utilisateur/mot de passe.</li>
+            <li><b>ER_NO_SUCH_TABLE</b> : Assurez-vous que la base et les tables existent.</li>
+        </ul>
+    </li>            
+    <li>    
+        <st-r>Performance</st-r> : Pour de nombreuses connexions, utilisez un pool (comme dans l’exemple <b>mariadb</b>).
+    </li>
+</ul>
+
+<h3>6. Conclusion</h3>
+<p>
+    On peut se connecter à <b>MariaDB</b> avec <b>Node.js</b> en utilisant le module <b>mysql2</b> (recommandé) ou <b>mariadb</b>. Le code ci-dessus montre comment se connecter, lire, et écrire dans la base 
+    "college" avec une syntaxe simple et sécurisée.
+</p>
