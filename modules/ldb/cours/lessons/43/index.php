@@ -21,7 +21,7 @@
                     <div class="col-md-1"></div>
                     <div class="col-md-10">                       
                         <h1 class="mt-5 text-center">Leçon 43 : <span class="color_dark_green">Concept - La réplication dans MariaDB</span></h1>  
-                        <?= getHtmlSubMenuLDB('42', '43'); ?>   
+                        <?= getHtmlSubMenuLDB('42', '44'); ?>   
                         
                         <?= getHtmlBlocWhatCodeDoes(file_get_contents(FILENAME_WCD)); ?>                       
                         
