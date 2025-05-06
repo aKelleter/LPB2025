@@ -97,7 +97,7 @@
             // Insérer une nouvelle chanson
             const nouvelEleve = ['Mario'];
             await connection.execute(
-                'INSERT INTO Chansons (Nom) VALUES (?)',
+                'INSERT INTO Eleves (Nom) VALUES (?)',
                 nouvelEleve
             );
             console.log('Nouvelle élève ajoutée !');
