@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Catch them all</title>
+    <style>
+        body {
+            margin: 0; /* Supprimer les marges par défaut */
+            height: 100vh; /* Occuper toute la hauteur de la fenêtre */
+            display: flex; /* Utiliser Flexbox */
+            justify-content: center; /* Centrer horizontalement */
+            align-items: center; /* Centrer verticalement */
+            background-color: #f0f0f0; /* Fond léger pour visualiser */
+        }
+        .game-container {
+            display: flex; /* Flexbox pour empiler titre et canvas */
+            flex-direction: column; /* Empiler verticalement */
+            align-items: center; /* Centrer les enfants horizontalement */
+        }
+        h1 {
+            font-family: Arial, sans-serif; /* Police claire */
+            font-size: 36px; /* Taille du titre */
+            color: #333; /* Couleur du texte */
+            margin-bottom: 20px; /* Espace sous le titre */
+            text-align: center; /* Centrer le texte */
+        }
+        canvas {
+            border: 1px solid black; /* Bordure du canvas */
+        }
+        a {
+            text-decoration: none;
+            color: #1c5ac1;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>Catch them all</h1>
+        <p><a href="GameJam2025_presentation.pdf" target="_blank">Présentation (fichier PDF)</a></p>
+        <canvas id="gameCanvas" width="800" height="600"></canvas>
+    </div>
+    <script src="game.js"></script>
+</body>
+</html>
