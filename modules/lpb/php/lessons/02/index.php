@@ -25,8 +25,7 @@
                         <?= getHtmlSubMenu('01', '03'); ?>
                        
                         <?= getHtmlBlocWhatCodeDoes(file_get_contents(FILENAME_WCD)); ?>
-                        <?= getHtmlBlockSourceCode($source_code, FILENAME_SOURCE_CODE); ?>
-                        <?= getHtmlBlockRendering(file_get_contents(FILENAME_RENDERING)); ?>
+                        
                         <?= getHtmlBlockExplanations($explanations); ?>
                         <?= getHtmlBlockRessources($ressources); ?>
 

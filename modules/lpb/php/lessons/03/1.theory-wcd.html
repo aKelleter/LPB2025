@@ -1,30 +1,241 @@
 <p>
-    Comment et pourquoi utiliser <code>echo</code> ou <code>print</code> dans votre code
+    Comment et pourquoi utiliser <b>echo</b> ou <b>print</b> dans votre code
 </p>
 <p>
     En PHP, il y a deux façons d'obtenir une sortie (la sortie standard par défaut c'est l'écran) : 
-    <code>echo</code> et <code>print</code>.
+    <b>echo</b> et <b>print</b>.
 </p>
+<p>Ces deux commandes servent à envoyer du texte, des nombres ou du code HTML vers la sortie (souvent le navigateur web).</p>
+
+<h3>La commande <b>echo</b></h3>
 <p>
-    <code>echo</code> et <code>print</code> sont plus ou moins identiques. Ils sont tous deux utilisés pour afficher des données à l'écran.<br>   
-    Les différences sont minimes : <code>echo</code> n'a pas de valeur de retour alors que <code>print</code> retourne la valeur 1 et peut 
-    donc être utilisé dans des expressions (ces notions seront abordées plus tard dans le cours :) ). <br>
-    
+    <b>echo</b> est une instruction (et non une fonction).
+    Elle permet d’afficher une ou plusieurs valeurs.
 </p>
-<p>
-    <code>echo</code> peut prendre plusieurs paramètres (bien qu'une telle utilisation soit rare) alors que <code>print</code> peut prendre 
-    un seul argument.<br>
-    <code>echo</code> est légèrement plus rapide que print.
+<p>La commande <b>echo</b> est utilisée pour afficher une ou plusieurs chaînes de caractères. Elle peut prendre plusieurs arguments séparés par des virgules.</p>
+
+<p>Syntaxe :
+<textarea class="code-php">
+    &lt;?php
+        echo "Bonjour !";       
+    ?&gt;
+</textarea>
 </p>
-<p>
-    Les instructions <code>echo</code> et <code>print</code> peuvent être utilisées avec ou sans parenthèses : <code>echo</code> ou <code>echo()</code>.
-    <code>print</code> ou <code>print()</code><br>
+
+<p>Exemples simples :
+<textarea class="code-php">
+    &lt;?php
+        echo "Bonjour les étudiants !";
+        echo "<br>";
+        echo "Bienvenue dans le cours de PHP.";    
+    ?&gt;
+</textarea>
+<a class="btn btn-primary" href="files/01.ex-simples.php" target="_blank">Exécuter</a>
 </p>
+
+<p>Plusieurs valeurs à la fois : <br>
+    <b>echo</b> peut afficher plusieurs chaînes séparées par des virgules : <br>
+<textarea class="code-php">
+    &lt;?php
+        echo "Bonjour ", "à ", "tous !";    
+    ?&gt;
+</textarea>
+</p>
+
+<p>Exemples avec des variables :
+<textarea class="code-php">
+    &lt;?php
+        $nom = "Alain";
+        $age = 55;
+
+        echo "Je m'appelle ", $nom, " et j'ai ", $age, " ans."; 
+    ?&gt;
+</textarea>
+<a class="btn btn-primary" href="files/02.ex-with-variables.php" target="_blank">Exécuter</a>
+
+<h3>La commande <b>print</b></h3>
+<p>Description :</p>
+<p><b>print</b> fonctionne comme <b>echo</b>, mais avec une petite différence :
+elle renvoie toujours la valeur 1, ce qui permet de l’utiliser dans des expressions.</p>
+
+<p>Syntaxe :
+<textarea class="code-php">
+    &lt;?php
+        print "Bonjour !";      
+    ?&gt;
+</textarea>
+</p>
+
+<p>Exemple :
+<textarea class="code-php">
+    &lt;?php
+        print "Bienvenue dans le monde du PHP !";   
+    ?&gt;
+</textarea>
+<a class="btn btn-primary" href="files/03.print.php" target="_blank">Exécuter</a>
+</p>
+
+<p>Exemple avec expression :
+<textarea class="code-php">
+    &lt;?php
+        $valeur = print "Affichage avec print";
+        echo "<br>";
+        echo "La valeur de retour est : ", $valeur;
+    ?&gt;
+</textarea>
+<a class="btn btn-primary" href="files/04.print-expression.php" target="_blank">Exécuter</a>
+</p>
+
+<h3>Différences entre echo et print</h3>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Différence</th>
+            <th>echo</th>
+            <th>print</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Type</td>
+            <td>Instruction</td>
+            <td>Expression</td>
+        </tr>
+        <tr>
+            <td>Retourne une valeur&nbsp;?</td>
+            <td>❌ Non</td>
+            <td>✅ Oui (1)</td>
+        </tr>
+        <tr>
+            <td>Peut afficher plusieurs valeurs&nbsp;?</td>
+            <td>✅ Oui (séparées par des virgules)</td>
+            <td>❌ Non</td>
+        </tr>
+        <tr>
+            <td>Vitesse</td>
+            <td>Légèrement plus rapide</td>
+            <td>Légèrement plus lente</td>
+        </tr>
+        <tr>
+            <td>Usage courant</td>
+            <td>Très fréquent</td>
+            <td>Moins fréquent</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>Bonnes pratiques</h3>
+<ul>
+    <li>Utilisez <b>echo</b> pour la plupart des affichages.</li>
+    <li>Réservez <b>print</b> aux cas où vous avez besoin de retourner une valeur (rare).</li>
+</ul>
+<p>Pour éviter les erreurs :</p>
+<ul>
+    <li>Entourez les chaînes de guillemets <code>"..."</code>.</li>
+    <li>Fermez correctement les balises PHP <code>&lt;?php ... ?&gt;</code>.</li>
+</ul>
+
+<h3>Avec des parenthèses ?</h3>
 <p>
-    <code>echo</code> dispose aussi d'une syntaxe courte, où vous pouvez faire suivre immédiatement la balise PHP ouvrante d'un signe égal (=). <br>
+    Vous pouvez mettre des parenthèses après <b>echo</b> ou <b>print</b>,
+    mais ce n’est pas obligatoire.
+    <br>
+    Avec echo, les parenthèses sont limitées à un seul argument. 
+    <br>
+    Avec print, c’est toujours autorisé, car print agit comme une fonction.
+    <br>
+    <strong>Evitez d'utiliser des parenthèses, elles n'apportent pas de valeur ajoutée.</strong>
+</p>
+
+<h3>La version courte d'<b>echo</b></h3>
+<p>
+    <b>echo</b> dispose aussi d'une syntaxe courte, où vous pouvez faire suivre immédiatement la balise PHP ouvrante d'un signe égal (=). <br>
     Cette syntaxe est souvent utilisée sur les sites ou applications qui mélange le code HTML et le code PHP.
 </p>
-<pre>
+
+<textarea class="code-php">
     &lt;?= "La chaîne à afficher" ?&gt;
     &lt;?= $string ?&gt;
-</pre>
+</textarea>
+
+<h3>Le <b>Heredoc</b></h3>
+<p>
+    Le Heredoc permet d’écrire de longs textes multi-lignes sans avoir à gérer les guillemets ni les concaténations. <br>
+    C’est très pratique pour :
+</p>
+<ul>
+    <li>du HTML généré par PHP</li>
+    <li>générer des requêtes SQL complexes</li>
+    <li>générer des blocs de texte formatés (ex. : modèles d’e-mail, JSON, XML,...)</li>
+    <li>des chaînes longues,</li>
+    <li>etc.</li>
+</ul>
+
+<p>
+    Syntaxe :
+<textarea class="code-php">
+    &lt;?php
+        $texte = <<<EOT
+        Ceci est un texte
+        sur plusieurs lignes.<br>
+        Il peut contenir des 'guillemets simples'
+        ou des "guillemets doubles"
+        sans avoir besoin de les échapper.
+        EOT;
+
+        echo $texte;
+    ?&gt;
+</textarea>
+<a class="btn btn-primary" href="files/05.heredoc.php" target="_blank">Exécuter</a>
+
+</p>
+
+<p>
+  
+    Règles importantes :
+
+    <ul>
+        <li>L’identifiant (ici "EOT") doit être le même au début et à la fin.</li>
+        <li>Il doit être collé au début de la ligne de fermeture (aucun espace).</li>
+        <li>La ligne de fermeture doit être suivie d’un point-virgule ;</li>
+    </ul>
+    
+</p>
+
+<h3>Bonus le <b>Nowdoc</b></h3>
+<p>
+    Le Nowdoc est similaire au Heredoc, mais il traite le contenu comme une chaîne littérale. <br>
+    Cela signifie que les variables et les séquences d’échappement ne sont pas interprétées.
+</p>
+<p>
+    Syntaxe :
+<textarea class="code-php">
+    &lt;?php
+        $texte = <<<'message'
+            Ceci est un texte mais avec nowdoc
+            sur plusieurs lignes. <br>
+            Il peut contenir des 'guillemets simples'
+            ou des "guillemets doubles"
+            sans avoir besoin de les échapper.
+        message;
+
+        echo $texte;
+    ?&gt;
+</textarea>
+<a class="btn btn-primary" href="files/06.nowdoc.php" target="_blank">Exécuter</a>
+</p>
+
+<h3>Echapper les quotes et les doubles quotes</h3>
+<p>
+    Parfois, vous devez inclure des guillemets simples ou doubles dans une chaîne de caractères. <br>
+    Pour ce faire, vous devez "échapper" ces guillemets en utilisant une barre oblique inversée (<code>\</code>) ou appelé également le caractère d'échappement.
+</p>
+<p>
+    Exemple avec des guillemets simples et doubles :
+</p>
+<textarea class="code-php">
+    &lt;?php
+        echo 'C\'est une belle journée !';
+        echo "C'est une belle \"journée\" !";
+    ?&gt;
+</textarea>

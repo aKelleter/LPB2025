@@ -24,9 +24,7 @@
                         <h1 class="mt-5 text-center">Leçon 01 : <span class="color_dark_green">Afficher la chaîne "Hello World !"</span></h1>  
                         <?= getHtmlSubMenu('00', '02'); ?>
                        
-                        <?= getHtmlBlocWhatCodeDoes(file_get_contents(FILENAME_WCD)); ?>
-                        <?= getHtmlBlockSourceCode($source_code, FILENAME_SOURCE_CODE); ?>                        
-                        <?= getHtmlBlockRendering(file_get_contents(FILENAME_RENDERING)); ?>
+                        <?= getHtmlBlocWhatCodeDoes(file_get_contents(FILENAME_WCD)); ?>                        
                         <?= getHtmlBlockExplanations($explanations); ?>
                         <?= getHtmlBlockRessources($ressources); ?>
 

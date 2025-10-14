@@ -13,7 +13,9 @@ Dans cette première leçon, nous allons afficher à l'écran la chaîne de cara
     Pour lui indiquer qu'un bloc de code est écrit en PHP, nous allons entourer ce code avec une balise PHP qui a la forme suivante :     
 </p>
 <textarea class="code-php">
-    &lt;?php ?&gt;
+    &lt;?php 
+        // le code PHP
+    ?&gt;
 </textarea>
 <p>
     Lorsqu’on intègre du PHP dans du code HTML, on peut intégrer du code PHP à n’importe quel endroit dans la structure HTML. 
@@ -77,6 +79,16 @@ Dans cette première leçon, nous allons afficher à l'écran la chaîne de cara
         </li>
     </ol>
 </p>
+<textarea class="code-php">
+    &lt;?php
+        echo 'Hello World !';
+    ?&gt;
+</textarea>
+<p>
+    La balise de fermeture de PHP est <b class="red">?&gt;</b>. <br>
+    Elle est utilisée pour indiquer la fin d'un bloc de code PHP. <br>
+    Elle est facultative si le code PHP si le fichier ne contient que du code PHP.
+</p>
 <h3>Enregistrer et exécuter un fichier PHP</h3>
 <p>
     A partir du moment où l'on ouvre une balise PHP dans un fichier HTML, nous allons devoir enregistrer le fichier avec l’extension <b>.php</b>. 
@@ -90,16 +102,45 @@ Dans cette première leçon, nous allons afficher à l'écran la chaîne de cara
     <b>C'est la configuration du serveur web qui va déterminer l'emplacement où nous allons enregistrer nos fichiers</b>.
 </p>
 <p>
-   Bref, dans le cours j'utilise personnellement <b>Xampp</b>. Xampp est Cross Plateform (installable sur Windows, Linux, Macos). A l'inverse,
-   Wamp est uniquement disponible sur Windows et Mamp sur Macos. Sur les machines des labo de l'Ifapme c'est Wamp qui est installé.
+    Vous trouverez ci-dessous quelques-uns des différents environnements de développement PHP. Des systèmes que l'on pourrait qualifier de clé sur porte.    
+</p>
+<ul>
+    <li><b>Xampp</b>. Xampp est Cross Plateform (installable sur Windows, Linux et Macos).</li>
+    <li><b>Wamp</b>. Wamp est uniquement disponible sur Windows.</li>
+    <li><b>Mamp</b>. Mamp est disponible à la fois sur Macos et sur Windows.</li>
+</ul>
+<p>
+    Personnellement, j'installe manuellement un environnement de développement PHP en configurant un serveur web local avec Apache, PHP et MySQL.
+    Mais cette méthode demande un peu plus de connaissances techniques pour être mise en place correctement.
 </p>
 <p>
-    Pour accéder et exécuter vos fichiers PHP et autres. Vous utiliserez dans votre navigateur préféré (Firefox :)) une URL 
-    qui pourrait être structurée comme celle-ci : <b class="red">http://localhost/monsite/monfichier.php</b>
+    Pour accéder et exécuter vos fichiers PHP et autres ressources, vous accéderez par le biais de votre navigateur à une URL
+    qui pourrait être structurée telle que celle-ci : <br>
+    <b class="red">http://localhost/monsite/monfichier.php</b>
 </p>
 <p>
     <b class="red">NOTE</b> : Lorsque vous essayez d'accéder à une ressource disponible sur un serveur web et plus particulièrement un répertoire sans
-    indiquer de fichier (ex.: <b>http://localhost/monprojet/</b>), le comportement par défaut du serveur web va être de rechercher un fichier
-    <b>index.html</b> ou <b>index.php</b> (ou .asp si IIS - serveur web de Microsoft). Si le fichier est trouvé il est retourné/interprêté vers le client
+    indiquer de fichier (ex.: <b>http://localhost/monprojet/</b>), le comportement par défaut du serveur web va être de rechercher un fichier nommé
+    <b>index.html</b> ou <b>index.php</b> (ou .asp si IIS - serveur web de Microsoft). Si le fichier est trouvé il est d'abord interprêté et le résultat est retourné vers le client
     (votre navigateur par ex) dans le cas contraire il adoptera un comportement en fonction de sa configuration.
+</p>
+
+<h3>Un exemple de ce que vous pourriez faire après cette leçon</h3>
+<textarea class="code-php">
+    &lt;?php
+        echo 'PHP VERSION : '.PHP_VERSION.'<br><hr>';
+        
+        echo '1 - Hello World !';
+        echo "2 - Hello World !";    
+
+        echo '3 - Hello', ' ', 'World', ' ', '!';
+    ?&gt;
+</textarea>
+<a class="btn btn-primary" href="2.source-code.php" target="_blank">Exécuter</a>
+
+<p>
+    Ce sont quelques lignes de code PHP que vous pourriez écrire pour afficher "Hello World !" de différentes manières.
+    Elles sont très simples et illustrent les différentes façons d'utiliser l'instruction <b class="red">echo</b> en PHP.
+    En fonction de vos connaissances, vous pourriez ne pas comprendre certaines parties. Pas de panique, nous allons les expliquer en détail dans les prochaines leçons. :)
+    Nous commençons l'apprentissage de la programmation à partir de zéro.
 </p>

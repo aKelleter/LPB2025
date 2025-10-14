@@ -24,9 +24,8 @@
                         <h1 class="mt-5 text-center">Leçon 03 : <span class="color_dark_green">Utiliser les structures "echo" et "print" pour afficher un résultat.</span></h1>  
                         <?= getHtmlSubMenu('02', '04'); ?>
                        
-                        <?= getHtmlBlocWhatCodeDoes(file_get_contents(FILENAME_WCD)); ?>
-                        <?= getHtmlBlockSourceCode($source_code, FILENAME_SOURCE_CODE); ?>
-                        <?= getHtmlBlockRendering(file_get_contents(FILENAME_RENDERING)); ?>
+                        <?= getHtmlBlocWhatCodeDoes(file_get_contents(FILENAME_WCD)); ?>                        
+                        
                         <?= getHtmlBlockExplanations($explanations); ?>
                         <?= getHtmlBlockRessources($ressources); ?>
 

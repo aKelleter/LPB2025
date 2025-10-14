@@ -26,3 +26,25 @@ Les commentaires peuvent être utilisés pour:
 <p>
     Les commentaires sur plusieurs lignes commencent par <code>/*</code> et finissent par <code>*/</code>.<br>
 </p>
+
+<textarea class="code-php">
+    <?php
+        echo 'PHP VERSION : '.PHP_VERSION.'<br><hr>'; 
+
+        // Utiliser un double slash permet d'effectuer un commentaire sur une seule ligne
+
+        echo 'Ce texte est affiché'; // Ceci ne l'est pas
+        
+        /*
+            Slash(/)étoile(*) et étoile(*)slash(/) permettent d'effectuer un commentaire sur plusieurs lignes :
+
+            Ce bloc affiche un
+            commentaire sur
+            plusieurs lignes
+        */
+
+        # Ceci est un commentaire style shell sur une seule ligne
+
+    ?>
+</textarea>
+<a class="btn btn-primary" href="2.source-code.php" target="_blank">Exécuter</a>
