@@ -1,30 +1,152 @@
+<h3>Les variables en PHP</h3>
+
 <p>
-    Nous allons apprendre à utiliser des variables dans notre code.<br>Les variables sont des espaces mémoires (des conteneurs) 
-    qui permettent de stocker des données/valeurs ces données peuvent varier au fil du temps, pendant l'exécution du programme.
-    Ces espaces mémoires sont identifiés par un nom (un identifiant) qui permet de les retrouver et de les manipuler. Il possèdent
-    également une adresse mémoire qui permet de les localiser dans la mémoire vive de l'ordinateur.
+    Une variable est un espace mémoire qui permet de stocker une valeur (texte, nombre, booléen, tableau, etc.) et de la réutiliser plus tard dans le code.
 </p>
+
+<h3>Déclaration d'une variable</h3>
+<ul>
+    <li>En PHP, une variable commence toujours par le symbole <code>$</code> suivi du nom de la variable.</li>
+    <li>Le nom de la variable doit commencer par une lettre ou un underscore <code>_</code>, jamais par un chiffre.</li>
+    <li>Le nom de la variable ne doit pas contenir d’espace ni de caractères spéciaux (sauf <code>_</code>).</li>
+    <li>Les noms de variables sont sensibles à la casse (<code>$age</code> ≠ <code>$Age</code>).</li>
+</ul>
+
+<h4>Exemples :</h4>
+<textarea class="code-php">
+&lt;?php
+    $nom = "Alice";
+    $age = 25;
+    $ville = "Paris";
+?&gt;
+</textarea>
+
+<h3>Affectation d'une valeur</h3>
 <p>
-    Les variables sont très utiles pour stocker des informations, des valeurs, des résultats de calculs, des chaînes de caractères, etc.<br>
-    En PHP, on peut stocker plusieurs types de données dans des variables.    
+    On utilise le signe <code>=</code> pour affecter une valeur à une variable.
 </p>
+<textarea class="code-php">
+&lt;?php
+    $prenom = "Jean";
+    $note = 15;
+?&gt;
+</textarea>
+
 <p>
-    Voici quelques règles d'utilisation des variables en PHP :
+    En PHP, une variable peut être réaffectée à tout moment avec une nouvelle valeur, même d'un type différent. Par exemple :
+</p>
+<textarea class="code-php">
+&lt;?php
+    $age = 25;
+    $age = "trente";
+?&gt;
+</textarea> 
+<br><st-r class="red">C'est possible mais pas conseillé ;)</st-r>
+
+<h3>Méthode d'assignation des variables</h3>
+<p>
+    Il existe plusieurs façons d'assigner des valeurs aux variables en PHP :
 </p>
 <ul>
-    <li> les variables sont précédées du symbole <code>$</code> suivi du nom de la variable. </li>
-    <li> les noms des variables sont sensibles à la casse (majuscules et minuscules)</li>
-    <li> les noms de variables ne peuvent pas commencer par un chiffre</li>
-    <li> les noms de variables ne peuvent pas contenir d'espaces</li>
-    <li> les noms de variables ne peuvent pas contenir de caractères spéciaux (sauf le _ caractère souligné ou underscore)</li>
-    <li> les noms de variables ne peuvent pas contenir de caractères accentués</li>
-    <li> il existe des noms réservés (mots-clés) qui ne peuvent pas être utilisés comme noms de variables</li>
-    <li> 
-        le caractère d'assignation est <code>=</code> (l'égal). C'est ce que l'on appel un opérateur d'affectation. 
-        Il sert à attribuer une valeur à une variable
-    </li>
-    <li>
-        A SAVOIR : on utilise régulièrement un autre caractère, le <code>.</code> (le point). C'est l'opérateur de concaténation.
-        Il permet de concaténer (coller) des chaînes de caractères entre elles, les unes à la suite des autres.
-    </li>
+    <li>Assignation directe : <code>$x = 10;</code></li>
+    <li>Assignation par référence : <code>$y = &$x;</code> (y pointe vers la même valeur que x)</li>
+    <li>Assignation avec des expressions : <code>$z = $x + 5;</code></li>   
+</ul>
+<p>
+    <b>Note :</b> Évitez d'utiliser l'assignation par référence sauf si nécessaire pour des raisons de performance ou de logique, car cela peut rendre le code plus difficile à comprendre.     
+</p>
+
+<h3>Déclaration obligatoire ?</h3>
+<p>
+    En PHP, il n'est pas nécessaire de déclarer une variable avant de l'utiliser. La première fois que vous assignez une valeur à une variable, elle est automatiquement créée.
+    <st-r>Cependant, il est recommandé d'initialiser les variables avant de les utiliser</st-r> pour éviter des comportements inattendus.
+    De façon générale, je vous conseille de <st-r>toujours initialiser vos variables et de les déclarer clairement en haut de votre script ou fonction.</st-r>
+</p>
+<p>
+    Accéder à une variable non définie entraînera un <st-r>E_WARNING</st-r> (avant PHP 8.0.0, E_NOTICE). 
+    Une variable non définie a une valeur par défaut de <b>null</b>. La fonction <b>isset()</b> peut être utilisée pour détecter 
+    si une variable a déjà été initialisée. 
+</p>
+
+<h3>Afficher une variable</h3>
+<p>
+    Pour afficher la valeur d'une variable, on utilise <code>echo</code> ou <code>print</code>.
+</p>
+<textarea class="code-php">
+&lt;?php
+    $ville = "Lyon";
+    echo $ville; // Affiche : Lyon
+?&gt;
+</textarea>
+
+<h3>L'interpolation dans les guillemets doubles</h3>
+<p>
+    Lorsque vous utilisez des guillemets doubles <code>" "</code> pour définir une chaîne de caractères, les variables à l'intérieur de la chaîne sont automatiquement remplacées par leur valeur.
+</p>
+<textarea class="code-php">
+&lt;?php
+    $prenom = "Sophie";
+    $age = 28;
+    echo "Bonjour, je m'appelle $prenom et j'ai $age ans.";
+    // Affiche : Bonjour, je m'appelle Sophie et j'ai 28 ans.
+</textarea>
+
+<h3>Concaténation</h3>
+<p>
+    Pour assembler (concaténer) plusieurs chaînes de caractères ou variables, on utilise le point <code>.</code>.
+</p>
+<textarea class="code-php">
+&lt;?php
+    $prenom = "Marie";
+    $age = 30;
+    echo $prenom . " a " . $age . " ans.";
+    // Affiche : Marie a 30 ans.
+?&gt;
+</textarea>
+
+<h3>Les variables dynamiques</h3>
+<p>
+    En PHP, vous pouvez créer des variables dynamiques en utilisant le nom d'une variable pour définir une autre variable. Par exemple :
+</p>
+<textarea class="code-php">
+&lt;?php
+    $var = "test";
+    $$var = "Ceci est un test";
+    echo $test; // Affiche : Ceci est un test
+?&gt;
+</textarea> 
+<p>C’est rare, mais utile dans des cas avancés et au niveau visibilité c'est plutôt moyen.</p>
+//Exemple de cas avancés
+<textarea class="code-php">
+&lt;?php
+    $a = 'hello';
+    $b = 'a';
+    echo $$b; // Affiche : hello
+?&gt;
+</textarea>
+
+<p>Utilisez cette fonctionnalité avec prudence, car elle peut rendre le code difficile à lire et à maintenir.</p>
+
+<h3>Types de variables</h3>
+<ul>
+    <li><b>Chaîne de caractères</b> : <code>$texte = "Bonjour";</code></li>
+    <li><b>Nombre entier</b> : <code>$nombre = 42;</code></li>
+    <li><b>Nombre à virgule</b> : <code>$prix = 19.99;</code></li>
+    <li><b>Booléen</b> : <code>$estValide = true;</code></li>
+    <li><b>Tableau</b> : <code>$notes = [12, 15, 18];</code></li>
+</ul>
+
+<h3>Bonnes pratiques</h3>
+<ul>
+    <li>Utilisez des noms de variables explicites et en anglais si possible (<code>$userName</code>, <code>$totalPrice</code>).</li>
+    <li>Initialisez toujours vos variables avant de les utiliser.</li>
+    <li>Respectez la casse et évitez les abréviations non explicites.</li>
+</ul>
+
+<h3>Résumé</h3>
+<ul>
+    <li>Une variable commence par <code>$</code> et un nom valide.</li>
+    <li>On affecte une valeur avec <code>=</code>.</li>
+    <li>On affiche une variable avec <code>echo</code> ou <code>print</code>.</li>
+    <li>On concatène avec <code>.</code>.</li>
 </ul>
