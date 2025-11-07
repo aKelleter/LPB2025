@@ -47,5 +47,5 @@ echo 'PHP VERSION : '.PHP_VERSION.'<br><hr>';
     echo var_dump($a) . ' -> Value $a : '.$a.' -> '; echo gettype($a).'<br>';
     settype($a,"integer"); // $a est maintenant un entier
     echo var_dump($a) . ' -> Value $a : '.$a.' -> '; echo gettype($a).'<br>';
-
+    
 ?>
