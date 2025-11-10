@@ -33,7 +33,10 @@
 </textarea>
 
 <p>
-    En PHP, une variable peut être réaffectée à tout moment avec une nouvelle valeur, même d'un type différent. Par exemple :
+    En PHP, une variable peut être réaffectée à tout moment avec une nouvelle valeur, même d'un type différent. 
+    On appelle cela également <b>l'inférence de type</b>. C'est une fonctionnalité qui permet à un compilateur ou un interpréteur 
+    de déduire automatiquement le type d'une variable, d'une expression ou d'une fonction
+    Par exemple :
 </p>
 <textarea class="code-php">
 &lt;?php
@@ -78,6 +81,7 @@
     echo $ville; // Affiche : Lyon
 ?&gt;
 </textarea>
+<a class="btn btn-primary" href="files/01.php" target="_blank">Exécuter</a>
 
 <h3>L'interpolation dans les guillemets doubles</h3>
 <p>
@@ -90,6 +94,8 @@
     echo "Bonjour, je m'appelle $prenom et j'ai $age ans.";
     // Affiche : Bonjour, je m'appelle Sophie et j'ai 28 ans.
 </textarea>
+<a class="btn btn-primary" href="files/02.php" target="_blank">Exécuter</a>
+
 
 <h3>Concaténation</h3>
 <p>
@@ -103,6 +109,8 @@
     // Affiche : Marie a 30 ans.
 ?&gt;
 </textarea>
+<a class="btn btn-primary" href="files/03.php" target="_blank">Exécuter</a>
+
 
 <h3>Les variables dynamiques</h3>
 <p>
@@ -115,6 +123,9 @@
     echo $test; // Affiche : Ceci est un test
 ?&gt;
 </textarea> 
+<a class="btn btn-primary" href="files/04.php" target="_blank">Exécuter</a>
+
+
 <p>C’est rare, mais utile dans des cas avancés et au niveau visibilité c'est plutôt moyen.</p>
 //Exemple de cas avancés
 <textarea class="code-php">
@@ -124,6 +135,8 @@
     echo $$b; // Affiche : hello
 ?&gt;
 </textarea>
+<a class="btn btn-primary" href="files/05.php" target="_blank">Exécuter</a>
+
 
 <p>Utilisez cette fonctionnalité avec prudence, car elle peut rendre le code difficile à lire et à maintenir.</p>
 
