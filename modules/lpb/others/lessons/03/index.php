@@ -20,8 +20,8 @@
                 <div class="row">
                     <div class="col-md-1"></div>
                     <div class="col-md-10">                       
-                        <h1 class="mt-5 text-center">Leçon 02 : <span class="color_dark_green">Qu'est-ce qu'un paradigme en programmation ?</span></h1>  
-                        <?= getHtmlSubMenu('01', '03', OTHERS); ?>   
+                        <h1 class="mt-5 text-center">Leçon 03 : <span class="color_dark_green">Les formulaires et leurs traitements en PHP</span></h1>  
+                        <?= getHtmlSubMenu('02', '00', OTHERS); ?>   
                         
                         <?= getHtmlBlocWhatCodeDoes(file_get_contents(FILENAME_WCD)); ?>   
                         

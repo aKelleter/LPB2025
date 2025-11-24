@@ -1,0 +1,146 @@
+<h3>1. Préambule</h3>
+<p>
+    Nous allons aborder dans cette leçon les formulaires en PHP, les méthodes GET et POST, avec exemples concrets, schémas, et bonnes pratiques.
+</p>
+
+<h3>2. Qu’est-ce qu’un formulaire HTML ?</h3>
+<p>
+    Un formulaire HTML permet à un utilisateur d’envoyer des informations vers un serveur (vers un scritp PHP, lui-même hébergé sur votre serveur).
+</p>
+<p>Exemple simple :</p>
+<textarea class="code-php">
+    <form action="traitement.php" method="post">
+        <label>Votre nom :</label>
+        <input type="text" name="nom">
+        <button type="submit">Envoyer</button>
+    </form>
+</textarea>
+<ul>
+    <li><b>action</b> : fichier PHP qui va recevoir les données</li>
+    <li><b>method</b> : façon dont les données sont envoyées</li>
+    <li><b>name="nom"</b> : clé utilisée pour récupérer la valeur côté PHP</li>
+</ul>
+
+<h3>3. La méthode GET - La méthode visible dans l’URL</h3>
+<p>
+    Fonctionnement des formulaires avec la méthode GET : <br>
+    Les données sont envoyées dans l’URL sous forme de paire clé=valeur :
+</p>
+<textarea class="code-php">
+    <form action="traitement.php" method="get">
+        <label>Votre nom :</label>
+        <input type="text" name="nom">
+        <input type="number" name="age">
+        <button type="submit">Envoyer</button>
+    </form>
+</textarea>
+<a class="btn btn-primary mb-3" href="files/get-post.php" target="_blank">Exécuter</a>
+<textarea class="code-php">
+    traitement.php?nom=Alain&age=55
+</textarea>
+
+<h4>Fonctionnement</h4>
+<ul>
+    <li>Simple</li>
+    <li>Visible dans l’URL</li>
+    <li>Pratique pour partager un lien</li>
+    <li>Idéal pour la recherche, filtres, pagination…</li>
+</ul>
+<h4 class="red">Attention</h4>
+<ul class="red">
+    <li>Ne convient pas pour les données sensibles</li>
+    <li>Limité en quantité (environ 2000 caractères selon les navigateurs)</li>
+</ul>
+
+<h3>4. Exemple GET</h3>
+<h4>Le formulaire</h4>
+<textarea class="code-php">
+    <form action="get.php" method="get">
+        <label>Ville :</label>
+        <input type="text" name="ville">
+        <button type="submit">Rechercher</button>
+    </form>
+</textarea>
+<h4>Traitement des données dans get.php</h4>
+<textarea class="code-php">
+    &lt;?php
+        $ville = $_GET['ville'];
+        echo "Vous avez recherché : $ville";
+    ?&gt;
+</textarea>
+
+<h3>5. POST — La méthode invisible et sécurisée</h3>
+<h4>Fonctionnement</h4>
+<p>
+    Les données sont envoyées dans le corps de la requête, pas dans l'URL.
+</p>
+
+<h4>Caractéristiques</h4>
+<ul>
+    <li>Invisible → mieux pour mots de passe, infos personnelles</li>
+    <li>Pas de limite de taille</li>
+    <li>Parfait pour les formulaires longs (inscription, login…)</li>
+    <li class="red">Ne permet pas de partager une URL avec valeurs</li>
+</ul>
+
+<h4>Exemple de POST</h4>
+<h5>Le formulaire</h5>
+<textarea class="code-php">
+    <form action="login.php" method="post">
+        <label>Utilisateur :</label>
+        <input type="text" name="user">
+        
+        <label>Mot de passe :</label>
+        <input type="password" name="pass">
+        
+        <button type="submit">Connexion</button>
+    </form>
+</textarea>
+<h5>login.php</h5>
+<textarea class="code-php">
+    &lt;?php
+        $user = $_POST['user'];
+        $pass = $_POST['pass'];
+
+        echo "Utilisateur : $user<br>";
+        echo "Mot de passe saisi : $pass";
+    ?&gt;
+
+</textarea>
+
+<h3>6. Résumé</h3>
+<table class="table"
+    <thead data-start="2448" data-end="2472"><tr data-start="2448" data-end="2472"><th data-start="2448" data-end="2458" data-col-size="sm">Critère</th><th data-start="2458" data-end="2464" data-col-size="sm">GET</th><th data-start="2464" data-end="2472" data-col-size="md">POST</th></tr></thead><tbody data-start="2500" data-end="2775"><tr data-start="2500" data-end="2547"><td data-start="2500" data-end="2513" data-col-size="sm">Visibilité</td><td data-start="2513" data-end="2534" data-col-size="sm">Visible dans l’URL</td><td data-start="2534" data-end="2547" data-col-size="md">Invisible</td></tr><tr data-start="2548" data-end="2586"><td data-start="2548" data-end="2559" data-col-size="sm">Sécurité</td><td data-start="2559" data-end="2570" data-col-size="sm">❌ faible</td><td data-start="2570" data-end="2586" data-col-size="md">✔️ meilleure</td></tr><tr data-start="2587" data-end="2632"><td data-start="2587" data-end="2609" data-col-size="sm">Quantité de données</td><td data-start="2609" data-end="2619" data-col-size="sm">Limitée</td><td data-start="2619" data-end="2632" data-col-size="md">Illimitée</td></tr><tr data-start="2633" data-end="2725"><td data-start="2633" data-end="2647" data-col-size="sm">Usage idéal</td><td data-start="2647" data-end="2680" data-col-size="sm">Recherche, filtres, navigation</td><td data-start="2680" data-end="2725" data-col-size="md">Formulaires sensibles, login, inscription</td></tr><tr data-start="2726" data-end="2775"><td data-start="2726" data-end="2757" data-col-size="sm">Mise en cache par navigateur</td><td data-start="2757" data-end="2766" data-col-size="sm">✔️ oui</td><td data-start="2766" data-end="2775" data-col-size="md">❌ non</td></tr></tbody>
+</table>
+
+<h3>7. Les superglobales utiles</h3>
+<p>PHP reçoit les données du formulaire via des varaibles dites superglobales. Elles sont disponibles partout :</p>
+
+<table class="table">
+    <thead data-start="2892" data-end="2918"><tr data-start="2892" data-end="2918"><th data-start="2892" data-end="2907" data-col-size="sm">Superglobale</th><th data-start="2907" data-end="2918" data-col-size="sm">Contenu</th></tr></thead><tbody data-start="2946" data-end="3118"><tr data-start="2946" data-end="2983"><td data-start="2946" data-end="2956" data-col-size="sm"><code data-start="2948" data-end="2955">$_GET</code></td><td data-start="2956" data-end="2983" data-col-size="sm">Données envoyées en GET</td></tr><tr data-start="2984" data-end="3023"><td data-start="2984" data-end="2995" data-col-size="sm"><code data-start="2986" data-end="2994">$_POST</code></td><td data-start="2995" data-end="3023" data-col-size="sm">Données envoyées en POST</td></tr><tr data-start="3024" data-end="3066"><td data-start="3024" data-end="3038" data-col-size="sm"><code data-start="3026" data-end="3037">$_REQUEST</code></td><td data-start="3038" data-end="3066" data-col-size="sm">GET + POST (déconseillé)</td></tr><tr data-start="3067" data-end="3118"><td data-start="3067" data-end="3080" data-col-size="sm"><code data-start="3069" data-end="3079">$_SERVER</code></td><td data-start="3080" data-end="3118" data-col-size="sm">Infos sur le serveur et la requête</td></tr></tbody>
+</table>
+
+<h3>8. Les bonnes pratiques</h3>
+
+<h4>1. Toujours vérifier si la donnée existe</h4>
+<textarea class="code-php">
+    if (isset($_POST['user'])) {
+        echo $_POST['user'];
+    }
+</textarea>
+
+<h4>2. Toujours échapper l’affichage (faille XSS)</h4>
+<textarea class="code-php">
+   echo htmlspecialchars($_POST['user']);
+</textarea>
+
+<h4>3. Ne jamais mettre un mot de passe en GET</h4>
+<textarea class="code-php">
+  mauvais : login.php?user=alain&pass=secret
+</textarea>
+
+<h4>4. Toujours nommer vos champs (attribut name)</h4>
+<textarea class="code-php">
+  &lt;input type="text" name="message"&gt;
+</textarea>
+<p>Sans <b>name</b>, PHP ne reçoit rien.</p>
