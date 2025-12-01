@@ -1,0 +1,148 @@
+<h3>1. Préambule</h3>
+<p>
+    Comprendre comment PHP peut choisir quel bloc HTML afficher en fonction d’une variable, grâce à une structure conditionnelle if / else.
+</p>
+
+<h3>2. Principe général</h3>
+<p>
+   PHP est un langage côté serveur :
+</p>
+<ul>
+    <li>Il décide avant l’affichage ce qui doit apparaître dans la page HTML.</li>
+    <li>Donc, si une condition est vraie, un bloc HTML sera envoyé au navigateur.</li>
+    <li>Sinon, un autre bloc HTML sera envoyé.</li>
+</ul>
+<p>Exemple commenté : afficher deux formulaires différents</p>
+<textarea class="code-php">
+    &lt;?php
+        $estConnecte = true; // ou false
+    ?&gt;
+
+    &lt;?php if ($estConnecte) : ?&gt;
+    
+            &lt;form action="deconnexion.php" method="post"&gt;
+                &lt;button type="submit"&gt;Déconnexion&lt;/button&gt;
+            &lt;/form&gt;
+
+    &lt;?php else : ?&gt;
+    
+            &lt;form action="login.php" method="post"&gt;
+                &lt;input type="text" name="user" placeholder="Utilisateur"&gt;
+                &lt;input type="password" name="pass" placeholder="Mot de passe"&gt;
+                &lt;button type="submit"&gt;Connexion&lt;/button&gt;
+            &lt;/form&gt;
+    &lt;?php endif; ?&gt;
+</textarea>
+
+<h3>3. Comment expliquer cela simplement ?</h3>
+<h4>
+   1. PHP décide AVANT d’envoyer la page au navigateur <br>
+</h4>
+<p>
+    Le navigateur ne voit qu’un seul des deux formulaires. <br>
+    Il ne voit pas le if, else ou endif.
+</p>
+<p><strong>C’est PHP qui choisit quel formulaire envoyer.</strong></p>
+
+<h4>2. Si la variable $estConnecte est vraie (true)</h4>
+<p>  
+    PHP envoie le formulaire de déconnexion. 
+</p>
+<h4>3. Sinon, si la variable $estConnecte est fausse (false)</h4>
+<p>
+    PHP envoie le formulaire de connexion. 
+</p>
+
+<h3>4. HTML et PHP peuvent se mélanger</h3>
+<p>
+    Il est très important de comprendre que : <br>
+    PHP peut être interrompu et laisser place au HTML, puis reprendre.
+</p>
+<p>Exemple : </p>
+<textarea class="code-php">
+   &lt;?php if ($condition) : ?&gt;
+    <p>HTML affiché si la condition est vraie</p>
+   &lt;?php else : ?&gt;
+    <p>HTML affiché si la condition est fausse</p>
+   &lt;?php endif; ?&gt;
+</textarea>
+
+<h4>Une comparaison simple pour comprendre</h4>
+<p>
+« Pensez à PHP comme à un chef d’orchestre.
+Avant d’envoyer la partition (la code HTML) au navigateur, <br>
+il choisit quelles notes vont être jouées. <br>
+Si une condition est vraie, il inclut tel morceau, sinon il en met un autre. »
+</p>
+    
+<h3>5. Conclusion</h3>
+<ul>
+    <li>On peut mélanger PHP et HTML.</li>
+    <li>Les conditions permettent d’afficher différents contenus.</li>
+    <li>PHP choisit quoi envoyer, le navigateur ne voit que le résultat final.</li>
+    <li>C'est très utilisé : formulaires, menus, connexion, jeux, etc.</li>
+</ul>
+
+<h3>6. Utilise-t-on encore ce type d'écriture dans le code professionnel en PHP ?</h3>
+
+<h4>1. Oui, c’est encore utilisé — surtout dans les petites applications et les cours</h4>
+<ul>
+    <li>des projets PHP simples</li>
+    <li>des scripts avec un seul fichier</li>
+    <li>du code pédagogique</li>
+    <li>des petites pages PHP sans framework</li>
+    <li>des sites sans moteur de template</li>
+</ul>
+
+<textarea class="code-php">
+    &lt;?php if(condition): ?&gt;
+        <p>...</p>
+    &lt;?php endif; ?&gt;
+</textarea>
+<p>est parfaitement normal et professionnel.</p>
+
+<h4>2. Mais dans les “vrais” gros projets professionnels, on utilise autre chose</h4>
+
+<p>Quand le projet devient plus grand, on sépare plus strictement :</p>
+<ul>
+    <li>la logique (PHP)</li>
+    <li>la présentation (HTML)</li>
+</ul>
+<p>On utilise alors un moteur de templates :</p>
+<ul>
+   <li>Twig (Symfony, Drupal…)</li>
+   <li>Blade (Laravel)</li>
+   <li>Plates, Mustache, etc.</li>
+</ul>
+<p>Dans ce cas avec Twig (Symfony), l’écriture ressemble à,  :</p>
+<textarea class="code-php">
+    {% if condition %}
+        <p>...</p>
+    {% endif %}
+</textarea>
+<p>C’est plus propre, mais le principe reste le même.</p>
+
+<h4>3. Pourquoi on utilise ces templates dans les grands projets ?</h4>
+<ol>
+    <li>Séparer proprement la logique PHP et l’affichage HTML</li>
+    → meilleur code, plus lisible, plus facile à maintenir.
+    <li>Les fichiers HTML sont propres</li>
+    → pas de &lt;?php ?&gt; partout.
+    <li>On protège des erreurs</li>
+    → le moteur empêche d’exécuter du PHP dans la vue (sécurité).
+    <li>Plus facile pour travailler en équipe (développeurs + designers)</li>
+</ol>
+
+<h4>4. Le mot de la fin</h4>
+<p>
+    Mais attention : la syntaxe que vous utilisez est parfaitement valide, moderne et professionnelle <br>
+    Ce qu’il faut retenir:
+
+    <ol>
+        <li>Oui, on utilise encore cette syntaxe.</li>
+        <li>Oui, elle est saine, propre et lisible.</li>
+        <li>Oui, elle est idéale pour apprendre.</li>
+        <li>Mais dans des projets plus structurés, on utilise un moteur de templates.</li>
+    </ol>
+</p>
+<p class="red"> <strong>A vos claviers !</strong></p>
