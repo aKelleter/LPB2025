@@ -21,7 +21,7 @@
                     <div class="col-md-1"></div>
                     <div class="col-md-10">                       
                         <h1 class="mt-5 text-center">Leçon 03 : <span class="color_dark_green">Les formulaires et leurs traitements en PHP</span></h1>  
-                        <?= getHtmlSubMenu('02', '00', OTHERS); ?>   
+                        <?= getHtmlSubMenu('02', '04', OTHERS); ?>   
                         
                         <?= getHtmlBlocWhatCodeDoes(file_get_contents(FILENAME_WCD)); ?>   
                         
