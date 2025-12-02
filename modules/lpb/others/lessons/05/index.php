@@ -20,8 +20,8 @@
                 <div class="row">
                     <div class="col-md-1"></div>
                     <div class="col-md-10">                       
-                        <h1 class="mt-5 text-center">Leçon 04 : <span class="color_dark_green">Affichages conditionnels en PHP</span></h1>  
-                        <?= getHtmlSubMenu('03', '05', OTHERS); ?>   
+                        <h1 class="mt-5 text-center">Leçon 05 : <span class="color_dark_green">Méthode pour apprendre à résoudre un problème en programmation</span></h1>
+                        <?= getHtmlSubMenu('04', '00', OTHERS); ?>   
                         
                         <?= getHtmlBlocWhatCodeDoes(file_get_contents(FILENAME_WCD)); ?>   
                         
