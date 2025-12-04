@@ -6,7 +6,7 @@
 
 <h3>2. La méthode complète : “La démarche en 6 étapes”</h3>
 
-<h4>1. Lire et comprendre l’énoncé (mais vraiment !)</h4>
+<h4><u>1. Lire et comprendre l’énoncé (mais vraiment !)</u></h4>
 <p>
     L'objectif principal, est de comprendre ce qui est demandé. <br>
     Beaucoup d’erreurs viennent d’une mauvaise lecture ou d'incompréhensions.
@@ -32,7 +32,7 @@
     Si vous ne pouvez pas répondre, vous ne pouvez pas coder. Vous ne pouvez pas commencer à écrire du code sans savoir où vous allez.
 </p>
 
-<h4>2. Reformuler le problème avec vos mots</h4>
+<h4><u>2. Reformuler le problème avec vos mots</u></h4>
 <p>
     La compréhension apparaît quand sait reformuler. <br>
     On doit être capable d’expliquer le problème avec ses propres mots :
@@ -51,7 +51,7 @@
     <u>La reformulation</u> : “Je dois lire un nombre, puis faire un test pour afficher positif ou négatif.”
 </citation>
 
-<h4>3. Identifier les données du problème</h4>
+<h4><u>3. Identifier les données du problème</u></h4>
 <p>
     Vous devez repérer :
 </p>
@@ -84,10 +84,201 @@
     <b>Entrée</b> → <b>Traitement</b> → <b>Sortie</b>
 </p>
 
-<h4>4. Découper le problème en sous-problèmes</h4>
+<h4><u>4. Découper le problème en sous-problèmes</u></h4>
+<p>
+    <strong>C'est la clé absolue.</strong> <br>
+    Vous devez comprendre que tout problème compliqué est une suite de petits problèmes simples. <br>
+    Vous devez apprendre :
+</p>
+<ul>
+    <li><strong>Découper en petites étapes logiques</strong> :</li>
+    <ul>
+        <li>Lire une donnée</li>
+        <li>Vérifier une condition</li>
+        <li>Faire un calcul</li>
+        <li>Afficher un résultat</li>
+    </ul>
+    <li><strong>Donner des verbes d’action</strong> :</li>
+    <ul>
+        <li>Lire</li>
+        <li>Tester</li>
+        <li>Calculer</li> 
+        <li>Boucler</li>
+        <li>Stocker</li>
+        <li>Trier</li>
+        <li>Comparer</li>
+    </ul>
+</ul>
+<p>
+    <strong>Exemple</strong> : jeu du plus ou moins
+</p>
+<ol>
+    <li>Générer un nombre secret</li>
+    <li>Lire la saisie utilisateur</li>
+    <li>Comparer</li>
+    <li>Dire “plus” ou “moins”</li>
+    <li>Répéter</li>
+    <li>Détecter la victoire</li>
+</ol>
+<p><strong>L’énoncé est complexe, mais chaque étape est simple.</strong></p>
+
+<div class="alert alert-info">
+    <strong>En plus de ces étapes, vous allez être confronté à des "problèmes" "techniques" et/ou de logique</strong>, tel que : 
+    <ul><li>comment faire passer le nombre secret lors de chaque soumission de formulaire.</li></ul>
+    Il vous faudra créer une solution technique fiable avec par exemple : des variables, un champs caché, des sessions, des fichiers, etc.
+</div>
+
+<h4><u>5. Concevoir une solution avant de coder (l'algorithme)</u></h4>
+<p>
+    Apprenez à faire un schéma, un pseudo-code, ou un plan.
+</p>
+
+<p class="alert alert-success">Exemple de pseudo-code d’un test positif/négatif :</p>
+<textarea class="code-php">
+    Lire nombre
+    SI nombre >= 0 ALORS
+        afficher "positif"
+    SINON
+        afficher "négatif"
+</textarea>
+
+<p class="mt-3"><strong>Pourquoi est-ce important ?</strong></p>
+<ul>
+    <li>Cela fait émerger les erreurs avant d’écrire du code.</li>
+    <li>Cela libère le cerveau : on sépare la logique de la syntaxe.</li>
+</ul>
+
+<h4><u>6. Traduire l’algorithme dans le langage</u></h4>
+
+<div class="alert alert-danger">
+    <strong>C’est la dernière étape, pas la première !</strong>
+</div>
+<ul>
+    <li>Chaque instruction du pseudo-code devient une instruction du langage.</li>
+    <li>Le code doit suivre strictement la logique définie.</li>
+</ul>
+
+<h3>3. Habitudes que vous devez développer</h3>
+
+<h4><u>1. Test par cas simples</u></h4>
+<p>Avant d’exécuter le programme, le vérifier d'abord mentalement sur :</p>
+<ul>
+    <li><b>Un cas normal</b></li>
+    <li><b>Un cas limite</b></li>
+    <li><b>Un cas invalide</b></li>
+</ul>
+<p>Exemple : pour “positif/négatif”, tester :</p>
+<ul>
+    <li>Cas normal : 5 → positif</li>
+    <li>Cas limite : 0 → positif</li>
+    <li>Cas invalide : -3 → négatif</li> 
+    <li>Cas invalide : "texte" → message d’erreur (si non géré, au moins en parler)</li> 
+</ul>
+
+<h4><u>2. Débogage logique</u></h4>
+<p>Apprendre à se poser les questions :</p>
+<ul>
+    <li>Qu’est-ce que le programme devrait faire maintenant ?</li>
+    <li>Qu’est-ce qu’il fait réellement ?</li>
+    <li>Où est la différence ?</li>
+    <li>Quelle variable n’a pas la bonne valeur ?</li>
+</ul>
+
+<h4><u>3. Tracer dans votre tête ou sur papier</u></h4>
+<p>
+    Exemple d’outil : un tableau “état des variables”. <br>
+    C’est magique pour les boucle et les if.
+</p>
 
 
+<h3>4. Les attitudes que vous devez adopter</h3>
+    <ul>
+        <li><b>La curiosité</b></li>
+        <ul>
+            <li>“Pourquoi ça marche ? Pourquoi ça ne marche pas ?”</li>
+        </ul>
+        <li><b>L’autonomie</b></li>
+        <ul>
+            <li>Chercher l’information dans :</li>
+            <ul>
+                <li>La documentation</li>
+                <li>Les messages d’erreur</li>
+                <li>Des exemples simples</li>
+            </ul>
+        </ul>
+        <li><b>Le droit à l’erreur</b></li>
+       <ul>           
+           <li>“Un programmeur n’est pas quelqu’un qui ne se trompe pas, c’est quelqu’un qui sait corriger ses erreurs.”</li>
+       </ul>
+        <li><b>La rigueur</b></li>
+        <ul>
+            <li>Toujours respecter :</li>
+            <ul>
+                <li>indentation</li>
+                <li>commentaires</li>
+                <li>nommage clair</li>
+                <li>cohérence</li>
+            </ul>            
+        </ul>
+    </ul>
 
+    <p class="alert alert-info text-center"><strong>Une pensée claire produit un code clair.</strong></p>
+    
+    <h3>5. Synthèse : le modèle que vous devez retenir</h3>
+    <ol>
+        <li class="mt-3"><b>Comprendre</b></li>
+        → Lire – Reformuler – Extraire les infos
+        <li class="mt-3"><b>Découper</b></li>
+        → Sous-problèmes simples, étapes logiques
+        <li class="mt-3"><b>Concevoir</b></li>
+        → Algo – schéma – pseudo-code
+        <li class="mt-3"><b>Traduire</b></li>
+        → Écriture du code
+        <li class="mt-3"><b>Tester</b></li>
+        → Cas normaux, limites, erreurs
+        <li class="mt-3"><b>Corriger</b></li>
+        → Débogage logique, cohérence
+    </ol>
 
+<h3>6. Mise en pratique !</h3>
 
+<h4><strong>Exercice “Sans Clavier” : Calcul de dégâts dans un jeu vidéo RPG</strong></h4>
+<h5>Énoncé</h5>
+<p><strong>Exercice – Calcul de dégâts dans un RPG</strong></p>
+<p class="alert alert-info">
+    Dans un jeu vidéo de type RPG, un héros attaque un monstre.
+    Le programme doit calculer le nombre de dégâts réellement infligés après prise en compte de la défense du monstre.
+</p>
+<p>
+    <strong>Le calcul se fait selon les règles suivantes :</strong>
+</p>
+<ol>
+    <li>Le héros possède une attaque (entre 10 et 100).</li>
+    <li>Le monstre possède une défense (entre 0 et 90).</li>
+    <li>Le dégât brut = attaque du héros</li>
+    <li>Le dégât final dépend de la défense du monstre :</li>
+    <ul>
+        <li>si défense < 20 → dégâts * 100%</li>
+        <li>si 20 ≤ défense < 50 → dégâts * 75%</li>
+        <li>si 50 ≤ défense < 80 → dégâts * 40%</li>
+        <li>si défense ≥ 80 → dégâts * 10%</li>
+    </ul>
+</ol>
 
+<p class="alert alert-success text-center">
+    Le programme doit afficher : <br>
+    <strong>“Dégâts infligés : X”</strong>
+</p>
+<p><strong>Consigne :</strong></p>
+<p>
+    Vous ne pouvez pas coder tout de suite. <br>
+    Vous devez d’abord produire, sur papier :
+</p>
+<ol>
+    <li>Une reformulation de l’énoncé avec vos mots</li>
+    <li>Les entrées / sorties du programme</li>
+    <li>Un découpage en étapes</li>
+    <li>Le pseudo-code de la solution</li>
+    <li>Un jeu d’essais (au moins 4 combats différents)</li>
+</ol>
+<p class="alert alert-danger text-center"><strong>Le code ne sera autorisé qu’après validation de ces 5 points.</strong></p>
